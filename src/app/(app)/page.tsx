@@ -1,9 +1,8 @@
 'use client';
 
-import { FileIcon, XIcon, UploadIcon } from 'lucide-react';
-import { useState, useCallback } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { useState } from 'react';
 
+import { FileUploader } from '@/components/file-upload/file-uploader';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -22,95 +21,54 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { cn } from '@/lib/utils';
+import type { Transaction } from '@/interfaces/transaction';
 
 export default function OverviewPage() {
-  const [files, setFiles] = useState<File[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [errors, setErrors] = useState<string[]>([]);
+  const [warnings, setWarnings] = useState<string[]>([]);
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    setFiles(prev => [...prev, ...acceptedFiles]);
-  }, []);
+  // Handler for processed transactions
+  const handleTransactionsProcessed = (
+    newTransactions: Transaction[],
+    newErrors?: string[],
+    newWarnings?: string[]
+  ) => {
+    // Update the transaction list
+    setTransactions(prev => {
+      // Combine existing and new transactions
+      // In a real app, we would check for duplicates here
+      return [...newTransactions, ...prev];
+    });
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      'text/csv': ['.csv'],
-      'application/pdf': ['.pdf'],
-    },
-  });
+    // Update errors and warnings
+    if (newErrors && newErrors.length > 0) {
+      setErrors(prev => [...newErrors, ...prev]);
+    }
+
+    if (newWarnings && newWarnings.length > 0) {
+      setWarnings(prev => [...newWarnings, ...prev]);
+    }
+  };
+
+  // Format currency for display
+  const formatCurrency = (amount: number, currency: string = 'BRL') => {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency,
+    }).format(amount);
+  };
+
+  // Format date for display
+  const formatDate = (date: Date) => {
+    return new Intl.DateTimeFormat('pt-BR').format(date);
+  };
 
   return (
     <div className="container mx-auto px-8 py-16">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         {/* Upload Bank Statements */}
-        <div
-          {...getRootProps()}
-          className={cn(
-            'border-2 border-dashed cursor-pointer hover:bg-muted/50 transition-colors h-full',
-            isDragActive ? 'border-primary' : 'border-muted-foreground/25'
-          )}
-        >
-          <input {...getInputProps()} />
-
-          <Card className="border-0 bg-transparent h-full flex flex-col">
-            <CardHeader>
-              <CardTitle>Upload Bank Statements</CardTitle>
-              <CardDescription>
-                Drag and drop your bank or credit card statements in CSV or PDF format
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-grow">
-              {files.length > 0 ? (
-                <div className="space-y-3">
-                  <div className="text-sm font-medium">Selected files:</div>
-                  <ul className="space-y-2">
-                    {files.map((file, index) => (
-                      <li
-                        key={index}
-                        className="flex items-center justify-between bg-muted/50 p-2 text-sm"
-                      >
-                        <div className="flex items-center gap-2">
-                          <FileIcon className="h-4 w-4 text-muted-foreground" />
-                          <span className="truncate max-w-[200px]">{file.name}</span>
-                          <span className="text-muted-foreground">
-                            ({Math.round(file.size / 1024)} KB)
-                          </span>
-                        </div>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-6 w-6"
-                          onClick={e => {
-                            e.stopPropagation();
-                            setFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
-                          }}
-                        >
-                          <XIcon className="h-4 w-4" />
-                          <span className="sr-only">Remove file</span>
-                        </Button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ) : (
-                <div className="flex flex-col items-center justify-center h-full py-8 text-center">
-                  <UploadIcon className="h-10 w-10 text-muted-foreground mb-2" />
-                  <p className="text-sm text-muted-foreground">
-                    Click or drag and drop to upload files
-                  </p>
-                </div>
-              )}
-            </CardContent>
-            <CardFooter className="mt-auto">
-              <div className="w-full">
-                <p className="mb-2 text-sm">{files.length} file(s) selected</p>
-                <Button className="w-full" disabled={files.length === 0}>
-                  Process Statements
-                </Button>
-              </div>
-            </CardFooter>
-          </Card>
-        </div>
+        <FileUploader onTransactionsProcessed={handleTransactionsProcessed} />
 
         {/* Add Manual Transaction */}
         <Card className="border h-full flex flex-col">
@@ -178,6 +136,41 @@ export default function OverviewPage() {
         </Card>
       </div>
 
+      {/* Errors and Warnings */}
+      {(errors.length > 0 || warnings.length > 0) && (
+        <Card className="border mb-8">
+          <CardHeader>
+            <CardTitle>Processing Messages</CardTitle>
+            <CardDescription>
+              {errors.length > 0 ? 'Some errors occurred during processing' : 'Processing notes'}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {errors.length > 0 && (
+              <div className="mb-4">
+                <h3 className="text-sm font-medium text-destructive mb-2">Errors:</h3>
+                <ul className="space-y-1 text-sm text-destructive/80 list-disc pl-5">
+                  {errors.map((error, index) => (
+                    <li key={index}>{error}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {warnings.length > 0 && (
+              <div>
+                <h3 className="text-sm font-medium text-amber-600 mb-2">Warnings:</h3>
+                <ul className="space-y-1 text-sm text-amber-600/80 list-disc pl-5">
+                  {warnings.map((warning, index) => (
+                    <li key={index}>{warning}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
       {/* Transactions Table */}
       <Card className="border mb-8">
         <CardHeader>
@@ -229,7 +222,7 @@ export default function OverviewPage() {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="border">
+          <div className="border border-b-0">
             <div className="relative w-full overflow-auto">
               <table className="w-full caption-bottom text-sm">
                 <thead>
@@ -242,394 +235,136 @@ export default function OverviewPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-b transition-colors hover:bg-muted/50">
-                    <td className="p-4 align-middle">2025-03-04</td>
-                    <td className="p-4 align-middle">Transferência recebida pelo Pix - JOAO</td>
-                    <td className="p-4 align-middle">
-                      <span className="inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold bg-emerald-50 text-emerald-700 border-emerald-200">
-                        Income
-                      </span>
-                    </td>
-                    <td className="p-4 align-middle font-medium text-emerald-600">R$ 30.00</td>
-                    <td className="p-4 align-middle">
-                      <div className="flex gap-2">
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="h-4 w-4"
+                  {transactions.length > 0 ? (
+                    transactions.map(transaction => (
+                      <tr
+                        key={transaction.id}
+                        className="border-b transition-colors hover:bg-muted/50"
+                      >
+                        <td className="p-4 align-middle">{formatDate(transaction.date)}</td>
+                        <td className="p-4 align-middle">
+                          {transaction.description}
+                          {transaction.merchant && (
+                            <div className="text-xs text-muted-foreground">
+                              {transaction.merchant}
+                            </div>
+                          )}
+                          {transaction.card && (
+                            <div className="text-xs font-medium text-primary mt-1">
+                              {transaction.card}
+                            </div>
+                          )}
+                        </td>
+                        <td className="p-4 align-middle">
+                          <span
+                            className={`inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold ${
+                              transaction.isInternalTransfer
+                                ? 'bg-blue-50 text-blue-700 border-blue-200'
+                                : transaction.isP2PTransfer
+                                  ? 'bg-purple-50 text-purple-700 border-purple-200'
+                                  : transaction.type === 'INCOME'
+                                    ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                    : transaction.type === 'OUTCOME'
+                                      ? 'bg-red-50 text-red-700 border-red-200'
+                                      : 'bg-blue-50 text-blue-700 border-blue-200'
+                            }`}
                           >
-                            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
-                            <path d="m15 5 4 4" />
-                          </svg>
-                        </Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="h-4 w-4"
+                            {transaction.isInternalTransfer
+                              ? 'Internal Transfer'
+                              : transaction.isP2PTransfer
+                                ? 'P2P Transfer'
+                                : transaction.category}
+                          </span>
+                          {transaction.installment && (
+                            <div className="text-xs text-muted-foreground mt-1">
+                              Installment {transaction.installment.current}/
+                              {transaction.installment.total}
+                            </div>
+                          )}
+                          {(transaction.isInternalTransfer || transaction.isP2PTransfer) &&
+                            transaction.transferDetails && (
+                              <div className="text-xs text-blue-600 mt-1">
+                                {transaction.transferDetails.fromPerson &&
+                                transaction.transferDetails.toPerson ? (
+                                  <>
+                                    From: {transaction.transferDetails.fromPerson} → To:{' '}
+                                    {transaction.transferDetails.toPerson}
+                                  </>
+                                ) : transaction.transferDetails.fromAccount &&
+                                  transaction.transferDetails.toAccount ? (
+                                  <>
+                                    From: {transaction.transferDetails.fromAccount} → To:{' '}
+                                    {transaction.transferDetails.toAccount}
+                                  </>
+                                ) : null}
+                              </div>
+                            )}
+                        </td>
+                        <td className="p-4 align-middle">
+                          <span
+                            className={
+                              transaction.type === 'INCOME' ? 'text-emerald-600' : 'text-red-600'
+                            }
                           >
-                            <path d="M3 6h18" />
-                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                          </svg>
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr className="border-b transition-colors hover:bg-muted/50">
-                    <td className="p-4 align-middle">2025-03-04</td>
-                    <td className="p-4 align-middle">Transferência enviada pelo Pix - ANA</td>
-                    <td className="p-4 align-middle">
-                      <span className="inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold bg-rose-50 text-rose-600 border-rose-200">
-                        Outcome
-                      </span>
-                    </td>
-                    <td className="p-4 align-middle font-medium text-rose-500">-R$ 6.00</td>
-                    <td className="p-4 align-middle">
-                      <div className="flex gap-2">
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="h-4 w-4"
-                          >
-                            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
-                            <path d="m15 5 4 4" />
-                          </svg>
-                        </Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="h-4 w-4"
-                          >
-                            <path d="M3 6h18" />
-                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                          </svg>
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr className="border-b transition-colors hover:bg-muted/50">
-                    <td className="p-4 align-middle">2025-03-02</td>
-                    <td className="p-4 align-middle">
-                      Transferência entre contas - Nubank para Itaú
-                    </td>
-                    <td className="p-4 align-middle">
-                      <span className="inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold bg-blue-50 text-blue-600 border-blue-200">
-                        Transfer
-                      </span>
-                    </td>
-                    <td className="p-4 align-middle font-medium text-blue-500">R$ 1,000.00</td>
-                    <td className="p-4 align-middle">
-                      <div className="flex gap-2">
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="h-4 w-4"
-                          >
-                            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
-                            <path d="m15 5 4 4" />
-                          </svg>
-                        </Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="h-4 w-4"
-                          >
-                            <path d="M3 6h18" />
-                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                          </svg>
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr className="border-b transition-colors hover:bg-muted/50">
-                    <td className="p-4 align-middle">2025-02-20</td>
-                    <td className="p-4 align-middle">Gopag S*Bendito Japa</td>
-                    <td className="p-4 align-middle">
-                      <span className="inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold bg-purple-50 text-purple-700 border-purple-200">
-                        Food
-                      </span>
-                    </td>
-                    <td className="p-4 align-middle font-medium text-rose-500">-R$ 205.50</td>
-                    <td className="p-4 align-middle">
-                      <div className="flex gap-2">
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="h-4 w-4"
-                          >
-                            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
-                            <path d="m15 5 4 4" />
-                          </svg>
-                        </Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="h-4 w-4"
-                          >
-                            <path d="M3 6h18" />
-                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                          </svg>
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr className="transition-colors hover:bg-muted/50">
-                    <td className="p-4 align-middle">2025-02-01</td>
-                    <td className="p-4 align-middle">Elidia Isabel Paraizo - Parcela 3/3</td>
-                    <td className="p-4 align-middle">
-                      <span className="inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold bg-blue-50 text-blue-700 border-blue-200">
-                        Installment
-                      </span>
-                    </td>
-                    <td className="p-4 align-middle font-medium text-rose-500">-R$ 114.96</td>
-                    <td className="p-4 align-middle">
-                      <div className="flex gap-2">
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="h-4 w-4"
-                          >
-                            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
-                            <path d="m15 5 4 4" />
-                          </svg>
-                        </Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="h-4 w-4"
-                          >
-                            <path d="M3 6h18" />
-                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                          </svg>
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
+                            {formatCurrency(transaction.amount, transaction.currency)}
+                          </span>
+                        </td>
+                        <td className="p-4 align-middle">
+                          <div className="flex gap-2">
+                            <Button variant="ghost" size="icon" className="h-8 w-8">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="h-4 w-4"
+                              >
+                                <path d="M12 20h9" />
+                                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                              </svg>
+                              <span className="sr-only">Edit</span>
+                            </Button>
+                            <Button variant="ghost" size="icon" className="h-8 w-8">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="h-4 w-4"
+                              >
+                                <path d="M3 6h18" />
+                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                              </svg>
+                              <span className="sr-only">Delete</span>
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={5} className="p-4 text-center text-muted-foreground">
+                        No transactions found. Upload a bank statement or add a manual transaction.
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
           </div>
-
-          <div className="flex items-center justify-end text-sm mt-6 px-1 text-muted-foreground">
-            Showing 4 of 120 transactions
-          </div>
         </CardContent>
       </Card>
-
-      {/* Financial Summary */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <Card className="border">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-lg">Month Overview</CardTitle>
-          </CardHeader>
-
-          <CardContent>
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Income</span>
-                  <span className="text-sm font-medium text-emerald-600">R$ 6,250.00</span>
-                </div>
-
-                <div className="h-2 bg-muted overflow-hidden">
-                  <div className="h-full bg-emerald-500 w-[80%]" />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Expenses</span>
-                  <span className="text-sm font-medium text-rose-500">R$ 4,820.75</span>
-                </div>
-
-                <div className="h-2 bg-muted overflow-hidden">
-                  <div className="h-full bg-rose-400 w-[60%]" />
-                </div>
-              </div>
-
-              <div className="pt-6">
-                <div className="flex items-center justify-between">
-                  <span className="font-medium">Balance</span>
-                  <span className="font-medium text-emerald-600">R$ 1,429.25</span>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="border">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-lg">Top Categories</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="h-4 w-4 bg-emerald-500" />
-                  <span className="text-sm">Food</span>
-                </div>
-                <span className="text-sm font-medium">R$ 1,240.50</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="h-4 w-4 bg-purple-500" />
-                  <span className="text-sm">Utilities</span>
-                </div>
-                <span className="text-sm font-medium">R$ 850.25</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="h-4 w-4 bg-orange-500" />
-                  <span className="text-sm">Transportation</span>
-                </div>
-                <span className="text-sm font-medium">R$ 725.00</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="h-4 w-4 bg-emerald-500" />
-                  <span className="text-sm">Entertainment</span>
-                </div>
-                <span className="text-sm font-medium">R$ 620.30</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="h-4 w-4 bg-rose-400" />
-                  <span className="text-sm">Others</span>
-                </div>
-                <span className="text-sm font-medium">R$ 1,384.70</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="border">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-lg">Upcoming Payments</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="font-medium">Credit Card Payment</div>
-                  <div className="text-xs text-muted-foreground">Due in 5 days</div>
-                </div>
-                <span className="font-medium text-rose-500">R$ 1,250.00</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="font-medium">Internet Bill</div>
-                  <div className="text-xs text-muted-foreground">Due in 8 days</div>
-                </div>
-                <span className="font-medium text-rose-500">R$ 120.00</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="font-medium">Smartphone Installment</div>
-                  <div className="text-xs text-muted-foreground">Due in 12 days</div>
-                </div>
-                <span className="font-medium text-rose-500">R$ 210.00</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="font-medium">Rent</div>
-                  <div className="text-xs text-muted-foreground">Due in 15 days</div>
-                </div>
-                <span className="font-medium text-rose-500">R$ 900.00</span>
-              </div>
-            </div>
-          </CardContent>
-
-          <CardFooter className="mt-4">
-            <Button variant="outline" className="w-full text-xs">
-              View All Upcoming Payments
-            </Button>
-          </CardFooter>
-        </Card>
-      </div>
     </div>
   );
 }

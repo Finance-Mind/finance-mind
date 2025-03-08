@@ -15,4 +15,13 @@ export interface Transaction {
     current: number;
     total: number;
   };
+  isInternalTransfer?: boolean;
+  isP2PTransfer?: boolean;
+  transferDetails?: {
+    matchingTransactionId?: string;
+    fromAccount?: string;
+    toAccount?: string;
+    fromPerson?: string;
+    toPerson?: string;
+  };
 }
