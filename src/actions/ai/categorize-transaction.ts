@@ -44,6 +44,7 @@ Other: UNCATEGORIZED
 // RULES
 - Preserve original language: Keep merchant names and descriptions in their ORIGINAL LANGUAGE
 - Format merchant names without translating them
+- Format merchant names with proper capitalization (e.g., "CAIO RODRIGUES" -> "Caio Rodrigues")
 - PIX detection: If description contains "Pix" or "PIX", set type to TRANSFER
 - Installment detection: If description mentions "parcela" or has a format like "1/3", it's an installment payment
 - Transfer keywords: "Transferência", "TED", "DOC", "Transfer" -> set type to TRANSFER

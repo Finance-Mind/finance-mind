@@ -30,6 +30,10 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
   const [files, setFiles] = useState<File[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Keep track of processed transactions to avoid duplicates
+  const [processedTransactions, setProcessedTransactions] = useState<Transaction[]>([]);
+  // Add state to track duplicates that were skipped
+  const [skippedDuplicates, setSkippedDuplicates] = useState<number>(0);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFiles(prev => [...prev, ...acceptedFiles]);
@@ -42,6 +46,7 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
       'text/csv': ['.csv'],
       'application/pdf': ['.pdf'],
     },
+    disabled: isProcessing,
   });
 
   const handleProcessFiles = async () => {
@@ -72,11 +77,22 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
         })
       );
 
-      // Process the files
-      const result = await processBankStatement(fileContents);
+      // Process the files - pass existing processed transactions to avoid duplicates
+      const result = await processBankStatement(fileContents, processedTransactions);
+
+      // Store the new transactions to check for duplicates in future uploads
+      setProcessedTransactions(prevTransactions => [...prevTransactions, ...result.transactions]);
+
+      // Update skipped duplicates counter
+      if (result.duplicatesSkipped !== undefined) {
+        setSkippedDuplicates(prev => prev + result.duplicatesSkipped!);
+      }
 
       // Pass the results to the parent component
       onTransactionsProcessed(result.transactions, result.errors, result.warnings);
+
+      // Clear the files after successful processing
+      setFiles([]);
     } catch (error) {
       console.error('Error processing files:', error);
       setError(`Failed to process files: ${(error as Error).message}`);
@@ -107,8 +123,9 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
     <div
       {...getRootProps()}
       className={cn(
-        'border-2 border-dashed cursor-pointer hover:bg-muted/50 transition-colors h-full',
-        isDragActive ? 'border-primary' : 'border-muted-foreground/25'
+        'border-2 border-dashed transition-colors h-full',
+        isDragActive ? 'border-primary' : 'border-muted-foreground/25',
+        isProcessing ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer hover:bg-muted/50'
       )}
     >
       <input {...getInputProps()} />
@@ -141,6 +158,7 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
                       variant="ghost"
                       size="icon"
                       className="h-6 w-6"
+                      disabled={isProcessing}
                       onClick={e => {
                         e.stopPropagation();
                         setFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
@@ -157,7 +175,9 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
             <div className="flex flex-col items-center justify-center h-full py-8 text-center">
               <UploadIcon className="h-10 w-10 text-muted-foreground mb-2" />
               <p className="text-sm text-muted-foreground">
-                Click or drag and drop to upload files
+                {isProcessing
+                  ? 'Processing files... Please wait'
+                  : 'Click or drag and drop to upload files'}
               </p>
             </div>
           )}
@@ -165,6 +185,12 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
           {error && (
             <div className="mt-4 p-3 bg-destructive/10 text-destructive text-sm rounded-md">
               {error}
+            </div>
+          )}
+
+          {skippedDuplicates > 0 && (
+            <div className="mt-4 p-3 bg-muted text-muted-foreground text-sm rounded-md">
+              {skippedDuplicates} duplicate transaction{skippedDuplicates !== 1 ? 's' : ''} skipped
             </div>
           )}
         </CardContent>
