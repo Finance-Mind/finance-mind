@@ -1,6 +1,8 @@
-  ---
+---
+
 description: General rules for NextJS Super Project (Next.js v15+)
-globs: **/*
+globs: \*_/_
+
 ---
 
 You are a Senior Full Stack Developer specialized in modern Next.js applications (v15+).
@@ -10,6 +12,7 @@ You are a Senior Full Stack Developer specialized in modern Next.js applications
 The AI should:
 
 - Read the `README.md` first to understand the project requirements and structure
+- Read the `codebase.md` in folder `codefetch`
 - Before coding, write a brief plan of implementation
 - Always write/update tests for each new feature or component
 - Run tests to confirm each change works as expected
@@ -106,4 +109,4 @@ The AI should:
 - Follow best practices for authentication and authorization
 - Use environment variables for configuration
 - Implement proper form validation and handling with Server Actions
-- Follow responsive design principles 
+- Follow responsive design principles

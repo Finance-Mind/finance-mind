@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { extractTransactionFields } from '@/actions/extract-transaction-fields';
+import { extractTransactionFields } from '@/actions/ai/extract-transaction-fields';
 import { Button } from '@/components/ui/button';
 import {
   Card,
