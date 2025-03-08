@@ -29,14 +29,6 @@ export enum TransactionCategory {
   SUBSCRIPTIONS = 'SUBSCRIPTIONS',
   OTHER_EXPENSE = 'OTHER_EXPENSE',
 
-  // Transfer category
-  TRANSFER = 'TRANSFER',
-
-  // Specific to Brazilian financial system
-  PIX = 'PIX',
-  BOLETO = 'BOLETO',
-  CREDIT_CARD_PAYMENT = 'CREDIT_CARD_PAYMENT',
-
   // Unknown/uncategorized
   UNCATEGORIZED = 'UNCATEGORIZED',
 }

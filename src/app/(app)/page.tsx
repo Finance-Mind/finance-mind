@@ -39,7 +39,9 @@ export default function OverviewPage() {
     setTransactions(prev => {
       // Combine existing and new transactions
       // In a real app, we would check for duplicates here
-      return [...newTransactions, ...prev];
+      const combined = [...newTransactions, ...prev];
+      // Sort transactions by date (newest first)
+      return combined.sort((a, b) => b.date.getTime() - a.date.getTime());
     });
 
     // Update errors and warnings

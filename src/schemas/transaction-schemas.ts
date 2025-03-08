@@ -6,50 +6,67 @@ import { TransactionCategory, TransactionType } from '@/lib/ai/types';
  * Schema for transaction categorization input
  */
 export const transactionCategorizeSchema = z.object({
-  description: z.string(),
-  amount: z.number(),
-  date: z.string().or(z.date()),
-  merchant: z.string().optional(),
+  description: z.string().describe('Transaction description or details text'),
+  amount: z.number().describe('Transaction amount - positive for income, negative for expenses'),
+  date: z.string().or(z.date()).describe('Transaction date as string or Date object'),
+  merchant: z.string().optional().describe('Merchant name if available'),
 });
 
 /**
  * Schema for transaction categorization response
  */
 export const transactionCategorizeResponseSchema = z.object({
-  category: z.nativeEnum(TransactionCategory),
-  type: z.nativeEnum(TransactionType),
-  merchant: z.string().optional(),
-  isInstallment: z.boolean().optional(),
+  category: z
+    .nativeEnum(TransactionCategory)
+    .describe('Predefined transaction category from TransactionCategory enum'),
+  type: z.nativeEnum(TransactionType).describe('Transaction type: INCOME, OUTCOME, or TRANSFER'),
+  merchant: z
+    .string()
+    .optional()
+    .describe('Formatted/cleaned merchant name extracted from the transaction'),
+  isInstallment: z
+    .boolean()
+    .optional()
+    .describe('Whether this transaction is part of an installment plan'),
   installmentInfo: z
     .object({
-      current: z.number(),
-      total: z.number(),
+      current: z.number().describe('Current installment number'),
+      total: z.number().describe('Total number of installments'),
     })
-    .optional(),
-  confidence: z.number().min(0).max(1).optional(),
+    .optional()
+    .describe('Installment details if this is an installment payment'),
+  confidence: z.number().min(0).max(1).optional().describe('AI confidence score from 0.0 to 1.0'),
 });
 
 /**
  * Schema for transaction extraction
  */
 export const transactionExtractionSchema = z.object({
-  description: z.string().describe('The transaction description'),
-  amount: z.number().describe('The transaction amount as a number'),
+  description: z.string().describe('The cleaned transaction description in original language'),
+  amount: z
+    .number()
+    .describe('The transaction amount as a number (positive for income, negative for expenses)'),
   date: z.string().describe('The transaction date in ISO format or as specified'),
-  merchant: z.string().optional().describe('The merchant or entity name'),
-  category: z.nativeEnum(TransactionCategory).describe('The transaction category'),
-  type: z
-    .nativeEnum(TransactionType)
-    .describe('The transaction type (income, outcome, or transfer)'),
-  isInstallment: z.boolean().optional().describe('Whether this is an installment payment'),
+  merchant: z.string().optional().describe('The merchant or entity name if present'),
+  category: z
+    .nativeEnum(TransactionCategory)
+    .describe('The transaction category from predefined list'),
+  type: z.nativeEnum(TransactionType).describe('The transaction type (INCOME, OUTCOME, TRANSFER)'),
+  isInstallment: z.boolean().describe('Whether this is an installment payment'),
   installmentInfo: z
     .object({
-      current: z.number(),
-      total: z.number(),
+      current: z.number().describe('Current installment number'),
+      total: z.number().describe('Total number of installments'),
     })
     .optional()
-    .describe('Installment information if applicable'),
-  currency: z.string().optional().describe('Currency code (e.g., BRL, USD)'),
+    .describe('Details about the installment if applicable'),
+  currency: z.string().default('BRL').describe('ISO currency code (defaults to BRL)'),
+  confidence: z
+    .number()
+    .min(0)
+    .max(1)
+    .optional()
+    .describe('AI confidence level in the extraction (0.0 to 1.0)'),
 });
 
 // Types for schema inference

@@ -12,18 +12,41 @@ import type { Transaction } from '@/interfaces/transaction';
 
 // Schema for person-to-person transfer detection response
 const p2pTransferSchema = z.object({
-  isP2PTransfer: z.boolean().describe('Whether this transaction is a person-to-person transfer'),
+  isP2PTransfer: z
+    .boolean()
+    .describe(
+      'Whether this transaction is a person-to-person transfer (between accounts or to another person)'
+    ),
   isInternalTransfer: z
     .boolean()
-    .describe('Whether this is a transfer between own accounts (internal)'),
-  confidence: z.number().min(0).max(1).describe('Confidence level of the detection (0-1)'),
+    .describe(
+      'Whether this is a transfer between own accounts owned by the same person (not to another person)'
+    ),
+  confidence: z
+    .number()
+    .min(0)
+    .max(1)
+    .describe('Confidence level of the detection from 0.0 to 1.0'),
   matchingTransactionId: z
     .string()
     .optional()
-    .describe('ID of a matching transaction in the opposite direction'),
-  fromPerson: z.string().optional().describe('The source person/account name'),
-  toPerson: z.string().optional().describe('The destination person/account name'),
-  reason: z.string().optional().describe('Explanation for why this is considered a P2P transfer'),
+    .describe('ID of a matching transaction in the opposite direction, if found'),
+  fromPerson: z
+    .string()
+    .optional()
+    .describe(
+      'The source person or account name in original language (e.g., "Own Nubank Account", "João Silva")'
+    ),
+  toPerson: z
+    .string()
+    .optional()
+    .describe(
+      'The destination person or account name in original language (e.g., "Own Itaú Account", "Maria Souza")'
+    ),
+  reason: z
+    .string()
+    .optional()
+    .describe('Clear explanation for the classification in a single sentence'),
 });
 
 export type P2PTransferDetection = z.infer<typeof p2pTransferSchema>;
@@ -57,118 +80,85 @@ export async function detectP2PTransfer(
     // Check if we have any matching transactions in the opposite direction
     const matchingTransaction = findMatchingTransaction(transaction, otherTransactions);
 
+    // Define system instructions for the AI model
     const systemPrompt = `
-      You are a financial assistant specialized in detecting person-to-person transfers in bank statements.
-      
-      A person-to-person transfer (P2P) is a money transfer between two people, which can be either:
-      1. INTERNAL TRANSFER: between accounts owned by the same person
-      2. EXTERNAL TRANSFER: from one person to a different person
-      
-      Your task is to determine if a given transaction is a P2P transfer, and if so, 
-      whether it's an internal transfer (between own accounts) or an external transfer (to another person).
-      
-      Common indicators of internal transfers:
-      1. The description contains terms like "transfer", "transferência", "TED", "DOC", "PIX" between accounts
-      2. The description mentions account names, numbers, or banks with terms indicating transfers
-      3. Round amounts (e.g., exactly 1000.00) with transfer-related descriptions
-      4. The existence of a matching transaction in the opposite direction with similar amount and timing
-      5. Mentions of "own account", "self", "between accounts", etc.
-      6. Bank names on both sides of the transaction (e.g., "transfer from Nubank to Itaú")
-      
-      Common indicators of external transfers (to another person):
-      1. The description mentions a person's name who is not the account holder
-      2. Payment services like "PIX" with a recipient name or key
-      3. Mentions of "send", "sent", "enviar", "enviado", "pay", "pagar" to someone else
-      4. No matching transaction in the opposite direction
-      
-      Context about Brazilian banking:
-      - "TED" and "DOC" are Brazilian bank transfer methods
-      - "PIX" is an instant payment system in Brazil
-      - "Transferência entre contas" means "transfer between accounts" in Portuguese
-      - "Transferência enviada" means "transfer sent"
-      - "Transferência recebida" means "transfer received"
-      - "própria" or "mesma titularidade" indicates same ownership ("própria conta" = own account)
-      
-      The primary account holder is named "${userConfig.cardHolder.name}", so any transfers involving this name
-      should be considered as potential internal transfers if both sides mention his name.
-      
-      You should consider:
-      - Transaction description
-      - Transaction type
-      - Other matching transactions in the opposite direction
-      - Known user accounts and cards
-      - Source and destination information if available
-      - Whether the transfer involves the primary user (${userConfig.cardHolder.name}) on both sides
-      
-      Return:
-      - Whether this is a P2P transfer (either internal or external)
-      - Whether this is specifically an internal transfer between own accounts
-      - Your confidence level (0-1)
-      - Reasoning for your decision
-      - Source and destination persons/accounts if identifiable
-    `;
+// ROLE
+You are a financial transfer detection expert specializing in Brazilian banking systems.
 
-    // Generate the detection
+// TASK
+Analyze transactions and determine if they represent transfers between people or accounts.
+
+// TRANSFER TYPES
+- INTERNAL TRANSFERS: Between accounts owned by the same person (e.g., from checking to savings)
+- EXTERNAL TRANSFERS: From one person to another person (e.g., paying a friend)
+
+// TRANSACTION TYPE
+Remember that TRANSFER is a transaction type, not a category. Transactions with type TRANSFER can have various categories based on the purpose of the transfer.
+
+// INTERNAL TRANSFER INDICATORS
+- Transfer terminology with account references ("transfer from checking to savings")
+- Banking terms: "transferência", "TED", "DOC", "PIX" between own accounts
+- Bank names on both sides of the transaction
+- Matching opposing transaction with similar amount and timing
+- References to "own account", "self", or "between accounts"
+
+// EXTERNAL TRANSFER INDICATORS
+- Recipient names that are not the account holder
+- PIX/payment services with recipient information
+- References to sending/receiving money to others
+- Personal transfer descriptions
+
+// CONTEXT
+Account holder name: "${userConfig.cardHolder.name}"
+Known accounts: ${accountsAndCards.join(', ')}
+`.trim();
+
+    // Define the specific transaction data for analysis
+    const userPrompt = `
+Analyze this transaction for P2P transfer detection:
+
+Description: ${transaction.description}
+Amount: ${transaction.amount}
+Date: ${transaction.date instanceof Date ? transaction.date.toISOString() : transaction.date}
+Type: ${transaction.type}
+Category: ${transaction.category}
+${transaction.merchant ? `Merchant: ${transaction.merchant}` : ''}
+
+${
+  matchingTransaction
+    ? `There is a matching transaction in the opposite direction:
+Matching ID: ${matchingTransaction.id}
+Matching Description: ${matchingTransaction.description}
+Matching Amount: ${matchingTransaction.amount}
+Matching Date: ${matchingTransaction.date instanceof Date ? matchingTransaction.date.toISOString() : matchingTransaction.date}
+`
+    : 'No matching transaction found in the opposite direction.'
+}
+`.trim();
+
     const result = await generateObject({
       model: openai(defaultModel),
       schema: p2pTransferSchema,
-      messages: [
-        {
-          role: 'system',
-          content: systemPrompt,
-        },
-        {
-          role: 'user',
-          content: `
-            Please analyze this transaction and determine if it's a person-to-person transfer:
-            
-            Transaction: {
-              description: "${transaction.description}",
-              amount: ${transaction.amount},
-              type: "${transaction.type}",
-              card: "${transaction.card || 'Unknown'}"
-            }
-            
-            ${
-              matchingTransaction
-                ? `
-            Potential matching transaction found:
-            {
-              description: "${matchingTransaction.description}",
-              amount: ${matchingTransaction.amount},
-              type: "${matchingTransaction.type}",
-              date: "${matchingTransaction.date.toISOString().split('T')[0]}"
-            }
-            `
-                : 'No potential matching transactions found.'
-            }
-            
-            Known user accounts and cards: ${accountsAndCards.length > 0 ? accountsAndCards.join(', ') : 'None provided'}
-            
-            The account holder name is "${userConfig.cardHolder.name}".
-          `,
-        },
-      ],
-      temperature: 0.1, // Low temperature for more consistent results
+      system: systemPrompt,
+      prompt: userPrompt,
+      temperature: 0.2,
     });
 
-    const detection = result.object as P2PTransferDetection;
-
-    // If we found a matching transaction, include its ID
-    if (matchingTransaction && (detection.isP2PTransfer || detection.isInternalTransfer)) {
-      detection.matchingTransactionId = matchingTransaction.id;
+    // Log warnings if any
+    if (result.warnings && result.warnings.length > 0) {
+      console.warn('P2P transfer detection warnings:', result.warnings);
     }
 
-    console.log('P2P transfer detection result:', detection);
-    return detection;
+    console.log('P2P transfer detection result:', result.object);
+
+    return result.object;
   } catch (error) {
     console.error('P2P transfer detection error:', error);
-    // Return a minimal result with low confidence on error
     return {
-      isP2PTransfer: false,
+      isP2PTransfer: transaction.type === TransactionType.TRANSFER,
       isInternalTransfer: false,
-      confidence: 0.1,
-      reason: `Error detecting P2P transfer: ${(error as Error).message}`,
+      confidence: 0.3,
+      reason: 'Error in P2P detection, defaulting based on transaction type',
     };
   }
 }

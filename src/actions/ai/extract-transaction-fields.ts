@@ -16,87 +16,81 @@ import type { TransactionExtraction } from '@/schemas/transaction-schemas';
  */
 export async function extractTransactionFields(prompt: string): Promise<TransactionExtraction> {
   try {
+    // Define system instructions for the AI model
     const systemPrompt = `
-      You are a financial assistant specialized in extracting transaction details from text.
-      Extract all relevant transaction information including:
-      
-      1. Transaction description (what the transaction is for)
-      2. Amount (as a number, negative for expenses)
-      3. Date (provide two outputs in this format: "original: [original date expression]|english: [english equivalent]")
-         Examples: 
-         - If user says "hoje" in Portuguese → "original: hoje|english: today"
-         - If user says "明天" in Chinese → "original: 明天|english: tomorrow"
-         - If user says "last Friday" in English → "original: last Friday|english: last Friday"
-         - If user says "próximo mês" → "original: próximo mês|english: next month"
-      4. Merchant name (if present)
-      5. Transaction category (based on description)
-      6. Transaction type (INCOME, OUTCOME, or TRANSFER)
-      7. Whether it's an installment payment
-      8. Installment details (current number and total)
-      9. Currency (default to BRL if not specified)
-      
-      Use the information provided in the text. If certain details are missing, make reasonable inferences.
-      For example, if no date is mentioned, use "original: today|english: today".
-      
-      For transaction types:
-      - Positive amounts are typically INCOME
-      - Negative amounts are typically OUTCOME
-      - Transfers should be identified as TRANSFER based on keywords like "transfer", "sent to", "received from"
-      
-      IMPORTANT PERSON-TO-PERSON TRANSFERS:
-      - If the input only contains a person name followed by an amount (e.g., "caio 150", "jon 100"):
-        * Treat this as a TRANSFER transaction type
-        * Set the category to PIX or TRANSFER
-        * Format the description as "Transferência para [Name]" in Portuguese or appropriate translation in other languages
-        * Extract the person name as the merchant
-        * Assume a negative amount (payment to the person) unless context clearly indicates otherwise
-        * If a positive amount is explicitly mentioned (e.g., "+100"), interpret as money received from that person
-      
-      For categories, assign one of the following:
-      Income categories: SALARY, INVESTMENT, REIMBURSEMENT, GIFT, OTHER_INCOME
-      Expense categories: GROCERIES, DINING, ENTERTAINMENT, TRANSPORTATION, UTILITIES, HOUSING, HEALTH, EDUCATION, SHOPPING, TRAVEL, PERSONAL_CARE, SUBSCRIPTIONS, OTHER_EXPENSE
-      Transfer categories: TRANSFER, PIX, BOLETO, CREDIT_CARD_PAYMENT
-      Other: UNCATEGORIZED
-    
-      IMPORTANT: Detect the language of the user's input and provide ALL text fields (description, merchant, etc.) in that SAME language. 
-      Only the category values and transaction types should use the predefined English constants.
-      Do not translate the user's content to English unless specifically needed for date parsing.
+// ROLE
+You are a financial assistant specialized in extracting transaction details from text.
 
-      FORMATTING GUIDANCE:
-      1. Format and structure the user's content for clarity and consistency
-      2. Clean up the merchant names (remove unnecessary prefixes, standardize formats)
-      3. Normalize descriptions to be concise and clear while preserving the original meaning and language
-      4. Format amounts properly (e.g., ensuring negative for expenses)
-      5. Extract installment information in a consistent format
-      6. Standardize formatting but DO NOT translate or change the language
-      
-      LANGUAGE-SPECIFIC FORMATTING EXAMPLES:
-      - Portuguese input: "150 corrida uber ontem" → description: "Corrida de Uber"
-      - English input: "150 uber" → description: "Uber ride"
-      - Spanish input: "50 comida ayer" → description: "Comida"
-      - Person transfer input: "caio 150" → description: "Transferência para Caio", type: TRANSFER, category: PIX
-      - Person transfer input: "jon 100" → description: "Transferência para Jon", type: TRANSFER, category: PIX
-      
-      Use language-appropriate phrasing, articles, and prepositions to create natural descriptions in the detected language.
-      Always format according to the conventions of the detected language (e.g., "de" in Portuguese, "ride" in English).
-    `;
+// TASK
+Extract all relevant transaction information from user input, including description, amount, date, merchant, and categorization.
 
-    // Use generateObject instead of streamText for tools functionality
+// REQUIRED FIELDS
+- Description: What the transaction is for
+- Amount: As a number, negative for expenses
+- Date: Format as "original: [original expression]|english: [english equivalent]"
+- Merchant: If present in the input
+- Category: Based on transaction description
+- Transaction type: INCOME, OUTCOME, or TRANSFER
+- Installment information: If applicable
+- Currency: Default to BRL if not specified
+
+// DATE HANDLING EXAMPLES
+- "hoje" in Portuguese → "original: hoje|english: today"
+- "明天" in Chinese → "original: 明天|english: tomorrow"
+- "last Friday" in English → "original: last Friday|english: last Friday"
+- "próximo mês" → "original: próximo mês|english: next month"
+- When no date is specified in the input → use "original: today|english: today" (today's date)
+
+// TRANSACTION TYPE RULES
+- Positive amounts: Treat as INCOME
+- Negative amounts: Treat as OUTCOME
+- Transfer keywords: "transfer", "sent to", "received from" → TRANSFER
+- PIX, TED, DOC keywords → TRANSFER type
+
+// CATEGORIES
+- Income: SALARY, INVESTMENT, REIMBURSEMENT, GIFT, OTHER_INCOME
+- Expense: GROCERIES, DINING, ENTERTAINMENT, TRANSPORTATION, UTILITIES, HOUSING, HEALTH, EDUCATION, SHOPPING, TRAVEL, PERSONAL_CARE, SUBSCRIPTIONS, OTHER_EXPENSE
+- Other: UNCATEGORIZED
+
+// P2P TRANSFER DETECTION
+- Person name with amount (e.g., "caio 150", "jon 100"):
+  * Set type to TRANSFER
+  * Choose appropriate category based on context (default to OTHER_EXPENSE)
+  * Format as "Transferência para [Name]" (or appropriate translation)
+  * Extract person name as merchant
+  * Assume negative amount unless context indicates otherwise
+  * + prefix indicates money received from person
+
+// LANGUAGE HANDLING
+- Detect input language and preserve it in text fields
+- Only use English for predefined category and type values
+- Format according to conventions of detected language
+- Do not translate user content except for date parsing
+
+// FORMATTING EXAMPLES
+- Portuguese: "150 corrida uber ontem" → "Corrida de Uber", type: OUTCOME, category: TRANSPORTATION
+- English: "150 uber" → "Uber ride", type: OUTCOME, category: TRANSPORTATION
+- Spanish: "50 comida ayer" → "Comida", type: OUTCOME, category: DINING
+- P2P: "caio 150" → "Transferência para Caio", type: TRANSFER
+- P2P with context: "caio 150 churrasco" → "Transferência para Caio (Churrasco)", type: TRANSFER, category: DINING
+`.trim();
+
+    // Define the specific user input for analysis
+    const userPrompt = prompt; // The user's input is directly used as the prompt
+
+    // Use generateObject with the schema to structure the output
     const result = await generateObject({
       model: openai(defaultModel),
       schema: transactionExtractionSchema,
-      messages: [
-        {
-          role: 'system',
-          content: systemPrompt,
-        },
-        {
-          role: 'user',
-          content: prompt,
-        },
-      ],
-      temperature: 0.1, // Low temperature for more consistent results
+      system: systemPrompt,
+      prompt: userPrompt,
+      temperature: 0.2, // Low temperature for consistent results
     });
+
+    // Log warnings if any
+    if (result.warnings && result.warnings.length > 0) {
+      console.warn('Transaction extraction warnings:', result.warnings);
+    }
 
     // Parse natural language date using chrono-node
     const extractedResult = result.object as TransactionExtraction;
@@ -127,12 +121,22 @@ export async function extractTransactionFields(prompt: string): Promise<Transact
           const fallbackDate = new Date(englishDateExpression);
           if (!isNaN(fallbackDate.getTime())) {
             extractedResult.date = fallbackDate.toISOString();
+          } else {
+            // If all parsing attempts fail, default to today's date
+            console.log('Date parsing failed, defaulting to today');
+            extractedResult.date = new Date().toISOString();
           }
         }
       } catch (error) {
         console.warn('Error parsing natural language date:', error);
-        // Keep the original date string if parsing fails
+        // Default to today's date if parsing fails
+        console.log('Date parsing error, defaulting to today');
+        extractedResult.date = new Date().toISOString();
       }
+    } else if (!extractedResult.date) {
+      // If no date was provided at all, default to today
+      console.log('No date provided, defaulting to today');
+      extractedResult.date = new Date().toISOString();
     }
 
     console.log('Extraction result:', extractedResult);

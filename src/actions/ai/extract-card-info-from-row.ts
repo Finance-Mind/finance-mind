@@ -11,15 +11,32 @@ const cardExtractionFromRowSchema = z.object({
   cardType: z
     .string()
     .optional()
-    .describe('The type of card (e.g., Visa, Mastercard, credit, debit)'),
-  cardIdentifier: z.string().optional().describe('Card identifier like last digits if present'),
-  bankName: z.string().optional().describe('The bank name associated with the card'),
+    .describe(
+      'Card brand or network (e.g., Visa, Mastercard, Elo, American Express) in original case'
+    ),
+  cardIdentifier: z
+    .string()
+    .optional()
+    .describe('Card identifier such as final digits (e.g., "Final 1234", "****5678") if present'),
+  bankName: z
+    .string()
+    .optional()
+    .describe(
+      'Bank or financial institution name (e.g., Nubank, Itaú, Santander) in original language'
+    ),
   isCredit: z
     .boolean()
     .optional()
-    .describe('Whether it is a credit card (true) or debit/other (false)'),
-  cardName: z.string().optional().describe('The name of the card product if identifiable'),
-  confidence: z.number().min(0).max(1).describe('Confidence level of the extraction (0-1)'),
+    .describe('Whether this is a credit card (true) or debit/other card (false)'),
+  cardName: z
+    .string()
+    .optional()
+    .describe('Card product name or tier (e.g., "Gold", "Platinum", "Black") if identifiable'),
+  confidence: z
+    .number()
+    .min(0)
+    .max(1)
+    .describe('Confidence level of the extraction from 0.0 (low) to 1.0 (high)'),
 });
 
 export type CardExtractionFromRow = z.infer<typeof cardExtractionFromRowSchema>;
@@ -38,68 +55,57 @@ export async function extractCardInfoFromRow(
       .map(([key, value]) => `${key}: ${value}`)
       .join('\n');
 
+    // Define system instructions for the AI model
     const systemPrompt = `
-      You are a financial data specialist focused on identifying card information in transaction data.
-      Your task is to analyze transaction data and extract any card-related information.
-      
-      Look for:
-      - Card types (Visa, Mastercard, Elo, American Express, Hipercard, etc.)
-      - Card identifiers (like last 4 digits: ****1234)
-      - Bank names associated with the card
-      - Whether it's a credit or debit card
-      - Specific card product names (like "Nubank Gold", "Itaú Platinum")
-      
-      Common patterns in Brazilian transactions include:
-      - "Cartão" or "Cartao" followed by card brand (e.g., "Cartão Visa")
-      - Card numbers with masked digits like "****1234" or "XXXX1234"
-      - References to "crédito" (credit) or "débito" (debit)
-      - "Fatura" indicating credit card statements
-      - "Final" followed by the last digits of a card (e.g., "Final 1234")
-      
-      Common field names to examine:
-      - card, card_name, card_type, card_number
-      - cartão, cartao (Portuguese for "card")
-      - payment_method, método_pagamento
-      - last_digits, últimos_dígitos
-      - description/descrição fields often contain card info
-      
-      Important Portuguese terminology:
-      - "cartão de crédito" = credit card
-      - "cartão de débito" = debit card
-      - "compra no cartão" = card purchase
-      - "pagamento" = payment
-      
-      Instructions:
-      1. Carefully analyze all fields in the transaction data
-      2. Prioritize explicit card fields, but also check description fields
-      3. If multiple card references exist, select the most specific and complete one
-      4. Provide a confidence level based on how certain you are of the extraction
-      5. For ambiguous or missing information, leave fields empty
-    `;
+// ROLE
+You are a financial data specialist focused on identifying card information in transaction data.
 
-    // Generate the card extraction
+// TASK
+Extract card details from transaction rows with high precision.
+
+// PATTERNS TO IDENTIFY
+- Card types: Visa, Mastercard, Elo, Amex, etc.
+- Card identifiers: "****1234", "XXXX1234", "Final 1234"
+- Credit vs. debit indicators
+- Bank names associated with cards
+- Card product tiers (Gold, Platinum, Black)
+
+// BRAZILIAN TERMINOLOGY
+- "cartão" = card
+- "crédito" = credit
+- "débito" = debit
+- "fatura" = statement/bill
+- "compra no cartão" = card purchase
+- "pagamento" = payment
+
+// FORMATTING RULES
+- Keep all extracted text in its ORIGINAL LANGUAGE and case
+- Set confidence based on the clarity of the card information (0.0-1.0)
+`.trim();
+
+    // Define the specific transaction data for analysis
+    const userPrompt = `
+Extract card information from this transaction data:
+
+${rowDataString}
+`.trim();
+
+    // Generate the card extraction using Vercel AI SDK
     const result = await generateObject({
       model: openai(defaultModel),
       schema: cardExtractionFromRowSchema,
-      messages: [
-        {
-          role: 'system',
-          content: systemPrompt,
-        },
-        {
-          role: 'user',
-          content: `
-            Please analyze this transaction data and extract any card information:
-            
-            ${rowDataString}
-          `,
-        },
-      ],
-      temperature: 0.1, // Low temperature for more consistent results
+      system: systemPrompt,
+      prompt: userPrompt,
+      temperature: 0.2, // Low temperature for consistent results
     });
 
-    console.log('Card extraction from row result:', result);
-    return result.object as CardExtractionFromRow;
+    // Log warnings if any
+    if (result.warnings && result.warnings.length > 0) {
+      console.warn('Card extraction warnings:', result.warnings);
+    }
+
+    console.log('Card extraction from row result:', result.object);
+    return result.object;
   } catch (error) {
     console.error('Card extraction from row error:', error);
     // Return a minimal result with low confidence on error

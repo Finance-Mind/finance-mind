@@ -7,28 +7,46 @@ import { z } from 'zod';
 import { userConfig } from '@/config/user';
 import { defaultModel } from '@/lib/ai';
 
-// Schema for column mapping response
+// Schema for column mapping
 const columnMappingSchema = z.object({
-  date: z.string().optional().describe('Column name for transaction date'),
-  amount: z.string().optional().describe('Column name for transaction amount'),
-  description: z.string().optional().describe('Column name for transaction description'),
-  merchant: z.string().optional().describe('Column name for merchant or entity'),
-  type: z.string().optional().describe('Column name for transaction type'),
-  category: z.string().optional().describe('Column name for transaction category'),
-  identifier: z.string().optional().describe('Column name for transaction ID/identifier'),
-  currency: z.string().optional().describe('Column name for currency'),
-  balance: z.string().optional().describe('Column name for account balance'),
-  fee: z.string().optional().describe('Column name for transaction fee'),
-  notes: z.string().optional().describe('Column name for notes or additional information'),
-  cardHolder: z.string().optional().describe('Column name for card holder name'),
-  card: z.string().optional().describe('Column name for card name or identifier'),
-  confidence: z.number().min(0).max(1).describe('Confidence level of the mapping (0-1)'),
+  date: z.string().optional().describe('Column containing transaction dates'),
+  description: z
+    .string()
+    .optional()
+    .describe('Column containing transaction descriptions or details'),
+  amount: z
+    .string()
+    .optional()
+    .describe('Column containing transaction amounts (positive for income, negative for expenses)'),
+  balance: z
+    .string()
+    .optional()
+    .describe('Column containing account balance after the transaction'),
+  type: z.string().optional().describe('Column containing transaction types or categories'),
+  merchant: z.string().optional().describe('Column containing merchant/payee names'),
+  identifier: z
+    .string()
+    .optional()
+    .describe('Column containing transaction reference numbers or IDs'),
+  currency: z.string().optional().describe('Column containing currency codes or symbols'),
+  card: z.string().optional().describe('Column containing card information or identifiers'),
+  fee: z.string().optional().describe('Column containing transaction fees or charges'),
+  notes: z.string().optional().describe('Column containing additional notes or information'),
+  cardHolder: z
+    .string()
+    .optional()
+    .describe('Column containing the card holder name (account owner)'),
+  confidence: z
+    .number()
+    .min(0)
+    .max(1)
+    .describe('Confidence level in the column mapping from 0.0 to 1.0'),
 });
 
 export type ColumnMapping = z.infer<typeof columnMappingSchema>;
 
 /**
- * Use AI to identify column names in bank statement files
+ * Identify the purpose of columns in a bank statement using AI
  * @param headers Array of column headers from the file
  * @param sampleRows Array of sample data rows to help with identification
  * @returns Mapping of standard transaction fields to the actual column names in the file
@@ -49,82 +67,67 @@ export async function identifyColumns(
       })
       .join('\n');
 
+    // Define system instructions for the AI model
     const systemPrompt = `
-      You are a financial data processing expert specializing in bank statement analysis.
-      Your task is to identify the purpose of each column in a bank statement by analyzing the column headers and sample data.
-      
-      Map each column name to its corresponding standard financial data field:
-      
-      - date: The transaction date
-      - amount: The transaction amount (positive for income, negative for expenses)
-      - description: Transaction description or details
-      - merchant: Name of the merchant, payee, or entity
-      - type: Transaction type or category 
-      - identifier: Unique transaction ID or reference number
-      - currency: Currency code or symbol
-      - balance: Account balance
-      - fee: Transaction fee
-      - notes: Additional information or notes
-      - cardHolder: Card holder name (the account owner, expected to be "${userConfig.cardHolder.name}")
-      - card: Card name or identifier (like the last digits of a card or card name)
-      
-      Instructions:
-      1. Analyze the column headers and sample data to understand what each column represents
-      2. Return the mapping of standard field names to the actual column headers
-      3. Only include fields that you can confidently map
-      4. Provide a confidence level (0-1) for your overall mapping
-      5. Handle different languages (Portuguese, English, Spanish, etc.)
-      6. Look for patterns in the data to help with identification
-      7. Be careful with ambiguous column names - use sample data to disambiguate
-      
-      Common patterns to look for:
-      - Date columns often contain formatted dates
-      - Amount columns typically contain numeric values, sometimes with currency symbols
-      - Description columns usually have longer text with details about the transaction
-      - Merchant columns typically contain business names or payment recipient information
-      - Card holder could be indicated by columns containing "${userConfig.cardHolder.name}" or variations of this name
-      - Card information might include numbers (like "****1234") or card type names
-      
-      Language considerations:
-      - Portuguese: "data" (date), "valor" (amount), "descrição" (description), "titular" (card holder)
-      - Spanish: "fecha" (date), "importe" (amount), "descripción" (description), "titular" (card holder)
-      - Also consider abbreviations and variations
-      
-      The primary card holder name is "${userConfig.cardHolder.name}" - look for columns that might contain or reference this name.
-    `;
+// ROLE
+You are a financial data processing expert specializing in bank statement analysis.
 
-    // Generate the column mapping
+// TASK
+Identify the purpose of each column in a bank statement by analyzing column headers and sample data.
+
+// STANDARD FINANCIAL FIELDS
+- date: Transaction date column
+- amount: Transaction amount column (positive for income, negative for expenses)
+- description: Transaction description or details column
+- balance: Account balance column
+- type: Transaction type or category column
+- merchant: Column containing merchant/payee names
+- identifier: Transaction ID or reference number column
+- currency: Currency code or symbol column
+- card: Card name or identifier column
+- fee: Transaction fee column
+- notes: Additional information column
+- cardHolder: Card holder name column (expected to contain "${userConfig.cardHolder.name}")
+
+// CONSIDERATIONS
+- Column headers vary across banks and languages
+- Date formats vary (DD/MM/YYYY, MM/DD/YYYY, etc.)
+- Amount columns might be split into separate debit/credit columns
+- In Brazilian statements, "Data" means "Date" and "Valor" means "Amount"/"Value"
+- Some statements use negative numbers for expenses, others use separate columns
+`.trim();
+
+    // Define the specific statement data for analysis
+    const userPrompt = `
+Identify the purpose of each column in this bank statement:
+
+Headers: ${headerStr}
+
+Sample Data:
+${sampleDataStr}
+
+Map each column to the appropriate standard field.
+`.trim();
+
+    // Use Vercel AI SDK to generate the column mapping
     const result = await generateObject({
       model: openai(defaultModel),
       schema: columnMappingSchema,
-      messages: [
-        {
-          role: 'system',
-          content: systemPrompt,
-        },
-        {
-          role: 'user',
-          content: `
-            Please analyze these column headers from a bank statement file:
-            Headers: ${headerStr}
-            
-            Here are a few sample rows to help with identification:
-            ${sampleDataStr}
-            
-            Identify which column corresponds to which transaction field and provide a mapping.
-            Remember that the primary card holder name is expected to be "${userConfig.cardHolder.name}" or variations of this name.
-          `,
-        },
-      ],
-      temperature: 0.1, // Low temperature for more consistent results
+      system: systemPrompt,
+      prompt: userPrompt,
+      temperature: 0.2, // Low temperature for consistent results
     });
 
-    console.log('Column mapping result:', result);
+    // Log warnings if any
+    if (result.warnings && result.warnings.length > 0) {
+      console.warn('Column mapping warnings:', result.warnings);
+    }
 
-    return result.object as ColumnMapping;
+    console.log('Column mapping result:', result.object);
+    return result.object;
   } catch (error) {
-    console.error('Column identification error:', error);
-    // Return a minimal mapping with low confidence on error
+    console.error('Column mapping error:', error);
+    // Return empty mapping on error
     return {
       confidence: 0.1,
     };
