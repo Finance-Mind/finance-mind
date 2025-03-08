@@ -3,7 +3,6 @@
 import { categorizeTransaction } from '@/actions/ai/categorize-transaction';
 import { detectP2PTransfer } from '@/actions/ai/detect-person-to-person-transfer';
 import { extractCardFromFilename as aiExtractCardFromFilename } from '@/actions/ai/extract-card-info';
-import { extractCardInfoFromRow, formatCardInfo } from '@/actions/ai/extract-card-info-from-row';
 import { identifyColumns } from '@/actions/ai/identify-columns';
 import { userConfig } from '@/config/user';
 import { TransactionCategory, TransactionType } from '@/lib/ai/types';
@@ -112,36 +111,36 @@ export async function processBankStatement(
         // Process each row to create transactions
         for (const row of mappedRows) {
           try {
-            // Extract basic transaction data with the mapped columns
-            const { transaction, requiresAI } = await extractBasicTransaction(
-              row,
-              file.name,
-              cardInfo
-            );
+            const transaction: Transaction = {
+              id: generateTransactionId(row),
+              description: '',
+              amount: 0,
+              date: new Date(),
+              type: TransactionType.OUTCOME,
+              category: TransactionCategory.UNCATEGORIZED,
+              currency: 'BRL', // Default to Brazilian Real
+            };
 
-            // If AI categorization is required, perform it
-            if (requiresAI) {
-              const categorization = await categorizeTransaction({
-                description: transaction.description,
-                amount: transaction.amount,
-                date: transaction.date,
-                merchant: transaction.merchant,
-              });
+            const categorization = await categorizeTransaction({
+              description: transaction.description,
+              amount: transaction.amount,
+              date: transaction.date,
+              merchant: transaction.merchant,
+            });
 
-              // Update transaction with AI categorization
-              transaction.category = categorization.category;
-              transaction.type = categorization.type;
+            // Update transaction with AI categorization
+            transaction.category = categorization.category;
+            transaction.type = categorization.type;
 
-              if (categorization.merchant) {
-                transaction.merchant = categorization.merchant;
-              }
+            if (categorization.merchant) {
+              transaction.merchant = categorization.merchant;
+            }
 
-              if (categorization.isInstallment && categorization.installmentInfo) {
-                transaction.installment = {
-                  current: categorization.installmentInfo.current,
-                  total: categorization.installmentInfo.total,
-                };
-              }
+            if (categorization.isInstallment && categorization.installmentInfo) {
+              transaction.installment = {
+                current: categorization.installmentInfo.current,
+                total: categorization.installmentInfo.total,
+              };
             }
 
             // Check if this transaction is a duplicate of an existing transaction
@@ -159,17 +158,9 @@ export async function processBankStatement(
               if (result.duplicatesSkipped !== undefined) {
                 result.duplicatesSkipped++;
               }
+
               continue;
             }
-
-            // Generate a deterministic ID based on transaction properties
-            transaction.id = generateTransactionId({
-              date: transaction.date,
-              amount: transaction.amount,
-              description: transaction.description,
-              merchant: transaction.merchant,
-              card: transaction.card,
-            });
 
             // Skip if we already have a transaction with this ID
             if (
@@ -179,6 +170,7 @@ export async function processBankStatement(
               if (result.duplicatesSkipped !== undefined) {
                 result.duplicatesSkipped++;
               }
+
               continue;
             }
 
@@ -344,171 +336,9 @@ async function extractCardInfoFromFilename(fileName: string): Promise<string> {
       parts.push(extraction.cardIdentifier);
     }
 
-    return parts.join(' - ');
+    return parts.join(' ');
   } catch (error) {
     console.warn('Error extracting card info from filename:', error);
     return '';
   }
-}
-
-/**
- * Extract basic transaction data from a row
- * @param row Extracted row data
- * @param fileName Name of the source file for context
- * @param cardInfo Card information extracted from the filename
- * @returns Transaction object and flag indicating if AI categorization is needed
- */
-async function extractBasicTransaction(
-  row: Record<string, string | number>,
-  fileName: string,
-  cardInfo: string
-): Promise<{ transaction: Transaction; requiresAI: boolean }> {
-  // Initialize a new transaction with default values
-  const transaction: Transaction = {
-    id: crypto.randomUUID(), // Temporary ID that will be replaced with a deterministic one later
-    description: '',
-    amount: 0,
-    date: new Date(),
-    type: TransactionType.OUTCOME,
-    category: TransactionCategory.UNCATEGORIZED,
-    currency: 'BRL', // Default to Brazilian Real
-  };
-
-  const requiresAI = true;
-
-  // If we have AI-mapped fields, use them directly
-  if ('date' in row && row.date) {
-    try {
-      transaction.date = new Date(row.date);
-      if (isNaN(transaction.date.getTime())) {
-        // Try to parse Brazilian date format (DD/MM/YYYY)
-        const dateStr = String(row.date);
-        const parts = dateStr.split(/[\/.-]/);
-        if (parts.length === 3) {
-          // If the first part is likely a day (1-31), assume DD/MM/YYYY format
-          if (parseInt(parts[0]) <= 31) {
-            transaction.date = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
-          }
-        }
-      }
-    } catch (e) {
-      console.warn(`Failed to parse date: ${row.date}`, e);
-    }
-  }
-
-  if ('amount' in row && row.amount !== undefined) {
-    const amount =
-      typeof row.amount === 'number'
-        ? row.amount
-        : parseFloat(String(row.amount).replace(',', '.'));
-
-    transaction.amount = amount;
-  }
-
-  if ('description' in row && row.description) {
-    transaction.description = String(row.description);
-  }
-
-  if ('merchant' in row && row.merchant) {
-    transaction.merchant = String(row.merchant);
-  }
-
-  if ('currency' in row && row.currency) {
-    transaction.currency = String(row.currency);
-  }
-
-  // Use AI to extract card info from the row data
-  const cardExtraction = await extractCardInfoFromRow(row);
-  const extractedCardInfo = await formatCardInfo(cardExtraction);
-
-  // Use the card from the row data, the file name, or set a default
-  transaction.card = extractedCardInfo || cardInfo || DEFAULT_CARD_HOLDER;
-
-  // Set card holder (with default if not found)
-  if ('cardHolder' in row && row.cardHolder) {
-    // Card holder found in data, but always set the default one
-    transaction.card = `${DEFAULT_CARD_HOLDER} (${transaction.card})`;
-  } else if (!transaction.card.includes(DEFAULT_CARD_HOLDER)) {
-    // No card holder in data, prepend default
-    transaction.card = `${DEFAULT_CARD_HOLDER} (${transaction.card})`;
-  }
-
-  // If we still don't have required fields, try to find them with common column names
-  if (isNaN(transaction.date.getTime())) {
-    // Common column names for date
-    const dateColumns = ['date', 'data', 'datetime', 'fecha', 'date_time'];
-
-    for (const colName of dateColumns) {
-      if (colName.toLowerCase() in row) {
-        const dateValue = row[colName.toLowerCase()];
-        try {
-          transaction.date = new Date(dateValue);
-          if (isNaN(transaction.date.getTime())) {
-            // Try to parse Brazilian date format (DD/MM/YYYY)
-            const parts = String(dateValue).split(/[\/.-]/);
-            if (parts.length === 3) {
-              // If the first part is likely a day (1-31), assume DD/MM/YYYY format
-              if (parseInt(parts[0]) <= 31) {
-                transaction.date = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
-              }
-            }
-          }
-          break;
-        } catch (e) {
-          console.warn(`Failed to parse date: ${dateValue}`, e);
-        }
-      }
-    }
-  }
-
-  if (transaction.amount === 0) {
-    // Common column names for amount
-    const amountColumns = ['amount', 'valor', 'value', 'montante', 'quantia'];
-
-    for (const colName of amountColumns) {
-      if (colName.toLowerCase() in row) {
-        const value = row[colName.toLowerCase()];
-        transaction.amount =
-          typeof value === 'number' ? value : parseFloat(String(value).replace(',', '.'));
-        break;
-      }
-    }
-  }
-
-  if (!transaction.description) {
-    // Common column names for description
-    const descriptionColumns = [
-      'description',
-      'descrição',
-      'descricao',
-      'title',
-      'título',
-      'titulo',
-    ];
-
-    for (const colName of descriptionColumns) {
-      if (colName.toLowerCase() in row) {
-        transaction.description = String(row[colName.toLowerCase()]);
-        break;
-      }
-    }
-
-    // If we still couldn't extract a description, use all field values as the description
-    if (!transaction.description) {
-      transaction.description = Object.values(row)
-        .filter(v => v)
-        .join(' - ');
-    }
-  }
-
-  // Infer transaction type based on amount
-  if (transaction.amount > 0) {
-    transaction.type = TransactionType.INCOME;
-  } else if (transaction.amount < 0) {
-    transaction.type = TransactionType.OUTCOME;
-    // Ensure amount is positive for outcomes
-    transaction.amount = Math.abs(transaction.amount);
-  }
-
-  return { transaction, requiresAI };
 }

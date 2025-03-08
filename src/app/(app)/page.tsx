@@ -5,15 +5,8 @@ import { useState } from 'react';
 import { FileUploader } from '@/components/file-upload/file-uploader';
 import { ManualTransactionForm } from '@/components/manual-transaction-form';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-
-
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { TransactionCategory } from '@/lib/ai/types';
 
 import type { Transaction } from '@/interfaces/transaction';
 
@@ -217,9 +210,9 @@ export default function OverviewPage() {
                           >
                             {transaction.isInternalTransfer
                               ? 'Internal Transfer'
-                              : transaction.isP2PTransfer
-                                ? 'P2P Transfer'
-                                : transaction.category}
+                              : transaction.category !== TransactionCategory.UNCATEGORIZED
+                                ? transaction.category
+                                : 'P2P Transfer'}
                           </span>
                           {transaction.installment && (
                             <div className="text-xs text-muted-foreground mt-1">

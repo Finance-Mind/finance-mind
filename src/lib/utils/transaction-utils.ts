@@ -14,28 +14,75 @@
  * @param transaction Transaction data to generate ID from
  * @returns A deterministic transaction ID
  */
-export function generateTransactionId(transaction?: {
-  date?: Date;
-  amount?: number;
-  description?: string;
-  merchant?: string;
-  card?: string;
-}): string {
+export function generateTransactionId(transaction?: Record<string, unknown>): string {
   // If no transaction data is provided, fall back to random UUID
-  if (!transaction || !transaction.date || !transaction.amount || !transaction.description) {
+  if (!transaction) {
     return crypto.randomUUID();
   }
 
-  // Create a string combining key transaction properties
-  const dateStr = transaction.date.toISOString().split('T')[0]; // YYYY-MM-DD
-  const amountStr = transaction.amount.toFixed(2);
-  const descriptionStr = transaction.description.trim().toLowerCase();
+  // Safely extract and normalize transaction properties
+  let dateStr = '';
+  let amountStr = '';
+  let descriptionStr = '';
+  let merchantStr = '';
+  let cardStr = '';
 
-  // Add merchant if available (for better uniqueness)
-  const merchantStr = transaction.merchant ? transaction.merchant.trim().toLowerCase() : '';
+  // Extract date
+  if (transaction.date) {
+    if (transaction.date instanceof Date) {
+      dateStr = transaction.date.toISOString().split('T')[0]; // YYYY-MM-DD
+    } else if (typeof transaction.date === 'string') {
+      // Try to parse date string
+      const parsedDate = new Date(transaction.date);
+      if (!isNaN(parsedDate.getTime())) {
+        dateStr = parsedDate.toISOString().split('T')[0];
+      }
+    }
+  }
 
-  // Add card if available (to distinguish between same transactions on different cards)
-  const cardStr = transaction.card ? transaction.card.trim().toLowerCase() : '';
+  // Extract amount
+  if (transaction.amount !== undefined && transaction.amount !== null) {
+    if (typeof transaction.amount === 'number') {
+      amountStr = transaction.amount.toFixed(2);
+    } else if (typeof transaction.amount === 'string') {
+      const parsedAmount = parseFloat(transaction.amount);
+      if (!isNaN(parsedAmount)) {
+        amountStr = parsedAmount.toFixed(2);
+      }
+    }
+  }
+
+  // Extract description
+  if (transaction.description) {
+    if (typeof transaction.description === 'string') {
+      descriptionStr = transaction.description.trim().toLowerCase();
+    } else {
+      descriptionStr = String(transaction.description).trim().toLowerCase();
+    }
+  }
+
+  // Extract merchant if available
+  if (transaction.merchant) {
+    if (typeof transaction.merchant === 'string') {
+      merchantStr = transaction.merchant.trim().toLowerCase();
+    } else {
+      merchantStr = String(transaction.merchant).trim().toLowerCase();
+    }
+  }
+
+  // Extract card if available
+  if (transaction.card) {
+    if (typeof transaction.card === 'string') {
+      cardStr = transaction.card.trim().toLowerCase();
+    } else {
+      cardStr = String(transaction.card).trim().toLowerCase();
+    }
+  }
+
+  // If essential data is missing, return random UUID
+  if (!dateStr || !amountStr || !descriptionStr) {
+    return crypto.randomUUID();
+  }
 
   // Combine all components for hashing
   const dataToHash = `${dateStr}|${amountStr}|${descriptionStr}|${merchantStr}|${cardStr}`;
