@@ -5,6 +5,7 @@ import { FlatCompat } from '@eslint/eslintrc';
 import typescriptPlugin from '@typescript-eslint/eslint-plugin';
 import typescriptParser from '@typescript-eslint/parser';
 import importPlugin from 'eslint-plugin-import';
+import prettierPlugin from 'eslint-plugin-prettier';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -19,6 +20,7 @@ const eslintConfig = [
     files: ['**/*.{js,mjs,cjs,jsx,ts,tsx}'],
     plugins: {
       import: importPlugin,
+      prettier: prettierPlugin,
     },
     rules: {
       // Import sorting rules
