@@ -6,6 +6,7 @@ import typescriptPlugin from '@typescript-eslint/eslint-plugin';
 import typescriptParser from '@typescript-eslint/parser';
 import importPlugin from 'eslint-plugin-import';
 import prettierPlugin from 'eslint-plugin-prettier';
+import prettierConfig from 'eslint-config-prettier';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -15,16 +16,20 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends('next/core-web-vitals', 'next/typescript', 'prettier'),
+  // Base configurations
+  ...compat.extends('next/core-web-vitals', 'next/typescript'),
+  
+  // Prettier config to turn off ESLint rules that conflict with Prettier
+  prettierConfig,
+  
+  // Common JavaScript/TypeScript rules
   {
     files: ['**/*.{js,mjs,cjs,jsx,ts,tsx}'],
     plugins: {
       import: importPlugin,
-      prettier: prettierPlugin,
     },
     rules: {
       // Import sorting rules
-      'prettier/prettier': 'error',
       'import/first': 'error',
       'import/newline-after-import': 'error',
       'import/no-duplicates': 'error',
