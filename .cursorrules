@@ -92,7 +92,8 @@ The AI should:
 
 ## Prompt Engineering Standards
 
-- Design prompts that produce consistent, deterministic outputs
+- Design prompts using Vercel AI SDK's structured output generation
+- Use Zod schemas with proper `.describe()` annotations for all schema properties
 - Focus on financial domain specificity with special attention to:
   - Banking terminology (transfers, deposits, withdrawals)
   - Transaction categorization patterns
@@ -100,16 +101,18 @@ The AI should:
   - Currency handling and formatting
   - Brazilian financial system specifics
 - Create prompts that are language-aware and preserve original language in text fields
-- Include explicit schema definitions in prompts to enforce structured outputs
-- Use low temperature settings (0.1-0.3) for predictable financial data processing
-- Implement robust error handling for edge cases in financial data
-- Design two-stage prompting processes where appropriate:
+- Implement error handling using the SDK's warning system
+- Use low temperature settings (0.1-0.3) explicitly set in SDK parameters
+- Leverage tool calling with descriptive, focused tools (keep under 5 tools per prompt)
+- Design two-stage processing where appropriate:
   - First stage for extraction/detection
   - Second stage for classification/categorization
 - Test prompts with diverse financial data samples across multiple languages
-- Document prompt patterns and iterative improvements
-- Include examples of correctly formatted responses in prompts
-- Use context windows efficiently for large financial datasets
+- Use proper SDK debugging techniques to inspect and improve prompts
+- Organize schemas logically with proper naming conventions
+- Implement appropriate transformers for complex data types like dates
+- Balance schema complexity with model capabilities
+- Integrate AI components with proper server action patterns
 
 ## Additional Guidance
 
