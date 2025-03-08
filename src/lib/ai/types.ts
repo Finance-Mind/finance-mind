@@ -12,7 +12,6 @@ export enum TransactionCategory {
   INVESTMENT_INCOME = 'INVESTMENT_INCOME', // Keep this as income from investments, not the investments themselves
   REIMBURSEMENT = 'REIMBURSEMENT',
   GIFT = 'GIFT',
-  OTHER_INCOME = 'OTHER_INCOME',
 
   // Expense categories
   GROCERIES = 'GROCERIES',
@@ -27,7 +26,6 @@ export enum TransactionCategory {
   TRAVEL = 'TRAVEL',
   PERSONAL_CARE = 'PERSONAL_CARE',
   SUBSCRIPTIONS = 'SUBSCRIPTIONS',
-  OTHER_EXPENSE = 'OTHER_EXPENSE',
 
   // Unknown/uncategorized
   UNCATEGORIZED = 'UNCATEGORIZED',

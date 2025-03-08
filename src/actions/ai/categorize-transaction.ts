@@ -17,10 +17,10 @@ export async function categorizeTransaction({
   date,
   merchant,
 }: {
-  description: string;
-  amount: number;
-  date: string | Date;
-  merchant?: string;
+  description?: unknown;
+  amount?: unknown;
+  date?: unknown;
+  merchant?: unknown;
 }): Promise<TransactionCategorizeResponse> {
   try {
     // Define system instructions for the AI model
@@ -32,8 +32,8 @@ You are a financial transaction categorization expert specializing in Brazilian 
 Analyze transaction details and determine the appropriate category, type, and additional metadata.
 
 // CATEGORIES
-Income: SALARY, INVESTMENT, REIMBURSEMENT, GIFT, OTHER_INCOME
-Expense: GROCERIES, DINING, ENTERTAINMENT, TRANSPORTATION, UTILITIES, HOUSING, HEALTH, EDUCATION, SHOPPING, TRAVEL, PERSONAL_CARE, SUBSCRIPTIONS, OTHER_EXPENSE
+Income: SALARY, INVESTMENT, REIMBURSEMENT, GIFT
+Expense: GROCERIES, DINING, ENTERTAINMENT, TRANSPORTATION, UTILITIES, HOUSING, HEALTH, EDUCATION, SHOPPING, TRAVEL, PERSONAL_CARE, SUBSCRIPTIONS
 Other: UNCATEGORIZED
 
 // TRANSACTION TYPES
@@ -90,7 +90,10 @@ ${merchant ? `Merchant: ${merchant}` : ''}
     // Fallback categorization on error
     return {
       category: TransactionCategory.UNCATEGORIZED,
-      type: amount >= 0 ? TransactionType.INCOME : TransactionType.OUTCOME,
+      type:
+        amount && typeof amount === 'number' && amount >= 0
+          ? TransactionType.INCOME
+          : TransactionType.OUTCOME,
       confidence: 0.1,
     };
   }

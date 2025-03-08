@@ -5,7 +5,7 @@ export interface Transaction {
   type: TransactionType;
   amount: number;
   currency: string;
-  date: Date;
+  date: string;
   description: string;
   category: TransactionCategory;
   card?: string;
@@ -17,7 +17,7 @@ export interface Transaction {
   };
   isInternalTransfer?: boolean;
   isP2PTransfer?: boolean;
-  transferDetails?: {
+  transfer?: {
     matchingTransactionId?: string;
     fromAccount?: string;
     toAccount?: string;

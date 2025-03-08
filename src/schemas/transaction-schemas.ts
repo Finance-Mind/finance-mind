@@ -46,7 +46,9 @@ export const transactionExtractionSchema = z.object({
   amount: z
     .number()
     .describe('The transaction amount as a number (positive for income, negative for expenses)'),
-  date: z.string().describe('The transaction date in ISO format or as specified'),
+  date: z
+    .string()
+    .describe('The transaction date in readable format (e.g., today, yesterday, etc.)'),
   merchant: z.string().optional().describe('The merchant or entity name if present'),
   category: z
     .nativeEnum(TransactionCategory)

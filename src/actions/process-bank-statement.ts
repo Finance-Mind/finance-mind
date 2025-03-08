@@ -1,19 +1,15 @@
 'use server';
 
-import { categorizeTransaction } from '@/actions/ai/categorize-transaction';
 import { detectP2PTransfer } from '@/actions/ai/detect-person-to-person-transfer';
 import { extractCardFromFilename as aiExtractCardFromFilename } from '@/actions/ai/extract-card-info';
-import { identifyColumns } from '@/actions/ai/identify-columns';
-import { userConfig } from '@/config/user';
-import { TransactionCategory, TransactionType } from '@/lib/ai/types';
-import { applyColumnMapping, parseCSV } from '@/lib/parsers/csv-parser';
+import { TransactionType } from '@/lib/ai/types';
+import { parseCSV } from '@/lib/parsers/csv-parser';
 import { parsePDF } from '@/lib/parsers/pdf-parser';
-import { generateTransactionId, isDuplicateTransaction } from '@/lib/utils/transaction-utils';
+import { generateTransactionId } from '@/lib/utils/transaction-utils';
+
+import { extractTransactionFields } from './ai/extract-transaction-fields';
 
 import type { Transaction } from '@/interfaces/transaction';
-
-// Default card holder name
-const DEFAULT_CARD_HOLDER = userConfig.cardHolder.name;
 
 export interface ProcessedStatement {
   transactions: Transaction[];
@@ -46,10 +42,9 @@ export async function processBankStatement(
   try {
     const allExtractedTransactions: Transaction[] = [];
     const detectedAccounts: Set<string> = new Set();
-    const processedTransactionIds: Set<string> = new Set();
 
     // Track existing transaction IDs to avoid duplicates
-    const existingTransactionIds: Set<string> = new Set(existingTransactions.map(t => t.id));
+    const processedTransactionIds: Set<string> = new Set(existingTransactions.map(t => t.id));
 
     // First pass: Extract all transactions from all files
     for (const file of fileContents) {
@@ -79,100 +74,33 @@ export async function processBankStatement(
           continue;
         }
 
-        // Use AI to identify columns
-        let mappedRows = extractedRows;
-
-        if (extractedRows.length > 0) {
-          try {
-            // Extract headers from the first row's keys
-            const headers = Object.keys(extractedRows[0]);
-
-            // Use AI to identify columns
-            const columnMapping = await identifyColumns(headers, extractedRows.slice(0, 5));
-
-            // Apply the mapping to standardize field names
-            if (columnMapping.confidence >= 0.3) {
-              mappedRows = applyColumnMapping(extractedRows, columnMapping);
-              console.log(`Applied column mapping with confidence: ${columnMapping.confidence}`);
-            } else {
-              result.warnings?.push(
-                `Low confidence column mapping for ${file.name}: ${columnMapping.confidence}`
-              );
-            }
-          } catch (mappingError) {
-            console.error('Error identifying columns:', mappingError);
-            result.warnings?.push(
-              `Error identifying columns in ${file.name}: ${(mappingError as Error).message}`
-            );
-            // Continue with original rows if mapping fails
-          }
-        }
-
         // Process each row to create transactions
-        for (const row of mappedRows) {
+        for (const row of extractedRows) {
+          const transactionId = generateTransactionId(row);
+
+          if (processedTransactionIds.has(transactionId)) {
+            if (result.duplicatesSkipped !== undefined) {
+              result.duplicatesSkipped++;
+            }
+
+            continue;
+          }
+
           try {
+            const transactionFields = await extractTransactionFields(JSON.stringify(row));
+
             const transaction: Transaction = {
-              id: generateTransactionId(row),
-              description: '',
-              amount: 0,
-              date: new Date(),
-              type: TransactionType.OUTCOME,
-              category: TransactionCategory.UNCATEGORIZED,
-              currency: 'BRL', // Default to Brazilian Real
+              id: transactionId,
+              description: transactionFields.description,
+              amount: transactionFields.amount,
+              date: transactionFields.date,
+              merchant: transactionFields.merchant,
+              type: transactionFields.type,
+              category: transactionFields.category,
+              currency: transactionFields.currency || 'BRL',
+              card: cardInfo,
+              installment: transactionFields.installmentInfo,
             };
-
-            const categorization = await categorizeTransaction({
-              description: transaction.description,
-              amount: transaction.amount,
-              date: transaction.date,
-              merchant: transaction.merchant,
-            });
-
-            // Update transaction with AI categorization
-            transaction.category = categorization.category;
-            transaction.type = categorization.type;
-
-            if (categorization.merchant) {
-              transaction.merchant = categorization.merchant;
-            }
-
-            if (categorization.isInstallment && categorization.installmentInfo) {
-              transaction.installment = {
-                current: categorization.installmentInfo.current,
-                total: categorization.installmentInfo.total,
-              };
-            }
-
-            // Check if this transaction is a duplicate of an existing transaction
-            const isDuplicate = existingTransactions.some(existingTx =>
-              isDuplicateTransaction(existingTx, transaction)
-            );
-
-            // Also check if it's a duplicate within the current batch
-            const isDuplicateInBatch = allExtractedTransactions.some(newTx =>
-              isDuplicateTransaction(newTx, transaction)
-            );
-
-            if (isDuplicate || isDuplicateInBatch) {
-              // Skip duplicates and increment the counter
-              if (result.duplicatesSkipped !== undefined) {
-                result.duplicatesSkipped++;
-              }
-
-              continue;
-            }
-
-            // Skip if we already have a transaction with this ID
-            if (
-              existingTransactionIds.has(transaction.id) ||
-              processedTransactionIds.has(transaction.id)
-            ) {
-              if (result.duplicatesSkipped !== undefined) {
-                result.duplicatesSkipped++;
-              }
-
-              continue;
-            }
 
             // Add to processed IDs to avoid duplicates within this batch
             processedTransactionIds.add(transaction.id);
@@ -198,7 +126,7 @@ export async function processBankStatement(
     result.transactions = processedTransactions;
 
     // Sort transactions by date (newest first)
-    result.transactions.sort((a, b) => b.date.getTime() - a.date.getTime());
+    result.transactions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
     return result;
   } catch (error) {
@@ -229,12 +157,7 @@ async function detectP2PTransfers(
 
     // Only check for transfers for large amounts or explicit transfer types
     const isSignificantAmount = Math.abs(transaction.amount) >= 50; // Threshold to avoid checking small transactions
-    if (
-      transaction.type === TransactionType.TRANSFER ||
-      transaction.category === TransactionCategory.OTHER_INCOME ||
-      transaction.category === TransactionCategory.OTHER_EXPENSE ||
-      isSignificantAmount
-    ) {
+    if (transaction.type === TransactionType.TRANSFER || isSignificantAmount) {
       // Get other transactions to compare with (excluding this one)
       const otherTransactions = transactions.filter(t => t.id !== transaction.id);
 
@@ -249,7 +172,7 @@ async function detectP2PTransfers(
         // If a matching transaction was identified
         if (result.matchingTransactionId) {
           // Store the transfer details
-          transaction.transferDetails = {
+          transaction.transfer = {
             matchingTransactionId: result.matchingTransactionId,
             fromAccount: result.fromPerson,
             toAccount: result.toPerson,
@@ -285,14 +208,14 @@ async function detectP2PTransfers(
         transaction.isInternalTransfer = matchingTransaction.isInternalTransfer;
 
         // Copy transfer details from the matching transaction
-        if (matchingTransaction.transferDetails) {
-          transaction.transferDetails = {
+        if (matchingTransaction.transfer) {
+          transaction.transfer = {
             matchingTransactionId: matchingTransaction.id,
             // Swap from/to for the matching transaction
-            fromAccount: matchingTransaction.transferDetails.toAccount,
-            toAccount: matchingTransaction.transferDetails.fromAccount,
-            fromPerson: matchingTransaction.transferDetails.toPerson,
-            toPerson: matchingTransaction.transferDetails.fromPerson,
+            fromAccount: matchingTransaction.transfer.toAccount,
+            toAccount: matchingTransaction.transfer.fromAccount,
+            fromPerson: matchingTransaction.transfer.toPerson,
+            toPerson: matchingTransaction.transfer.fromPerson,
           };
         }
       }

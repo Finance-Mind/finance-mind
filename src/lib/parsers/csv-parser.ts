@@ -5,8 +5,6 @@
  * for bank statement processing.
  */
 
-import type { ColumnMapping } from '@/actions/ai/identify-columns';
-
 /**
  * Parse a CSV string into an array of objects
  * @param csvContent The CSV content as a string
@@ -81,29 +79,26 @@ export async function parseCSV(
  * @param mapping The column mapping from AI
  * @returns Array of objects with standardized field names
  */
-export function applyColumnMapping(
+export function applyColumnMapping<T extends Record<string, string | number>>(
   rows: Array<Record<string, string | number>>,
-  mapping: ColumnMapping
-): Array<Record<string, string | number>> {
-  if (!rows.length) return [];
-
-  // Check if we have a valid mapping
-  if (!mapping || mapping.confidence < 0.3) {
-    // If confidence is too low, return the original data
-    return rows;
+  mapping: T
+): Array<{
+  [key in keyof T]?: string | number;
+}> {
+  if (!rows.length) {
+    return [];
   }
 
   return rows.map(row => {
-    const mappedRow: Record<string, string | number> = {};
+    const mappedRow: {
+      [key in keyof T]?: string | number;
+    } = {};
 
     // Apply each field mapping
     Object.entries(mapping).forEach(([field, columnName]) => {
-      // Skip the confidence field
-      if (field === 'confidence') return;
-
       // If we have a mapping for this field and the column exists in the row
       if (columnName && typeof columnName === 'string' && columnName in row) {
-        mappedRow[field] = row[columnName];
+        mappedRow[field as keyof T] = row[columnName];
       }
     });
 
@@ -111,7 +106,7 @@ export function applyColumnMapping(
     // This ensures we don't lose any data
     Object.entries(row).forEach(([key, value]) => {
       if (!(key in mappedRow)) {
-        mappedRow[key] = value;
+        mappedRow[key as keyof T] = value;
       }
     });
 

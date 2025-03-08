@@ -119,7 +119,7 @@ Analyze this transaction for P2P transfer detection:
 
 Description: ${transaction.description}
 Amount: ${transaction.amount}
-Date: ${transaction.date instanceof Date ? transaction.date.toISOString() : transaction.date}
+Date: ${transaction.date}
 Type: ${transaction.type}
 Category: ${transaction.category}
 ${transaction.merchant ? `Merchant: ${transaction.merchant}` : ''}
@@ -130,7 +130,7 @@ ${
 Matching ID: ${matchingTransaction.id}
 Matching Description: ${matchingTransaction.description}
 Matching Amount: ${matchingTransaction.amount}
-Matching Date: ${matchingTransaction.date instanceof Date ? matchingTransaction.date.toISOString() : matchingTransaction.date}
+Matching Date: ${matchingTransaction.date}
 `
     : 'No matching transaction found in the opposite direction.'
 }
@@ -235,7 +235,9 @@ function findMatchingTransaction(
     if (!isAmountSimilar) return false;
 
     // Check if the transactions are close in time
-    const timeDiff = Math.abs(transaction.date.getTime() - other.date.getTime());
+    const timeDiff = Math.abs(
+      new Date(transaction.date).getTime() - new Date(other.date).getTime()
+    );
     const isTimeClose = timeDiff <= maxTimeDifference;
 
     return isTimeClose;

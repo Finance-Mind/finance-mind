@@ -27,7 +27,7 @@ export default function OverviewPage() {
       // In a real app, we would check for duplicates here
       const combined = [...newTransactions, ...prev];
       // Sort transactions by date (newest first)
-      return combined.sort((a, b) => b.date.getTime() - a.date.getTime());
+      return combined.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     });
 
     // Update errors and warnings
@@ -49,8 +49,8 @@ export default function OverviewPage() {
   };
 
   // Format date for display
-  const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat('pt-BR').format(date);
+  const formatDate = (date: string) => {
+    return new Intl.DateTimeFormat('pt-BR').format(new Date(date));
   };
 
   return (
@@ -221,19 +221,19 @@ export default function OverviewPage() {
                             </div>
                           )}
                           {(transaction.isInternalTransfer || transaction.isP2PTransfer) &&
-                            transaction.transferDetails && (
+                            transaction.transfer && (
                               <div className="text-xs text-blue-600 mt-1">
-                                {transaction.transferDetails.fromPerson &&
-                                transaction.transferDetails.toPerson ? (
+                                {transaction.transfer.fromPerson &&
+                                transaction.transfer.toPerson ? (
                                   <>
-                                    From: {transaction.transferDetails.fromPerson} → To:{' '}
-                                    {transaction.transferDetails.toPerson}
+                                    From: {transaction.transfer.fromPerson} → To:{' '}
+                                    {transaction.transfer.toPerson}
                                   </>
-                                ) : transaction.transferDetails.fromAccount &&
-                                  transaction.transferDetails.toAccount ? (
+                                ) : transaction.transfer.fromAccount &&
+                                  transaction.transfer.toAccount ? (
                                   <>
-                                    From: {transaction.transferDetails.fromAccount} → To:{' '}
-                                    {transaction.transferDetails.toAccount}
+                                    From: {transaction.transfer.fromAccount} → To:{' '}
+                                    {transaction.transfer.toAccount}
                                   </>
                                 ) : null}
                               </div>

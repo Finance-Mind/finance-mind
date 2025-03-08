@@ -268,7 +268,6 @@ export function ManualTransactionForm() {
                 </SelectItem>
                 <SelectItem value={TransactionCategory.REIMBURSEMENT}>Reimbursement</SelectItem>
                 <SelectItem value={TransactionCategory.GIFT}>Gift</SelectItem>
-                <SelectItem value={TransactionCategory.OTHER_INCOME}>Other Income</SelectItem>
 
                 {/* Expense Categories - Use section dividers instead of invalid empty strings */}
                 <div className="px-2 py-1.5 text-xs font-semibold text-primary">Expenses</div>
@@ -284,7 +283,6 @@ export function ManualTransactionForm() {
                 <SelectItem value={TransactionCategory.TRAVEL}>Travel</SelectItem>
                 <SelectItem value={TransactionCategory.PERSONAL_CARE}>Personal Care</SelectItem>
                 <SelectItem value={TransactionCategory.SUBSCRIPTIONS}>Subscriptions</SelectItem>
-                <SelectItem value={TransactionCategory.OTHER_EXPENSE}>Other Expense</SelectItem>
               </SelectContent>
             </Select>
             {form.formState.errors.category && (

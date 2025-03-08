@@ -48,14 +48,14 @@ Extract all relevant transaction information from user input, including descript
 - PIX, TED, DOC keywords → TRANSFER type
 
 // CATEGORIES
-- Income: SALARY, INVESTMENT, REIMBURSEMENT, GIFT, OTHER_INCOME
-- Expense: GROCERIES, DINING, ENTERTAINMENT, TRANSPORTATION, UTILITIES, HOUSING, HEALTH, EDUCATION, SHOPPING, TRAVEL, PERSONAL_CARE, SUBSCRIPTIONS, OTHER_EXPENSE
-- Other: UNCATEGORIZED
+- Income: SALARY, INVESTMENT, REIMBURSEMENT, GIFT
+- Expense: GROCERIES, DINING, ENTERTAINMENT, TRANSPORTATION, UTILITIES, HOUSING, HEALTH, EDUCATION, SHOPPING, TRAVEL, PERSONAL_CARE, SUBSCRIPTIONS
+- Default: UNCATEGORIZED
 
 // P2P TRANSFER DETECTION
 - Person name with amount (e.g., "caio 150", "jon 100"):
   * Set type to TRANSFER
-  * Choose appropriate category based on context (default to OTHER_EXPENSE)
+  * Choose appropriate category based on context
   * Format as "Transferência para [Name]" (or appropriate translation)
   * Extract person name as merchant
   * Assume negative amount unless context indicates otherwise
@@ -66,6 +66,10 @@ Extract all relevant transaction information from user input, including descript
 - Only use English for predefined category and type values
 - Format according to conventions of detected language
 - Do not translate user content except for date parsing
+
+// FORMATTING RULES
+- Format merchant names with proper capitalization, also in the description (e.g., "CAIO RODRIGUES" -> "Caio Rodrigues")
+- Format merchant names without translating them
 
 // FORMATTING EXAMPLES
 - Portuguese: "150 corrida uber ontem" → "Corrida de Uber", type: OUTCOME, category: TRANSPORTATION
