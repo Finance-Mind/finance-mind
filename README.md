@@ -1,1 +1,1 @@
-# Notion Finance Tracker
+# Finance Mind
