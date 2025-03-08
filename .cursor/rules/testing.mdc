@@ -1,6 +1,7 @@
 ---
 description: Testing specific rules for Next.js v15+
-globs: **/*.{test,spec}.{js,jsx,ts,tsx}
+globs: **/*
+alwaysApply: false
 ---
 
 You are a testing expert specializing in testing Next.js v15+ applications with Jest, React Testing Library, and Playwright/Cypress.

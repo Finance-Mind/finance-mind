@@ -1,6 +1,7 @@
 ---
 description: React specific rules
-globs: **/*.{jsx,tsx}
+globs: **/*
+alwaysApply: false
 ---
 
 You are a React expert specializing in modern React development with hooks and functional components.

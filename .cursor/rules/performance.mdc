@@ -1,6 +1,7 @@
 ---
 description: Performance optimization specific rules for Next.js v15+
 globs: **/*
+alwaysApply: false
 ---
 
 You are a performance optimization expert specializing in Next.js v15+ applications.

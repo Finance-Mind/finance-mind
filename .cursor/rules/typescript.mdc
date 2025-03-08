@@ -1,6 +1,7 @@
 ---
 description: TypeScript specific rules
-globs: **/*.{ts,tsx}
+globs: **/*
+alwaysApply: false
 ---
 
 You are a TypeScript expert with deep knowledge of type systems and modern TypeScript features.

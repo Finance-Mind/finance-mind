@@ -1,0 +1,185 @@
+---
+description: Color system and theming guidelines
+globs: **/*
+alwaysApply: false
+---
+# Color System and Theming
+
+You are a theming and design system expert for Next.js applications using Tailwind CSS.
+
+## Semantic Color Classes
+
+Always use semantic color tokens instead of hard-coded color values. This ensures:
+- Consistency across the application
+- Support for multiple themes (light/dark)
+- Easier global changes to the color system
+- Better accessibility
+
+### Core Semantic Colors
+
+Use these semantic color tokens throughout the application:
+
+| Semantic Class | Purpose | Example Usage |
+|---------------|---------|--------------|
+| `bg-background` | Main background of the application | Page backgrounds |
+| `text-foreground` | Primary text color | Regular text, headings |
+| `text-muted-foreground` | Secondary text color | Descriptions, less important text |
+| `bg-card` | Background color for cards, panels | Card components, dialogs |
+| `text-card-foreground` | Text color within cards | Text within card components |
+| `bg-primary` | Primary brand color | CTA buttons, important UI elements |
+| `text-primary` | Text in primary brand color | Emphasized text, links |
+| `text-primary-foreground` | Text on primary color background | Button text on primary buttons |
+| `bg-secondary` | Secondary color | Secondary buttons, alternate elements |
+| `text-secondary-foreground` | Text on secondary color background | Button text on secondary buttons |
+| `bg-muted` | Subtle background for UI elements | Subtle backgrounds, footers |
+| `border-border` | Default border color | Dividers, input borders |
+| `ring-ring` | Focus ring color | Focus states on interactive elements |
+| `bg-destructive` | Color for destructive actions | Delete buttons |
+| `text-destructive-foreground` | Text on destructive backgrounds | Text on delete buttons |
+| `bg-accent` | Accent color for UI elements | Highlighted UI elements |
+| `text-accent-foreground` | Text on accent backgrounds | Text on accent backgrounds |
+
+### Color Opacity Variants
+
+Use opacity modifiers for transparency:
+- `bg-primary/10` - Primary color at 10% opacity
+- `text-foreground/80` - Foreground text at 80% opacity
+- `border-border/50` - Border color at 50% opacity
+
+### Interactive State Colors
+
+Use semantic colors with state variants:
+- `hover:bg-primary/90` - Primary background with 90% opacity on hover
+- `focus-visible:outline-primary` - Primary color outline on focus
+- `active:bg-primary/70` - Primary background with 70% opacity when active
+
+## Theme Implementation
+
+The color system should be implemented using Tailwind CSS's theme configuration:
+
+```js
+// Example tailwind.config.js setup (partial)
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+      },
+    },
+  },
+};
+```
+
+CSS variables should be defined in your global CSS file:
+
+```css
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+  }
+}
+```
+
+## Best Practices
+
+1. **Never use hard-coded color values** like `text-blue-500` or `bg-gray-200`
+2. **Use semantic color tokens** that represent their purpose, not their appearance
+3. **Maintain contrast ratios** for accessibility (WCAG AA compliance minimum)
+4. **Test in both light and dark modes** to ensure proper color application
+5. **Use consistent opacity values** across the application
+6. **Limit color palette** to maintain visual consistency
+
+## Theme Switching
+
+Implement theme switching using the `next-themes` package and CSS variables:
+
+```tsx
+// Example theme provider setup
+import { ThemeProvider } from 'next-themes'
+
+export function Providers({ children }) {
+  return (
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      {children}
+    </ThemeProvider>
+  )
+}
+```
+
+## Color Application Guidelines
+
+- Use `primary` for main CTAs and key interactive elements
+- Use `secondary` for less prominent actions
+- Use `destructive` only for destructive actions (delete, remove)
+- Use `muted` for subtle UI elements that should recede visually
+- Use `accent` sparingly for highlighting important UI elements
+- Use opacity variants to create visual hierarchy

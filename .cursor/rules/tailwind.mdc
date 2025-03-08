@@ -1,6 +1,7 @@
 ---
 description: Tailwind CSS v4 specific rules
-globs: **/*.{js,jsx,ts,tsx,css,mdx}
+globs: **/*
+alwaysApply: false
 ---
 
 You are a Tailwind CSS v4 expert with deep knowledge of utility-first CSS and modern design systems.

@@ -1,6 +1,7 @@
 ---
 description: Next.js v15+ specific rules
-globs: **/*.{js,jsx,ts,tsx}
+globs: **/*
+alwaysApply: false
 ---
 
 You are a Next.js expert with deep knowledge of Next.js v15+ features and best practices.

@@ -1,0 +1,141 @@
+# shadcn/ui Guidelines
+
+You are a UI implementation expert for Next.js applications using shadcn/ui component patterns.
+
+## Overview
+
+This project uses shadcn/ui component patterns without direct installation of the shadcn CLI or component library. Instead, we:
+
+1. Follow shadcn/ui design principles and patterns
+2. Manually implement components following shadcn structure
+3. Use the existing CSS variables system for theming
+
+## Component Structure
+
+When creating shadcn-style components:
+
+1. Use a modular, composable approach where components are broken down into reusable parts
+2. Follow the `ui/` directory structure
+3. Use the `cn()` utility for merging classNames
+4. Implement Radix UI patterns for accessibility (without the actual dependency)
+
+## Implementation Strategy
+
+For each shadcn component to be replicated:
+
+1. Create a dedicated component file in `src/components/ui/` directory
+2. Ensure components support the theme system using semantic color tokens
+3. Implement proper keyboard navigation and accessibility features
+4. Maintain consistent styling across components
+
+## Component Variants
+
+Use a consistent approach to component variants:
+
+```tsx
+// Button component example
+const buttonVariants = cva(
+  "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
+      },
+      size: {
+        default: "h-10 px-4 py-2",
+        sm: "h-9 rounded-md px-3",
+        lg: "h-11 rounded-md px-8",
+        icon: "h-10 w-10",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+);
+```
+
+## Common Utilities
+
+Implement these utilities to support shadcn-style components:
+
+1. **`cn` utility** for merging classNames with Tailwind:
+
+```tsx
+import { twMerge } from "tailwind-merge";
+import { clsx, type ClassValue } from "clsx";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+```
+
+2. **Component structure** following this pattern:
+
+```tsx
+import * as React from "react";
+import { cn } from "@/lib/utils";
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
+  size?: "default" | "sm" | "lg" | "icon";
+}
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant = "default", size = "default", ...props }, ref) => {
+    return (
+      <button
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      />
+    );
+  }
+);
+Button.displayName = "Button";
+
+export { Button, buttonVariants };
+```
+
+## Best Practices
+
+1. Always use semantic HTML elements
+2. Implement proper ARIA attributes
+3. Support keyboard navigation
+4. Ensure components work with both light and dark themes
+5. Maintain consistent spacing and sizing
+6. Forward refs for all interactive components
+7. Provide clear displayName for debugging
+
+## Theme Integration
+
+Ensure all components respect the theme system:
+
+1. Use semantic color tokens (`bg-primary`, `text-foreground`, etc.)
+2. Respect dark mode with proper color transitions
+3. Use CSS variables for themeable properties
+
+## Form Components
+
+For form components, follow these guidelines:
+
+1. Implement proper form validation states
+2. Provide visual feedback for errors
+3. Support disabled states
+4. Include proper labeling
+5. Use consistent styling across all form elements
+
+## Implementation without Dependencies
+
+Since we're implementing without direct dependencies:
+
+1. Manually create component files in the appropriate directory structure
+2. Implement accessible patterns even without Radix UI
+3. Use React's built-in capabilities for state management
+4. Progressively enhance components as needed 

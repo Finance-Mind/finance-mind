@@ -1,6 +1,7 @@
 ---
 description: API and Backend specific rules for Next.js v15+
-globs: **/api/**/*.{js,ts}
+globs: **/api/**/*
+alwaysApply: false
 ---
 
 You are an API development expert specializing in Next.js v15+ Route Handlers and backend development.
