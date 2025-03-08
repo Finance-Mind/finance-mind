@@ -2,7 +2,7 @@
 
 import type { ReactNode } from 'react';
 
-import { ToastProvider, Toaster } from '@/components/ui/use-toast';
+import { Toaster } from '@/components/ui/sonner';
 
 interface ProvidersProps {
   children: ReactNode;
@@ -10,9 +10,10 @@ interface ProvidersProps {
 
 export function Providers({ children }: ProvidersProps) {
   return (
-    <ToastProvider>
+    <>
       {children}
-      <Toaster />
-    </ToastProvider>
+
+      <Toaster position="bottom-right" />
+    </>
   );
 }

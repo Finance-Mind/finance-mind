@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { z } from 'zod';
 
 import { extractTransactionFields } from '@/actions/ai/extract-transaction-fields';
@@ -18,7 +19,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useToast } from '@/components/ui/use-toast';
 import { TransactionType, TransactionCategory } from '@/lib/ai/types';
 
 // Transaction form schema with required fields
@@ -53,7 +53,6 @@ const CURRENCIES = [
 export function ManualTransactionForm() {
   const [aiPrompt, setAiPrompt] = useState('');
   const [isExtracting, setIsExtracting] = useState(false);
-  const { toast } = useToast();
 
   // Initialize form with default values
   const form = useForm<TransactionFormValues>({
@@ -72,10 +71,8 @@ export function ManualTransactionForm() {
   // Handle AI extraction
   const handleExtractTransaction = async () => {
     if (!aiPrompt.trim()) {
-      toast({
-        title: 'Empty prompt',
+      toast.error('Empty prompt', {
         description: 'Please enter a transaction description to extract',
-        variant: 'destructive',
       });
       return;
     }
@@ -111,16 +108,13 @@ export function ManualTransactionForm() {
         form.setValue('date', new Date(extraction.date));
       }
 
-      toast({
-        title: 'Transaction extracted',
+      toast.success('Transaction extracted', {
         description: 'The transaction details have been extracted',
       });
     } catch (error) {
       console.error('Error extracting transaction:', error);
-      toast({
-        title: 'Extraction failed',
+      toast.error('Extraction failed', {
         description: 'Could not extract transaction details',
-        variant: 'destructive',
       });
     } finally {
       setIsExtracting(false);
@@ -131,8 +125,7 @@ export function ManualTransactionForm() {
   const onSubmit = (data: TransactionFormValues) => {
     // Here you would typically save the transaction to your database
     console.log('Transaction submitted:', data);
-    toast({
-      title: 'Transaction added',
+    toast.success('Transaction added', {
       description: 'Your transaction has been successfully added',
     });
 
