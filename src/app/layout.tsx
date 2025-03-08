@@ -4,6 +4,7 @@ import { Analytics } from '@vercel/analytics/react';
 import { Geist, Geist_Mono } from 'next/font/google';
 import Link from 'next/link';
 
+import { Providers } from '@/app/providers';
 import { ThemeProvider } from '@/components/theme-provider';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
@@ -72,11 +73,7 @@ export const viewport: Viewport = {
   themeColor: META_THEME_COLORS.light,
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -100,119 +97,122 @@ export default function RootLayout({
           geistMono.variable
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <header className="border-b border-border">
-            <div className="container mx-auto px-8 py-12">
-              <div className="space-y-6">
-                <div className="flex flex-col md:flex-row justify-between md:items-center items-start gap-8">
-                  <div className="mr-8">
-                    <h1 className="text-3xl font-bold text-foreground">Finance Mind</h1>
+        <Providers>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <header className="border-b border-border">
+              <div className="container mx-auto px-8 py-12">
+                <div className="space-y-6">
+                  <div className="flex flex-col md:flex-row justify-between md:items-center items-start gap-8">
+                    <div className="mr-8">
+                      <h1 className="text-3xl font-bold text-foreground">Finance Mind</h1>
+                      <p className="mt-2 text-sm text-muted-foreground">
+                        AI-driven finance tracker for intelligent bank statement analysis and
+                        insights
+                      </p>
+                    </div>
+
+                    <ThemeToggle className="order-first md:order-last" />
+                  </div>
+
+                  <div className="flex gap-3 flex-wrap">
+                    <Button variant="secondary" asChild>
+                      <Link href="/">Overview</Link>
+                    </Button>
+
+                    <Button variant="secondary" asChild>
+                      <Link href="/ai-playground">AI Playground</Link>
+                    </Button>
+
+                    <Button variant="outline" asChild>
+                      <Link href="https://andredezzy.com">@andredezzy</Link>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </header>
+
+            {children}
+
+            <footer className="border-t border-border mt-12">
+              <div className="container mx-auto px-8 py-12">
+                <div className="flex flex-col md:flex-row gap-8">
+                  <div className="flex-1 pb-6">
+                    <div className="flex items-center">
+                      <h3 className="text-lg font-semibold text-foreground flex-1">Finance Mind</h3>
+                    </div>
+
                     <p className="mt-2 text-sm text-muted-foreground">
-                      AI-driven finance tracker for intelligent bank statement analysis and insights
+                      Take control of your financial life with intelligent analytics and insights.
                     </p>
                   </div>
 
-                  <ThemeToggle className="order-first md:order-last" />
-                </div>
-
-                <div className="flex gap-3 flex-wrap">
-                  <Button variant="secondary" asChild>
-                    <Link href="/">Overview</Link>
-                  </Button>
-
-                  <Button variant="secondary" asChild>
-                    <Link href="/ai-playground">AI Playground</Link>
-                  </Button>
-
-                  <Button variant="outline" asChild>
-                    <Link href="https://andredezzy.com">@andredezzy</Link>
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </header>
-
-          {children}
-
-          <footer className="border-t border-border mt-12">
-            <div className="container mx-auto px-8 py-12">
-              <div className="flex flex-col md:flex-row gap-8">
-                <div className="flex-1 pb-6">
-                  <div className="flex items-center">
-                    <h3 className="text-lg font-semibold text-foreground flex-1">Finance Mind</h3>
+                  <div className="md:hidden">
+                    <h4 className="text-sm font-medium text-foreground">Features</h4>
+                    <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
+                      <li>Bank statement processing</li>
+                      <li>Transaction categorization</li>
+                      <li>Financial insights</li>
+                      <li>Multi-currency support</li>
+                    </ul>
                   </div>
 
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Take control of your financial life with intelligent analytics and insights.
+                  <div className="hidden md:block">
+                    <h4 className="text-sm font-medium text-foreground mb-2 text-left">Features</h4>
+                    <ul className="space-y-2 text-sm text-muted-foreground text-left">
+                      <li>Bank statement processing</li>
+                      <li>Transaction categorization</li>
+                      <li>Financial insights</li>
+                      <li>Multi-currency support</li>
+                    </ul>
+                  </div>
+
+                  <div className="md:hidden">
+                    <h4 className="text-sm font-medium text-foreground">Links</h4>
+                    <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
+                      <li>Documentation</li>
+                      <li>Support</li>
+                      <li>Privacy Policy</li>
+                      <li>Terms of Service</li>
+                    </ul>
+                  </div>
+
+                  <div className="hidden md:block">
+                    <h4 className="text-sm font-medium text-foreground mb-2 text-left">Links</h4>
+                    <ul className="space-y-2 text-sm text-muted-foreground text-left">
+                      <li>Documentation</li>
+                      <li>Privacy Policy</li>
+                      <li>Terms of Service</li>
+                      <li>Support</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="mt-8 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center">
+                  <p className="text-xs text-muted-foreground">
+                    &copy; {new Date().getFullYear()} Finance Mind. All rights reserved.
                   </p>
-                </div>
-
-                <div className="md:hidden">
-                  <h4 className="text-sm font-medium text-foreground">Features</h4>
-                  <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
-                    <li>Bank statement processing</li>
-                    <li>Transaction categorization</li>
-                    <li>Financial insights</li>
-                    <li>Multi-currency support</li>
-                  </ul>
-                </div>
-
-                <div className="hidden md:block">
-                  <h4 className="text-sm font-medium text-foreground mb-2 text-left">Features</h4>
-                  <ul className="space-y-2 text-sm text-muted-foreground text-left">
-                    <li>Bank statement processing</li>
-                    <li>Transaction categorization</li>
-                    <li>Financial insights</li>
-                    <li>Multi-currency support</li>
-                  </ul>
-                </div>
-
-                <div className="md:hidden">
-                  <h4 className="text-sm font-medium text-foreground">Links</h4>
-                  <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
-                    <li>Documentation</li>
-                    <li>Support</li>
-                    <li>Privacy Policy</li>
-                    <li>Terms of Service</li>
-                  </ul>
-                </div>
-
-                <div className="hidden md:block">
-                  <h4 className="text-sm font-medium text-foreground mb-2 text-left">Links</h4>
-                  <ul className="space-y-2 text-sm text-muted-foreground text-left">
-                    <li>Documentation</li>
-                    <li>Privacy Policy</li>
-                    <li>Terms of Service</li>
-                    <li>Support</li>
-                  </ul>
+                  <div className="mt-4 md:mt-0 flex space-x-4">
+                    <span className="text-xs text-muted-foreground">
+                      <a
+                        href="https://andredezzy.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline"
+                      >
+                        Andre &ldquo;Dezzy&rdquo; Victor
+                      </a>
+                    </span>
+                  </div>
                 </div>
               </div>
-
-              <div className="mt-8 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center">
-                <p className="text-xs text-muted-foreground">
-                  &copy; {new Date().getFullYear()} Finance Mind. All rights reserved.
-                </p>
-                <div className="mt-4 md:mt-0 flex space-x-4">
-                  <span className="text-xs text-muted-foreground">
-                    <a
-                      href="https://andredezzy.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary hover:underline"
-                    >
-                      Andre &ldquo;Dezzy&rdquo; Victor
-                    </a>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </footer>
-        </ThemeProvider>
+            </footer>
+          </ThemeProvider>
+        </Providers>
 
         <Analytics />
       </body>

@@ -73,6 +73,7 @@ The AI should:
 - Implement proper accessibility (a11y) features
 - Use constants instead of raw values
 - Define TypeScript types and interfaces for all props and state
+- NEVER use the `any` type - always define proper types for all variables, parameters, and return values
 
 ## Testing Standards
 
@@ -132,6 +133,24 @@ The AI should:
 - Use environment variables for configuration
 - Implement proper form validation and handling with Server Actions
 - Follow responsive design principles
+
+## TypeScript Best Practices
+
+- NEVER use the `any` type in the codebase
+- Always define explicit types for variables, parameters, function returns, and component props
+- Use proper type narrowing techniques instead of type assertions when possible
+- When type assertions are necessary, use 'as' syntax with the most specific type possible
+- Use union types to represent variables that can have multiple types
+- Use intersection types to combine types
+- Leverage TypeScript's utility types (Partial, Required, Pick, Omit, etc.)
+- Create reusable type definitions for common data structures
+- Use generics for flexible, reusable components and functions
+- Enable strict mode in TypeScript configuration
+- Use readonly for immutable properties
+- Use proper null handling with optional chaining and nullish coalescing
+- Define constants with literal types when appropriate
+- Use enums for related constants with semantic meaning
+- Test TypeScript types with test cases that would fail to compile if the types are incorrect
 
 <available_instructions>
 Cursor rules are user provided instructions for the AI to follow to help work with the codebase.

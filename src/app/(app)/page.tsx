@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import { FileUploader } from '@/components/file-upload/file-uploader';
+import { ManualTransactionForm } from '@/components/manual-transaction-form';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -82,60 +83,8 @@ export default function OverviewPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="flex-grow">
-            <div className="grid gap-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="transaction-type">Transaction Type</Label>
-                  <Select>
-                    <SelectTrigger id="transaction-type" className="w-full">
-                      <SelectValue placeholder="Select type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="expense">Expense</SelectItem>
-                      <SelectItem value="income">Income</SelectItem>
-                      <SelectItem value="transfer">Transfer</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="amount">Amount</Label>
-                  <Input id="amount" type="number" placeholder="0.00" />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="description">Description</Label>
-                <Input id="description" placeholder="Transaction description" />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="category">Category</Label>
-                  <Select>
-                    <SelectTrigger id="category" className="w-full">
-                      <SelectValue placeholder="Select category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="groceries">Groceries</SelectItem>
-                      <SelectItem value="entertainment">Entertainment</SelectItem>
-                      <SelectItem value="utilities">Utilities</SelectItem>
-                      <SelectItem value="transportation">Transportation</SelectItem>
-                      <SelectItem value="housing">Housing</SelectItem>
-                      <SelectItem value="healthcare">Healthcare</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="date">Date</Label>
-                  <Input id="date" type="date" />
-                </div>
-              </div>
-            </div>
+            <ManualTransactionForm />
           </CardContent>
-          <CardFooter className="mt-auto">
-            <Button className="w-full">Add Transaction</Button>
-          </CardFooter>
         </Card>
       </div>
 
@@ -225,7 +174,7 @@ export default function OverviewPage() {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="border border-b-0">
+          <div className="border">
             <div className="relative w-full overflow-auto">
               <table className="w-full caption-bottom text-sm">
                 <thead>
@@ -242,7 +191,7 @@ export default function OverviewPage() {
                     transactions.map(transaction => (
                       <tr
                         key={transaction.id}
-                        className="border-b transition-colors hover:bg-muted/50"
+                        className="border-b last:border-b-0 transition-colors hover:bg-muted/50"
                       >
                         <td className="p-4 align-middle">{formatDate(transaction.date)}</td>
                         <td className="p-4 align-middle">
