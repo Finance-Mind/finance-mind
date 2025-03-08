@@ -76,6 +76,7 @@ Extract all relevant transaction information from user input, including descript
 - English: "150 uber" → "Uber ride", type: OUTCOME, category: TRANSPORTATION
 - Spanish: "50 comida ayer" → "Comida", type: OUTCOME, category: DINING
 - P2P: "caio 150" → "Transferência para Caio", type: TRANSFER
+- P2P: "Transferência recebida pelo Pix - CAIO RODRIGUES GUIMARAES - •••.229.046-•• - BANCO INTER (0077) Agência: 1 Conta: 6886889-8" → "Transferência recebida pelo Pix de Caio Rodrigues Guimarães •••.229.046-•• (Banco Inter | Agência: 1 | Conta: 6886889-8)", type: TRANSFER, category: UNCATEGORIZED
 - P2P with context: "caio 150 churrasco" → "Transferência para Caio (Churrasco)", type: TRANSFER, category: DINING
 `.trim();
 
