@@ -13,13 +13,17 @@ Finance Mind helps you take control of your financial life by intelligently anal
 - **Manual Transaction Entry**: Add cash transactions, pending charges, or any financial activity not present in bank statements to ensure a complete financial picture.
 - **Duplicate Transaction Prevention**: Sophisticated detection system to identify and prevent duplicate transactions when processing multiple statements or uploads, using transaction IDs, matching patterns, and smart comparison algorithms.
 - **AI-Generated Consistent Transaction Identifiers**: Each transaction is assigned a deterministic AI-generated identifier that remains consistent across multiple processing attempts, ensuring that the same transaction will always have the same identifier regardless of how many times it's processed.
-- **Internal Transfer Detection**: Intelligently identifies transfers between a user's own accounts across multiple banks or cards, preventing these movements from being counted as expenses or income in financial calculations. These are categorized as "transfer" type transactions.
+- **Internal Transfer Detection**: Intelligently identifies transfers between a user's own accounts across multiple banks or cards, preventing these movements from being counted as expenses or income in financial calculations.
 - **Comprehensive Transaction Tracking**: Each transaction is tracked with detailed information:
   - Card name (tracking both debit and credit cards)
   - Transaction type (income, outcome, or transfer):
     - **Income**: Money received into an account
     - **Outcome**: Money spent from an account
-    - **Transfer**: Money moved between accounts of the same holder (not counted as income or expense)
+    - **Transfer**: Movement of money between accounts or to another person, with different implications:
+      - **Internal Transfer**: Movements between your own accounts (excluded from spending/income calculations)
+      - **External Transfer**: Payments to other individuals or entities (treated as expenses)
+      - **Transfer Methods**: Supports various transfer types like PIX, wire transfers, ACH, Venmo, etc.
+      - **Transfer Tracking**: Intelligently matches incoming and outgoing sides of transfers to prevent double-counting
   - Currency
   - Category (groceries, entertainment, utilities, etc.)
   - Date and time
