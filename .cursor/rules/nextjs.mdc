@@ -1,0 +1,114 @@
+---
+description: Next.js v15+ specific rules
+globs: **/*.{js,jsx,ts,tsx}
+---
+
+You are a Next.js expert with deep knowledge of Next.js v15+ features and best practices.
+
+## Next.js v15+ Best Practices
+
+- Focus exclusively on the App Router for all new projects and features
+- Leverage React Server Components as the default:
+  - Use Server Components for data fetching, accessing backend resources, and sensitive operations
+  - Only use Client Components when you need interactivity, hooks, or browser APIs
+  - Follow the "server-first" approach for better performance and security
+- Implement modern data fetching strategies:
+  - Use `fetch` with proper caching options in Server Components
+  - Take advantage of Next.js's request memoization
+  - Configure appropriate revalidation strategies (time-based, on-demand, or tag-based)
+  - Use SWR or React Query for client-side data fetching when needed
+- Use Server Actions for form submissions and mutations:
+  - Implement proper form validation with Server Actions
+  - Use proper error handling with Server Actions
+  - Take advantage of progressive enhancement
+  - Use the new React useFormStatus and useFormState hooks
+- Implement proper loading and error states using Next.js conventions:
+  - Use loading.tsx for streaming and Suspense-based loading UI
+  - Use error.tsx for automatic error boundary integration
+  - Use not-found.tsx for 404 pages
+  - Implement parallel routes for complex UI states
+- Use Next.js's enhanced Image component for optimized images
+- Use Next.js Link component for client-side navigation
+- Implement proper metadata using the Metadata API:
+  - Use both static and dynamic metadata
+  - Implement proper Open Graph and other social metadata
+  - Use the generateMetadata function for dynamic metadata
+- Use Route Handlers instead of API routes:
+  - Implement in app/api/route.ts files
+  - Use proper HTTP method exports
+  - Take advantage of Next.js's enhanced Response helpers
+- Optimize for Core Web Vitals using Next.js best practices
+- Use proper data fetching patterns based on data requirements:
+  - Static rendering for static content (default in App Router)
+  - Dynamic rendering when needed
+  - Streaming for progressive page rendering
+  - Partial prerendering (when available)
+- Take advantage of Next.js v15 specific features:
+  - Improved partial prerendering
+  - Enhanced caching behaviors
+  - URL state and Search Params handling
+  - Improved image optimization
+  - Enhanced WebAssembly support
+- Implement proper SEO practices with Next.js's metadata API
+- Use dynamic imports for code splitting when appropriate
+- Implement proper authentication and authorization
+- Use environment variables for configuration
+
+## Next.js v15+ Patterns
+
+- App directory structure:
+  - layout.tsx for shared UI
+  - page.tsx for route-specific UI
+  - loading.tsx for loading state
+  - error.tsx for error handling
+  - not-found.tsx for 404 pages
+  - Use route groups (folders with parentheses) for logical organization
+  - Use parallel routes for complex layouts
+  - Use intercepting routes for modal patterns
+- Route handlers:
+  - Implement in app/api/route.ts files
+  - Use proper HTTP method exports (GET, POST, PUT, PATCH, DELETE)
+  - Return proper Response objects
+  - Take advantage of Next.js's enhanced middleware capabilities
+- Modern data fetching:
+  - Use `fetch` with caching options in Server Components
+  - Use proper revalidation techniques:
+    - Incremental Static Regeneration with revalidate property
+    - On-demand revalidation with revalidatePath and revalidateTag
+    - Custom tag-based revalidation
+- Forms and mutations:
+  - Use Server Actions for form submissions
+  - Implement proper validation and error handling
+  - Take advantage of the useFormState and useFormStatus hooks
+  - Implement proper optimistic updates when needed
+- Authentication:
+  - Implement with NextAuth.js, Auth.js, or similar libraries
+  - Use middleware for protecting routes
+  - Take advantage of server components for secure auth checks
+  - Implement proper session management
+
+## Next.js v15+ Component Structure
+
+- Separate components by responsibility:
+  - Page components for routes
+  - Layout components for shared UI
+  - UI components for reusable UI elements
+  - Feature components for specific features
+- Use proper component organization:
+  - Default to Server Components unless interactivity is needed
+  - Use 'use client' directive for Client Components
+  - Keep Client Components lean and focused on interactivity
+  - Use proper component composition for mixing Server and Client Components
+- Use proper naming conventions:
+  - PascalCase for components
+  - camelCase for functions and variables
+  - kebab-case for CSS class names
+- Implement proper prop validation with TypeScript
+- Use proper folder structure:
+  - app/ for routes and layouts
+  - components/ for shared components
+  - lib/ for utility functions
+  - hooks/ for custom hooks
+  - types/ for TypeScript types
+  - styles/ for global styles
+  - routes organized by feature or domain 

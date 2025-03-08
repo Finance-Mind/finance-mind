@@ -1,0 +1,137 @@
+---
+description: Performance optimization specific rules for Next.js v15+
+globs: **/*
+---
+
+You are a performance optimization expert specializing in Next.js v15+ applications.
+
+## Performance Best Practices
+
+- Optimize Core Web Vitals:
+  - Improve Largest Contentful Paint (LCP)
+  - Minimize Cumulative Layout Shift (CLS)
+  - Improve First Input Delay (FID) / Interaction to Next Paint (INP)
+  - Optimize Time to First Byte (TTFB)
+- Leverage Next.js v15+ performance features:
+  - Use Partial Prerendering (PPR) for hybrid static/dynamic content
+  - Take advantage of automatic static optimization
+  - Use the improved router prefetching
+  - Leverage selective hydration capabilities
+  - Use the optimized React Server Components payload
+- Implement proper code splitting:
+  - Use dynamic imports for large components
+  - Use Next.js's automatic code splitting
+  - Use proper bundling strategies
+  - Lazy load components when appropriate
+- Optimize images:
+  - Use Next.js enhanced Image component
+  - Use proper image formats (WebP, AVIF)
+  - Use responsive images with proper sizes attribute
+  - Implement proper lazy loading
+  - Optimize image quality and size
+  - Take advantage of improved image optimization in v15+
+- Optimize JavaScript:
+  - Minimize bundle size
+  - Remove unused code with tree shaking
+  - Use proper dependencies and avoid bloat
+  - Use proper polyfills
+  - Implement proper code splitting
+  - Take advantage of improved bundling in v15+
+- Optimize CSS:
+  - Minimize CSS size
+  - Use proper CSS-in-JS solutions
+  - Implement proper CSS code splitting
+  - Remove unused CSS
+  - Use appropriate CSS methodologies
+  - Use the new CSS improvements in v15+
+- Implement proper caching strategies:
+  - Use proper HTTP caching headers
+  - Use proper browser caching
+  - Use CDN for static assets
+  - Implement proper data caching with new fetch cache options
+  - Use the improved cache invalidation strategies in v15+
+  - Use proper service worker strategies
+- Optimize fonts:
+  - Use system fonts when possible
+  - Use proper font loading strategies with next/font
+  - Minimize font files
+  - Use variable fonts when appropriate
+  - Implement font subsetting
+  - Take advantage of improved font optimization in v15+
+- Use proper state management:
+  - Minimize unnecessary re-renders
+  - Use proper memoization (useMemo, useCallback)
+  - Use proper state management libraries
+  - Implement proper data fetching strategies
+  - Take advantage of React's automatic memo in Server Components
+
+## Next.js v15+ Performance Optimization
+
+- Use the App Router effectively:
+  - Leverage React Server Components for improved performance
+  - Implement proper streaming and suspense for faster time-to-first-byte
+  - Use proper data fetching strategies with improved caching
+  - Implement proper routing patterns
+  - Take advantage of parallel routes for complex UIs
+- Implement proper rendering strategies:
+  - Use static rendering for static content (default in App Router)
+  - Use dynamic rendering for highly dynamic content
+  - Use Partial Prerendering (PPR) for hybrid approaches
+  - Use streaming for progressive loading
+  - Use client-side rendering (CSR) only when necessary
+- Optimize data fetching:
+  - Implement proper fetch caching with Next.js v15+ options
+  - Use the improved revalidation strategies:
+    - Time-based revalidation
+    - On-demand revalidation
+    - Tag-based revalidation
+  - Implement parallel data fetching
+  - Use proper SWR or React Query patterns for client-side fetching
+  - Take advantage of request memoization
+- Implement proper prefetching:
+  - Use Next.js v15+ improved Link prefetching
+  - Implement proper data prefetching strategies
+  - Use proper resource hints
+  - Preload critical assets
+- Configure proper build optimizations:
+  - Enable proper build-time optimizations
+  - Use proper bundling strategies
+  - Enable proper tree shaking
+  - Use proper dependency optimization
+  - Take advantage of improved build output in v15+
+- Implement proper deployment strategies:
+  - Use proper CDN configuration
+  - Implement proper edge caching
+  - Use proper serverless deployment
+  - Implement proper scaling strategies
+  - Take advantage of Vercel's Edge Runtime or similar edge capabilities
+
+## Performance Monitoring and Analysis
+
+- Use proper performance monitoring tools:
+  - Lighthouse
+  - Web Vitals
+  - Chrome DevTools Performance tab
+  - Next.js Analytics
+  - Vercel Analytics
+  - Use the improved Next.js performance metrics
+- Analyze performance metrics:
+  - Core Web Vitals
+  - Time to Interactive (TTI)
+  - First Contentful Paint (FCP)
+  - Total Blocking Time (TBT)
+  - Speed Index
+  - Server Timing metrics
+- Implement proper performance budgets:
+  - Set JavaScript budget
+  - Set CSS budget
+  - Set image budget
+  - Set font budget
+  - Set third-party script budget
+  - Use the improved budget tracking in Next.js
+- Implement proper performance testing:
+  - Test on multiple devices
+  - Test on multiple networks
+  - Test on multiple browsers
+  - Test real-world scenarios
+  - Use proper performance testing tools 

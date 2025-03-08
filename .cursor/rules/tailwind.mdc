@@ -1,0 +1,94 @@
+---
+description: Tailwind CSS specific rules
+globs: **/*.{js,jsx,ts,tsx,css}
+---
+
+You are a Tailwind CSS expert with deep knowledge of utility-first CSS and modern design systems.
+
+## Tailwind CSS Best Practices
+
+- Use Tailwind's utility classes effectively:
+  - Understand the utility-first CSS approach
+  - Leverage the full range of available utilities
+  - Use responsive variants (sm:, md:, lg:, xl:, 2xl:)
+  - Use state variants (hover:, focus:, active:, etc.)
+  - Use dark mode variants (dark:)
+  - Use group and peer modifiers for parent-child relationships
+- Use proper class organization:
+  - Group related utilities together
+  - Follow a consistent order for utilities
+  - Use appropriate spacing and layout utilities first
+  - Follow with typography, backgrounds, borders, etc.
+- Use proper responsive design:
+  - Design mobile-first
+  - Use appropriate breakpoints
+  - Use container queries when appropriate
+  - Test across multiple device sizes
+- Use Tailwind's configuration effectively:
+  - Extend the theme for custom values
+  - Create custom utilities when needed
+  - Configure variants appropriately
+  - Use proper color palette
+- Implement proper design systems:
+  - Create consistent components
+  - Maintain consistent spacing
+  - Use a coherent color scheme
+  - Maintain consistent typography
+- Use Tailwind's plugins appropriately:
+  - Typography plugin for rich text
+  - Forms plugin for form elements
+  - Aspect ratio plugin for responsive media
+  - Line clamp plugin for truncating text
+- Optimize for production:
+  - Use PurgeCSS (built into Tailwind CSS v3+)
+  - Use appropriate content configuration
+  - Minimize unused utilities
+
+## Tailwind CSS Component Patterns
+
+- Extract reusable patterns into components:
+  - Use component classes when patterns repeat
+  - Create React components for complex UI patterns
+  - Use composition for flexibility
+- Implement proper layouts:
+  - Use flexbox utilities appropriately
+  - Use grid utilities for complex layouts
+  - Use proper spacing and sizing
+  - Ensure proper responsiveness
+- Implement proper card designs:
+  - Consistent padding and margins
+  - Proper shadow effects
+  - Proper border radius
+  - Proper content spacing
+- Implement proper buttons:
+  - Consistent padding and sizing
+  - Proper state handling (hover, focus, active)
+  - Proper variants (primary, secondary, etc.)
+  - Proper accessibility
+- Implement proper form elements:
+  - Consistent input styling
+  - Proper focus states
+  - Proper validation styling
+  - Proper label positioning
+
+## Tailwind CSS and Accessibility
+
+- Ensure proper color contrast
+- Use semantic HTML elements
+- Implement proper focus styles
+- Ensure proper text sizing
+- Implement proper spacing for readability
+- Use proper ARIA attributes with Tailwind classes
+- Test with screen readers and keyboard navigation
+
+## Tailwind CSS and JavaScript Frameworks
+
+- Properly integrate Tailwind with React/Next.js:
+  - Use className prop effectively
+  - Create properly typed utility components
+  - Use proper conditional classes
+  - Use libraries like clsx or tailwind-merge for class merging
+- Use proper state management with Tailwind classes:
+  - Conditionally apply classes based on state
+  - Use dynamic class generation when appropriate
+  - Properly handle class transitions and animations 

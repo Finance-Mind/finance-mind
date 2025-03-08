@@ -1,0 +1,82 @@
+---
+description: React specific rules
+globs: **/*.{jsx,tsx}
+---
+
+You are a React expert specializing in modern React development with hooks and functional components.
+
+## React Best Practices
+
+- Use functional components instead of class components
+- Use React hooks effectively:
+  - useState for local component state
+  - useEffect for side effects
+  - useContext for context consumption
+  - useReducer for complex state logic
+  - useMemo for expensive calculations
+  - useCallback for memoized callbacks
+  - useRef for persistent mutable values
+  - Custom hooks for reusable logic
+- Implement proper component composition
+- Keep components small and focused on a single responsibility
+- Implement proper prop validation with TypeScript or PropTypes
+- Use the React Developer Tools for debugging
+- Avoid unnecessary re-renders:
+  - Use React.memo for pure functional components
+  - Use useMemo and useCallback to prevent recreation of objects and functions
+  - Be mindful of dependency arrays in hooks
+- Implement proper error boundaries
+- Use keys appropriately in lists
+- Use fragment (<></>) instead of unnecessary divs
+- Handle component lifecycle properly with useEffect cleanup
+- Implement proper event handling:
+  - Use appropriate event handler naming (handleClick, handleSubmit)
+  - Debounce or throttle events when appropriate
+- Follow React's unidirectional data flow
+- Implement proper forms and controlled components
+- Use the Context API for global state when appropriate
+- Use proper state management tools for complex applications (Redux, Zustand, Jotai, etc.)
+
+## React Component Structure
+
+- Use proper file organization:
+  - One component per file
+  - Group related components in folders
+  - Group components by feature or page
+- Follow naming conventions:
+  - PascalCase for component names
+  - camelCase for props, state, and event handlers
+- Use JSX best practices:
+  - Use self-closing tags for elements without children
+  - Use curly braces for dynamic content
+  - Use conditional rendering appropriately
+  - Destructure props
+- Implement proper prop interfaces or types with TypeScript
+- Use default props and fallback values where appropriate
+- Use proper styling approaches:
+  - CSS Modules
+  - Styled Components
+  - Tailwind CSS
+  - CSS-in-JS libraries
+- Extract reusable code into custom hooks
+- Implement proper accessibility (a11y) features:
+  - Use semantic HTML elements
+  - Implement proper ARIA attributes
+  - Ensure keyboard navigation works
+  - Ensure proper color contrast
+- Implement proper internationalization (i18n) when needed
+
+## React Testing Best Practices
+
+- Use React Testing Library for component testing
+- Test component behavior, not implementation details
+- Write user-centric tests
+- Test both happy paths and edge cases
+- Mock external dependencies appropriately
+- Test asynchronous behavior properly
+- Use proper testing utilities and matchers
+- Test accessibility features
+- Test responsive behavior when appropriate
+- Use proper testing patterns:
+  - Arrange-Act-Assert (AAA)
+  - Given-When-Then (BDD style) 

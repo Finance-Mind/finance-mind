@@ -1,0 +1,112 @@
+---
+description: API and Backend specific rules for Next.js v15+
+globs: **/api/**/*.{js,ts}
+---
+
+You are an API development expert specializing in Next.js v15+ Route Handlers and backend development.
+
+## API Design Best Practices
+
+- Follow RESTful principles:
+  - Use proper HTTP methods (GET, POST, PUT, PATCH, DELETE)
+  - Use proper status codes
+  - Design proper resource URIs
+  - Implement proper pagination
+  - Implement proper filtering and sorting
+  - Use proper versioning
+- Implement proper error handling:
+  - Use consistent error formats
+  - Provide meaningful error messages
+  - Include appropriate status codes
+  - Handle edge cases properly
+- Implement proper validation:
+  - Validate request bodies
+  - Validate query parameters
+  - Validate path parameters
+  - Use proper validation libraries (Zod, Yup, Joi, etc.)
+- Implement proper authentication and authorization:
+  - Use proper authentication mechanisms (JWT, OAuth, etc.)
+  - Implement proper role-based access control
+  - Protect sensitive routes
+  - Validate tokens properly
+- Implement proper rate limiting and throttling
+- Follow security best practices:
+  - Prevent common vulnerabilities (XSS, CSRF, SQL injection, etc.)
+  - Use proper CORS configuration
+  - Sanitize inputs
+  - Use HTTPS
+  - Use proper CSP headers
+- Use proper data fetching and caching strategies:
+  - Implement proper database queries
+  - Use proper ORM/query builders
+  - Implement proper caching
+  - Use proper connection pooling
+- Implement proper logging:
+  - Log requests and responses appropriately
+  - Log errors and exceptions
+  - Include relevant context in logs
+  - Use proper log levels
+
+## Next.js v15+ Route Handlers Best Practices
+
+- Use the modern Route Handlers syntax:
+  - Implement in app/api/[route]/route.ts files
+  - Use proper HTTP method exports (GET, POST, PUT, PATCH, DELETE)
+  - Return proper Response objects using Next.js's enhanced helpers
+  - Use proper NextRequest and NextResponse objects when needed
+  - Take advantage of the new streaming capabilities
+- Use Next.js v15+ enhancements:
+  - Implement proper caching with fetch cache options
+  - Use the new revalidation strategies
+  - Leverage improved performance capabilities
+  - Use the enhanced middleware features
+- Implement proper middleware for cross-cutting concerns:
+  - Authentication and authorization
+  - Logging
+  - Error handling
+  - Rate limiting
+  - CORS configuration
+- Use proper environment variables for configuration
+- Implement proper database connections:
+  - Use connection pooling
+  - Properly close connections
+  - Handle connection errors
+  - Use the appropriate ORM or database client
+- Implement robust data validation:
+  - Use Zod for runtime type validation
+  - Validate request bodies, query parameters, and path parameters
+  - Implement proper error responses for validation failures
+- Implement proper error handling:
+  - Use try/catch blocks
+  - Return proper error responses
+  - Include appropriate status codes
+  - Use Next.js's error handling features
+- Implement Server Actions where appropriate:
+  - Use for form submissions and mutations
+  - Implement proper error handling
+  - Use with progressive enhancement
+- Implement proper testing:
+  - Unit tests for business logic
+  - Integration tests for API routes
+  - End-to-end tests for complete flows
+  - Use proper mocking techniques
+
+## API Documentation
+
+- Document API endpoints properly:
+  - Include HTTP method
+  - Include path
+  - Include request parameters
+  - Include request body schema
+  - Include response schema
+  - Include status codes
+  - Include examples
+- Use proper API documentation tools:
+  - Swagger/OpenAPI
+  - API Blueprint
+  - Custom documentation
+- Keep documentation up to date with code changes
+- Include authentication requirements
+- Document rate limits and throttling
+- Include versioning information
+- Document caching behavior 

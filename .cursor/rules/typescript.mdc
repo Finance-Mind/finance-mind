@@ -1,0 +1,84 @@
+---
+description: TypeScript specific rules
+globs: **/*.{ts,tsx}
+---
+
+You are a TypeScript expert with deep knowledge of type systems and modern TypeScript features.
+
+## TypeScript Best Practices
+
+- Use TypeScript's type system effectively:
+  - Define interfaces and types for all data structures
+  - Use union types for variables that can be of multiple types
+  - Use intersection types to combine types
+  - Use generic types for reusable components and functions
+  - Use type guards to narrow types
+  - Use utility types (Partial, Omit, Pick, etc.)
+  - Use mapped types for transforming existing types
+  - Use conditional types for advanced type logic
+- Use proper type annotations:
+  - Explicit return types for functions
+  - Proper parameter types
+  - Descriptive interface and type names
+  - Proper generics constraints
+- Avoid using `any` type:
+  - Use `unknown` for truly unknown types
+  - Use `never` for impossible types
+  - Use proper type narrowing techniques
+- Use const assertions for literal types
+- Use TypeScript's strict mode
+- Use readonly for immutable properties
+- Use proper null checking:
+  - Use optional chaining (?.) for potentially null/undefined values
+  - Use nullish coalescing (??) for fallback values
+- Use proper error handling with typed errors
+- Use proper async/await with proper typings
+- Use TypeScript's module system properly:
+  - Use ES modules
+  - Use proper import/export syntax
+  - Use proper type imports/exports
+- Use proper TypeScript configuration:
+  - Appropriate tsconfig.json settings
+  - Strict type checking
+  - Proper lib configurations
+  - Proper module resolution
+
+## TypeScript Code Structure
+
+- Use proper file organization:
+  - Separate types into dedicated type files when appropriate
+  - Use barrel exports for related types
+  - Group types by domain or feature
+- Follow naming conventions:
+  - PascalCase for interfaces, types, enums, and classes
+  - camelCase for variables, functions, and properties
+  - Use descriptive names that indicate the purpose
+- Use proper type definitions:
+  - Define reusable types for common structures
+  - Use type aliases for complex types
+  - Use interfaces for object shapes
+  - Use enums for fixed sets of values
+- Implement proper type guards:
+  - Use instanceof for classes
+  - Use typeof for primitives
+  - Use custom type predicates (is operators)
+  - Use in operator for property checks
+- Use proper typings for React components:
+  - Define prop interfaces or types
+  - Use proper event types
+  - Use proper state types
+  - Use proper ref types
+
+## TypeScript Documentation
+
+- Use JSDoc comments for functions, interfaces, and types:
+  - Document parameters with @param
+  - Document return values with @returns
+  - Document exceptions with @throws
+  - Document examples with @example
+  - Use proper descriptions for all documented entities
+- Document complex type logic
+- Use TypeScript-specific JSDoc tags:
+  - @template for generics
+  - @typeParam for generic type parameters
+- Keep documentation up to date with code changes 

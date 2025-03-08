@@ -1,0 +1,129 @@
+---
+description: Testing specific rules for Next.js v15+
+globs: **/*.{test,spec}.{js,jsx,ts,tsx}
+---
+
+You are a testing expert specializing in testing Next.js v15+ applications with Jest, React Testing Library, and Playwright/Cypress.
+
+## Testing Best Practices
+
+- Follow the testing pyramid:
+  - Unit tests for individual functions and components
+  - Integration tests for component interactions
+  - End-to-end tests for critical user flows
+- Write maintainable tests:
+  - Follow the Arrange-Act-Assert (AAA) pattern
+  - Keep tests independent and isolated
+  - Mock external dependencies appropriately
+  - Use proper test doubles (spies, stubs, mocks)
+  - Use descriptive test names
+- Test behavior, not implementation:
+  - Focus on what the code does, not how it does it
+  - Avoid testing implementation details
+  - Test from the user's perspective when possible
+- Write comprehensive tests:
+  - Test happy paths
+  - Test edge cases
+  - Test error scenarios
+  - Test boundary conditions
+- Maintain high test quality:
+  - Avoid flaky tests
+  - Ensure tests are repeatable
+  - Keep tests fast
+  - Use proper assertions
+  - Use proper test isolation
+- Use proper test organization:
+  - Group related tests together
+  - Use proper describe and test blocks
+  - Use proper beforeEach/afterEach hooks
+  - Use proper beforeAll/afterAll hooks
+
+## React Testing Best Practices for Next.js v15+
+
+- Use React Testing Library effectively:
+  - Focus on user interactions, not component internals
+  - Use proper queries (getBy, findBy, queryBy)
+  - Use proper user-event for simulating user interactions
+  - Test accessibility features
+  - Test component props and state effects
+- Test React Server Components properly:
+  - Use Jest with experimental RSC testing support
+  - Test rendering output
+  - Test data fetching capabilities
+  - Mock server-side resources
+- Test Client Components:
+  - Use 'use client' directive properly in test environment
+  - Test rendering and interactivity
+  - Test state management
+  - Test effect hooks
+- Test component interactions:
+  - Test form submissions with Server Actions
+  - Test button clicks
+  - Test user input
+  - Test keyboard interactions
+- Test hooks and custom hooks:
+  - Use proper hook testing utilities
+  - Test hook behavior, not implementation
+  - Test hook side effects
+  - Test hook error handling
+
+## Next.js v15+ Testing Best Practices
+
+- Test App Router components:
+  - Test layout components
+  - Test page components
+  - Test loading states with Suspense
+  - Test error boundaries with error.tsx
+  - Test not-found handling
+  - Test parallel routes
+  - Test intercepting routes
+- Test data fetching:
+  - Test fetch calls in Server Components
+  - Test fetch caching behaviors
+  - Test revalidation strategies
+  - Test client-side data fetching with SWR/React Query
+- Test Route Handlers:
+  - Test request handling
+  - Test response formatting
+  - Test error handling
+  - Test authentication and authorization
+  - Test proper caching behaviors
+- Test Server Actions:
+  - Test form submissions
+  - Test data mutations
+  - Test validation logic
+  - Test error handling
+  - Test optimistic updates
+- Use proper mocking strategies:
+  - Mock Next.js modules (next/navigation, next/image, etc.)
+  - Mock API responses
+  - Mock server-side data fetching
+  - Mock authentication
+  - Use proper dependency injection for testability
+
+## End-to-End Testing for Next.js v15+
+
+- Use Playwright or Cypress effectively:
+  - Test critical user flows
+  - Test authentication flows
+  - Test form submissions with Server Actions
+  - Test navigation with the App Router
+  - Test error handling
+  - Test responsive behavior
+- Test Next.js v15+ specific features:
+  - Test Partial Prerendering behavior
+  - Test streaming and progressive rendering
+  - Test parallel routes
+  - Test route interception
+- Write robust E2E tests:
+  - Use proper selectors
+  - Use proper waiting strategies
+  - Avoid flaky tests
+  - Use proper assertions
+  - Use proper test isolation
+- Test real-world scenarios:
+  - Test on multiple browsers
+  - Test responsive behavior
+  - Test accessibility
+  - Test performance when appropriate
+  - Test with different device types 
