@@ -104,7 +104,10 @@ export const TransactionCategorizer = () => {
                   <FormItem>
                     <FormLabel>Description</FormLabel>
                     <FormControl>
-                      <Input placeholder="Transaction description" {...field} />
+                      <Input
+                        placeholder="Transaction description (e.g., 'Groceries' or 'caio')"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -226,6 +229,10 @@ export const TransactionCategorizer = () => {
                 Uses advanced language models to handle Brazilian financial terms and patterns
               </li>
               <li>Detects installment payments, transfers, and other special transaction types</li>
+              <li>
+                Recognizes person-to-person transfers like "caio 150" or "jon 100" as PIX
+                transactions
+              </li>
               <li>
                 All processing happens securely on the server, with no data stored permanently
               </li>

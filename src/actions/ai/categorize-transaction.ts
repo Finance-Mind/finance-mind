@@ -47,6 +47,15 @@ export async function categorizeTransaction({
     - For credit card payments, look for "Pagamento de fatura" or "Pagamento fatura"
     - For salary, look for "Salário", "Salary", "Pagamento", "Folha"
     
+    PERSON-TO-PERSON TRANSFERS:
+    - If the description is very short and appears to contain just a person's name (e.g., "caio", "jon"):
+      * Categorize this as a PIX or TRANSFER
+      * Set the transaction type to TRANSFER
+      * Identify the person's name as the merchant
+      * Format the complete description as "Transferência para [Name]" in Portuguese or appropriate translation in other languages
+    - If the amount is positive, this likely means money was received FROM this person
+    - If the amount is negative, this likely means money was sent TO this person
+    
     Transaction categories to use:
     Income: SALARY, INVESTMENT, REIMBURSEMENT, GIFT, OTHER_INCOME
     Expense: GROCERIES, DINING, ENTERTAINMENT, TRANSPORTATION, UTILITIES, HOUSING, HEALTH, EDUCATION, SHOPPING, TRAVEL, PERSONAL_CARE, SUBSCRIPTIONS, OTHER_EXPENSE
@@ -71,6 +80,8 @@ export async function categorizeTransaction({
     - Portuguese input with "corrida uber" → Format merchant as "Uber" and include Portuguese terms/prepositions in any text
     - English input with just "uber" → Format merchant as "Uber" and use English conventions
     - Spanish input → Use Spanish language conventions for text formatting
+    - Person transfer input: "caio" → merchant: "Caio", description: "Transferência para Caio", category: PIX or TRANSFER
+    - Person transfer input: "jon" → merchant: "Jon", description: "Transferência para Jon", category: PIX or TRANSFER
     
     Use language-appropriate phrasing, articles, and prepositions based on the detected language.
     The goal is natural and well-structured text that follows the conventions of the input language.

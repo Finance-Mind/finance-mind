@@ -110,7 +110,7 @@ export const TransactionExtractor = () => {
 
                   <FormControl>
                     <Textarea
-                      placeholder="Example: I spent R$150.50 at Restaurant Central on groceries yesterday"
+                      placeholder="Examples: 'I spent R$150 at Restaurant Central on groceries yesterday' or 'caio 150' (transfer to Caio)"
                       rows={5}
                       className="resize-none mt-1"
                       {...field}
@@ -194,6 +194,9 @@ export const TransactionExtractor = () => {
                 &quot;Smartphone installment payment of R$210, 3rd of 12 monthly payments&quot;
               </li>
               <li>&quot;Transferred R$500 from my checking account to my savings account&quot;</li>
+              <li>&quot;caio 150&quot; (transfer to Caio of R$150)</li>
+              <li>&quot;jon 100&quot; (transfer to Jon of R$100)</li>
+              <li>&quot;+150 maria&quot; (received R$150 from Maria)</li>
             </ul>
           </div>
         </div>

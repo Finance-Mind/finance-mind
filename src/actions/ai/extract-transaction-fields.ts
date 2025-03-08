@@ -43,6 +43,15 @@ export async function extractTransactionFields(prompt: string): Promise<Transact
       - Negative amounts are typically OUTCOME
       - Transfers should be identified as TRANSFER based on keywords like "transfer", "sent to", "received from"
       
+      IMPORTANT PERSON-TO-PERSON TRANSFERS:
+      - If the input only contains a person name followed by an amount (e.g., "caio 150", "jon 100"):
+        * Treat this as a TRANSFER transaction type
+        * Set the category to PIX or TRANSFER
+        * Format the description as "Transferência para [Name]" in Portuguese or appropriate translation in other languages
+        * Extract the person name as the merchant
+        * Assume a negative amount (payment to the person) unless context clearly indicates otherwise
+        * If a positive amount is explicitly mentioned (e.g., "+100"), interpret as money received from that person
+      
       For categories, assign one of the following:
       Income categories: SALARY, INVESTMENT, REIMBURSEMENT, GIFT, OTHER_INCOME
       Expense categories: GROCERIES, DINING, ENTERTAINMENT, TRANSPORTATION, UTILITIES, HOUSING, HEALTH, EDUCATION, SHOPPING, TRAVEL, PERSONAL_CARE, SUBSCRIPTIONS, OTHER_EXPENSE
@@ -65,6 +74,8 @@ export async function extractTransactionFields(prompt: string): Promise<Transact
       - Portuguese input: "150 corrida uber ontem" → description: "Corrida de Uber"
       - English input: "150 uber" → description: "Uber ride"
       - Spanish input: "50 comida ayer" → description: "Comida"
+      - Person transfer input: "caio 150" → description: "Transferência para Caio", type: TRANSFER, category: PIX
+      - Person transfer input: "jon 100" → description: "Transferência para Jon", type: TRANSFER, category: PIX
       
       Use language-appropriate phrasing, articles, and prepositions to create natural descriptions in the detected language.
       Always format according to the conventions of the detected language (e.g., "de" in Portuguese, "ride" in English).
