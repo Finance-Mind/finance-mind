@@ -39,7 +39,7 @@ export default function Home() {
   });
 
   return (
-    <div className="container mx-auto px-8 py-12">
+    <div className="container mx-auto px-8 py-16">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         {/* Upload Bank Statements */}
         <div
@@ -326,11 +326,68 @@ export default function Home() {
                     </td>
                     <td className="p-4 align-middle">
                       <span className="inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold bg-rose-50 text-rose-600 border-rose-200">
-                        Expense
+                        Outcome
                       </span>
                     </td>
                     <td className="p-4 align-middle font-medium text-rose-500">
                       -R$ 6.00
+                    </td>
+                    <td className="p-4 align-middle">
+                      <div className="flex gap-2">
+                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="h-4 w-4"
+                          >
+                            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+                            <path d="m15 5 4 4" />
+                          </svg>
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 text-destructive"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="h-4 w-4"
+                          >
+                            <path d="M3 6h18" />
+                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                          </svg>
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr className="border-b transition-colors hover:bg-muted/50">
+                    <td className="p-4 align-middle">2025-03-02</td>
+                    <td className="p-4 align-middle">
+                      Transferência entre contas - Nubank para Itaú
+                    </td>
+                    <td className="p-4 align-middle">
+                      <span className="inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold bg-blue-50 text-blue-600 border-blue-200">
+                        Transfer
+                      </span>
+                    </td>
+                    <td className="p-4 align-middle font-medium text-blue-500">
+                      R$ 1,000.00
                     </td>
                     <td className="p-4 align-middle">
                       <div className="flex gap-2">
@@ -492,7 +549,8 @@ export default function Home() {
               </table>
             </div>
           </div>
-          <div className="flex items-center justify-end p-2 text-sm text-muted-foreground">
+
+          <div className="flex items-center justify-end text-sm mt-6 px-1 text-muted-foreground">
             Showing 4 of 120 transactions
           </div>
         </CardContent>
@@ -504,6 +562,7 @@ export default function Home() {
           <CardHeader className="pb-2">
             <CardTitle className="text-lg">Month Overview</CardTitle>
           </CardHeader>
+
           <CardContent>
             <div className="space-y-4">
               <div className="space-y-2">
@@ -513,10 +572,12 @@ export default function Home() {
                     R$ 6,250.00
                   </span>
                 </div>
+
                 <div className="h-2 bg-muted overflow-hidden">
                   <div className="h-full bg-emerald-500 w-[80%]" />
                 </div>
               </div>
+
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">
@@ -526,11 +587,13 @@ export default function Home() {
                     R$ 4,820.75
                   </span>
                 </div>
+
                 <div className="h-2 bg-muted overflow-hidden">
                   <div className="h-full bg-rose-400 w-[60%]" />
                 </div>
               </div>
-              <div className="pt-2 border-t">
+
+              <div className="pt-6">
                 <div className="flex items-center justify-between">
                   <span className="font-medium">Balance</span>
                   <span className="font-medium text-emerald-600">
@@ -631,8 +694,9 @@ export default function Home() {
               </div>
             </div>
           </CardContent>
-          <CardFooter>
-            <Button variant="ghost" className="w-full text-xs">
+
+          <CardFooter className="mt-4">
+            <Button variant="outline" className="w-full text-xs">
               View All Upcoming Payments
             </Button>
           </CardFooter>

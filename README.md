@@ -12,10 +12,14 @@ Finance Mind helps you take control of your financial life by intelligently anal
 - **Transaction Categorization**: AI-powered categorization of transactions based on description and patterns, optimized for Brazilian merchants and transaction descriptions.
 - **Manual Transaction Entry**: Add cash transactions, pending charges, or any financial activity not present in bank statements to ensure a complete financial picture.
 - **Duplicate Transaction Prevention**: Sophisticated detection system to identify and prevent duplicate transactions when processing multiple statements or uploads, using transaction IDs, matching patterns, and smart comparison algorithms.
-- **Internal Transfer Detection**: Intelligently identifies transfers between a user's own accounts across multiple banks or cards, preventing these movements from being counted as expenses or income in financial calculations.
+- **AI-Generated Consistent Transaction Identifiers**: Each transaction is assigned a deterministic AI-generated identifier that remains consistent across multiple processing attempts, ensuring that the same transaction will always have the same identifier regardless of how many times it's processed.
+- **Internal Transfer Detection**: Intelligently identifies transfers between a user's own accounts across multiple banks or cards, preventing these movements from being counted as expenses or income in financial calculations. These are categorized as "transfer" type transactions.
 - **Comprehensive Transaction Tracking**: Each transaction is tracked with detailed information:
-  - Card identifier (tracking both debit and credit cards)
-  - Transaction type (income or expense)
+  - Card name (tracking both debit and credit cards)
+  - Transaction type (income, outcome, or transfer):
+    - **Income**: Money received into an account
+    - **Outcome**: Money spent from an account
+    - **Transfer**: Money moved between accounts of the same holder (not counted as income or expense)
   - Currency
   - Category (groceries, entertainment, utilities, etc.)
   - Date and time
@@ -24,6 +28,7 @@ Finance Mind helps you take control of your financial life by intelligently anal
   - Amount
   - Fee (including Brazilian-specific fees like IOF - Imposto sobre Operações Financeiras)
   - Merchant information
+  - AI-generated identifier (consistent across multiple processing attempts)
 - **Brazilian Financial System Support**: Specialized handling for Brazilian-specific financial concepts like "boletos", installment purchases ("compras parceladas"), and PIX transactions.
 - **Credit Card Management**: Track credit card purchases, payment due dates, and current balance.
 - **Multi-Currency Support**: Track transactions in different currencies with ability to view all financial data in your preferred currency.
@@ -36,7 +41,7 @@ Finance Mind helps you take control of your financial life by intelligently anal
 - **Frontend**: Next.js, React, TypeScript
 - **Styling**: Tailwind CSS
 - **Backend**: Next.js API routes, Server Actions
-- **Database**: 
+- **Database**:
   - PostgreSQL for structured data storage and reliable transaction management
   - Properly indexed for performance and data integrity
   - Robust schema design to ensure data consistency
@@ -52,17 +57,20 @@ Finance Mind helps you take control of your financial life by intelligently anal
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/yourusername/finance-mind.git
    cd finance-mind
    ```
 
 2. Install dependencies:
+
    ```bash
    pnpm install
    ```
 
 3. Run the development server:
+
    ```bash
    pnpm run dev
    ```
@@ -72,11 +80,13 @@ Finance Mind helps you take control of your financial life by intelligently anal
 ## Usage
 
 1. **Upload Bank Statements**: Upload your bank statements in CSV or PDF format from any financial institution.
+
    - Works with statements from any bank or credit card provider
    - Adapts to different statement formats and structures
    - Initial optimization for Brazilian financial institutions
 
 2. **Add Manual Transactions**: Record financial activities not present in your bank statements.
+
    - Cash payments and receipts
    - Pending transactions
    - Expected future expenses or income
@@ -84,6 +94,7 @@ Finance Mind helps you take control of your financial life by intelligently anal
    - Split expenses between multiple categories
 
 3. **Review Transactions**: Finance Mind will process your statements and extract transactions. Review and adjust categories if needed.
+
    - Automatically identifies various transaction types (transfers, payments, purchases, etc.)
    - Extracts merchant information and recipient details when available
    - Detects transaction direction (income/expense) based on amount sign
@@ -103,82 +114,35 @@ Below are examples of how Finance Mind processes different types of bank stateme
 
 ```
 Data,Valor,Identificador,Descrição
-04/03/2025,30.00,67c70b82-5ecf-4a1d-a45b-819be60c9c42,Transferência recebida pelo Pix - CAIO RODRIGUES GUIMARAES - •••.229.046-•• - BANCO INTER (0077) Agência: 1 Conta: 6886889-8
-04/03/2025,-6.00,67c71184-a923-48d6-ad13-444f18de3968,Transferência enviada pelo Pix - BIANKA VICTORIA OLIVEIRA PEREIRA DOS SANTOS - •••.154.826-•• - BANCO INTER (0077) Agência: 1 Conta: 17104169-0
+04/03/2025,30.00,67c70b82-5ecf-4a1d-a45b-819be60c9c42,Transferência recebida pelo Pix - JOÃO DA SILVA - •••.123.456-•• - BANCO EXEMPLO (0000) Agência: 1234 Conta: 12345-6
+04/03/2025,-6.00,67c71184-a923-48d6-ad13-444f18de3968,Transferência enviada pelo Pix - MARIA OLIVEIRA - •••.789.012-•• - BANCO EXEMPLO (0000) Agência: 5678 Conta: 98765-4
 ```
 
 #### Credit Card Statement Example
 
 ```
 date,title,amount
-2025-02-20,Gopag S*Bendito Japa,205.50
-2025-02-01,Elidia Isabel Paraizo - Parcela 3/3,114.96
+2025-02-20,Restaurante Exemplo,205.50
+2025-02-20,Posto de Combustível,100.00
+2025-02-20,Academia Central,82.50
+2025-02-20,Supermercado Nacional,165.80
+2025-02-19,Mercado Local,13.20
+2025-02-19,Serviço Digital Ltda,118.74
+2025-02-19,"IOF de ""Serviço Digital Ltda""",4.01
+2025-02-19,Transferência para João Silva,35.00
+2025-02-19,Fast Food Brasil,29.90
+2025-02-19,Aplicativo de Transporte,10.18
+2025-02-18,Academia Central - Mensalidade,249.90
+2025-02-18,Posto de Combustível Avenida,150.00
+2025-02-17,Papelaria Central,7.89
+2025-02-17,Serviço de Mobilidade,60.00
 2025-02-17,IOF de atraso,18.22
 2025-02-17,Pagamento recebido,-4149.84
+2025-02-17,Encerramento de dívida,-269.22
 2025-02-17,Juros de atraso,167.68
+2025-02-17,Multa de atraso,83.31
+2025-02-01,Loja Departamento - Parcela 3/3,114.96
+2025-02-01,Variedades Shopping - Parcela 3/3,83.63
+2025-02-01,Papelaria Central - Parcela 2/2,57.99
+2025-02-01,Loja de Utilidades - Parcela 3/5,93.57
 ```
-
-The system will:
-1. Parse the statement format (regardless of origin bank or account type)
-2. Extract transaction details (date, amount, description/title)
-3. Check for duplicate transactions using smart matching algorithms
-4. Detect special transaction types:
-   - Installment purchases (e.g., "Parcela 3/3")
-   - Interest and fees (e.g., "IOF", "Juros de atraso")
-   - Card payments and credits (e.g., "Pagamento recebido")
-   - **Transfers between user's own accounts** (preventing double-counting in financial summaries)
-5. Categorize transactions based on patterns
-6. Group related transactions (like installments from the same purchase)
-7. Track income vs expenses
-8. Organize data for financial analysis
-9. Store all data securely in the database with proper indexing
-
-## Development
-
-### Running Tests
-
-```bash
-pnpm test
-```
-
-### Linting
-
-```bash
-pnpm run lint
-```
-
-### Building for Production
-
-```bash
-pnpm run build
-pnpm run start
-```
-
-## Future Roadmap
-
-While currently designed for personal use, Finance Mind has the potential to grow into a SaaS product with additional features:
-
-- **Open Finance Integration**: Implement support for Brazil's Open Finance system to:
-  - Enable direct and secure access to financial data across multiple institutions
-  - Eliminate manual statement uploads with real-time transaction synchronization
-  - Provide enhanced financial insights through comprehensive data access
-  - Support automated categorization with richer transaction metadata
-  - Comply with Central Bank of Brazil's regulations and security requirements
-- User authentication and multi-user support
-- Cloud database integration
-- Advanced AI processing for better categorization
-- API integrations with banking systems
-- International expansion beyond Brazilian banks and financial systems
-- Support for additional languages and currencies
-- Mobile application
-- Subscription-based tiers with advanced features
-
-## License
-
-This project is personal use software.
-
----
-
-## Support
-
-For any questions or issues, please create an issue in the repository.

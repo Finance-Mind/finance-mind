@@ -121,6 +121,103 @@ export default function RootLayout({
           </header>
 
           {children}
+
+          <footer className="border-t border-border mt-12">
+            <div className="container mx-auto px-8 py-12">
+              <div className="flex flex-col md:flex-row gap-8">
+                <div className="flex-1">
+                  <div className="flex items-center">
+                    <h3 className="text-lg font-semibold text-foreground flex-1">
+                      Finance Mind
+                    </h3>
+                  </div>
+
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    Take control of your financial life with intelligent
+                    analytics and insights.
+                  </p>
+                </div>
+
+                <div className="md:hidden">
+                  <h4 className="text-sm font-medium text-foreground">
+                    Features
+                  </h4>
+                  <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
+                    <li>Bank statement processing</li>
+                    <li>Transaction categorization</li>
+                    <li>Financial insights</li>
+                    <li>Multi-currency support</li>
+                  </ul>
+                </div>
+
+                <div className="hidden md:block">
+                  <h4 className="text-sm font-medium text-foreground mb-2 text-right">
+                    Features
+                  </h4>
+                  <ul className="space-y-2 text-sm text-muted-foreground text-right">
+                    <li>Bank statement processing</li>
+                    <li>Transaction categorization</li>
+                    <li>Financial insights</li>
+                    <li>Multi-currency support</li>
+                  </ul>
+                </div>
+
+                <div className="md:hidden">
+                  <h4 className="text-sm font-medium text-foreground">
+                    Features
+                  </h4>
+                  <ul className="mt-2 space-y-2 text-sm text-muted-foreground text-right">
+                    <li>Bank statement processing</li>
+                    <li>Transaction categorization</li>
+                    <li>Financial insights</li>
+                    <li>Multi-currency support</li>
+                  </ul>
+                </div>
+
+                <div className="md:hidden">
+                  <h4 className="text-sm font-medium text-foreground">Links</h4>
+                  <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
+                    <li>Documentation</li>
+                    <li>Support</li>
+                    <li>Privacy Policy</li>
+                    <li>Terms of Service</li>
+                  </ul>
+                </div>
+
+                <div className="hidden md:block">
+                  <h4 className="text-sm font-medium text-foreground mb-2 text-right">
+                    Links
+                  </h4>
+                  <ul className="space-y-2 text-sm text-muted-foreground text-right">
+                    <li>Documentation</li>
+                    <li>Support</li>
+                    <li>Privacy Policy</li>
+                    <li>Terms of Service</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="mt-8 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center">
+                <p className="text-xs text-muted-foreground">
+                  &copy; {new Date().getFullYear()} Finance Mind. All rights
+                  reserved.
+                </p>
+                <div className="mt-4 md:mt-0 flex space-x-4">
+                  <span className="text-xs text-muted-foreground">
+                    Built with Next.js and Tailwind CSS | Created by{" "}
+                    <a
+                      href="https://andredezzy.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline"
+                    >
+                      Andre &ldquo;Dezzy&rdquo; Victor
+                    </a>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </footer>
         </ThemeProvider>
       </body>
     </html>
