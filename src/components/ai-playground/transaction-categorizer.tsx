@@ -248,7 +248,7 @@ export const TransactionCategorizer = () => {
             </ul>
           </div>
         </div>
-        <Button variant="outline" className="w-full" onClick={handleReset}>
+        <Button variant="outline" className="w-full mt-4" onClick={handleReset}>
           Clear
         </Button>
       </CardFooter>
