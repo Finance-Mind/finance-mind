@@ -23,7 +23,7 @@ import {
 import { cn } from "@/lib/utils";
 import { FileIcon, XIcon, UploadIcon } from "lucide-react";
 
-export default function Home() {
+export default function OverviewPage() {
   const [files, setFiles] = useState<File[]>([]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -265,7 +265,7 @@ export default function Home() {
                   <tr className="border-b transition-colors hover:bg-muted/50">
                     <td className="p-4 align-middle">2025-03-04</td>
                     <td className="p-4 align-middle">
-                      Transferência recebida pelo Pix - CAIO RODRIGUES
+                      Transferência recebida pelo Pix - JOAO
                     </td>
                     <td className="p-4 align-middle">
                       <span className="inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold bg-emerald-50 text-emerald-700 border-emerald-200">
@@ -322,7 +322,7 @@ export default function Home() {
                   <tr className="border-b transition-colors hover:bg-muted/50">
                     <td className="p-4 align-middle">2025-03-04</td>
                     <td className="p-4 align-middle">
-                      Transferência enviada pelo Pix - BIANKA VICTORIA
+                      Transferência enviada pelo Pix - ANA
                     </td>
                     <td className="p-4 align-middle">
                       <span className="inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold bg-rose-50 text-rose-600 border-rose-200">

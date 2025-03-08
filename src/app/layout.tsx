@@ -7,6 +7,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
 import { META_THEME_COLORS, siteConfig } from "@/config/site";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -104,18 +106,34 @@ export default function RootLayout({
         >
           <header className="border-b border-border">
             <div className="container mx-auto px-8 py-12">
-              <div className="flex justify-between items-center">
-                <div>
-                  <h1 className="text-3xl font-bold text-foreground">
-                    Finance Mind
-                  </h1>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    AI-driven finance tracker for intelligent bank statement
-                    analysis and insights
-                  </p>
+              <div className="space-y-6">
+                <div className="flex flex-col md:flex-row justify-between md:items-center items-start gap-8">
+                  <div className="mr-8">
+                    <h1 className="text-3xl font-bold text-foreground">
+                      Finance Mind
+                    </h1>
+                    <p className="mt-2 text-sm text-muted-foreground">
+                      AI-driven finance tracker for intelligent bank statement
+                      analysis and insights
+                    </p>
+                  </div>
+
+                  <ThemeToggle className="order-first md:order-last" />
                 </div>
 
-                <ThemeToggle />
+                <div className="flex gap-3 flex-wrap">
+                  <Button variant="secondary" asChild>
+                    <Link href="/">Overview</Link>
+                  </Button>
+
+                  <Button variant="secondary" asChild>
+                    <Link href="/ai-playground">AI Playground</Link>
+                  </Button>
+
+                  <Button variant="outline" asChild>
+                    <Link href="https://andredezzy.com">@andredezzy</Link>
+                  </Button>
+                </div>
               </div>
             </div>
           </header>

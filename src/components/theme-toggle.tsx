@@ -3,6 +3,7 @@
 import { useTheme } from "next-themes";
 import { FiSun, FiMoon, FiMonitor } from "react-icons/fi";
 import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 
 type ThemeOption = "light" | "dark" | "system";
 
@@ -26,7 +27,7 @@ function ThemeButton({
   return (
     <button
       onClick={() => onClick(value)}
-      className="p-1.5 rounded-none cursor-pointer text-foreground"
+      className="h-10 w-10 flex items-center justify-center rounded-none cursor-pointer text-foreground"
       aria-label={label}
       aria-pressed={isActive}
       data-state={isActive ? "active" : "inactive"}
@@ -36,7 +37,7 @@ function ThemeButton({
   );
 }
 
-export function ThemeToggle() {
+export function ThemeToggle({ className }: { className?: string }) {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -65,9 +66,9 @@ export function ThemeToggle() {
   }
 
   return (
-    <div className="relative inline-block text-left">
+    <div className={cn("relative inline-block text-left", className)}>
       <div
-        className="flex items-center space-x-1 rounded-none border border-border bg-background px-2 py-1"
+        className="flex items-center border border-border bg-background"
         role="group"
         aria-label="Theme selection"
       >
