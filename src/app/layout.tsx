@@ -210,7 +210,6 @@ export default function RootLayout({
                 </p>
                 <div className="mt-4 md:mt-0 flex space-x-4">
                   <span className="text-xs text-muted-foreground">
-                    Built with Next.js and Tailwind CSS | Created by{" "}
                     <a
                       href="https://andredezzy.com"
                       target="_blank"
