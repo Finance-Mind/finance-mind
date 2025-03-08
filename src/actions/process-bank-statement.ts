@@ -9,7 +9,7 @@ import { userConfig } from '@/config/user';
 import { TransactionCategory, TransactionType } from '@/lib/ai/types';
 import { applyColumnMapping, parseCSV } from '@/lib/parsers/csv-parser';
 import { parsePDF } from '@/lib/parsers/pdf-parser';
-import { generateTransactionId } from '@/lib/utils/transaction-utils';
+import { generateTransactionId, isDuplicateTransaction } from '@/lib/utils/transaction-utils';
 
 import type { Transaction } from '@/interfaces/transaction';
 
@@ -20,11 +20,13 @@ export interface ProcessedStatement {
   transactions: Transaction[];
   errors?: string[];
   warnings?: string[];
+  duplicatesSkipped?: number; // Add count of duplicates that were skipped
 }
 
 /**
  * Process bank statement files (CSV or PDF)
  * @param fileContents Object containing file content as string/ArrayBuffer and metadata
+ * @param existingTransactions Optional array of existing transactions to check for duplicates
  * @returns ProcessedStatement object with extracted transactions
  */
 export async function processBankStatement(
@@ -32,17 +34,23 @@ export async function processBankStatement(
     name: string;
     content: string | ArrayBuffer;
     contentType: string;
-  }[]
+  }[],
+  existingTransactions: Transaction[] = []
 ): Promise<ProcessedStatement> {
   const result: ProcessedStatement = {
     transactions: [],
     errors: [],
     warnings: [],
+    duplicatesSkipped: 0,
   };
 
   try {
     const allExtractedTransactions: Transaction[] = [];
     const detectedAccounts: Set<string> = new Set();
+    const processedTransactionIds: Set<string> = new Set();
+
+    // Track existing transaction IDs to avoid duplicates
+    const existingTransactionIds: Set<string> = new Set(existingTransactions.map(t => t.id));
 
     // First pass: Extract all transactions from all files
     for (const file of fileContents) {
@@ -136,6 +144,46 @@ export async function processBankStatement(
               }
             }
 
+            // Check if this transaction is a duplicate of an existing transaction
+            const isDuplicate = existingTransactions.some(existingTx =>
+              isDuplicateTransaction(existingTx, transaction)
+            );
+
+            // Also check if it's a duplicate within the current batch
+            const isDuplicateInBatch = allExtractedTransactions.some(newTx =>
+              isDuplicateTransaction(newTx, transaction)
+            );
+
+            if (isDuplicate || isDuplicateInBatch) {
+              // Skip duplicates and increment the counter
+              if (result.duplicatesSkipped !== undefined) {
+                result.duplicatesSkipped++;
+              }
+              continue;
+            }
+
+            // Generate a deterministic ID based on transaction properties
+            transaction.id = generateTransactionId({
+              date: transaction.date,
+              amount: transaction.amount,
+              description: transaction.description,
+              merchant: transaction.merchant,
+              card: transaction.card,
+            });
+
+            // Skip if we already have a transaction with this ID
+            if (
+              existingTransactionIds.has(transaction.id) ||
+              processedTransactionIds.has(transaction.id)
+            ) {
+              if (result.duplicatesSkipped !== undefined) {
+                result.duplicatesSkipped++;
+              }
+              continue;
+            }
+
+            // Add to processed IDs to avoid duplicates within this batch
+            processedTransactionIds.add(transaction.id);
             allExtractedTransactions.push(transaction);
           } catch (rowError) {
             result.errors?.push(
@@ -191,8 +239,8 @@ async function detectP2PTransfers(
     const isSignificantAmount = Math.abs(transaction.amount) >= 50; // Threshold to avoid checking small transactions
     if (
       transaction.type === TransactionType.TRANSFER ||
-      transaction.category === TransactionCategory.TRANSFER ||
-      transaction.category === TransactionCategory.PIX ||
+      transaction.category === TransactionCategory.OTHER_INCOME ||
+      transaction.category === TransactionCategory.OTHER_EXPENSE ||
       isSignificantAmount
     ) {
       // Get other transactions to compare with (excluding this one)
@@ -317,7 +365,7 @@ async function extractBasicTransaction(
 ): Promise<{ transaction: Transaction; requiresAI: boolean }> {
   // Initialize a new transaction with default values
   const transaction: Transaction = {
-    id: generateTransactionId(),
+    id: crypto.randomUUID(), // Temporary ID that will be replaced with a deterministic one later
     description: '',
     amount: 0,
     date: new Date(),

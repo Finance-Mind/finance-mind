@@ -9,19 +9,11 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+
+
 
 import type { Transaction } from '@/interfaces/transaction';
 
@@ -181,7 +173,9 @@ export default function OverviewPage() {
                   <tr className="border-b transition-colors bg-muted/50">
                     <th className="h-12 px-4 text-left align-middle font-medium">Date</th>
                     <th className="h-12 px-4 text-left align-middle font-medium">Description</th>
-                    <th className="h-12 px-4 text-left align-middle font-medium">Category</th>
+                    <th className="h-12 px-4 text-left align-middle font-medium min-w-[200px]">
+                      Category
+                    </th>
                     <th className="h-12 px-4 text-left align-middle font-medium">Amount</th>
                     <th className="h-12 px-4 text-left align-middle font-medium">Actions</th>
                   </tr>

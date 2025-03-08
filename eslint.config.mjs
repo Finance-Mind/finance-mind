@@ -6,7 +6,7 @@ import typescriptPlugin from '@typescript-eslint/eslint-plugin';
 import typescriptParser from '@typescript-eslint/parser';
 import prettierConfig from 'eslint-config-prettier';
 import importPlugin from 'eslint-plugin-import';
-import prettierPlugin from 'eslint-plugin-prettier';
+import unusedImportsPlugin from 'eslint-plugin-unused-imports';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -27,12 +27,24 @@ const eslintConfig = [
     files: ['**/*.{js,mjs,cjs,jsx,ts,tsx}'],
     plugins: {
       import: importPlugin,
+      'unused-imports': unusedImportsPlugin,
     },
     rules: {
       // Import sorting rules
       'import/first': 'error',
       'import/newline-after-import': 'error',
       'import/no-duplicates': 'error',
+      // Unused imports auto-fix rules
+      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-vars': [
+        'warn',
+        {
+          vars: 'all',
+          varsIgnorePattern: '^_',
+          args: 'after-used',
+          argsIgnorePattern: '^_',
+        },
+      ],
       'import/order': [
         'error',
         {
@@ -82,13 +94,8 @@ const eslintConfig = [
       // TypeScript-specific rules
       '@typescript-eslint/explicit-module-boundary-types': 'off', // Next.js doesn't need explicit return types
       '@typescript-eslint/no-explicit-any': 'warn', // Avoid using 'any' type
-      '@typescript-eslint/no-unused-vars': [
-        'warn',
-        {
-          argsIgnorePattern: '^_',
-          varsIgnorePattern: '^_',
-        },
-      ], // Warn about unused variables, but ignore those starting with underscore
+      // Disable the TypeScript unused vars rule in favor of the unused-imports plugin
+      '@typescript-eslint/no-unused-vars': 'off',
       '@typescript-eslint/no-non-null-assertion': 'warn', // Warn about non-null assertions
       '@typescript-eslint/consistent-type-imports': [
         'error',
