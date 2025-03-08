@@ -23,13 +23,10 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  transactionExtractorFormSchema
-} from '@/schemas/form-schemas';
+import { transactionExtractorFormSchema } from '@/schemas/form-schemas';
 
 import type { TransactionCategory, TransactionType } from '@/lib/ai/types';
-import type {
-  TransactionExtractorFormValues} from '@/schemas/form-schemas';
+import type { TransactionExtractorFormValues } from '@/schemas/form-schemas';
 import type { TransactionExtraction } from '@/schemas/transaction-schemas';
 
 export const TransactionExtractor = () => {
@@ -137,41 +134,45 @@ export const TransactionExtractor = () => {
         )}
 
         {result && (
-          <div className="mt-8 space-y-2">
-            <h3 className="font-medium">Extracted Details:</h3>
-            <div className="grid grid-cols-2 gap-2">
-              <div className="text-sm font-medium">Description:</div>
-              <div className="text-sm">{result.description}</div>
+          <div className="mt-8 space-y-6">
+            <pre className="text-xs">{JSON.stringify(result, null, 2)}</pre>
 
-              <div className="text-sm font-medium">Amount:</div>
-              <div className="text-sm">
-                {result.amount} {result.currency || 'BRL'}
+            <div className="space-y-2">
+              <h3 className="font-medium">Extracted Details:</h3>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="text-sm font-medium">Description:</div>
+                <div className="text-sm">{result.description}</div>
+
+                <div className="text-sm font-medium">Amount:</div>
+                <div className="text-sm">
+                  {result.amount} {result.currency || 'BRL'}
+                </div>
+
+                <div className="text-sm font-medium">Date:</div>
+                <div className="text-sm">{formatDate(result.date)}</div>
+
+                <div className="text-sm font-medium">Category:</div>
+                <div className="text-sm">{getCategoryLabel(result.category)}</div>
+
+                <div className="text-sm font-medium">Type:</div>
+                <div className="text-sm">{getTypeLabel(result.type)}</div>
+
+                {result.merchant && (
+                  <>
+                    <div className="text-sm font-medium">Merchant:</div>
+                    <div className="text-sm">{result.merchant}</div>
+                  </>
+                )}
+
+                {result.isInstallment && result.installmentInfo && (
+                  <>
+                    <div className="text-sm font-medium">Installment:</div>
+                    <div className="text-sm">
+                      {result.installmentInfo.current}/{result.installmentInfo.total}
+                    </div>
+                  </>
+                )}
               </div>
-
-              <div className="text-sm font-medium">Date:</div>
-              <div className="text-sm">{formatDate(result.date)}</div>
-
-              <div className="text-sm font-medium">Category:</div>
-              <div className="text-sm">{getCategoryLabel(result.category)}</div>
-
-              <div className="text-sm font-medium">Type:</div>
-              <div className="text-sm">{getTypeLabel(result.type)}</div>
-
-              {result.merchant && (
-                <>
-                  <div className="text-sm font-medium">Merchant:</div>
-                  <div className="text-sm">{result.merchant}</div>
-                </>
-              )}
-
-              {result.isInstallment && result.installmentInfo && (
-                <>
-                  <div className="text-sm font-medium">Installment:</div>
-                  <div className="text-sm">
-                    {result.installmentInfo.current}/{result.installmentInfo.total}
-                  </div>
-                </>
-              )}
             </div>
           </div>
         )}

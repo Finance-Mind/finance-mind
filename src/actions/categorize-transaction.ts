@@ -2,14 +2,11 @@
 
 import { generateObject } from 'ai';
 
-import { openai, defaultModel } from '@/lib/ai/client';
+import { openai, defaultModel } from '@/lib/ai';
 import { TransactionCategory, TransactionType } from '@/lib/ai/types';
-import {
-  transactionCategorizeResponseSchema as TransactionCategorizeResponseSchema
-} from '@/schemas/transaction-schemas';
+import { transactionCategorizeResponseSchema as TransactionCategorizeResponseSchema } from '@/schemas/transaction-schemas';
 
-import type {
-  TransactionCategorizeResponse} from '@/schemas/transaction-schemas';
+import type { TransactionCategorizeResponse } from '@/schemas/transaction-schemas';
 
 // The transaction categorization AI function
 export async function categorizeTransaction({
@@ -59,6 +56,24 @@ export async function categorizeTransaction({
     Transaction types to use: INCOME, OUTCOME, TRANSFER
     
     Provide your analysis as a structured response.
+
+    IMPORTANT: Keep any extracted text (like merchant names) in the ORIGINAL LANGUAGE of the input. Do not translate merchant names or other text values to English, keep them in the language of the original description.
+    
+    FORMATTING GUIDANCE:
+    1. Format and clean up merchant names while keeping the original language
+    2. Normalize formatting (e.g., removing excess spaces, fixing capitalization)
+    3. Extract key information in a structured way
+    4. Ensure proper formatting of installment information if present
+    5. Standardize the representation of categories and transaction types
+    6. Structure the response for consistent processing by the application
+    
+    LANGUAGE-SPECIFIC FORMATTING EXAMPLES:
+    - Portuguese input with "corrida uber" → Format merchant as "Uber" and include Portuguese terms/prepositions in any text
+    - English input with just "uber" → Format merchant as "Uber" and use English conventions
+    - Spanish input → Use Spanish language conventions for text formatting
+    
+    Use language-appropriate phrasing, articles, and prepositions based on the detected language.
+    The goal is natural and well-structured text that follows the conventions of the input language.
   `;
 
   try {
@@ -70,7 +85,7 @@ export async function categorizeTransaction({
         {
           role: 'system',
           content:
-            'You are a financial transaction categorization expert, specialized in Brazilian financial systems and global transactions. Your task is to accurately categorize transactions, detect transfers, and identify installment payments.',
+            'You are a financial transaction categorization expert, specialized in Brazilian financial systems and global transactions. Your task is to accurately categorize transactions, detect transfers, and identify installment payments. Always preserve the original language of text fields like merchant names. Format and structure the information for consistency and clarity, but do not translate the content.',
         },
         {
           role: 'user',

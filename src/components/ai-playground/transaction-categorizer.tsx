@@ -23,13 +23,10 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {
-  transactionCategorizerFormSchema
-} from '@/schemas/form-schemas';
+import { transactionCategorizerFormSchema } from '@/schemas/form-schemas';
 
 import type { TransactionCategory, TransactionType } from '@/lib/ai/types';
-import type {
-  TransactionCategorizerFormValues} from '@/schemas/form-schemas';
+import type { TransactionCategorizerFormValues } from '@/schemas/form-schemas';
 import type { TransactionCategorizeResponse } from '@/schemas/transaction-schemas';
 
 export const TransactionCategorizer = () => {
@@ -175,37 +172,41 @@ export const TransactionCategorizer = () => {
         )}
 
         {result && (
-          <div className="mt-8 space-y-2">
-            <h3 className="font-medium">Result:</h3>
-            <div className="grid grid-cols-2 gap-2">
-              <div className="text-sm font-medium">Category:</div>
-              <div className="text-sm">{getCategoryLabel(result.category)}</div>
+          <div className="mt-8 space-y-6">
+            <pre className="text-xs">{JSON.stringify(result, null, 2)}</pre>
 
-              <div className="text-sm font-medium">Type:</div>
-              <div className="text-sm">{getTypeLabel(result.type)}</div>
+            <div className="space-y-2">
+              <h3 className="font-medium">Result:</h3>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="text-sm font-medium">Category:</div>
+                <div className="text-sm">{getCategoryLabel(result.category)}</div>
 
-              {result.merchant && (
-                <>
-                  <div className="text-sm font-medium">Merchant:</div>
-                  <div className="text-sm">{result.merchant}</div>
-                </>
-              )}
+                <div className="text-sm font-medium">Type:</div>
+                <div className="text-sm">{getTypeLabel(result.type)}</div>
 
-              {result.isInstallment && result.installmentInfo && (
-                <>
-                  <div className="text-sm font-medium">Installment:</div>
-                  <div className="text-sm">
-                    {result.installmentInfo.current}/{result.installmentInfo.total}
-                  </div>
-                </>
-              )}
+                {result.merchant && (
+                  <>
+                    <div className="text-sm font-medium">Merchant:</div>
+                    <div className="text-sm">{result.merchant}</div>
+                  </>
+                )}
 
-              {result.confidence !== undefined && (
-                <>
-                  <div className="text-sm font-medium">Confidence:</div>
-                  <div className="text-sm">{(result.confidence * 100).toFixed(1)}%</div>
-                </>
-              )}
+                {result.isInstallment && result.installmentInfo && (
+                  <>
+                    <div className="text-sm font-medium">Installment:</div>
+                    <div className="text-sm">
+                      {result.installmentInfo.current}/{result.installmentInfo.total}
+                    </div>
+                  </>
+                )}
+
+                {result.confidence !== undefined && (
+                  <>
+                    <div className="text-sm font-medium">Confidence:</div>
+                    <div className="text-sm">{(result.confidence * 100).toFixed(1)}%</div>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         )}
