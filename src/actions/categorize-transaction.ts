@@ -1,12 +1,15 @@
-"use server";
+'use server';
 
-import { generateObject } from "ai";
-import { openai, defaultModel } from "@/lib/ai/client";
-import { TransactionCategory, TransactionType } from "@/lib/ai/types";
+import { generateObject } from 'ai';
+
+import { openai, defaultModel } from '@/lib/ai/client';
+import { TransactionCategory, TransactionType } from '@/lib/ai/types';
 import {
-  transactionCategorizeResponseSchema as TransactionCategorizeResponseSchema,
-  TransactionCategorizeResponse,
-} from "@/schemas/transaction-schemas";
+  transactionCategorizeResponseSchema as TransactionCategorizeResponseSchema
+} from '@/schemas/transaction-schemas';
+
+import type {
+  TransactionCategorizeResponse} from '@/schemas/transaction-schemas';
 
 // The transaction categorization AI function
 export async function categorizeTransaction({
@@ -31,7 +34,7 @@ export async function categorizeTransaction({
     Description: ${description}
     Amount: ${amount}
     Date: ${date}
-    ${merchant ? `Merchant: ${merchant}` : ""}
+    ${merchant ? `Merchant: ${merchant}` : ''}
     
     Based on this information, determine:
     1. The most appropriate transaction category
@@ -65,24 +68,24 @@ export async function categorizeTransaction({
       schema: TransactionCategorizeResponseSchema,
       messages: [
         {
-          role: "system",
+          role: 'system',
           content:
-            "You are a financial transaction categorization expert, specialized in Brazilian financial systems and global transactions. Your task is to accurately categorize transactions, detect transfers, and identify installment payments.",
+            'You are a financial transaction categorization expert, specialized in Brazilian financial systems and global transactions. Your task is to accurately categorize transactions, detect transfers, and identify installment payments.',
         },
         {
-          role: "user",
+          role: 'user',
           content: prompt,
         },
       ],
       temperature: 0.1, // Low temperature for more consistent results
     });
 
-    console.log("Categorization result:", result);
+    console.log('Categorization result:', result);
 
     // Return the categorization result
     return result.object as TransactionCategorizeResponse;
   } catch (error) {
-    console.error("AI categorization error:", error);
+    console.error('AI categorization error:', error);
     // Fallback categorization on error
     return {
       category: TransactionCategory.UNCATEGORIZED,

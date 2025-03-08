@@ -1,21 +1,19 @@
-"use server";
+'use server';
 
-import { generateObject } from "ai";
-import { openai } from "@ai-sdk/openai";
-import { defaultModel } from "@/lib/ai/client";
-import {
-  transactionExtractionSchema,
-  TransactionExtraction,
-} from "@/schemas/transaction-schemas";
+import { openai } from '@ai-sdk/openai';
+import { generateObject } from 'ai';
+
+import { defaultModel } from '@/lib/ai/client';
+import { transactionExtractionSchema } from '@/schemas/transaction-schemas';
+
+import type { TransactionExtraction } from '@/schemas/transaction-schemas';
 
 /**
  * Extract transaction fields from a text prompt
  * @param prompt The user's text description of a transaction
  * @returns Extracted transaction fields
  */
-export async function extractTransactionFields(
-  prompt: string
-): Promise<TransactionExtraction> {
+export async function extractTransactionFields(prompt: string): Promise<TransactionExtraction> {
   try {
     const systemPrompt = `
       You are a financial assistant specialized in extracting transaction details from text.
@@ -52,22 +50,22 @@ export async function extractTransactionFields(
       schema: transactionExtractionSchema,
       messages: [
         {
-          role: "system",
+          role: 'system',
           content: systemPrompt,
         },
         {
-          role: "user",
+          role: 'user',
           content: prompt,
         },
       ],
       temperature: 0.1, // Low temperature for more consistent results
     });
 
-    console.log("Extraction result:", result);
+    console.log('Extraction result:', result);
 
     return result.object as TransactionExtraction;
   } catch (error) {
-    console.error("Transaction extraction error:", error);
-    throw new Error("Failed to extract transaction details from text");
+    console.error('Transaction extraction error:', error);
+    throw new Error('Failed to extract transaction details from text');
   }
 }

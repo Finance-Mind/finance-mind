@@ -1,10 +1,11 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+
+import { extractTransactionFields } from '@/actions/extract-transaction-fields';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -12,7 +13,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -20,14 +21,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { TransactionCategory, TransactionType } from "@/lib/ai/types";
-import { extractTransactionFields } from "@/actions/extract-transaction-fields";
+} from '@/components/ui/form';
+import { Textarea } from '@/components/ui/textarea';
 import {
-  transactionExtractorFormSchema,
-  TransactionExtractorFormValues,
-} from "@/schemas/form-schemas";
-import { TransactionExtraction } from "@/schemas/transaction-schemas";
+  transactionExtractorFormSchema
+} from '@/schemas/form-schemas';
+
+import type { TransactionCategory, TransactionType } from '@/lib/ai/types';
+import type {
+  TransactionExtractorFormValues} from '@/schemas/form-schemas';
+import type { TransactionExtraction } from '@/schemas/transaction-schemas';
 
 export const TransactionExtractor = () => {
   const [result, setResult] = useState<TransactionExtraction | null>(null);
@@ -38,7 +41,7 @@ export const TransactionExtractor = () => {
   const form = useForm<TransactionExtractorFormValues>({
     resolver: zodResolver(transactionExtractorFormSchema),
     defaultValues: {
-      prompt: "",
+      prompt: '',
     },
   });
 
@@ -51,9 +54,7 @@ export const TransactionExtractor = () => {
       const result = await extractTransactionFields(values.prompt);
       setResult(result);
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "An unknown error occurred"
-      );
+      setError(err instanceof Error ? err.message : 'An unknown error occurred');
     } finally {
       setIsLoading(false);
     }
@@ -62,16 +63,14 @@ export const TransactionExtractor = () => {
   // Helper function to get the category label
   const getCategoryLabel = (category: TransactionCategory) => {
     return category
-      .replace(/_/g, " ")
+      .replace(/_/g, ' ')
       .toLowerCase()
-      .replace(/\b\w/g, (l) => l.toUpperCase());
+      .replace(/\b\w/g, l => l.toUpperCase());
   };
 
   // Helper function to get the type label
   const getTypeLabel = (type: TransactionType) => {
-    return (
-      type.toLowerCase().charAt(0).toUpperCase() + type.toLowerCase().slice(1)
-    );
+    return type.toLowerCase().charAt(0).toUpperCase() + type.toLowerCase().slice(1);
   };
 
   // Format date for display
@@ -98,8 +97,7 @@ export const TransactionExtractor = () => {
       <CardHeader>
         <CardTitle>Transaction Extractor</CardTitle>
         <CardDescription>
-          Describe a transaction in natural language, and our AI will extract
-          the details.
+          Describe a transaction in natural language, and our AI will extract the details.
         </CardDescription>
       </CardHeader>
 
@@ -127,7 +125,7 @@ export const TransactionExtractor = () => {
             />
 
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Extracting..." : "Extract Transaction Details"}
+              {isLoading ? 'Extracting...' : 'Extract Transaction Details'}
             </Button>
           </form>
         </Form>
@@ -147,7 +145,7 @@ export const TransactionExtractor = () => {
 
               <div className="text-sm font-medium">Amount:</div>
               <div className="text-sm">
-                {result.amount} {result.currency || "BRL"}
+                {result.amount} {result.currency || 'BRL'}
               </div>
 
               <div className="text-sm font-medium">Date:</div>
@@ -170,8 +168,7 @@ export const TransactionExtractor = () => {
                 <>
                   <div className="text-sm font-medium">Installment:</div>
                   <div className="text-sm">
-                    {result.installmentInfo.current}/
-                    {result.installmentInfo.total}
+                    {result.installmentInfo.current}/{result.installmentInfo.total}
                   </div>
                 </>
               )}
@@ -185,24 +182,17 @@ export const TransactionExtractor = () => {
           <h3 className="text-sm font-medium mb-2">How It Works</h3>
           <div className="space-y-2">
             <p className="text-xs text-muted-foreground">
-              The Transaction Extractor uses AI to parse natural language
-              descriptions into structured transaction data.
+              The Transaction Extractor uses AI to parse natural language descriptions into
+              structured transaction data.
             </p>
             <p className="text-xs text-muted-foreground">Try examples like:</p>
             <ul className="text-xs text-muted-foreground list-decimal pl-4 space-y-1">
-              <li>
-                &quot;I paid R$150 for groceries at Mercado Extra
-                yesterday&quot;
-              </li>
+              <li>&quot;I paid R$150 for groceries at Mercado Extra yesterday&quot;</li>
               <li>&quot;Received my salary of R$3500 from Company XYZ&quot;</li>
               <li>
-                &quot;Smartphone installment payment of R$210, 3rd of 12 monthly
-                payments&quot;
+                &quot;Smartphone installment payment of R$210, 3rd of 12 monthly payments&quot;
               </li>
-              <li>
-                &quot;Transferred R$500 from my checking account to my savings
-                account&quot;
-              </li>
+              <li>&quot;Transferred R$500 from my checking account to my savings account&quot;</li>
             </ul>
           </div>
         </div>

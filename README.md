@@ -1,10 +1,10 @@
 # Finance Mind
 
-A personal AI-driven finance tracking tool that processes bank statements, categorizes transactions, and provides insights into your financial health.
+A personal AI-driven finance tracking tool that processes bank statements, categorizes transactions, tracks investments, and provides insights into your financial health.
 
 ## Overview
 
-Finance Mind helps you take control of your financial life by intelligently analyzing your bank statements and organizing transactions in a structured way. It eliminates the manual work of categorizing expenses and tracking your spending patterns across both debit and credit card transactions. Initially focused on Brazilian banks and financial patterns, the system is designed with internationalization in mind.
+Finance Mind helps you take control of your financial life by intelligently analyzing your bank statements, organizing transactions, and tracking investments in a structured way. It eliminates the manual work of categorizing expenses, tracking your spending patterns across both debit and credit card transactions, and monitoring your investment portfolio. Initially focused on Brazilian banks and financial patterns, the system is designed with internationalization in mind.
 
 ## Features
 
@@ -35,6 +35,18 @@ Finance Mind helps you take control of your financial life by intelligently anal
 - **Currency Preference Settings**: Select which currency you want to see your financial data in, with automatic conversion at current or historical exchange rates.
 - **Installment Plan Tracking**: Track payment plans and upcoming installments.
 - **Financial Insights**: View reports on spending habits, income vs. expenses, and category breakdown.
+- **Investment Portfolio Tracking**: Completely separate from transaction tracking, Finance Mind offers comprehensive investment tracking:
+  - Track stocks, bonds, mutual funds, ETFs, cryptocurrency, and other investment types
+  - Record purchase and sale transactions for investments
+  - Monitor current market values and portfolio performance
+  - View historical investment performance with detailed analytics
+  - Track dividends, interest, and other investment income
+  - Calculate return on investment (ROI), annualized returns, and other performance metrics
+  - Visualize asset allocation and portfolio diversification
+  - Set investment goals and track progress
+  - Import investment statements from brokerages and financial institutions
+  - Support for Brazilian-specific investment types like Tesouro Direto, CDBs, LCIs, LCAs, etc.
+  - Multi-currency investment tracking with exchange rate conversion
 
 ## Technology Stack
 
@@ -101,10 +113,20 @@ Finance Mind helps you take control of your financial life by intelligently anal
    - Identifies and prevents duplicate transactions from multiple statement uploads
    - Recognizes transfers between your own accounts and excludes them from spending/income calculations
 
-4. **Analyze Finances**: View insights about your spending patterns and financial health.
-   - See complete financial picture including both bank statement and manual transactions
-   - Track spending across all payment methods (card, cash, digital wallets, etc.)
-   - View all financial data in your preferred currency, regardless of the original transaction currency
+4. **Track Investments**: Upload investment statements or manually add investment transactions.
+
+   - Add different types of investments (stocks, bonds, mutual funds, etc.)
+   - Record purchase and sale transactions
+   - Track dividends and interest received
+   - Monitor current market values
+   - View performance metrics and reports
+   - Categorize investments by asset class, risk level, or custom categories
+
+5. **Analyze Finances**: View insights about your spending patterns, investment performance, and overall financial health.
+   - See complete financial picture including transactions and investments
+   - Track spending across all payment methods
+   - Monitor investment performance and portfolio allocation
+   - View all financial data in your preferred currency, regardless of the original transaction or investment currency
 
 ### Example Statement Processing
 

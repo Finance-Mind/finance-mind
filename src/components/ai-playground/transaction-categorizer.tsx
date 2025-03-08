@@ -1,10 +1,11 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+
+import { categorizeTransaction } from '@/actions/categorize-transaction';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -12,7 +13,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -20,19 +21,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { TransactionCategory, TransactionType } from "@/lib/ai/types";
-import { categorizeTransaction } from "@/actions/categorize-transaction";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import {
-  transactionCategorizerFormSchema,
-  TransactionCategorizerFormValues,
-} from "@/schemas/form-schemas";
-import { TransactionCategorizeResponse } from "@/schemas/transaction-schemas";
+  transactionCategorizerFormSchema
+} from '@/schemas/form-schemas';
+
+import type { TransactionCategory, TransactionType } from '@/lib/ai/types';
+import type {
+  TransactionCategorizerFormValues} from '@/schemas/form-schemas';
+import type { TransactionCategorizeResponse } from '@/schemas/transaction-schemas';
 
 export const TransactionCategorizer = () => {
-  const [result, setResult] = useState<TransactionCategorizeResponse | null>(
-    null
-  );
+  const [result, setResult] = useState<TransactionCategorizeResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -40,10 +41,10 @@ export const TransactionCategorizer = () => {
   const form = useForm<TransactionCategorizerFormValues>({
     resolver: zodResolver(transactionCategorizerFormSchema),
     defaultValues: {
-      description: "",
-      amount: "",
-      date: "",
-      merchant: "",
+      description: '',
+      amount: '',
+      date: '',
+      merchant: '',
     },
   });
 
@@ -62,9 +63,7 @@ export const TransactionCategorizer = () => {
 
       setResult(result);
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "An unknown error occurred"
-      );
+      setError(err instanceof Error ? err.message : 'An unknown error occurred');
     } finally {
       setIsLoading(false);
     }
@@ -73,16 +72,14 @@ export const TransactionCategorizer = () => {
   // Helper function to get the category label
   const getCategoryLabel = (category: TransactionCategory) => {
     return category
-      .replace(/_/g, " ")
+      .replace(/_/g, ' ')
       .toLowerCase()
-      .replace(/\b\w/g, (l) => l.toUpperCase());
+      .replace(/\b\w/g, l => l.toUpperCase());
   };
 
   // Helper function to get the type label
   const getTypeLabel = (type: TransactionType) => {
-    return (
-      type.toLowerCase().charAt(0).toUpperCase() + type.toLowerCase().slice(1)
-    );
+    return type.toLowerCase().charAt(0).toUpperCase() + type.toLowerCase().slice(1);
   };
 
   // Reset form and results
@@ -96,9 +93,7 @@ export const TransactionCategorizer = () => {
     <Card className="w-full max-w-md">
       <CardHeader>
         <CardTitle>Transaction Categorizer</CardTitle>
-        <CardDescription>
-          Enter transaction details to categorize it using AI.
-        </CardDescription>
+        <CardDescription>Enter transaction details to categorize it using AI.</CardDescription>
       </CardHeader>
 
       <CardContent>
@@ -145,11 +140,7 @@ export const TransactionCategorizer = () => {
                   <FormItem>
                     <FormLabel>Date</FormLabel>
                     <FormControl>
-                      <Input
-                        type="date"
-                        placeholder="Transaction date"
-                        {...field}
-                      />
+                      <Input type="date" placeholder="Transaction date" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -172,7 +163,7 @@ export const TransactionCategorizer = () => {
             </div>
 
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Categorizing..." : "Categorize Transaction"}
+              {isLoading ? 'Categorizing...' : 'Categorize Transaction'}
             </Button>
           </form>
         </Form>
@@ -204,8 +195,7 @@ export const TransactionCategorizer = () => {
                 <>
                   <div className="text-sm font-medium">Installment:</div>
                   <div className="text-sm">
-                    {result.installmentInfo.current}/
-                    {result.installmentInfo.total}
+                    {result.installmentInfo.current}/{result.installmentInfo.total}
                   </div>
                 </>
               )}
@@ -213,9 +203,7 @@ export const TransactionCategorizer = () => {
               {result.confidence !== undefined && (
                 <>
                   <div className="text-sm font-medium">Confidence:</div>
-                  <div className="text-sm">
-                    {(result.confidence * 100).toFixed(1)}%
-                  </div>
+                  <div className="text-sm">{(result.confidence * 100).toFixed(1)}%</div>
                 </>
               )}
             </div>
@@ -228,22 +216,17 @@ export const TransactionCategorizer = () => {
           <h3 className="text-sm font-medium mb-2">How It Works</h3>
           <div className="space-y-2">
             <p className="text-xs text-muted-foreground">
-              The Transaction Categorizer uses AI to intelligently categorize
-              transactions based on description and amount.
+              The Transaction Categorizer uses AI to intelligently categorize transactions based on
+              description and amount.
             </p>
             <p className="text-xs text-muted-foreground">Our system:</p>
             <ul className="text-xs text-muted-foreground list-decimal pl-4 space-y-1">
               <li>
-                Uses advanced language models to handle Brazilian financial
-                terms and patterns
+                Uses advanced language models to handle Brazilian financial terms and patterns
               </li>
+              <li>Detects installment payments, transfers, and other special transaction types</li>
               <li>
-                Detects installment payments, transfers, and other special
-                transaction types
-              </li>
-              <li>
-                All processing happens securely on the server, with no data
-                stored permanently
+                All processing happens securely on the server, with no data stored permanently
               </li>
             </ul>
           </div>

@@ -1,7 +1,10 @@
-"use client";
+'use client';
 
-import { useState, useCallback } from "react";
-import { useDropzone } from "react-dropzone";
+import { FileIcon, XIcon, UploadIcon } from 'lucide-react';
+import { useState, useCallback } from 'react';
+import { useDropzone } from 'react-dropzone';
+
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -9,32 +12,30 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { cn } from "@/lib/utils";
-import { FileIcon, XIcon, UploadIcon } from "lucide-react";
+} from '@/components/ui/select';
+import { cn } from '@/lib/utils';
 
 export default function OverviewPage() {
   const [files, setFiles] = useState<File[]>([]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    setFiles((prev) => [...prev, ...acceptedFiles]);
+    setFiles(prev => [...prev, ...acceptedFiles]);
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      "text/csv": [".csv"],
-      "application/pdf": [".pdf"],
+      'text/csv': ['.csv'],
+      'application/pdf': ['.pdf'],
     },
   });
 
@@ -45,8 +46,8 @@ export default function OverviewPage() {
         <div
           {...getRootProps()}
           className={cn(
-            "border-2 border-dashed cursor-pointer hover:bg-muted/50 transition-colors h-full",
-            isDragActive ? "border-primary" : "border-muted-foreground/25"
+            'border-2 border-dashed cursor-pointer hover:bg-muted/50 transition-colors h-full',
+            isDragActive ? 'border-primary' : 'border-muted-foreground/25'
           )}
         >
           <input {...getInputProps()} />
@@ -55,8 +56,7 @@ export default function OverviewPage() {
             <CardHeader>
               <CardTitle>Upload Bank Statements</CardTitle>
               <CardDescription>
-                Drag and drop your bank or credit card statements in CSV or PDF
-                format
+                Drag and drop your bank or credit card statements in CSV or PDF format
               </CardDescription>
             </CardHeader>
             <CardContent className="flex-grow">
@@ -71,9 +71,7 @@ export default function OverviewPage() {
                       >
                         <div className="flex items-center gap-2">
                           <FileIcon className="h-4 w-4 text-muted-foreground" />
-                          <span className="truncate max-w-[200px]">
-                            {file.name}
-                          </span>
+                          <span className="truncate max-w-[200px]">{file.name}</span>
                           <span className="text-muted-foreground">
                             ({Math.round(file.size / 1024)} KB)
                           </span>
@@ -82,11 +80,9 @@ export default function OverviewPage() {
                           variant="ghost"
                           size="icon"
                           className="h-6 w-6"
-                          onClick={(e) => {
+                          onClick={e => {
                             e.stopPropagation();
-                            setFiles((prevFiles) =>
-                              prevFiles.filter((_, i) => i !== index)
-                            );
+                            setFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
                           }}
                         >
                           <XIcon className="h-4 w-4" />
@@ -160,13 +156,9 @@ export default function OverviewPage() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="groceries">Groceries</SelectItem>
-                      <SelectItem value="entertainment">
-                        Entertainment
-                      </SelectItem>
+                      <SelectItem value="entertainment">Entertainment</SelectItem>
                       <SelectItem value="utilities">Utilities</SelectItem>
-                      <SelectItem value="transportation">
-                        Transportation
-                      </SelectItem>
+                      <SelectItem value="transportation">Transportation</SelectItem>
                       <SelectItem value="housing">Housing</SelectItem>
                       <SelectItem value="healthcare">Healthcare</SelectItem>
                       <SelectItem value="other">Other</SelectItem>
@@ -192,9 +184,7 @@ export default function OverviewPage() {
           <div className="flex items-center justify-between">
             <div>
               <CardTitle>Transactions</CardTitle>
-              <CardDescription>
-                AI-powered categorized transactions
-              </CardDescription>
+              <CardDescription>AI-powered categorized transactions</CardDescription>
             </div>
             <div className="flex gap-2">
               <Button variant="outline" size="sm">
@@ -244,37 +234,23 @@ export default function OverviewPage() {
               <table className="w-full caption-bottom text-sm">
                 <thead>
                   <tr className="border-b transition-colors bg-muted/50">
-                    <th className="h-12 px-4 text-left align-middle font-medium">
-                      Date
-                    </th>
-                    <th className="h-12 px-4 text-left align-middle font-medium">
-                      Description
-                    </th>
-                    <th className="h-12 px-4 text-left align-middle font-medium">
-                      Category
-                    </th>
-                    <th className="h-12 px-4 text-left align-middle font-medium">
-                      Amount
-                    </th>
-                    <th className="h-12 px-4 text-left align-middle font-medium">
-                      Actions
-                    </th>
+                    <th className="h-12 px-4 text-left align-middle font-medium">Date</th>
+                    <th className="h-12 px-4 text-left align-middle font-medium">Description</th>
+                    <th className="h-12 px-4 text-left align-middle font-medium">Category</th>
+                    <th className="h-12 px-4 text-left align-middle font-medium">Amount</th>
+                    <th className="h-12 px-4 text-left align-middle font-medium">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr className="border-b transition-colors hover:bg-muted/50">
                     <td className="p-4 align-middle">2025-03-04</td>
-                    <td className="p-4 align-middle">
-                      Transferência recebida pelo Pix - JOAO
-                    </td>
+                    <td className="p-4 align-middle">Transferência recebida pelo Pix - JOAO</td>
                     <td className="p-4 align-middle">
                       <span className="inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold bg-emerald-50 text-emerald-700 border-emerald-200">
                         Income
                       </span>
                     </td>
-                    <td className="p-4 align-middle font-medium text-emerald-600">
-                      R$ 30.00
-                    </td>
+                    <td className="p-4 align-middle font-medium text-emerald-600">R$ 30.00</td>
                     <td className="p-4 align-middle">
                       <div className="flex gap-2">
                         <Button variant="ghost" size="icon" className="h-8 w-8">
@@ -294,11 +270,7 @@ export default function OverviewPage() {
                             <path d="m15 5 4 4" />
                           </svg>
                         </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 text-destructive"
-                        >
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
@@ -321,17 +293,13 @@ export default function OverviewPage() {
                   </tr>
                   <tr className="border-b transition-colors hover:bg-muted/50">
                     <td className="p-4 align-middle">2025-03-04</td>
-                    <td className="p-4 align-middle">
-                      Transferência enviada pelo Pix - ANA
-                    </td>
+                    <td className="p-4 align-middle">Transferência enviada pelo Pix - ANA</td>
                     <td className="p-4 align-middle">
                       <span className="inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold bg-rose-50 text-rose-600 border-rose-200">
                         Outcome
                       </span>
                     </td>
-                    <td className="p-4 align-middle font-medium text-rose-500">
-                      -R$ 6.00
-                    </td>
+                    <td className="p-4 align-middle font-medium text-rose-500">-R$ 6.00</td>
                     <td className="p-4 align-middle">
                       <div className="flex gap-2">
                         <Button variant="ghost" size="icon" className="h-8 w-8">
@@ -351,11 +319,7 @@ export default function OverviewPage() {
                             <path d="m15 5 4 4" />
                           </svg>
                         </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 text-destructive"
-                        >
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
@@ -386,9 +350,7 @@ export default function OverviewPage() {
                         Transfer
                       </span>
                     </td>
-                    <td className="p-4 align-middle font-medium text-blue-500">
-                      R$ 1,000.00
-                    </td>
+                    <td className="p-4 align-middle font-medium text-blue-500">R$ 1,000.00</td>
                     <td className="p-4 align-middle">
                       <div className="flex gap-2">
                         <Button variant="ghost" size="icon" className="h-8 w-8">
@@ -408,11 +370,7 @@ export default function OverviewPage() {
                             <path d="m15 5 4 4" />
                           </svg>
                         </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 text-destructive"
-                        >
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
@@ -441,9 +399,7 @@ export default function OverviewPage() {
                         Food
                       </span>
                     </td>
-                    <td className="p-4 align-middle font-medium text-rose-500">
-                      -R$ 205.50
-                    </td>
+                    <td className="p-4 align-middle font-medium text-rose-500">-R$ 205.50</td>
                     <td className="p-4 align-middle">
                       <div className="flex gap-2">
                         <Button variant="ghost" size="icon" className="h-8 w-8">
@@ -463,11 +419,7 @@ export default function OverviewPage() {
                             <path d="m15 5 4 4" />
                           </svg>
                         </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 text-destructive"
-                        >
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
@@ -490,17 +442,13 @@ export default function OverviewPage() {
                   </tr>
                   <tr className="transition-colors hover:bg-muted/50">
                     <td className="p-4 align-middle">2025-02-01</td>
-                    <td className="p-4 align-middle">
-                      Elidia Isabel Paraizo - Parcela 3/3
-                    </td>
+                    <td className="p-4 align-middle">Elidia Isabel Paraizo - Parcela 3/3</td>
                     <td className="p-4 align-middle">
                       <span className="inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold bg-blue-50 text-blue-700 border-blue-200">
                         Installment
                       </span>
                     </td>
-                    <td className="p-4 align-middle font-medium text-rose-500">
-                      -R$ 114.96
-                    </td>
+                    <td className="p-4 align-middle font-medium text-rose-500">-R$ 114.96</td>
                     <td className="p-4 align-middle">
                       <div className="flex gap-2">
                         <Button variant="ghost" size="icon" className="h-8 w-8">
@@ -520,11 +468,7 @@ export default function OverviewPage() {
                             <path d="m15 5 4 4" />
                           </svg>
                         </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 text-destructive"
-                        >
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
@@ -568,9 +512,7 @@ export default function OverviewPage() {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">Income</span>
-                  <span className="text-sm font-medium text-emerald-600">
-                    R$ 6,250.00
-                  </span>
+                  <span className="text-sm font-medium text-emerald-600">R$ 6,250.00</span>
                 </div>
 
                 <div className="h-2 bg-muted overflow-hidden">
@@ -580,12 +522,8 @@ export default function OverviewPage() {
 
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">
-                    Expenses
-                  </span>
-                  <span className="text-sm font-medium text-rose-500">
-                    R$ 4,820.75
-                  </span>
+                  <span className="text-sm text-muted-foreground">Expenses</span>
+                  <span className="text-sm font-medium text-rose-500">R$ 4,820.75</span>
                 </div>
 
                 <div className="h-2 bg-muted overflow-hidden">
@@ -596,9 +534,7 @@ export default function OverviewPage() {
               <div className="pt-6">
                 <div className="flex items-center justify-between">
                   <span className="font-medium">Balance</span>
-                  <span className="font-medium text-emerald-600">
-                    R$ 1,429.25
-                  </span>
+                  <span className="font-medium text-emerald-600">R$ 1,429.25</span>
                 </div>
               </div>
             </div>
@@ -659,36 +595,28 @@ export default function OverviewPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <div className="font-medium">Credit Card Payment</div>
-                  <div className="text-xs text-muted-foreground">
-                    Due in 5 days
-                  </div>
+                  <div className="text-xs text-muted-foreground">Due in 5 days</div>
                 </div>
                 <span className="font-medium text-rose-500">R$ 1,250.00</span>
               </div>
               <div className="flex items-center justify-between">
                 <div>
                   <div className="font-medium">Internet Bill</div>
-                  <div className="text-xs text-muted-foreground">
-                    Due in 8 days
-                  </div>
+                  <div className="text-xs text-muted-foreground">Due in 8 days</div>
                 </div>
                 <span className="font-medium text-rose-500">R$ 120.00</span>
               </div>
               <div className="flex items-center justify-between">
                 <div>
                   <div className="font-medium">Smartphone Installment</div>
-                  <div className="text-xs text-muted-foreground">
-                    Due in 12 days
-                  </div>
+                  <div className="text-xs text-muted-foreground">Due in 12 days</div>
                 </div>
                 <span className="font-medium text-rose-500">R$ 210.00</span>
               </div>
               <div className="flex items-center justify-between">
                 <div>
                   <div className="font-medium">Rent</div>
-                  <div className="text-xs text-muted-foreground">
-                    Due in 15 days
-                  </div>
+                  <div className="text-xs text-muted-foreground">Due in 15 days</div>
                 </div>
                 <span className="font-medium text-rose-500">R$ 900.00</span>
               </div>

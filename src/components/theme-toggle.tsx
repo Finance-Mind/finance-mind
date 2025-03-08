@@ -1,11 +1,12 @@
-"use client";
+'use client';
 
-import { useTheme } from "next-themes";
-import { FiSun, FiMoon, FiMonitor } from "react-icons/fi";
-import { useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
+import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
+import { FiSun, FiMoon, FiMonitor } from 'react-icons/fi';
 
-type ThemeOption = "light" | "dark" | "system";
+import { cn } from '@/lib/utils';
+
+type ThemeOption = 'light' | 'dark' | 'system';
 
 interface ThemeButtonProps {
   theme: string | undefined;
@@ -15,13 +16,7 @@ interface ThemeButtonProps {
   onClick: (theme: ThemeOption) => void;
 }
 
-function ThemeButton({
-  theme,
-  value,
-  icon: Icon,
-  label,
-  onClick,
-}: ThemeButtonProps) {
+function ThemeButton({ theme, value, icon: Icon, label, onClick }: ThemeButtonProps) {
   const isActive = theme === value;
 
   return (
@@ -30,7 +25,7 @@ function ThemeButton({
       className="h-10 w-10 flex items-center justify-center rounded-none cursor-pointer text-foreground"
       aria-label={label}
       aria-pressed={isActive}
-      data-state={isActive ? "active" : "inactive"}
+      data-state={isActive ? 'active' : 'inactive'}
     >
       <Icon className="h-4 w-4" />
     </button>
@@ -55,9 +50,9 @@ export function ThemeToggle({ className }: { className?: string }) {
     icon: React.ElementType;
     label: string;
   }> = [
-    { value: "light", icon: FiSun, label: "Light mode" },
-    { value: "dark", icon: FiMoon, label: "Dark mode" },
-    { value: "system", icon: FiMonitor, label: "System preference" },
+    { value: 'light', icon: FiSun, label: 'Light mode' },
+    { value: 'dark', icon: FiMoon, label: 'Dark mode' },
+    { value: 'system', icon: FiMonitor, label: 'System preference' },
   ];
 
   // Avoid rendering toggle until client-side to prevent hydration mismatch
@@ -66,13 +61,13 @@ export function ThemeToggle({ className }: { className?: string }) {
   }
 
   return (
-    <div className={cn("relative inline-block text-left", className)}>
+    <div className={cn('relative inline-block text-left', className)}>
       <div
         className="flex items-center border border-border bg-background"
         role="group"
         aria-label="Theme selection"
       >
-        {themeOptions.map((option) => (
+        {themeOptions.map(option => (
           <ThemeButton
             key={option.value}
             theme={theme}

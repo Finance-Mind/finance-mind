@@ -1,6 +1,5 @@
-import { TransactionType } from "@/lib/ai/types";
+import type { TransactionType , TransactionCategory } from '@/lib/ai/types';
 
-import { TransactionCategory } from "@/lib/ai/types";
 
 export interface Transaction {
   id: string;
