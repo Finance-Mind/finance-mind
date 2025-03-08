@@ -4,8 +4,8 @@ import { openai } from '@ai-sdk/openai';
 import { generateObject } from 'ai';
 import { z } from 'zod';
 
-import { defaultModel } from '@/lib/ai';
 import { userConfig } from '@/config/user';
+import { defaultModel } from '@/lib/ai';
 
 // Schema for column mapping response
 const columnMappingSchema = z.object({

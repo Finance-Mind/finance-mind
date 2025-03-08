@@ -1,0 +1,244 @@
+---
+description: Prompt engineering guidelines for Finance Mind's AI components
+globs: src/actions/ai/**/*
+---
+
+You are a prompt engineering expert specializing in financial AI systems, particularly for the Finance Mind application.
+
+# Prompt Engineering for Finance Mind
+
+## Core Principles
+
+1. **Financial Domain Specificity**: All prompts must be tailored to financial contexts with special attention to:
+   - Banking terminology accuracy
+   - Transaction categorization patterns
+   - Investment instruments and their characteristics
+   - Multi-currency handling and formatting
+   - Brazilian financial system specifics (PIX, boletos, parcelamentos)
+
+2. **Deterministic Output Structure**: Design prompts that consistently produce structured outputs:
+   - Use explicit JSON/object schemas in the prompt
+   - Include field validations and constraints
+   - Specify data types and formats for each field
+   - Enforce required fields and provide defaults for optional ones
+
+3. **Language Preservation**: Create prompts that are language-aware:
+   - Detect input language automatically
+   - Preserve original language in text fields (descriptions, merchant names)
+   - Standardize only category and type values to English constants
+   - Handle date expressions in multiple languages (Portuguese, English, Spanish)
+
+4. **Schema-First Approach**: Begin with the end in mind by defining output schemas first:
+   - Define Zod or TypeScript schemas before writing prompts
+   - Reference schema types directly in prompts
+   - Use consistent naming conventions across schemas and prompts
+
+## Prompt Templates
+
+### Transaction Field Extraction
+
+```typescript
+const systemPrompt = `You are a financial data extraction expert for Finance Mind.
+Extract structured transaction data from the user's input.
+
+INPUT GUIDELINES:
+- Input may be in any language (primarily Portuguese, English, or Spanish)
+- Input may contain transaction details in natural language format
+- Input may include dates in various formats
+- Input may include currency amounts
+- Input may include merchant names
+
+OUTPUT REQUIREMENTS:
+You must return a valid JSON object with the following schema:
+{
+  "description": string, // Cleaned description in original language
+  "amount": number, // Positive for income, negative for expenses
+  "date": string, // ISO format date
+  "merchant": string | null, // Merchant name if present, null otherwise
+  "category": string, // One of the predefined categories
+  "type": "INCOME" | "OUTCOME" | "TRANSFER", // Transaction type
+  "isInstallment": boolean, // Whether this is an installment payment
+  "installmentNumber": number | null, // Current installment number if applicable
+  "totalInstallments": number | null, // Total number of installments if applicable
+  "currency": string // ISO currency code, default "BRL"
+}
+
+EXAMPLES:
+Input: "150 para corrida de uber ontem"
+Output:
+{
+  "description": "Corrida de Uber",
+  "amount": -150,
+  "date": "2023-09-15T00:00:00.000Z", // assuming yesterday was this date
+  "merchant": "Uber",
+  "category": "TRANSPORTATION",
+  "type": "OUTCOME",
+  "isInstallment": false,
+  "installmentNumber": null,
+  "totalInstallments": null,
+  "currency": "BRL"
+}
+
+Input: "Recebi salário de 3.500 no dia 05/04"
+Output:
+{
+  "description": "Salário",
+  "amount": 3500,
+  "date": "2023-04-05T00:00:00.000Z",
+  "merchant": null,
+  "category": "SALARY",
+  "type": "INCOME",
+  "isInstallment": false,
+  "installmentNumber": null,
+  "totalInstallments": null,
+  "currency": "BRL"
+}`;
+```
+
+### Transaction Categorization
+
+```typescript
+const systemPrompt = `You are a financial transaction categorization expert for Finance Mind.
+Analyze the transaction details and determine the appropriate category, type, and other metadata.
+
+INPUT:
+{
+  "description": string, // Transaction description
+  "amount": number, // Transaction amount (positive for income, negative for expenses)
+  "date": string, // Transaction date in ISO or YYYY-MM-DD format
+  "merchant": string | null // Optional merchant name
+}
+
+OUTPUT REQUIREMENTS:
+Return a JSON object with the following schema:
+{
+  "category": string, // One of the predefined categories (see below)
+  "type": "INCOME" | "OUTCOME" | "TRANSFER", // Transaction type
+  "confidence": number, // Confidence level from 0.0 to 1.0
+  "merchant": string | null, // Formatted merchant name if available
+  "isInstallment": boolean, // Whether this is an installment payment
+  "installmentNumber": number | null, // Current installment number if detected
+  "totalInstallments": number | null, // Total number of installments if detected
+  "isInternalTransfer": boolean, // Whether this is a transfer between user's own accounts
+  "tags": string[] // Optional tags for further classification
+}
+
+CATEGORIES:
+FOOD_DINING: Restaurants, food delivery, groceries, etc.
+SHOPPING: Retail purchases, online shopping, etc.
+TRANSPORTATION: Uber, taxis, public transit, fuel, etc.
+UTILITIES: Electricity, water, internet, phone, etc.
+HOUSING: Rent, mortgage, home maintenance, etc.
+HEALTH_FITNESS: Medical expenses, gym, pharmacy, etc.
+ENTERTAINMENT: Movies, games, streaming services, etc.
+TRAVEL: Hotels, flights, vacations, etc.
+EDUCATION: Tuition, books, courses, etc.
+PERSONAL_CARE: Haircuts, spa, beauty products, etc.
+INVESTMENT: Stock purchases, mutual funds, etc.
+INCOME: Salary, freelance income, etc.
+TRANSFER: Money transfers, credit card payments, etc.
+CREDIT_CARD_PAYMENT: Credit card bill payments
+SUBSCRIPTION: Regular subscription services
+OTHER: Miscellaneous expenses
+
+BRAZILIAN FINANCIAL SYSTEM SPECIFICS:
+- PIX transactions are transfers and should be categorized as TRANSFER
+- "Compras parceladas" (installment purchases) should have isInstallment=true
+- "Boletos" are typically bill payments
+- IOF is a Brazilian financial transaction tax often seen with foreign currency transactions
+
+EXAMPLES:
+Input: { "description": "Pagamento de fatura do cartão Nubank", "amount": -500, "date": "2023-09-15", "merchant": "Nubank" }
+Output:
+{
+  "category": "CREDIT_CARD_PAYMENT",
+  "type": "TRANSFER",
+  "confidence": 0.95,
+  "merchant": "Nubank",
+  "isInstallment": false,
+  "installmentNumber": null,
+  "totalInstallments": null,
+  "isInternalTransfer": false,
+  "tags": ["bill_payment", "credit_card"]
+}
+
+Input: { "description": "NETFLIX.COM", "amount": -39.90, "date": "2023-09-16", "merchant": null }
+Output:
+{
+  "category": "SUBSCRIPTION",
+  "type": "OUTCOME",
+  "confidence": 0.98,
+  "merchant": "Netflix",
+  "isInstallment": false,
+  "installmentNumber": null,
+  "totalInstallments": null,
+  "isInternalTransfer": false,
+  "tags": ["streaming", "entertainment"]
+}`;
+```
+
+## Best Practices
+
+1. **Temperature Settings**:
+   - Use temperature 0.1-0.3 for financial data extraction and categorization
+   - Use temperature 0 for strict schema-based extraction
+
+2. **Two-Stage Processing**:
+   - Stage 1: Extract raw data from unstructured input
+   - Stage 2: Classify and categorize the extracted data
+   - Use outputs from Stage 1 as structured inputs to Stage 2
+
+3. **Error Handling**:
+   - Include fallback mechanisms for parsing failures
+   - Provide clear error messages for debugging
+   - Set sensible defaults for missing fields
+
+4. **Prompt Testing**:
+   - Test with diverse financial data samples
+   - Test across multiple languages (PT-BR, EN, ES)
+   - Test edge cases (negative amounts, zero amounts, future dates)
+   - Test with valid and invalid inputs
+
+5. **Context Management**:
+   - Use efficiently truncated context for processing large financial datasets
+   - Include relevant transaction history for improved categorization
+   - Maintain temporal context for recurring transactions
+
+6. **Prompt Documentation**:
+   - Document prompt versions and changes
+   - Track performance metrics for each prompt iteration
+   - Document example inputs and expected outputs
+
+7. **Financial Domain Knowledge**:
+   - Include specific banking terminology in prompts
+   - Reference common merchant patterns for categorization
+   - Handle special transaction types (PIX, boletos, credit card payments)
+   - Support Brazilian financial patterns and terminology
+
+## Implementation Guidelines
+
+1. **Prompt Structure**:
+   - Clear system message defining the role and task
+   - Explicit instructions with examples
+   - Schema definition with field constraints
+   - Example inputs and outputs
+
+2. **Output Validation**:
+   - Always validate LLM output against schema
+   - Implement fallback strategies for invalid outputs
+   - Log validation errors for prompt improvement
+
+3. **Maintenance and Iteration**:
+   - Review and update prompts based on error patterns
+   - Regularly test prompts with new financial data
+   - Document prompt changes and performance improvements
+
+4. **Performance Optimization**:
+   - Minimize token usage with efficient prompts
+   - Batch similar operations where possible
+   - Cache frequently used prompt results
+
+5. **Model Selection**:
+   - Use GPT-4 for complex financial reasoning tasks
+   - Use GPT-3.5 Turbo for simpler categorization tasks
+   - Experiment with domain-specific fine-tuned models for financial data 

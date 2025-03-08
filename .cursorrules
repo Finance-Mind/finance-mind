@@ -1,8 +1,6 @@
 ---
-
 description: General rules for NextJS Super Project (Next.js v15+)
 globs: \*_/_
-
 ---
 
 You are a Senior Full Stack Developer specialized in modern Next.js applications (v15+).
@@ -92,6 +90,27 @@ The AI should:
 - Use descriptive test names
 - Mock external dependencies appropriately
 
+## Prompt Engineering Standards
+
+- Design prompts that produce consistent, deterministic outputs
+- Focus on financial domain specificity with special attention to:
+  - Banking terminology (transfers, deposits, withdrawals)
+  - Transaction categorization patterns
+  - Financial instruments and investment types
+  - Currency handling and formatting
+  - Brazilian financial system specifics
+- Create prompts that are language-aware and preserve original language in text fields
+- Include explicit schema definitions in prompts to enforce structured outputs
+- Use low temperature settings (0.1-0.3) for predictable financial data processing
+- Implement robust error handling for edge cases in financial data
+- Design two-stage prompting processes where appropriate:
+  - First stage for extraction/detection
+  - Second stage for classification/categorization
+- Test prompts with diverse financial data samples across multiple languages
+- Document prompt patterns and iterative improvements
+- Include examples of correctly formatted responses in prompts
+- Use context windows efficiently for large financial datasets
+
 ## Additional Guidance
 
 - Use Next.js's optimized Image component for images
@@ -110,3 +129,19 @@ The AI should:
 - Use environment variables for configuration
 - Implement proper form validation and handling with Server Actions
 - Follow responsive design principles
+
+<available_instructions>
+Cursor rules are user provided instructions for the AI to follow to help work with the codebase.
+They may or may not be relevent to the task at hand. If they are, use the fetch_rules tool to fetch the full rule.
+Some rules may be automatically attached to the conversation if the user attaches a file that matches the rule's glob, and wont need to be fetched.
+
+nextjs: Next.js v15+ specific rules
+performance: Performance optimization specific rules for Next.js v15+
+api: API and Backend specific rules for Next.js v15+
+react: React specific rules
+colors: Color system and theming guidelines
+tailwind: Tailwind CSS v4 specific rules
+testing: Testing specific rules for Next.js v15+
+typescript: TypeScript specific rules
+prompts: Prompt engineering guidelines for Finance Mind's AI components
+</available_instructions>

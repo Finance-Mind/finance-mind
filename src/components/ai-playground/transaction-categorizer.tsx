@@ -230,8 +230,8 @@ export const TransactionCategorizer = () => {
               </li>
               <li>Detects installment payments, transfers, and other special transaction types</li>
               <li>
-                Recognizes person-to-person transfers like "caio 150" or "jon 100" as PIX
-                transactions
+                Recognizes person-to-person transfers like &quot;caio 150&quot; or &quot;jon
+                100&quot; as PIX transactions
               </li>
               <li>
                 All processing happens securely on the server, with no data stored permanently

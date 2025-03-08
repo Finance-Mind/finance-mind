@@ -1,26 +1,26 @@
 'use server';
 
 import { categorizeTransaction } from '@/actions/ai/categorize-transaction';
+import { detectP2PTransfer } from '@/actions/ai/detect-person-to-person-transfer';
 import { extractCardFromFilename as aiExtractCardFromFilename } from '@/actions/ai/extract-card-info';
 import { extractCardInfoFromRow, formatCardInfo } from '@/actions/ai/extract-card-info-from-row';
-import { detectP2PTransfer } from '@/actions/ai/detect-person-to-person-transfer';
 import { identifyColumns } from '@/actions/ai/identify-columns';
+import { userConfig } from '@/config/user';
 import { TransactionCategory, TransactionType } from '@/lib/ai/types';
-import type { Transaction } from '@/interfaces/transaction';
-
 import { applyColumnMapping, parseCSV } from '@/lib/parsers/csv-parser';
 import { parsePDF } from '@/lib/parsers/pdf-parser';
 import { generateTransactionId } from '@/lib/utils/transaction-utils';
-import { userConfig } from '@/config/user';
+
+import type { Transaction } from '@/interfaces/transaction';
 
 // Default card holder name
 const DEFAULT_CARD_HOLDER = userConfig.cardHolder.name;
 
-export type ProcessedStatement = {
+export interface ProcessedStatement {
   transactions: Transaction[];
   errors?: string[];
   warnings?: string[];
-};
+}
 
 /**
  * Process bank statement files (CSV or PDF)
@@ -326,7 +326,7 @@ async function extractBasicTransaction(
     currency: 'BRL', // Default to Brazilian Real
   };
 
-  let requiresAI = true;
+  const requiresAI = true;
 
   // If we have AI-mapped fields, use them directly
   if ('date' in row && row.date) {

@@ -27,12 +27,10 @@ export async function parsePDF(
     // Dynamically import PDF.js only on the client side
     // We use any typing here to avoid dependency on specific PDF.js types
     // which can cause issues with type checking in SSR
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const pdfjs = (await import('pdfjs-dist')) as any;
+    const pdfjs = await import('pdfjs-dist');
 
     // Set the worker source
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const pdfjsWorker = (await import('pdfjs-dist/build/pdf.worker.mjs')) as any;
+    const pdfjsWorker = await import('pdfjs-dist/build/pdf.worker.mjs');
     pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
     // Load the PDF document
@@ -46,10 +44,8 @@ export async function parsePDF(
       const page = await pdf.getPage(i);
       const textContent = await page.getTextContent();
       // Use a type assertion to handle unknown structure
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const pageText = textContent.items
-        .map((item: any) => ('str' in item ? item.str : ''))
-        .join(' ');
+
+      const pageText = textContent.items.map(item => ('str' in item ? item.str : '')).join(' ');
 
       extractedText.push(pageText);
     }
@@ -120,7 +116,6 @@ function extractStructuredData(text: string): Array<Record<string, string | numb
     // This assumes dates are at consistent positions in each row
     const lines = text.split('\n');
     let currentLine = '';
-    let dateIndex = 0;
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i].trim();

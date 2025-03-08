@@ -4,10 +4,11 @@ import { openai } from '@ai-sdk/openai';
 import { generateObject } from 'ai';
 import { z } from 'zod';
 
+import { userConfig } from '@/config/user';
 import { defaultModel } from '@/lib/ai';
 import { TransactionType } from '@/lib/ai/types';
+
 import type { Transaction } from '@/interfaces/transaction';
-import { userConfig } from '@/config/user';
 
 // Schema for person-to-person transfer detection response
 const p2pTransferSchema = z.object({

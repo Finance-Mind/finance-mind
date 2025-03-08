@@ -18,10 +18,10 @@ const compat = new FlatCompat({
 const eslintConfig = [
   // Base configurations
   ...compat.extends('next/core-web-vitals', 'next/typescript', 'prettier'),
-  
+
   // Prettier config to turn off ESLint rules that conflict with Prettier
   prettierConfig,
-  
+
   // Common JavaScript/TypeScript rules
   {
     files: ['**/*.{js,mjs,cjs,jsx,ts,tsx}'],
@@ -82,20 +82,29 @@ const eslintConfig = [
       // TypeScript-specific rules
       '@typescript-eslint/explicit-module-boundary-types': 'off', // Next.js doesn't need explicit return types
       '@typescript-eslint/no-explicit-any': 'warn', // Avoid using 'any' type
-      '@typescript-eslint/no-unused-vars': ['warn', { 
-        argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_',
-      }], // Warn about unused variables, but ignore those starting with underscore
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+        },
+      ], // Warn about unused variables, but ignore those starting with underscore
       '@typescript-eslint/no-non-null-assertion': 'warn', // Warn about non-null assertions
-      '@typescript-eslint/consistent-type-imports': ['error', { 
-        prefer: 'type-imports',
-        fixStyle: 'separate-type-imports',
-      }], // Enforce consistent type imports
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        {
+          prefer: 'type-imports',
+          fixStyle: 'separate-type-imports',
+        },
+      ], // Enforce consistent type imports
       '@typescript-eslint/consistent-type-definitions': ['error', 'interface'], // Prefer interfaces over types
-      '@typescript-eslint/ban-ts-comment': ['error', { 
-        'ts-ignore': 'allow-with-description',
-        'ts-expect-error': 'allow-with-description',
-      }], // Only allow TS-ignore comments with descriptions
+      '@typescript-eslint/ban-ts-comment': [
+        'error',
+        {
+          'ts-ignore': 'allow-with-description',
+          'ts-expect-error': 'allow-with-description',
+        },
+      ], // Only allow TS-ignore comments with descriptions
     },
   },
 ];

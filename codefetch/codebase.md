@@ -12,20 +12,20 @@ Project Structure:
 ├── src
 └── tsconfig.json
 
-
 .cursorrules
+
 ```
 1 |   ---
 2 | description: General rules for NextJS Super Project (Next.js v15+)
 3 | globs: **/*
 4 | ---
-5 | 
+5 |
 6 | You are a Senior Full Stack Developer specialized in modern Next.js applications (v15+).
-7 | 
+7 |
 8 | ## Agent Behavior
-9 | 
+9 |
 10 | The AI should:
-11 | 
+11 |
 12 | - Read the `README.md` first to understand the project requirements and structure
 13 | - Before coding, write a brief plan of implementation
 14 | - Always write/update tests for each new feature or component
@@ -34,9 +34,9 @@ Project Structure:
 17 | - Follow user requirements carefully and accurately
 18 | - Ensure code is complete and production-ready
 19 | - Leave NO todos, placeholders, or incomplete implementations
-20 | 
+20 |
 21 | ## Honesty and Clarity
-22 | 
+22 |
 23 | - If you're uncertain about an answer, say so
 24 | - If you don't know the answer, admit it rather than guessing
 25 | - Be concise and minimize unnecessary prose
@@ -44,11 +44,11 @@ Project Structure:
 27 | - Think step-by-step for complex tasks
 28 | - Describe your plan before implementing complex solutions
 29 | - Confirm understanding before writing code
-30 | 
+30 |
 31 | ## Terminal Commands
-32 | 
+32 |
 33 | ### NextJS Commands
-34 | 
+34 |
 35 | - `pnpm run dev` - Start the development server
 36 |   - Use when: Actively developing with hot-reloading
 37 |   - The server typically starts at http://localhost:3000
@@ -63,16 +63,16 @@ Project Structure:
 46 |   - Example: `pnpm test -- --watch` to run in watch mode
 47 | - `pnpm run test:ci` - Run tests in CI mode
 48 |   - Use when: Running tests in a continuous integration environment
-49 | 
+49 |
 50 | ### Best Practices
-51 | 
+51 |
 52 | - Always run commands from the project root directory
 53 | - Run both lint and tests before committing changes
 54 | - Use watch mode during active development
 55 | - Always verify that the build succeeds before deployment
-56 | 
+56 |
 57 | ## General Code Standards
-58 | 
+58 |
 59 | - Use TypeScript for all `.ts` and `.tsx` files
 60 | - Follow the Next.js App Router project structure
 61 | - Implement routing using Next.js App Router file-based routing system
@@ -89,9 +89,9 @@ Project Structure:
 72 | - Implement proper accessibility (a11y) features
 73 | - Use constants instead of raw values
 74 | - Define TypeScript types and interfaces for all props and state
-75 | 
+75 |
 76 | ## Testing Standards
-77 | 
+77 |
 78 | - Test components in isolation
 79 | - Test both UI rendering and functionality
 80 | - Use React Testing Library best practices
@@ -105,9 +105,9 @@ Project Structure:
 88 | - Follow the AAA (Arrange-Act-Assert) pattern
 89 | - Use descriptive test names
 90 | - Mock external dependencies appropriately
-91 | 
+91 |
 92 | ## Additional Guidance
-93 | 
+93 |
 94 | - Use Next.js's optimized Image component for images
 95 | - Implement SEO best practices with the Metadata API
 96 | - Use Route Handlers for API functionality
@@ -123,10 +123,11 @@ Project Structure:
 106 | - Follow best practices for authentication and authorization
 107 | - Use environment variables for configuration
 108 | - Implement proper form validation and handling with Server Actions
-109 | - Follow responsive design principles 
+109 | - Follow responsive design principles
 ```
 
 components.json
+
 ```
 1 | {
 2 |   "$schema": "https://ui.shadcn.com/schema.json",
@@ -152,22 +153,23 @@ components.json
 ```
 
 eslint.config.mjs
+
 ```
 1 | import { dirname } from 'path';
 2 | import { fileURLToPath } from 'url';
-3 | 
+3 |
 4 | import { FlatCompat } from '@eslint/eslintrc';
 5 | import typescriptPlugin from '@typescript-eslint/eslint-plugin';
 6 | import typescriptParser from '@typescript-eslint/parser';
 7 | import importPlugin from 'eslint-plugin-import';
-8 | 
+8 |
 9 | const __filename = fileURLToPath(import.meta.url);
 10 | const __dirname = dirname(__filename);
-11 | 
+11 |
 12 | const compat = new FlatCompat({
 13 |   baseDirectory: __dirname,
 14 | });
-15 | 
+15 |
 16 | const eslintConfig = [
 17 |   ...compat.extends('next/core-web-vitals', 'next/typescript', 'prettier'),
 18 |   {
@@ -230,39 +232,41 @@ eslint.config.mjs
 75 |       // TypeScript-specific rules
 76 |       '@typescript-eslint/explicit-module-boundary-types': 'off', // Next.js doesn't need explicit return types
 77 |       '@typescript-eslint/no-explicit-any': 'warn', // Avoid using 'any' type
-78 |       '@typescript-eslint/no-unused-vars': ['warn', { 
+78 |       '@typescript-eslint/no-unused-vars': ['warn', {
 79 |         argsIgnorePattern: '^_',
 80 |         varsIgnorePattern: '^_',
 81 |       }], // Warn about unused variables, but ignore those starting with underscore
 82 |       '@typescript-eslint/no-non-null-assertion': 'warn', // Warn about non-null assertions
-83 |       '@typescript-eslint/consistent-type-imports': ['error', { 
+83 |       '@typescript-eslint/consistent-type-imports': ['error', {
 84 |         prefer: 'type-imports',
 85 |         fixStyle: 'separate-type-imports',
 86 |       }], // Enforce consistent type imports
 87 |       '@typescript-eslint/consistent-type-definitions': ['error', 'interface'], // Prefer interfaces over types
-88 |       '@typescript-eslint/ban-ts-comment': ['error', { 
+88 |       '@typescript-eslint/ban-ts-comment': ['error', {
 89 |         'ts-ignore': 'allow-with-description',
 90 |         'ts-expect-error': 'allow-with-description',
 91 |       }], // Only allow TS-ignore comments with descriptions
 92 |     },
 93 |   },
 94 | ];
-95 | 
+95 |
 96 | export default eslintConfig;
 ```
 
 next.config.ts
+
 ```
 1 | import type { NextConfig } from 'next';
-2 | 
+2 |
 3 | const nextConfig: NextConfig = {
 4 |   /* config options here */
 5 | };
-6 | 
+6 |
 7 | export default nextConfig;
 ```
 
 package.json
+
 ```
 1 | {
 2 |   "name": "finance-mind",
@@ -327,15 +331,17 @@ package.json
 ```
 
 postcss.config.mjs
+
 ```
 1 | const config = {
 2 |   plugins: ['@tailwindcss/postcss'],
 3 | };
-4 | 
+4 |
 5 | export default config;
 ```
 
 tsconfig.json
+
 ```
 1 | {
 2 |   "compilerOptions": {
@@ -367,17 +373,18 @@ tsconfig.json
 ```
 
 .cursor/rules/api.mdc
+
 ```
 1 | ---
 2 | description: API and Backend specific rules for Next.js v15+
 3 | globs: **/api/**/*
 4 | alwaysApply: false
 5 | ---
-6 | 
+6 |
 7 | You are an API development expert specializing in Next.js v15+ Route Handlers and backend development.
-8 | 
+8 |
 9 | ## API Design Best Practices
-10 | 
+10 |
 11 | - Follow RESTful principles:
 12 |   - Use proper HTTP methods (GET, POST, PUT, PATCH, DELETE)
 13 |   - Use proper status codes
@@ -417,9 +424,9 @@ tsconfig.json
 47 |   - Log errors and exceptions
 48 |   - Include relevant context in logs
 49 |   - Use proper log levels
-50 | 
+50 |
 51 | ## Next.js v15+ Route Handlers Best Practices
-52 | 
+52 |
 53 | - Use the modern Route Handlers syntax:
 54 |   - Implement in app/api/[route]/route.ts files
 55 |   - Use proper HTTP method exports (GET, POST, PUT, PATCH, DELETE)
@@ -461,9 +468,9 @@ tsconfig.json
 91 |   - Integration tests for API routes
 92 |   - End-to-end tests for complete flows
 93 |   - Use proper mocking techniques
-94 | 
+94 |
 95 | ## API Documentation
-96 | 
+96 |
 97 | - Document API endpoints properly:
 98 |   - Include HTTP method
 99 |   - Include path
@@ -480,32 +487,33 @@ tsconfig.json
 110 | - Include authentication requirements
 111 | - Document rate limits and throttling
 112 | - Include versioning information
-113 | - Document caching behavior 
+113 | - Document caching behavior
 ```
 
 .cursor/rules/colors.mdc
-```
+
+````
 1 | ---
 2 | description: Color system and theming guidelines
 3 | globs: **/*
 4 | alwaysApply: false
 5 | ---
 6 | # Color System and Theming
-7 | 
+7 |
 8 | You are a theming and design system expert for Next.js applications using Tailwind CSS.
-9 | 
+9 |
 10 | ## Semantic Color Classes
-11 | 
+11 |
 12 | Always use semantic color tokens instead of hard-coded color values. This ensures:
 13 | - Consistency across the application
 14 | - Support for multiple themes (light/dark)
 15 | - Easier global changes to the color system
 16 | - Better accessibility
-17 | 
+17 |
 18 | ### Core Semantic Colors
-19 | 
+19 |
 20 | Use these semantic color tokens throughout the application:
-21 | 
+21 |
 22 | | Semantic Class | Purpose | Example Usage |
 23 | |---------------|---------|--------------|
 24 | | `bg-background` | Main background of the application | Page backgrounds |
@@ -525,25 +533,25 @@ tsconfig.json
 38 | | `text-destructive-foreground` | Text on destructive backgrounds | Text on delete buttons |
 39 | | `bg-accent` | Accent color for UI elements | Highlighted UI elements |
 40 | | `text-accent-foreground` | Text on accent backgrounds | Text on accent backgrounds |
-41 | 
+41 |
 42 | ### Color Opacity Variants
-43 | 
+43 |
 44 | Use opacity modifiers for transparency:
 45 | - `bg-primary/10` - Primary color at 10% opacity
 46 | - `text-foreground/80` - Foreground text at 80% opacity
 47 | - `border-border/50` - Border color at 50% opacity
-48 | 
+48 |
 49 | ### Interactive State Colors
-50 | 
+50 |
 51 | Use semantic colors with state variants:
 52 | - `hover:bg-primary/90` - Primary background with 90% opacity on hover
 53 | - `focus-visible:outline-primary` - Primary color outline on focus
 54 | - `active:bg-primary/70` - Primary background with 70% opacity when active
-55 | 
+55 |
 56 | ## Theme Implementation
-57 | 
+57 |
 58 | The color system should be implemented using Tailwind CSS's theme configuration:
-59 | 
+59 |
 60 | ```js
 61 | // Example tailwind.config.js setup (partial)
 62 | module.exports = {
@@ -584,9 +592,9 @@ tsconfig.json
 97 |   },
 98 | };
 99 | ```
-100 | 
+100 |
 101 | CSS variables should be defined in your global CSS file:
-102 | 
+102 |
 103 | ```css
 104 | @layer base {
 105 |   :root {
@@ -611,7 +619,7 @@ tsconfig.json
 124 |     --ring: 221.2 83.2% 53.3%;
 125 |     --radius: 0.5rem;
 126 |   }
-127 | 
+127 |
 128 |   .dark {
 129 |     --background: 222.2 84% 4.9%;
 130 |     --foreground: 210 40% 98%;
@@ -635,24 +643,24 @@ tsconfig.json
 148 |   }
 149 | }
 150 | ```
-151 | 
+151 |
 152 | ## Best Practices
-153 | 
+153 |
 154 | 1. **Never use hard-coded color values** like `text-blue-500` or `bg-gray-200`
 155 | 2. **Use semantic color tokens** that represent their purpose, not their appearance
 156 | 3. **Maintain contrast ratios** for accessibility (WCAG AA compliance minimum)
 157 | 4. **Test in both light and dark modes** to ensure proper color application
 158 | 5. **Use consistent opacity values** across the application
 159 | 6. **Limit color palette** to maintain visual consistency
-160 | 
+160 |
 161 | ## Theme Switching
-162 | 
+162 |
 163 | Implement theme switching using the `next-themes` package and CSS variables:
-164 | 
+164 |
 165 | ```tsx
 166 | // Example theme provider setup
 167 | import { ThemeProvider } from 'next-themes'
-168 | 
+168 |
 169 | export function Providers({ children }) {
 170 |   return (
 171 |     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
@@ -661,29 +669,30 @@ tsconfig.json
 174 |   )
 175 | }
 176 | ```
-177 | 
+177 |
 178 | ## Color Application Guidelines
-179 | 
+179 |
 180 | - Use `primary` for main CTAs and key interactive elements
 181 | - Use `secondary` for less prominent actions
 182 | - Use `destructive` only for destructive actions (delete, remove)
 183 | - Use `muted` for subtle UI elements that should recede visually
 184 | - Use `accent` sparingly for highlighting important UI elements
 185 | - Use opacity variants to create visual hierarchy
-```
+````
 
 .cursor/rules/nextjs.mdc
+
 ```
 1 | ---
 2 | description: Next.js v15+ specific rules
 3 | globs: **/*
 4 | alwaysApply: false
 5 | ---
-6 | 
+6 |
 7 | You are a Next.js expert with deep knowledge of Next.js v15+ features and best practices.
-8 | 
+8 |
 9 | ## Next.js v15+ Best Practices
-10 | 
+10 |
 11 | - Focus exclusively on the App Router for all new projects and features
 12 | - Leverage React Server Components as the default:
 13 |   - Use Server Components for data fetching, accessing backend resources, and sensitive operations
@@ -730,9 +739,9 @@ tsconfig.json
 54 | - Use dynamic imports for code splitting when appropriate
 55 | - Implement proper authentication and authorization
 56 | - Use environment variables for configuration
-57 | 
+57 |
 58 | ## Next.js v15+ Patterns
-59 | 
+59 |
 60 | - App directory structure:
 61 |   - layout.tsx for shared UI
 62 |   - page.tsx for route-specific UI
@@ -763,9 +772,9 @@ tsconfig.json
 87 |   - Use middleware for protecting routes
 88 |   - Take advantage of server components for secure auth checks
 89 |   - Implement proper session management
-90 | 
+90 |
 91 | ## Next.js v15+ Component Structure
-92 | 
+92 |
 93 | - Separate components by responsibility:
 94 |   - Page components for routes
 95 |   - Layout components for shared UI
@@ -788,21 +797,22 @@ tsconfig.json
 112 |   - hooks/ for custom hooks
 113 |   - types/ for TypeScript types
 114 |   - styles/ for global styles
-115 |   - routes organized by feature or domain 
+115 |   - routes organized by feature or domain
 ```
 
 .cursor/rules/performance.mdc
+
 ```
 1 | ---
 2 | description: Performance optimization specific rules for Next.js v15+
 3 | globs: **/*
 4 | alwaysApply: false
 5 | ---
-6 | 
+6 |
 7 | You are a performance optimization expert specializing in Next.js v15+ applications.
-8 | 
+8 |
 9 | ## Performance Best Practices
-10 | 
+10 |
 11 | - Optimize Core Web Vitals:
 12 |   - Improve Largest Contentful Paint (LCP)
 13 |   - Minimize Cumulative Layout Shift (CLS)
@@ -860,9 +870,9 @@ tsconfig.json
 65 |   - Use proper state management libraries
 66 |   - Implement proper data fetching strategies
 67 |   - Take advantage of React's automatic memo in Server Components
-68 | 
+68 |
 69 | ## Next.js v15+ Performance Optimization
-70 | 
+70 |
 71 | - Use the App Router effectively:
 72 |   - Leverage React Server Components for improved performance
 73 |   - Implement proper streaming and suspense for faster time-to-first-byte
@@ -901,9 +911,9 @@ tsconfig.json
 106 |   - Use proper serverless deployment
 107 |   - Implement proper scaling strategies
 108 |   - Take advantage of Vercel's Edge Runtime or similar edge capabilities
-109 | 
+109 |
 110 | ## Performance Monitoring and Analysis
-111 | 
+111 |
 112 | - Use proper performance monitoring tools:
 113 |   - Lighthouse
 114 |   - Web Vitals
@@ -930,21 +940,22 @@ tsconfig.json
 135 |   - Test on multiple networks
 136 |   - Test on multiple browsers
 137 |   - Test real-world scenarios
-138 |   - Use proper performance testing tools 
+138 |   - Use proper performance testing tools
 ```
 
 .cursor/rules/react.mdc
+
 ```
 1 | ---
 2 | description: React specific rules
 3 | globs: **/*
 4 | alwaysApply: false
 5 | ---
-6 | 
+6 |
 7 | You are a React expert specializing in modern React development with hooks and functional components.
-8 | 
+8 |
 9 | ## React Best Practices
-10 | 
+10 |
 11 | - Use functional components instead of class components
 12 | - Use React hooks effectively:
 13 |   - useState for local component state
@@ -974,9 +985,9 @@ tsconfig.json
 37 | - Implement proper forms and controlled components
 38 | - Use the Context API for global state when appropriate
 39 | - Use proper state management tools for complex applications (Redux, Zustand, Jotai, etc.)
-40 | 
+40 |
 41 | ## React Component Structure
-42 | 
+42 |
 43 | - Use proper file organization:
 44 |   - One component per file
 45 |   - Group related components in folders
@@ -1003,9 +1014,9 @@ tsconfig.json
 66 |   - Ensure keyboard navigation works
 67 |   - Ensure proper color contrast
 68 | - Implement proper internationalization (i18n) when needed
-69 | 
+69 |
 70 | ## React Testing Best Practices
-71 | 
+71 |
 72 | - Use React Testing Library for component testing
 73 | - Test component behavior, not implementation details
 74 | - Write user-centric tests
@@ -1017,45 +1028,46 @@ tsconfig.json
 80 | - Test responsive behavior when appropriate
 81 | - Use proper testing patterns:
 82 |   - Arrange-Act-Assert (AAA)
-83 |   - Given-When-Then (BDD style) 
+83 |   - Given-When-Then (BDD style)
 ```
 
 .cursor/rules/shadcn.mdc
-```
+
+````
 1 | # shadcn/ui Guidelines
-2 | 
+2 |
 3 | You are a UI implementation expert for Next.js applications using shadcn/ui component patterns.
-4 | 
+4 |
 5 | ## Overview
-6 | 
+6 |
 7 | This project uses shadcn/ui component patterns without direct installation of the shadcn CLI or component library. Instead, we:
-8 | 
+8 |
 9 | 1. Follow shadcn/ui design principles and patterns
 10 | 2. Manually implement components following shadcn structure
 11 | 3. Use the existing CSS variables system for theming
-12 | 
+12 |
 13 | ## Component Structure
-14 | 
+14 |
 15 | When creating shadcn-style components:
-16 | 
+16 |
 17 | 1. Use a modular, composable approach where components are broken down into reusable parts
 18 | 2. Follow the `ui/` directory structure
 19 | 3. Use the `cn()` utility for merging classNames
 20 | 4. Implement Radix UI patterns for accessibility (without the actual dependency)
-21 | 
+21 |
 22 | ## Implementation Strategy
-23 | 
+23 |
 24 | For each shadcn component to be replicated:
-25 | 
+25 |
 26 | 1. Create a dedicated component file in `src/components/ui/` directory
 27 | 2. Ensure components support the theme system using semantic color tokens
 28 | 3. Implement proper keyboard navigation and accessibility features
 29 | 4. Maintain consistent styling across components
-30 | 
+30 |
 31 | ## Component Variants
-32 | 
+32 |
 33 | Use a consistent approach to component variants:
-34 | 
+34 |
 35 | ```tsx
 36 | // Button component example
 37 | const buttonVariants = cva(
@@ -1084,33 +1096,33 @@ tsconfig.json
 60 |   }
 61 | );
 62 | ```
-63 | 
+63 |
 64 | ## Common Utilities
-65 | 
+65 |
 66 | Implement these utilities to support shadcn-style components:
-67 | 
+67 |
 68 | 1. **`cn` utility** for merging classNames with Tailwind:
-69 | 
+69 |
 70 | ```tsx
 71 | import { twMerge } from "tailwind-merge";
 72 | import { clsx, type ClassValue } from "clsx";
-73 | 
+73 |
 74 | export function cn(...inputs: ClassValue[]) {
 75 |   return twMerge(clsx(inputs));
 76 | }
 77 | ```
-78 | 
+78 |
 79 | 2. **Component structure** following this pattern:
-80 | 
+80 |
 81 | ```tsx
 82 | import * as React from "react";
 83 | import { cn } from "@/lib/utils";
-84 | 
+84 |
 85 | interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 86 |   variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
 87 |   size?: "default" | "sm" | "lg" | "icon";
 88 | }
-89 | 
+89 |
 90 | const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 91 |   ({ className, variant = "default", size = "default", ...props }, ref) => {
 92 |     return (
@@ -1123,12 +1135,12 @@ tsconfig.json
 99 |   }
 100 | );
 101 | Button.displayName = "Button";
-102 | 
+102 |
 103 | export { Button, buttonVariants };
 104 | ```
-105 | 
+105 |
 106 | ## Best Practices
-107 | 
+107 |
 108 | 1. Always use semantic HTML elements
 109 | 2. Implement proper ARIA attributes
 110 | 3. Support keyboard navigation
@@ -1136,53 +1148,54 @@ tsconfig.json
 112 | 5. Maintain consistent spacing and sizing
 113 | 6. Forward refs for all interactive components
 114 | 7. Provide clear displayName for debugging
-115 | 
+115 |
 116 | ## Theme Integration
-117 | 
+117 |
 118 | Ensure all components respect the theme system:
-119 | 
+119 |
 120 | 1. Use semantic color tokens (`bg-primary`, `text-foreground`, etc.)
 121 | 2. Respect dark mode with proper color transitions
 122 | 3. Use CSS variables for themeable properties
-123 | 
+123 |
 124 | ## Form Components
-125 | 
+125 |
 126 | For form components, follow these guidelines:
-127 | 
+127 |
 128 | 1. Implement proper form validation states
 129 | 2. Provide visual feedback for errors
 130 | 3. Support disabled states
 131 | 4. Include proper labeling
 132 | 5. Use consistent styling across all form elements
-133 | 
+133 |
 134 | ## Implementation without Dependencies
-135 | 
+135 |
 136 | Since we're implementing without direct dependencies:
-137 | 
+137 |
 138 | 1. Manually create component files in the appropriate directory structure
 139 | 2. Implement accessible patterns even without Radix UI
 140 | 3. Use React's built-in capabilities for state management
-141 | 4. Progressively enhance components as needed 
-```
+141 | 4. Progressively enhance components as needed
+````
 
 .cursor/rules/tailwind.mdc
-```
+
+````
 1 | ---
 2 | description: Tailwind CSS v4 specific rules
 3 | globs: **/*
 4 | alwaysApply: false
 5 | ---
-6 | 
+6 |
 7 | You are a Tailwind CSS v4 expert with deep knowledge of utility-first CSS and modern design systems.
-8 | 
+8 |
 9 | ## Tailwind CSS v4 Core Changes
-10 | 
+10 |
 11 | - **CSS-first configuration**: Configuration is now done in CSS instead of JavaScript
 12 |   - Use `@theme` directive in CSS instead of `tailwind.config.js`
 13 |   - Example:
 14 |     ```css
 15 |     @import "tailwindcss";
-16 | 
+16 |
 17 |     @theme {
 18 |       --font-display: "Satoshi", "sans-serif";
 19 |       --breakpoint-3xl: 1920px;
@@ -1198,17 +1211,17 @@ tsconfig.json
 29 | - **CSS import syntax**: Use `@import "tailwindcss"` instead of `@tailwind` directives
 30 |   - Old: `@tailwind base; @tailwind components; @tailwind utilities;`
 31 |   - New: `@import "tailwindcss";`
-32 | 
+32 |
 33 | - **Package changes**:
 34 |   - PostCSS plugin is now `@tailwindcss/postcss` (not `tailwindcss`)
 35 |   - CLI is now `@tailwindcss/cli`
 36 |   - Vite plugin is `@tailwindcss/vite`
 37 |   - No need for `postcss-import` or `autoprefixer` anymore
-38 | 
+38 |
 39 | - **Native CSS cascade layers**: Uses real CSS `@layer` instead of Tailwind's custom implementation
-40 | 
+40 |
 41 | ## Tailwind CSS v4 Theme Configuration
-42 | 
+42 |
 43 | - **CSS theme variables**: All design tokens are available as CSS variables
 44 |   - Namespace format: `--category-name` (e.g., `--color-blue-500`, `--font-sans`)
 45 |   - Access in CSS: `var(--color-blue-500)`
@@ -1231,27 +1244,27 @@ tsconfig.json
 62 |     - `--aspect-*` : Aspect ratio utilities like `aspect-video`
 63 |     - `--ease-*` : Transition timing function utilities like `ease-out`
 64 |     - `--animate-*` : Animation utilities like `animate-spin`
-65 | 
+65 |
 66 | - **Simplified theme configuration**: Many utilities no longer need theme configuration
 67 |   - Utilities like `grid-cols-12`, `z-40`, and `opacity-70` work without configuration
 68 |   - Data attributes like `data-selected:opacity-100` don't need configuration
-69 | 
+69 |
 70 | - **Dynamic spacing scale**: Derived from a single spacing value
 71 |   - Default: `--spacing: 0.25rem`
 72 |   - Every multiple of the base value is available (e.g., `mt-21` works automatically)
-73 | 
+73 |
 74 | - **Overriding theme namespaces**:
 75 |   - Override entire namespace: `--font-*: initial;`
 76 |   - Override entire theme: `--*: initial;`
-77 | 
+77 |
 78 | ## Tailwind CSS v4 New Features
-79 | 
+79 |
 80 | - **Container query support**: Built-in now, no plugin needed
 81 |   - `@container` for container context
 82 |   - `@sm:`, `@md:`, etc. for container-based breakpoints
 83 |   - `@max-md:` for max-width container queries
 84 |   - Combine with `@min-md:@max-xl:hidden` for ranges
-85 | 
+85 |
 86 | - **3D transforms**:
 87 |   - `transform-3d` enables 3D transforms
 88 |   - `rotate-x-*`, `rotate-y-*`, `rotate-z-*` for 3D rotation
@@ -1260,26 +1273,26 @@ tsconfig.json
 91 |   - `perspective-*` utilities (`perspective-near`, `perspective-distant`, etc.)
 92 |   - `perspective-origin-*` utilities
 93 |   - `backface-visible` and `backface-hidden`
-94 | 
+94 |
 95 | - **Gradient enhancements**:
 96 |   - Linear gradient angles: `bg-linear-45` (renamed from `bg-gradient-*`)
 97 |   - Gradient interpolation: `bg-linear-to-r/oklch`, `bg-linear-to-r/srgb`
 98 |   - Conic and radial gradients: `bg-conic`, `bg-radial-[at_25%_25%]`
-99 | 
+99 |
 100 | - **Shadow enhancements**:
 101 |   - `inset-shadow-*` and `inset-ring-*` utilities
 102 |   - Can be composed with regular `shadow-*` and `ring-*`
-103 | 
+103 |
 104 | - **New CSS property utilities**:
 105 |   - `field-sizing-content` for auto-resizing textareas
 106 |   - `scheme-light`, `scheme-dark` for `color-scheme` property
 107 |   - `font-stretch-*` utilities for variable fonts
-108 | 
+108 |
 109 | ## Tailwind CSS v4 New Variants
-110 | 
+110 |
 111 | - **Composable variants**: Chain variants together
 112 |   - Example: `group-has-data-potato:opacity-100`
-113 | 
+113 |
 114 | - **New variants**:
 115 |   - `starting` variant for `@starting-style` transitions
 116 |   - `not-*` variant for `:not()` pseudo-class
@@ -1288,77 +1301,77 @@ tsconfig.json
 119 |   - `in-*` variant (like `group-*` but without adding `group` class)
 120 |   - `open` variant now supports `:popover-open`
 121 |   - `**` variant for targeting all descendants
-122 | 
+122 |
 123 | ## Tailwind CSS v4 Custom Extensions
-124 | 
+124 |
 125 | - **Custom utilities**: Use `@utility` directive
 126 |   ```css
 127 |   @utility tab-4 {
 128 |     tab-size: 4;
 129 |   }
 130 |   ```
-131 | 
+131 |
 132 | - **Custom variants**: Use `@variant` directive
 133 |   ```css
 134 |   @variant pointer-coarse (@media (pointer: coarse));
 135 |   @variant theme-midnight (&:where([data-theme="midnight"] *));
 136 |   ```
-137 | 
+137 |
 138 | - **Plugins**: Use `@plugin` directive
 139 |   ```css
 140 |   @plugin "@tailwindcss/typography";
 141 |   ```
-142 | 
+142 |
 143 | ## Tailwind CSS v4 Breaking Changes
-144 | 
+144 |
 145 | - **Removed deprecated utilities**:
 146 |   - `bg-opacity-*` → Use `bg-black/50` instead
 147 |   - `text-opacity-*` → Use `text-black/50` instead
 148 |   - And others: `border-opacity-*`, `divide-opacity-*`, etc.
-149 | 
+149 |
 150 | - **Renamed utilities**:
 151 |   - `shadow-sm` → `shadow-xs` (and `shadow` → `shadow-sm`)
 152 |   - `drop-shadow-sm` → `drop-shadow-xs` (and `drop-shadow` → `drop-shadow-sm`)
 153 |   - `blur-sm` → `blur-xs` (and `blur` → `blur-sm`)
 154 |   - `rounded-sm` → `rounded-xs` (and `rounded` → `rounded-sm`)
 155 |   - `outline-none` → `outline-hidden` (for the old behavior)
-156 | 
+156 |
 157 | - **Default style changes**:
 158 |   - Default border color is now `currentColor` (was `gray-200`)
 159 |   - Default `ring` width is now 1px (was 3px)
 160 |   - Placeholder text now uses current color at 50% opacity (was `gray-400`)
 161 |   - Hover styles only apply on devices that support hover (`@media (hover: hover)`)
-162 | 
+162 |
 163 | - **Syntax changes**:
 164 |   - CSS variables in arbitrary values: `bg-(--brand-color)` instead of `bg-[--brand-color]`
 165 |   - Stacked variants now apply left-to-right (not right-to-left)
 166 |   - Use CSS variables instead of `theme()` function
-167 | 
+167 |
 168 | ## Tailwind CSS v4 Advanced Configuration
-169 | 
+169 |
 170 | - **Using a prefix**:
 171 |   ```css
 172 |   @import "tailwindcss" prefix(tw);
 173 |   ```
 174 |   - Results in classes like `tw:flex`, `tw:bg-red-500`, `tw:hover:bg-red-600`
-175 | 
+175 |
 176 | - **Source detection**:
 177 |   - Automatic by default (ignores `.gitignore` files and binary files)
 178 |   - Add sources: `@source "../node_modules/@my-company/ui-lib";`
 179 |   - Disable automatic detection: `@import "tailwindcss" source(none);`
-180 | 
+180 |
 181 | - **Legacy config files**:
 182 |   ```css
 183 |   @import "tailwindcss";
 184 |   @config "../../tailwind.config.js";
 185 |   ```
-186 | 
+186 |
 187 | - **Dark mode configuration**:
 188 |   ```css
 189 |   @import "tailwindcss";
 190 |   @variant dark (&:where(.dark, .dark *));
 191 |   ```
-192 | 
+192 |
 193 | - **Container customization**: Extend with `@utility`
 194 |   ```css
 195 |   @utility container {
@@ -1366,22 +1379,22 @@ tsconfig.json
 197 |     padding-inline: 2rem;
 198 |   }
 199 |   ```
-200 | 
+200 |
 201 | - **Using `@apply` in Vue/Svelte**:
 202 |   ```html
 203 |   <style>
 204 |     @import "../../my-theme.css" theme(reference);
 205 |     /* or */
 206 |     @import "tailwindcss/theme" theme(reference);
-207 |     
+207 |
 208 |     h1 {
 209 |       @apply font-bold text-2xl text-red-500;
 210 |     }
 211 |   </style>
 212 |   ```
-213 | 
+213 |
 214 | ## Tailwind CSS Best Practices
-215 | 
+215 |
 216 | - Use Tailwind's utility classes effectively:
 217 |   - Understand the utility-first CSS approach
 218 |   - Leverage the full range of available utilities
@@ -1418,9 +1431,9 @@ tsconfig.json
 249 |   - Configure proper source detection
 250 |   - Use appropriate content configuration
 251 |   - Minimize unused utilities
-252 | 
+252 |
 253 | ## Tailwind CSS and Accessibility
-254 | 
+254 |
 255 | - Ensure proper color contrast
 256 | - Use semantic HTML elements
 257 | - Implement proper focus styles
@@ -1428,9 +1441,9 @@ tsconfig.json
 259 | - Implement proper spacing for readability
 260 | - Use proper ARIA attributes with Tailwind classes
 261 | - Test with screen readers and keyboard navigation
-262 | 
+262 |
 263 | ## Tailwind CSS and JavaScript Frameworks
-264 | 
+264 |
 265 | - Properly integrate Tailwind v4 with React/Next.js:
 266 |   - Use className prop effectively
 267 |   - Create properly typed utility components
@@ -1440,21 +1453,22 @@ tsconfig.json
 271 |   - Conditionally apply classes based on state
 272 |   - Use dynamic class generation when appropriate
 273 |   - Properly handle class transitions and animations
-274 |   - Use the new composable variants for complex state relationships 
-```
+274 |   - Use the new composable variants for complex state relationships
+````
 
 .cursor/rules/testing.mdc
+
 ```
 1 | ---
 2 | description: Testing specific rules for Next.js v15+
 3 | globs: **/*
 4 | alwaysApply: false
 5 | ---
-6 | 
+6 |
 7 | You are a testing expert specializing in testing Next.js v15+ applications with Jest, React Testing Library, and Playwright/Cypress.
-8 | 
+8 |
 9 | ## Testing Best Practices
-10 | 
+10 |
 11 | - Follow the testing pyramid:
 12 |   - Unit tests for individual functions and components
 13 |   - Integration tests for component interactions
@@ -1485,9 +1499,9 @@ tsconfig.json
 38 |   - Use proper describe and test blocks
 39 |   - Use proper beforeEach/afterEach hooks
 40 |   - Use proper beforeAll/afterAll hooks
-41 | 
+41 |
 42 | ## React Testing Best Practices for Next.js v15+
-43 | 
+43 |
 44 | - Use React Testing Library effectively:
 45 |   - Focus on user interactions, not component internals
 46 |   - Use proper queries (getBy, findBy, queryBy)
@@ -1514,9 +1528,9 @@ tsconfig.json
 67 |   - Test hook behavior, not implementation
 68 |   - Test hook side effects
 69 |   - Test hook error handling
-70 | 
+70 |
 71 | ## Next.js v15+ Testing Best Practices
-72 | 
+72 |
 73 | - Test App Router components:
 74 |   - Test layout components
 75 |   - Test page components
@@ -1548,9 +1562,9 @@ tsconfig.json
 101 |   - Mock server-side data fetching
 102 |   - Mock authentication
 103 |   - Use proper dependency injection for testability
-104 | 
+104 |
 105 | ## End-to-End Testing for Next.js v15+
-106 | 
+106 |
 107 | - Use Playwright or Cypress effectively:
 108 |   - Test critical user flows
 109 |   - Test authentication flows
@@ -1574,21 +1588,22 @@ tsconfig.json
 127 |   - Test responsive behavior
 128 |   - Test accessibility
 129 |   - Test performance when appropriate
-130 |   - Test with different device types 
+130 |   - Test with different device types
 ```
 
 .cursor/rules/typescript.mdc
+
 ```
 1 | ---
 2 | description: TypeScript specific rules
 3 | globs: **/*
 4 | alwaysApply: false
 5 | ---
-6 | 
+6 |
 7 | You are a TypeScript expert with deep knowledge of type systems and modern TypeScript features.
-8 | 
+8 |
 9 | ## TypeScript Best Practices
-10 | 
+10 |
 11 | - Use TypeScript's type system effectively:
 12 |   - Define interfaces and types for all data structures
 13 |   - Use union types for variables that can be of multiple types
@@ -1624,9 +1639,9 @@ tsconfig.json
 43 |   - Strict type checking
 44 |   - Proper lib configurations
 45 |   - Proper module resolution
-46 | 
+46 |
 47 | ## TypeScript Code Structure
-48 | 
+48 |
 49 | - Use proper file organization:
 50 |   - Separate types into dedicated type files when appropriate
 51 |   - Use barrel exports for related types
@@ -1650,9 +1665,9 @@ tsconfig.json
 69 |   - Use proper event types
 70 |   - Use proper state types
 71 |   - Use proper ref types
-72 | 
+72 |
 73 | ## TypeScript Documentation
-74 | 
+74 |
 75 | - Use JSDoc comments for functions, interfaces, and types:
 76 |   - Document parameters with @param
 77 |   - Document return values with @returns
@@ -1663,16 +1678,17 @@ tsconfig.json
 82 | - Use TypeScript-specific JSDoc tags:
 83 |   - @template for generics
 84 |   - @typeParam for generic type parameters
-85 | - Keep documentation up to date with code changes 
+85 | - Keep documentation up to date with code changes
 ```
 
 src/components/theme-provider.tsx
+
 ```
 1 | 'use client';
-2 | 
+2 |
 3 | import { ThemeProvider as NextThemesProvider } from 'next-themes';
 4 | import * as React from 'react';
-5 | 
+5 |
 6 | export function ThemeProvider({
 7 |   children,
 8 |   ...props
@@ -1682,17 +1698,18 @@ src/components/theme-provider.tsx
 ```
 
 src/components/theme-toggle.tsx
+
 ```
 1 | 'use client';
-2 | 
+2 |
 3 | import { useTheme } from 'next-themes';
 4 | import { useEffect, useState } from 'react';
 5 | import { FiSun, FiMoon, FiMonitor } from 'react-icons/fi';
-6 | 
+6 |
 7 | import { cn } from '@/lib/utils';
-8 | 
+8 |
 9 | type ThemeOption = 'light' | 'dark' | 'system';
-10 | 
+10 |
 11 | interface ThemeButtonProps {
 12 |   theme: string | undefined;
 13 |   value: ThemeOption;
@@ -1700,10 +1717,10 @@ src/components/theme-toggle.tsx
 15 |   label: string;
 16 |   onClick: (theme: ThemeOption) => void;
 17 | }
-18 | 
+18 |
 19 | function ThemeButton({ theme, value, icon: Icon, label, onClick }: ThemeButtonProps) {
 20 |   const isActive = theme === value;
-21 | 
+21 |
 22 |   return (
 23 |     <button
 24 |       onClick={() => onClick(value)}
@@ -1716,20 +1733,20 @@ src/components/theme-toggle.tsx
 31 |     </button>
 32 |   );
 33 | }
-34 | 
+34 |
 35 | export function ThemeToggle({ className }: { className?: string }) {
 36 |   const { theme, setTheme } = useTheme();
 37 |   const [mounted, setMounted] = useState(false);
-38 | 
+38 |
 39 |   // Only render theme toggle on client to avoid hydration mismatch
 40 |   useEffect(() => {
 41 |     setMounted(true);
 42 |   }, []);
-43 | 
+43 |
 44 |   const handleThemeChange = (newTheme: ThemeOption) => {
 45 |     setTheme(newTheme);
 46 |   };
-47 | 
+47 |
 48 |   const themeOptions: Array<{
 49 |     value: ThemeOption;
 50 |     icon: React.ElementType;
@@ -1739,12 +1756,12 @@ src/components/theme-toggle.tsx
 54 |     { value: 'dark', icon: FiMoon, label: 'Dark mode' },
 55 |     { value: 'system', icon: FiMonitor, label: 'System preference' },
 56 |   ];
-57 | 
+57 |
 58 |   // Avoid rendering toggle until client-side to prevent hydration mismatch
 59 |   if (!mounted) {
 60 |     return <div className="w-[138px] h-[38px]" />; // Placeholder with same size
 61 |   }
-62 | 
+62 |
 63 |   return (
 64 |     <div className={cn('relative inline-block text-left', className)}>
 65 |       <div
@@ -1769,13 +1786,14 @@ src/components/theme-toggle.tsx
 ```
 
 src/app/globals.css
+
 ```
 1 | @import 'tailwindcss';
-2 | 
+2 |
 3 | @plugin "tailwindcss-animate";
-4 | 
+4 |
 5 | @custom-variant dark (&:is(.dark *));
-6 | 
+6 |
 7 | :root {
 8 |   --background: oklch(1 0 0);
 9 |   --foreground: oklch(0.145 0 0);
@@ -1811,7 +1829,7 @@ src/app/globals.css
 39 |   --sidebar-border: oklch(0.922 0 0);
 40 |   --sidebar-ring: oklch(0.708 0 0);
 41 | }
-42 | 
+42 |
 43 | .dark {
 44 |   --background: oklch(0.145 0 0);
 45 |   --foreground: oklch(0.985 0 0);
@@ -1846,7 +1864,7 @@ src/app/globals.css
 74 |   --sidebar-border: oklch(0.269 0 0);
 75 |   --sidebar-ring: oklch(0.439 0 0);
 76 | }
-77 | 
+77 |
 78 | @theme inline {
 79 |   --font-sans: var(--font-sans);
 80 |   --font-mono: var(--font-mono);
@@ -1888,7 +1906,7 @@ src/app/globals.css
 116 |   --color-sidebar-ring: var(--sidebar-ring);
 117 |   --animate-accordion-down: accordion-down 0.2s ease-out;
 118 |   --animate-accordion-up: accordion-up 0.2s ease-out;
-119 | 
+119 |
 120 |   @keyframes accordion-down {
 121 |     from {
 122 |       height: 0;
@@ -1897,7 +1915,7 @@ src/app/globals.css
 125 |       height: var(--radix-accordion-content-height);
 126 |     }
 127 |   }
-128 | 
+128 |
 129 |   @keyframes accordion-up {
 130 |     from {
 131 |       height: var(--radix-accordion-content-height);
@@ -1907,7 +1925,7 @@ src/app/globals.css
 135 |     }
 136 |   }
 137 | }
-138 | 
+138 |
 139 | @layer base {
 140 |   * {
 141 |     @apply border-border outline-ring/50;
@@ -1919,31 +1937,32 @@ src/app/globals.css
 ```
 
 src/app/layout.tsx
+
 ```
 1 | import './globals.css';
-2 | 
+2 |
 3 | import { Analytics } from '@vercel/analytics/react';
 4 | import { Geist, Geist_Mono } from 'next/font/google';
 5 | import Link from 'next/link';
-6 | 
+6 |
 7 | import { ThemeProvider } from '@/components/theme-provider';
 8 | import { ThemeToggle } from '@/components/theme-toggle';
 9 | import { Button } from '@/components/ui/button';
 10 | import { META_THEME_COLORS, siteConfig } from '@/config/site';
 11 | import { cn } from '@/lib/utils';
-12 | 
+12 |
 13 | import type { Metadata, Viewport } from 'next';
-14 | 
+14 |
 15 | const geistSans = Geist({
 16 |   variable: '--font-geist-sans',
 17 |   subsets: ['latin'],
 18 | });
-19 | 
+19 |
 20 | const geistMono = Geist_Mono({
 21 |   variable: '--font-geist-mono',
 22 |   subsets: ['latin'],
 23 | });
-24 | 
+24 |
 25 | export const metadata: Metadata = {
 26 |   title: {
 27 |     default: siteConfig.name,
@@ -1989,11 +2008,11 @@ src/app/layout.tsx
 67 |   },
 68 |   manifest: `${siteConfig.url}/site.webmanifest`,
 69 | };
-70 | 
+70 |
 71 | export const viewport: Viewport = {
 72 |   themeColor: META_THEME_COLORS.light,
 73 | };
-74 | 
+74 |
 75 | export default function RootLayout({
 76 |   children,
 77 | }: Readonly<{
@@ -2014,7 +2033,7 @@ src/app/layout.tsx
 92 |           }}
 93 |         />
 94 |       </head>
-95 | 
+95 |
 96 |       <body
 97 |         className={cn(
 98 |           `bg-background overscroll-none font-sans antialiased`,
@@ -2038,19 +2057,19 @@ src/app/layout.tsx
 116 |                       AI-driven finance tracker for intelligent bank statement analysis and insights
 117 |                     </p>
 118 |                   </div>
-119 | 
+119 |
 120 |                   <ThemeToggle className="order-first md:order-last" />
 121 |                 </div>
-122 | 
+122 |
 123 |                 <div className="flex gap-3 flex-wrap">
 124 |                   <Button variant="secondary" asChild>
 125 |                     <Link href="/">Overview</Link>
 126 |                   </Button>
-127 | 
+127 |
 128 |                   <Button variant="secondary" asChild>
 129 |                     <Link href="/ai-playground">AI Playground</Link>
 130 |                   </Button>
-131 | 
+131 |
 132 |                   <Button variant="outline" asChild>
 133 |                     <Link href="https://andredezzy.com">@andredezzy</Link>
 134 |                   </Button>
@@ -2058,9 +2077,9 @@ src/app/layout.tsx
 136 |               </div>
 137 |             </div>
 138 |           </header>
-139 | 
+139 |
 140 |           {children}
-141 | 
+141 |
 142 |           <footer className="border-t border-border mt-12">
 143 |             <div className="container mx-auto px-8 py-12">
 144 |               <div className="flex flex-col md:flex-row gap-8">
@@ -2068,12 +2087,12 @@ src/app/layout.tsx
 146 |                   <div className="flex items-center">
 147 |                     <h3 className="text-lg font-semibold text-foreground flex-1">Finance Mind</h3>
 148 |                   </div>
-149 | 
+149 |
 150 |                   <p className="mt-2 text-sm text-muted-foreground">
 151 |                     Take control of your financial life with intelligent analytics and insights.
 152 |                   </p>
 153 |                 </div>
-154 | 
+154 |
 155 |                 <div className="md:hidden">
 156 |                   <h4 className="text-sm font-medium text-foreground">Features</h4>
 157 |                   <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
@@ -2083,7 +2102,7 @@ src/app/layout.tsx
 161 |                     <li>Multi-currency support</li>
 162 |                   </ul>
 163 |                 </div>
-164 | 
+164 |
 165 |                 <div className="hidden md:block">
 166 |                   <h4 className="text-sm font-medium text-foreground mb-2 text-left">Features</h4>
 167 |                   <ul className="space-y-2 text-sm text-muted-foreground text-left">
@@ -2093,7 +2112,7 @@ src/app/layout.tsx
 171 |                     <li>Multi-currency support</li>
 172 |                   </ul>
 173 |                 </div>
-174 | 
+174 |
 175 |                 <div className="md:hidden">
 176 |                   <h4 className="text-sm font-medium text-foreground">Links</h4>
 177 |                   <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
@@ -2103,7 +2122,7 @@ src/app/layout.tsx
 181 |                     <li>Terms of Service</li>
 182 |                   </ul>
 183 |                 </div>
-184 | 
+184 |
 185 |                 <div className="hidden md:block">
 186 |                   <h4 className="text-sm font-medium text-foreground mb-2 text-left">Links</h4>
 187 |                   <ul className="space-y-2 text-sm text-muted-foreground text-left">
@@ -2114,7 +2133,7 @@ src/app/layout.tsx
 192 |                   </ul>
 193 |                 </div>
 194 |               </div>
-195 | 
+195 |
 196 |               <div className="mt-8 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center">
 197 |                 <p className="text-xs text-muted-foreground">
 198 |                   &copy; {new Date().getFullYear()} Finance Mind. All rights reserved.
@@ -2135,7 +2154,7 @@ src/app/layout.tsx
 213 |             </div>
 214 |           </footer>
 215 |         </ThemeProvider>
-216 | 
+216 |
 217 |         <Analytics />
 218 |       </body>
 219 |     </html>
@@ -2144,6 +2163,7 @@ src/app/layout.tsx
 ```
 
 src/config/site.ts
+
 ```
 1 | export const siteConfig = {
 2 |   name: 'Finance Mind',
@@ -2156,9 +2176,9 @@ src/config/site.ts
 9 |     github: 'https://github.com/andredezzy/finance-mind',
 10 |   },
 11 | };
-12 | 
+12 |
 13 | export type SiteConfig = typeof siteConfig;
-14 | 
+14 |
 15 | export const META_THEME_COLORS = {
 16 |   light: '#ffffff',
 17 |   dark: '#000000',
@@ -2166,30 +2186,33 @@ src/config/site.ts
 ```
 
 src/lib/ai.ts
+
 ```
 1 | import { openai } from '@ai-sdk/openai';
-2 | 
+2 |
 3 | // Default model to use - can be overridden in specific implementations
 4 | export const defaultModel = process.env.AI_MODEL || 'gpt-4o';
-5 | 
+5 |
 6 | // Export the OpenAI client instance
 7 | export { openai };
 ```
 
 src/lib/utils.ts
+
 ```
 1 | import { type ClassValue, clsx } from 'clsx';
 2 | import { twMerge } from 'tailwind-merge';
-3 | 
+3 |
 4 | export function cn(...inputs: ClassValue[]) {
 5 |   return twMerge(clsx(inputs));
 6 | }
 ```
 
 src/interfaces/transaction.ts
+
 ```
 1 | import type { TransactionType, TransactionCategory } from '@/lib/ai/types';
-2 | 
+2 |
 3 | export interface Transaction {
 4 |   id: string;
 5 |   type: TransactionType;
@@ -2209,9 +2232,10 @@ src/interfaces/transaction.ts
 ```
 
 src/schemas/form-schemas.ts
+
 ```
 1 | import { z } from 'zod';
-2 | 
+2 |
 3 | /**
 4 |  * Schema for the transaction categorizer form
 5 |  */
@@ -2226,25 +2250,26 @@ src/schemas/form-schemas.ts
 14 |   date: z.string().optional(),
 15 |   merchant: z.string().optional(),
 16 | });
-17 | 
+17 |
 18 | /**
 19 |  * Schema for the transaction extractor form
 20 |  */
 21 | export const transactionExtractorFormSchema = z.object({
 22 |   prompt: z.string().min(1, 'Please describe the transaction'),
 23 | });
-24 | 
+24 |
 25 | // Types for the form values
 26 | export type TransactionCategorizerFormValues = z.infer<typeof transactionCategorizerFormSchema>;
 27 | export type TransactionExtractorFormValues = z.infer<typeof transactionExtractorFormSchema>;
 ```
 
 src/schemas/investment-schemas.ts
+
 ```
 1 | import { z } from 'zod';
-2 | 
+2 |
 3 | import { AssetClass, InvestmentCategory, InvestmentTransactionType } from '@/lib/ai/types';
-4 | 
+4 |
 5 | /**
 6 |  * Schema for investment asset
 7 |  */
@@ -2261,7 +2286,7 @@ src/schemas/investment-schemas.ts
 18 |   createdAt: z.date().optional(),
 19 |   updatedAt: z.date().optional(),
 20 | });
-21 | 
+21 |
 22 | /**
 23 |  * Schema for investment transaction
 24 |  */
@@ -2282,7 +2307,7 @@ src/schemas/investment-schemas.ts
 39 |   createdAt: z.date().optional(),
 40 |   updatedAt: z.date().optional(),
 41 | });
-42 | 
+42 |
 43 | /**
 44 |  * Schema for investment portfolio
 45 |  */
@@ -2295,7 +2320,7 @@ src/schemas/investment-schemas.ts
 52 |   createdAt: z.date().optional(),
 53 |   updatedAt: z.date().optional(),
 54 | });
-55 | 
+55 |
 56 | /**
 57 |  * Schema for investment holdings (calculated/current state)
 58 |  */
@@ -2310,7 +2335,7 @@ src/schemas/investment-schemas.ts
 67 |   realizedGainLoss: z.number().describe('Total realized gain/loss from this asset'),
 68 |   lastUpdated: z.date().describe('When this holding was last updated'),
 69 | });
-70 | 
+70 |
 71 | /**
 72 |  * Schema for investment performance metrics
 73 |  */
@@ -2330,7 +2355,7 @@ src/schemas/investment-schemas.ts
 87 |   contributions: z.number().describe('New money contributed during the period'),
 88 |   withdrawals: z.number().describe('Money withdrawn during the period'),
 89 | });
-90 | 
+90 |
 91 | // Types for schema inference
 92 | export type InvestmentAsset = z.infer<typeof investmentAssetSchema>;
 93 | export type InvestmentTransaction = z.infer<typeof investmentTransactionSchema>;
@@ -2340,11 +2365,12 @@ src/schemas/investment-schemas.ts
 ```
 
 src/schemas/transaction-schemas.ts
+
 ```
 1 | import { z } from 'zod';
-2 | 
+2 |
 3 | import { TransactionCategory, TransactionType } from '@/lib/ai/types';
-4 | 
+4 |
 5 | /**
 6 |  * Schema for transaction categorization input
 7 |  */
@@ -2354,7 +2380,7 @@ src/schemas/transaction-schemas.ts
 11 |   date: z.string().or(z.date()),
 12 |   merchant: z.string().optional(),
 13 | });
-14 | 
+14 |
 15 | /**
 16 |  * Schema for transaction categorization response
 17 |  */
@@ -2371,7 +2397,7 @@ src/schemas/transaction-schemas.ts
 28 |     .optional(),
 29 |   confidence: z.number().min(0).max(1).optional(),
 30 | });
-31 | 
+31 |
 32 | /**
 33 |  * Schema for transaction extraction
 34 |  */
@@ -2394,7 +2420,7 @@ src/schemas/transaction-schemas.ts
 51 |     .describe('Installment information if applicable'),
 52 |   currency: z.string().optional().describe('Currency code (e.g., BRL, USD)'),
 53 | });
-54 | 
+54 |
 55 | // Types for schema inference
 56 | export type TransactionCategorizeInput = z.infer<typeof transactionCategorizeSchema>;
 57 | export type TransactionCategorizeResponse = z.infer<typeof transactionCategorizeResponseSchema>;
@@ -2402,17 +2428,18 @@ src/schemas/transaction-schemas.ts
 ```
 
 src/actions/ai/categorize-transaction.ts
+
 ```
 1 | 'use server';
-2 | 
+2 |
 3 | import { generateObject } from 'ai';
-4 | 
+4 |
 5 | import { openai, defaultModel } from '@/lib/ai';
 6 | import { TransactionCategory, TransactionType } from '@/lib/ai/types';
 7 | import { transactionCategorizeResponseSchema as TransactionCategorizeResponseSchema } from '@/schemas/transaction-schemas';
-8 | 
+8 |
 9 | import type { TransactionCategorizeResponse } from '@/schemas/transaction-schemas';
-10 | 
+10 |
 11 | // The transaction categorization AI function
 12 | export async function categorizeTransaction({
 13 |   description,
@@ -2428,42 +2455,42 @@ src/actions/ai/categorize-transaction.ts
 23 |   // Determine transaction type based on amount
 24 |   // Positive amounts are income, negative are expenses
 25 |   const type = amount >= 0 ? TransactionType.INCOME : TransactionType.OUTCOME;
-26 | 
+26 |
 27 |   // Create a prompt for the AI to analyze the transaction
 28 |   const prompt = `
 29 |     I need to categorize this financial transaction:
-30 |     
+30 |
 31 |     Description: ${description}
 32 |     Amount: ${amount}
 33 |     Date: ${date}
 34 |     ${merchant ? `Merchant: ${merchant}` : ''}
-35 |     
+35 |
 36 |     Based on this information, determine:
 37 |     1. The most appropriate transaction category
 38 |     2. If this is a transfer between accounts of the same person
 39 |     3. If this is an installment payment, extract the current and total installment numbers
 40 |     4. Extract a clean merchant name if present in the description
 41 |     5. Your confidence level in this categorization (0.0 to 1.0)
-42 |     
+42 |
 43 |     Special cases to handle:
 44 |     - If the description contains "Pix" or "PIX", categorize as PIX
 45 |     - If the description mentions "parcela" or has a format like "1/3", it's likely an installment payment
 46 |     - For transfers, look for keywords like "Transferência", "TED", "DOC", or "Transfer"
 47 |     - For credit card payments, look for "Pagamento de fatura" or "Pagamento fatura"
 48 |     - For salary, look for "Salário", "Salary", "Pagamento", "Folha"
-49 |     
+49 |
 50 |     Transaction categories to use:
 51 |     Income: SALARY, INVESTMENT, REIMBURSEMENT, GIFT, OTHER_INCOME
 52 |     Expense: GROCERIES, DINING, ENTERTAINMENT, TRANSPORTATION, UTILITIES, HOUSING, HEALTH, EDUCATION, SHOPPING, TRAVEL, PERSONAL_CARE, SUBSCRIPTIONS, OTHER_EXPENSE
 53 |     Transfer: TRANSFER, PIX, BOLETO, CREDIT_CARD_PAYMENT
 54 |     Other: UNCATEGORIZED
-55 |     
+55 |
 56 |     Transaction types to use: INCOME, OUTCOME, TRANSFER
-57 |     
+57 |
 58 |     Provide your analysis as a structured response.
-59 | 
+59 |
 60 |     IMPORTANT: Keep any extracted text (like merchant names) in the ORIGINAL LANGUAGE of the input. Do not translate merchant names or other text values to English, keep them in the language of the original description.
-61 |     
+61 |
 62 |     FORMATTING GUIDANCE:
 63 |     1. Format and clean up merchant names while keeping the original language
 64 |     2. Normalize formatting (e.g., removing excess spaces, fixing capitalization)
@@ -2471,16 +2498,16 @@ src/actions/ai/categorize-transaction.ts
 66 |     4. Ensure proper formatting of installment information if present
 67 |     5. Standardize the representation of categories and transaction types
 68 |     6. Structure the response for consistent processing by the application
-69 |     
+69 |
 70 |     LANGUAGE-SPECIFIC FORMATTING EXAMPLES:
 71 |     - Portuguese input with "corrida uber" → Format merchant as "Uber" and include Portuguese terms/prepositions in any text
 72 |     - English input with just "uber" → Format merchant as "Uber" and use English conventions
 73 |     - Spanish input → Use Spanish language conventions for text formatting
-74 |     
+74 |
 75 |     Use language-appropriate phrasing, articles, and prepositions based on the detected language.
 76 |     The goal is natural and well-structured text that follows the conventions of the input language.
 77 |   `;
-78 | 
+78 |
 79 |   try {
 80 |     // Use generateObject instead of streamText for more reliable results
 81 |     const result = await generateObject({
@@ -2499,9 +2526,9 @@ src/actions/ai/categorize-transaction.ts
 94 |       ],
 95 |       temperature: 0.1, // Low temperature for more consistent results
 96 |     });
-97 | 
+97 |
 98 |     console.log('Categorization result:', result);
-99 | 
+99 |
 100 |     // Return the categorization result
 101 |     return result.object as TransactionCategorizeResponse;
 102 |   } catch (error) {
@@ -2517,18 +2544,19 @@ src/actions/ai/categorize-transaction.ts
 ```
 
 src/actions/ai/extract-transaction-fields.ts
+
 ```
 1 | 'use server';
-2 | 
+2 |
 3 | import { openai } from '@ai-sdk/openai';
 4 | import { generateObject } from 'ai';
 5 | import * as chrono from 'chrono-node';
-6 | 
+6 |
 7 | import { defaultModel } from '@/lib/ai';
 8 | import { transactionExtractionSchema } from '@/schemas/transaction-schemas';
-9 | 
+9 |
 10 | import type { TransactionExtraction } from '@/schemas/transaction-schemas';
-11 | 
+11 |
 12 | /**
 13 |  * Extract transaction fields from a text prompt
 14 |  * @param prompt The user's text description of a transaction
@@ -2539,11 +2567,11 @@ src/actions/ai/extract-transaction-fields.ts
 19 |     const systemPrompt = `
 20 |       You are a financial assistant specialized in extracting transaction details from text.
 21 |       Extract all relevant transaction information including:
-22 |       
+22 |
 23 |       1. Transaction description (what the transaction is for)
 24 |       2. Amount (as a number, negative for expenses)
 25 |       3. Date (provide two outputs in this format: "original: [original date expression]|english: [english equivalent]")
-26 |          Examples: 
+26 |          Examples:
 27 |          - If user says "hoje" in Portuguese → "original: hoje|english: today"
 28 |          - If user says "明天" in Chinese → "original: 明天|english: tomorrow"
 29 |          - If user says "last Friday" in English → "original: last Friday|english: last Friday"
@@ -2554,25 +2582,25 @@ src/actions/ai/extract-transaction-fields.ts
 34 |       7. Whether it's an installment payment
 35 |       8. Installment details (current number and total)
 36 |       9. Currency (default to BRL if not specified)
-37 |       
+37 |
 38 |       Use the information provided in the text. If certain details are missing, make reasonable inferences.
 39 |       For example, if no date is mentioned, use "original: today|english: today".
-40 |       
+40 |
 41 |       For transaction types:
 42 |       - Positive amounts are typically INCOME
 43 |       - Negative amounts are typically OUTCOME
 44 |       - Transfers should be identified as TRANSFER based on keywords like "transfer", "sent to", "received from"
-45 |       
+45 |
 46 |       For categories, assign one of the following:
 47 |       Income categories: SALARY, INVESTMENT, REIMBURSEMENT, GIFT, OTHER_INCOME
 48 |       Expense categories: GROCERIES, DINING, ENTERTAINMENT, TRANSPORTATION, UTILITIES, HOUSING, HEALTH, EDUCATION, SHOPPING, TRAVEL, PERSONAL_CARE, SUBSCRIPTIONS, OTHER_EXPENSE
 49 |       Transfer categories: TRANSFER, PIX, BOLETO, CREDIT_CARD_PAYMENT
 50 |       Other: UNCATEGORIZED
-51 |     
-52 |       IMPORTANT: Detect the language of the user's input and provide ALL text fields (description, merchant, etc.) in that SAME language. 
+51 |
+52 |       IMPORTANT: Detect the language of the user's input and provide ALL text fields (description, merchant, etc.) in that SAME language.
 53 |       Only the category values and transaction types should use the predefined English constants.
 54 |       Do not translate the user's content to English unless specifically needed for date parsing.
-55 | 
+55 |
 56 |       FORMATTING GUIDANCE:
 57 |       1. Format and structure the user's content for clarity and consistency
 58 |       2. Clean up the merchant names (remove unnecessary prefixes, standardize formats)
@@ -2580,16 +2608,16 @@ src/actions/ai/extract-transaction-fields.ts
 60 |       4. Format amounts properly (e.g., ensuring negative for expenses)
 61 |       5. Extract installment information in a consistent format
 62 |       6. Standardize formatting but DO NOT translate or change the language
-63 |       
+63 |
 64 |       LANGUAGE-SPECIFIC FORMATTING EXAMPLES:
 65 |       - Portuguese input: "150 corrida uber ontem" → description: "Corrida de Uber"
 66 |       - English input: "150 uber" → description: "Uber ride"
 67 |       - Spanish input: "50 comida ayer" → description: "Comida"
-68 |       
+68 |
 69 |       Use language-appropriate phrasing, articles, and prepositions to create natural descriptions in the detected language.
 70 |       Always format according to the conventions of the detected language (e.g., "de" in Portuguese, "ride" in English).
 71 |     `;
-72 | 
+72 |
 73 |     // Use generateObject instead of streamText for tools functionality
 74 |     const result = await generateObject({
 75 |       model: openai(defaultModel),
@@ -2606,17 +2634,17 @@ src/actions/ai/extract-transaction-fields.ts
 86 |       ],
 87 |       temperature: 0.1, // Low temperature for more consistent results
 88 |     });
-89 | 
+89 |
 90 |     // Parse natural language date using chrono-node
 91 |     const extractedResult = result.object as TransactionExtraction;
-92 | 
+92 |
 93 |     // If we have a date string, try to parse it with chrono-node
 94 |     if (typeof extractedResult.date === 'string') {
 95 |       try {
 96 |         // Parse the formatted date string to extract original and English versions
 97 |         const dateString = extractedResult.date;
 98 |         let englishDateExpression = dateString;
-99 | 
+99 |
 100 |         // Check if the date is in the expected format "original: X|english: Y"
 101 |         if (dateString.includes('|english:')) {
 102 |           const parts = dateString.split('|english:');
@@ -2624,10 +2652,10 @@ src/actions/ai/extract-transaction-fields.ts
 104 |             englishDateExpression = parts[1].trim();
 105 |           }
 106 |         }
-107 | 
+107 |
 108 |         // Parse the English date expression using chrono-node
 109 |         const parsedDate = chrono.parseDate(englishDateExpression);
-110 | 
+110 |
 111 |         // If we successfully parsed the date, convert it to ISO format
 112 |         if (parsedDate) {
 113 |           extractedResult.date = parsedDate.toISOString();
@@ -2643,9 +2671,9 @@ src/actions/ai/extract-transaction-fields.ts
 123 |         // Keep the original date string if parsing fails
 124 |       }
 125 |     }
-126 | 
+126 |
 127 |     console.log('Extraction result:', extractedResult);
-128 | 
+128 |
 129 |     return extractedResult;
 130 |   } catch (error) {
 131 |     console.error('Transaction extraction error:', error);
@@ -2655,13 +2683,14 @@ src/actions/ai/extract-transaction-fields.ts
 ```
 
 src/components/ai-playground/transaction-categorizer.tsx
+
 ```
 1 | 'use client';
-2 | 
+2 |
 3 | import { zodResolver } from '@hookform/resolvers/zod';
 4 | import { useState } from 'react';
 5 | import { useForm } from 'react-hook-form';
-6 | 
+6 |
 7 | import { categorizeTransaction } from '@/actions/ai/categorize-transaction';
 8 | import { Button } from '@/components/ui/button';
 9 | import {
@@ -2682,16 +2711,16 @@ src/components/ai-playground/transaction-categorizer.tsx
 24 | } from '@/components/ui/form';
 25 | import { Input } from '@/components/ui/input';
 26 | import { transactionCategorizerFormSchema } from '@/schemas/form-schemas';
-27 | 
+27 |
 28 | import type { TransactionCategory, TransactionType } from '@/lib/ai/types';
 29 | import type { TransactionCategorizerFormValues } from '@/schemas/form-schemas';
 30 | import type { TransactionCategorizeResponse } from '@/schemas/transaction-schemas';
-31 | 
+31 |
 32 | export const TransactionCategorizer = () => {
 33 |   const [result, setResult] = useState<TransactionCategorizeResponse | null>(null);
 34 |   const [isLoading, setIsLoading] = useState(false);
 35 |   const [error, setError] = useState<string | null>(null);
-36 | 
+36 |
 37 |   // Initialize the form with react-hook-form
 38 |   const form = useForm<TransactionCategorizerFormValues>({
 39 |     resolver: zodResolver(transactionCategorizerFormSchema),
@@ -2702,11 +2731,11 @@ src/components/ai-playground/transaction-categorizer.tsx
 44 |       merchant: '',
 45 |     },
 46 |   });
-47 | 
+47 |
 48 |   const onSubmit = async (values: TransactionCategorizerFormValues) => {
 49 |     setIsLoading(true);
 50 |     setError(null);
-51 | 
+51 |
 52 |     try {
 53 |       // Use the server action instead of fetch API
 54 |       const result = await categorizeTransaction({
@@ -2715,7 +2744,7 @@ src/components/ai-playground/transaction-categorizer.tsx
 57 |         date: values.date ? values.date : new Date().toISOString(),
 58 |         merchant: values.merchant || undefined,
 59 |       });
-60 | 
+60 |
 61 |       setResult(result);
 62 |     } catch (err) {
 63 |       setError(err instanceof Error ? err.message : 'An unknown error occurred');
@@ -2723,7 +2752,7 @@ src/components/ai-playground/transaction-categorizer.tsx
 65 |       setIsLoading(false);
 66 |     }
 67 |   };
-68 | 
+68 |
 69 |   // Helper function to get the category label
 70 |   const getCategoryLabel = (category: TransactionCategory) => {
 71 |     return category
@@ -2731,26 +2760,26 @@ src/components/ai-playground/transaction-categorizer.tsx
 73 |       .toLowerCase()
 74 |       .replace(/\b\w/g, l => l.toUpperCase());
 75 |   };
-76 | 
+76 |
 77 |   // Helper function to get the type label
 78 |   const getTypeLabel = (type: TransactionType) => {
 79 |     return type.toLowerCase().charAt(0).toUpperCase() + type.toLowerCase().slice(1);
 80 |   };
-81 | 
+81 |
 82 |   // Reset form and results
 83 |   const handleReset = () => {
 84 |     form.reset();
 85 |     setResult(null);
 86 |     setError(null);
 87 |   };
-88 | 
+88 |
 89 |   return (
 90 |     <Card className="w-full max-w-md">
 91 |       <CardHeader>
 92 |         <CardTitle>Transaction Categorizer</CardTitle>
 93 |         <CardDescription>Enter transaction details to categorize it using AI.</CardDescription>
 94 |       </CardHeader>
-95 | 
+95 |
 96 |       <CardContent>
 97 |         <Form {...form}>
 98 |           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -2768,7 +2797,7 @@ src/components/ai-playground/transaction-categorizer.tsx
 110 |                   </FormItem>
 111 |                 )}
 112 |               />
-113 | 
+113 |
 114 |               <FormField
 115 |                 control={form.control}
 116 |                 name="amount"
@@ -2787,7 +2816,7 @@ src/components/ai-playground/transaction-categorizer.tsx
 129 |                   </FormItem>
 130 |                 )}
 131 |               />
-132 | 
+132 |
 133 |               <FormField
 134 |                 control={form.control}
 135 |                 name="date"
@@ -2801,7 +2830,7 @@ src/components/ai-playground/transaction-categorizer.tsx
 143 |                   </FormItem>
 144 |                 )}
 145 |               />
-146 | 
+146 |
 147 |               <FormField
 148 |                 control={form.control}
 149 |                 name="merchant"
@@ -2816,39 +2845,39 @@ src/components/ai-playground/transaction-categorizer.tsx
 158 |                 )}
 159 |               />
 160 |             </div>
-161 | 
+161 |
 162 |             <Button type="submit" className="w-full" disabled={isLoading}>
 163 |               {isLoading ? 'Categorizing...' : 'Categorize Transaction'}
 164 |             </Button>
 165 |           </form>
 166 |         </Form>
-167 | 
+167 |
 168 |         {error && (
 169 |           <div className="mt-4 p-3 bg-destructive/20 text-destructive rounded-md">
 170 |             <p>{error}</p>
 171 |           </div>
 172 |         )}
-173 | 
+173 |
 174 |         {result && (
 175 |           <div className="mt-8 space-y-6">
 176 |             <pre className="text-xs">{JSON.stringify(result, null, 2)}</pre>
-177 | 
+177 |
 178 |             <div className="space-y-2">
 179 |               <h3 className="font-medium">Result:</h3>
 180 |               <div className="grid grid-cols-2 gap-2">
 181 |                 <div className="text-sm font-medium">Category:</div>
 182 |                 <div className="text-sm">{getCategoryLabel(result.category)}</div>
-183 | 
+183 |
 184 |                 <div className="text-sm font-medium">Type:</div>
 185 |                 <div className="text-sm">{getTypeLabel(result.type)}</div>
-186 | 
+186 |
 187 |                 {result.merchant && (
 188 |                   <>
 189 |                     <div className="text-sm font-medium">Merchant:</div>
 190 |                     <div className="text-sm">{result.merchant}</div>
 191 |                   </>
 192 |                 )}
-193 | 
+193 |
 194 |                 {result.isInstallment && result.installmentInfo && (
 195 |                   <>
 196 |                     <div className="text-sm font-medium">Installment:</div>
@@ -2857,7 +2886,7 @@ src/components/ai-playground/transaction-categorizer.tsx
 199 |                     </div>
 200 |                   </>
 201 |                 )}
-202 | 
+202 |
 203 |                 {result.confidence !== undefined && (
 204 |                   <>
 205 |                     <div className="text-sm font-medium">Confidence:</div>
@@ -2869,7 +2898,7 @@ src/components/ai-playground/transaction-categorizer.tsx
 211 |           </div>
 212 |         )}
 213 |       </CardContent>
-214 | 
+214 |
 215 |       <CardFooter className="flex flex-col space-y-4 mt-auto pt-8">
 216 |         <div>
 217 |           <h3 className="text-sm font-medium mb-2">How It Works</h3>
@@ -2900,13 +2929,14 @@ src/components/ai-playground/transaction-categorizer.tsx
 ```
 
 src/components/ai-playground/transaction-extractor.tsx
+
 ```
 1 | 'use client';
-2 | 
+2 |
 3 | import { zodResolver } from '@hookform/resolvers/zod';
 4 | import { useState } from 'react';
 5 | import { useForm } from 'react-hook-form';
-6 | 
+6 |
 7 | import { extractTransactionFields } from '@/actions/ai/extract-transaction-fields';
 8 | import { Button } from '@/components/ui/button';
 9 | import {
@@ -2927,16 +2957,16 @@ src/components/ai-playground/transaction-extractor.tsx
 24 | } from '@/components/ui/form';
 25 | import { Textarea } from '@/components/ui/textarea';
 26 | import { transactionExtractorFormSchema } from '@/schemas/form-schemas';
-27 | 
+27 |
 28 | import type { TransactionCategory, TransactionType } from '@/lib/ai/types';
 29 | import type { TransactionExtractorFormValues } from '@/schemas/form-schemas';
 30 | import type { TransactionExtraction } from '@/schemas/transaction-schemas';
-31 | 
+31 |
 32 | export const TransactionExtractor = () => {
 33 |   const [result, setResult] = useState<TransactionExtraction | null>(null);
 34 |   const [isLoading, setIsLoading] = useState(false);
 35 |   const [error, setError] = useState<string | null>(null);
-36 | 
+36 |
 37 |   // Initialize the form with react-hook-form
 38 |   const form = useForm<TransactionExtractorFormValues>({
 39 |     resolver: zodResolver(transactionExtractorFormSchema),
@@ -2944,11 +2974,11 @@ src/components/ai-playground/transaction-extractor.tsx
 41 |       prompt: '',
 42 |     },
 43 |   });
-44 | 
+44 |
 45 |   const onSubmit = async (values: TransactionExtractorFormValues) => {
 46 |     setIsLoading(true);
 47 |     setError(null);
-48 | 
+48 |
 49 |     try {
 50 |       // Use the server action instead of the API call
 51 |       const result = await extractTransactionFields(values.prompt);
@@ -2959,7 +2989,7 @@ src/components/ai-playground/transaction-extractor.tsx
 56 |       setIsLoading(false);
 57 |     }
 58 |   };
-59 | 
+59 |
 60 |   // Helper function to get the category label
 61 |   const getCategoryLabel = (category: TransactionCategory) => {
 62 |     return category
@@ -2967,31 +2997,31 @@ src/components/ai-playground/transaction-extractor.tsx
 64 |       .toLowerCase()
 65 |       .replace(/\b\w/g, l => l.toUpperCase());
 66 |   };
-67 | 
+67 |
 68 |   // Helper function to get the type label
 69 |   const getTypeLabel = (type: TransactionType) => {
 70 |     return type.toLowerCase().charAt(0).toUpperCase() + type.toLowerCase().slice(1);
 71 |   };
-72 | 
+72 |
 73 |   // Format date for display
 74 |   const formatDate = (date: string) => {
 75 |     try {
 76 |       const parsed = new Date(date);
-77 | 
+77 |
 78 |       return parsed.toLocaleDateString();
 79 |     } catch {
 80 |       // Return the original string if it can't be parsed as date
 81 |       return date;
 82 |     }
 83 |   };
-84 | 
+84 |
 85 |   // Reset form and results
 86 |   const handleReset = () => {
 87 |     form.reset();
 88 |     setResult(null);
 89 |     setError(null);
 90 |   };
-91 | 
+91 |
 92 |   return (
 93 |     <Card className="w-full max-w-md">
 94 |       <CardHeader>
@@ -3000,7 +3030,7 @@ src/components/ai-playground/transaction-extractor.tsx
 97 |           Describe a transaction in natural language, and our AI will extract the details.
 98 |         </CardDescription>
 99 |       </CardHeader>
-100 | 
+100 |
 101 |       <CardContent>
 102 |         <Form {...form}>
 103 |           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -3010,7 +3040,7 @@ src/components/ai-playground/transaction-extractor.tsx
 107 |               render={({ field }) => (
 108 |                 <FormItem>
 109 |                   <FormLabel>Describe Your Transaction</FormLabel>
-110 | 
+110 |
 111 |                   <FormControl>
 112 |                     <Textarea
 113 |                       placeholder="Example: I spent R$150.50 at Restaurant Central on groceries yesterday"
@@ -3023,50 +3053,50 @@ src/components/ai-playground/transaction-extractor.tsx
 120 |                 </FormItem>
 121 |               )}
 122 |             />
-123 | 
+123 |
 124 |             <Button type="submit" className="w-full" disabled={isLoading}>
 125 |               {isLoading ? 'Extracting...' : 'Extract Transaction Details'}
 126 |             </Button>
 127 |           </form>
 128 |         </Form>
-129 | 
+129 |
 130 |         {error && (
 131 |           <div className="mt-4 p-3 bg-destructive/20 text-destructive rounded-md">
 132 |             <p>{error}</p>
 133 |           </div>
 134 |         )}
-135 | 
+135 |
 136 |         {result && (
 137 |           <div className="mt-8 space-y-6">
 138 |             <pre className="text-xs">{JSON.stringify(result, null, 2)}</pre>
-139 | 
+139 |
 140 |             <div className="space-y-2">
 141 |               <h3 className="font-medium">Extracted Details:</h3>
 142 |               <div className="grid grid-cols-2 gap-2">
 143 |                 <div className="text-sm font-medium">Description:</div>
 144 |                 <div className="text-sm">{result.description}</div>
-145 | 
+145 |
 146 |                 <div className="text-sm font-medium">Amount:</div>
 147 |                 <div className="text-sm">
 148 |                   {result.amount} {result.currency || 'BRL'}
 149 |                 </div>
-150 | 
+150 |
 151 |                 <div className="text-sm font-medium">Date:</div>
 152 |                 <div className="text-sm">{formatDate(result.date)}</div>
-153 | 
+153 |
 154 |                 <div className="text-sm font-medium">Category:</div>
 155 |                 <div className="text-sm">{getCategoryLabel(result.category)}</div>
-156 | 
+156 |
 157 |                 <div className="text-sm font-medium">Type:</div>
 158 |                 <div className="text-sm">{getTypeLabel(result.type)}</div>
-159 | 
+159 |
 160 |                 {result.merchant && (
 161 |                   <>
 162 |                     <div className="text-sm font-medium">Merchant:</div>
 163 |                     <div className="text-sm">{result.merchant}</div>
 164 |                   </>
 165 |                 )}
-166 | 
+166 |
 167 |                 {result.isInstallment && result.installmentInfo && (
 168 |                   <>
 169 |                     <div className="text-sm font-medium">Installment:</div>
@@ -3080,7 +3110,7 @@ src/components/ai-playground/transaction-extractor.tsx
 177 |           </div>
 178 |         )}
 179 |       </CardContent>
-180 | 
+180 |
 181 |       <CardFooter className="flex flex-col space-y-4 mt-auto pt-8">
 182 |         <div>
 183 |           <h3 className="text-sm font-medium mb-2">How It Works</h3>
@@ -3100,7 +3130,7 @@ src/components/ai-playground/transaction-extractor.tsx
 197 |             </ul>
 198 |           </div>
 199 |         </div>
-200 | 
+200 |
 201 |         <Button variant="outline" className="w-full mt-4" onClick={handleReset}>
 202 |           Clear
 203 |         </Button>
@@ -3111,13 +3141,14 @@ src/components/ai-playground/transaction-extractor.tsx
 ```
 
 src/app/(app)/page.tsx
+
 ```
 1 | 'use client';
-2 | 
+2 |
 3 | import { FileIcon, XIcon, UploadIcon } from 'lucide-react';
 4 | import { useState, useCallback } from 'react';
 5 | import { useDropzone } from 'react-dropzone';
-6 | 
+6 |
 7 | import { Button } from '@/components/ui/button';
 8 | import {
 9 |   Card,
@@ -3137,14 +3168,14 @@ src/app/(app)/page.tsx
 23 |   SelectValue,
 24 | } from '@/components/ui/select';
 25 | import { cn } from '@/lib/utils';
-26 | 
+26 |
 27 | export default function OverviewPage() {
 28 |   const [files, setFiles] = useState<File[]>([]);
-29 | 
+29 |
 30 |   const onDrop = useCallback((acceptedFiles: File[]) => {
 31 |     setFiles(prev => [...prev, ...acceptedFiles]);
 32 |   }, []);
-33 | 
+33 |
 34 |   const { getRootProps, getInputProps, isDragActive } = useDropzone({
 35 |     onDrop,
 36 |     accept: {
@@ -3152,7 +3183,7 @@ src/app/(app)/page.tsx
 38 |       'application/pdf': ['.pdf'],
 39 |     },
 40 |   });
-41 | 
+41 |
 42 |   return (
 43 |     <div className="container mx-auto px-8 py-16">
 44 |       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
@@ -3165,7 +3196,7 @@ src/app/(app)/page.tsx
 51 |           )}
 52 |         >
 53 |           <input {...getInputProps()} />
-54 | 
+54 |
 55 |           <Card className="border-0 bg-transparent h-full flex flex-col">
 56 |             <CardHeader>
 57 |               <CardTitle>Upload Bank Statements</CardTitle>
@@ -3225,7 +3256,7 @@ src/app/(app)/page.tsx
 111 |             </CardFooter>
 112 |           </Card>
 113 |         </div>
-114 | 
+114 |
 115 |         {/* Add Manual Transaction */}
 116 |         <Card className="border h-full flex flex-col">
 117 |           <CardHeader>
@@ -3255,12 +3286,12 @@ src/app/(app)/page.tsx
 141 |                   <Input id="amount" type="number" placeholder="0.00" />
 142 |                 </div>
 143 |               </div>
-144 | 
+144 |
 145 |               <div className="space-y-2">
 146 |                 <Label htmlFor="description">Description</Label>
 147 |                 <Input id="description" placeholder="Transaction description" />
 148 |               </div>
-149 | 
+149 |
 150 |               <div className="grid grid-cols-2 gap-4">
 151 |                 <div className="space-y-2">
 152 |                   <Label htmlFor="category">Category</Label>
@@ -3291,7 +3322,7 @@ src/app/(app)/page.tsx
 177 |           </CardFooter>
 178 |         </Card>
 179 |       </div>
-180 | 
+180 |
 181 |       {/* Transactions Table */}
 182 |       <Card className="border mb-8">
 183 |         <CardHeader>
@@ -3607,20 +3638,20 @@ src/app/(app)/page.tsx
 493 |               </table>
 494 |             </div>
 495 |           </div>
-496 | 
+496 |
 497 |           <div className="flex items-center justify-end text-sm mt-6 px-1 text-muted-foreground">
 498 |             Showing 4 of 120 transactions
 499 |           </div>
 500 |         </CardContent>
 501 |       </Card>
-502 | 
+502 |
 503 |       {/* Financial Summary */}
 504 |       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 505 |         <Card className="border">
 506 |           <CardHeader className="pb-2">
 507 |             <CardTitle className="text-lg">Month Overview</CardTitle>
 508 |           </CardHeader>
-509 | 
+509 |
 510 |           <CardContent>
 511 |             <div className="space-y-4">
 512 |               <div className="space-y-2">
@@ -3628,23 +3659,23 @@ src/app/(app)/page.tsx
 514 |                   <span className="text-sm text-muted-foreground">Income</span>
 515 |                   <span className="text-sm font-medium text-emerald-600">R$ 6,250.00</span>
 516 |                 </div>
-517 | 
+517 |
 518 |                 <div className="h-2 bg-muted overflow-hidden">
 519 |                   <div className="h-full bg-emerald-500 w-[80%]" />
 520 |                 </div>
 521 |               </div>
-522 | 
+522 |
 523 |               <div className="space-y-2">
 524 |                 <div className="flex items-center justify-between">
 525 |                   <span className="text-sm text-muted-foreground">Expenses</span>
 526 |                   <span className="text-sm font-medium text-rose-500">R$ 4,820.75</span>
 527 |                 </div>
-528 | 
+528 |
 529 |                 <div className="h-2 bg-muted overflow-hidden">
 530 |                   <div className="h-full bg-rose-400 w-[60%]" />
 531 |                 </div>
 532 |               </div>
-533 | 
+533 |
 534 |               <div className="pt-6">
 535 |                 <div className="flex items-center justify-between">
 536 |                   <span className="font-medium">Balance</span>
@@ -3654,7 +3685,7 @@ src/app/(app)/page.tsx
 540 |             </div>
 541 |           </CardContent>
 542 |         </Card>
-543 | 
+543 |
 544 |         <Card className="border">
 545 |           <CardHeader className="pb-2">
 546 |             <CardTitle className="text-lg">Top Categories</CardTitle>
@@ -3699,7 +3730,7 @@ src/app/(app)/page.tsx
 585 |             </div>
 586 |           </CardContent>
 587 |         </Card>
-588 | 
+588 |
 589 |         <Card className="border">
 590 |           <CardHeader className="pb-2">
 591 |             <CardTitle className="text-lg">Upcoming Payments</CardTitle>
@@ -3736,7 +3767,7 @@ src/app/(app)/page.tsx
 622 |               </div>
 623 |             </div>
 624 |           </CardContent>
-625 | 
+625 |
 626 |           <CardFooter className="mt-4">
 627 |             <Button variant="outline" className="w-full text-xs">
 628 |               View All Upcoming Payments
@@ -3750,13 +3781,14 @@ src/app/(app)/page.tsx
 ```
 
 src/components/ui/button.tsx
+
 ```
 1 | import { Slot } from '@radix-ui/react-slot';
 2 | import { cva, type VariantProps } from 'class-variance-authority';
 3 | import * as React from 'react';
-4 | 
+4 |
 5 | import { cn } from '@/lib/utils';
-6 | 
+6 |
 7 | const buttonVariants = cva(
 8 |   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,box-shadow] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
 9 |   {
@@ -3783,7 +3815,7 @@ src/components/ui/button.tsx
 30 |     },
 31 |   }
 32 | );
-33 | 
+33 |
 34 | function Button({
 35 |   className,
 36 |   variant,
@@ -3795,7 +3827,7 @@ src/components/ui/button.tsx
 42 |     asChild?: boolean;
 43 |   }) {
 44 |   const Comp = asChild ? Slot : 'button';
-45 | 
+45 |
 46 |   return (
 47 |     <Comp
 48 |       data-slot="button"
@@ -3804,16 +3836,17 @@ src/components/ui/button.tsx
 51 |     />
 52 |   );
 53 | }
-54 | 
+54 |
 55 | export { Button, buttonVariants };
 ```
 
 src/components/ui/card.tsx
+
 ```
 1 | import * as React from 'react';
-2 | 
+2 |
 3 | import { cn } from '@/lib/utils';
-4 | 
+4 |
 5 | function Card({ className, ...props }: React.ComponentProps<'div'>) {
 6 |   return (
 7 |     <div
@@ -3826,7 +3859,7 @@ src/components/ui/card.tsx
 14 |     />
 15 |   );
 16 | }
-17 | 
+17 |
 18 | function CardHeader({ className, ...props }: React.ComponentProps<'div'>) {
 19 |   return (
 20 |     <div
@@ -3836,7 +3869,7 @@ src/components/ui/card.tsx
 24 |     />
 25 |   );
 26 | }
-27 | 
+27 |
 28 | function CardTitle({ className, ...props }: React.ComponentProps<'div'>) {
 29 |   return (
 30 |     <div
@@ -3846,7 +3879,7 @@ src/components/ui/card.tsx
 34 |     />
 35 |   );
 36 | }
-37 | 
+37 |
 38 | function CardDescription({ className, ...props }: React.ComponentProps<'div'>) {
 39 |   return (
 40 |     <div
@@ -3856,11 +3889,11 @@ src/components/ui/card.tsx
 44 |     />
 45 |   );
 46 | }
-47 | 
+47 |
 48 | function CardContent({ className, ...props }: React.ComponentProps<'div'>) {
 49 |   return <div data-slot="card-content" className={cn('px-8', className)} {...props} />;
 50 | }
-51 | 
+51 |
 52 | function CardFooter({ className, ...props }: React.ComponentProps<'div'>) {
 53 |   return (
 54 |     <div
@@ -3870,14 +3903,15 @@ src/components/ui/card.tsx
 58 |     />
 59 |   );
 60 | }
-61 | 
+61 |
 62 | export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent };
 ```
 
 src/components/ui/form.tsx
+
 ```
 1 | 'use client';
-2 | 
+2 |
 3 | import { Slot } from '@radix-ui/react-slot';
 4 | import * as React from 'react';
 5 | import {
@@ -3889,23 +3923,23 @@ src/components/ui/form.tsx
 11 |   type FieldPath,
 12 |   type FieldValues,
 13 | } from 'react-hook-form';
-14 | 
+14 |
 15 | import { Label } from '@/components/ui/label';
 16 | import { cn } from '@/lib/utils';
-17 | 
+17 |
 18 | import type * as LabelPrimitive from '@radix-ui/react-label';
-19 | 
+19 |
 20 | const Form = FormProvider;
-21 | 
+21 |
 22 | interface FormFieldContextValue<
 23 |   TFieldValues extends FieldValues = FieldValues,
 24 |   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 25 | > {
 26 |   name: TName;
 27 | }
-28 | 
+28 |
 29 | const FormFieldContext = React.createContext<FormFieldContextValue>({} as FormFieldContextValue);
-30 | 
+30 |
 31 | const FormField = <
 32 |   TFieldValues extends FieldValues = FieldValues,
 33 |   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
@@ -3918,20 +3952,20 @@ src/components/ui/form.tsx
 40 |     </FormFieldContext.Provider>
 41 |   );
 42 | };
-43 | 
+43 |
 44 | const useFormField = () => {
 45 |   const fieldContext = React.useContext(FormFieldContext);
 46 |   const itemContext = React.useContext(FormItemContext);
 47 |   const { getFieldState } = useFormContext();
 48 |   const formState = useFormState({ name: fieldContext.name });
 49 |   const fieldState = getFieldState(fieldContext.name, formState);
-50 | 
+50 |
 51 |   if (!fieldContext) {
 52 |     throw new Error('useFormField should be used within <FormField>');
 53 |   }
-54 | 
+54 |
 55 |   const { id } = itemContext;
-56 | 
+56 |
 57 |   return {
 58 |     id,
 59 |     name: fieldContext.name,
@@ -3941,26 +3975,26 @@ src/components/ui/form.tsx
 63 |     ...fieldState,
 64 |   };
 65 | };
-66 | 
+66 |
 67 | interface FormItemContextValue {
 68 |   id: string;
 69 | }
-70 | 
+70 |
 71 | const FormItemContext = React.createContext<FormItemContextValue>({} as FormItemContextValue);
-72 | 
+72 |
 73 | function FormItem({ className, ...props }: React.ComponentProps<'div'>) {
 74 |   const id = React.useId();
-75 | 
+75 |
 76 |   return (
 77 |     <FormItemContext.Provider value={{ id }}>
 78 |       <div data-slot="form-item" className={cn('grid gap-2', className)} {...props} />
 79 |     </FormItemContext.Provider>
 80 |   );
 81 | }
-82 | 
+82 |
 83 | function FormLabel({ className, ...props }: React.ComponentProps<typeof LabelPrimitive.Root>) {
 84 |   const { error, formItemId } = useFormField();
-85 | 
+85 |
 86 |   return (
 87 |     <Label
 88 |       data-slot="form-label"
@@ -3971,10 +4005,10 @@ src/components/ui/form.tsx
 93 |     />
 94 |   );
 95 | }
-96 | 
+96 |
 97 | function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
 98 |   const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
-99 | 
+99 |
 100 |   return (
 101 |     <Slot
 102 |       data-slot="form-control"
@@ -3985,10 +4019,10 @@ src/components/ui/form.tsx
 107 |     />
 108 |   );
 109 | }
-110 | 
+110 |
 111 | function FormDescription({ className, ...props }: React.ComponentProps<'p'>) {
 112 |   const { formDescriptionId } = useFormField();
-113 | 
+113 |
 114 |   return (
 115 |     <p
 116 |       data-slot="form-description"
@@ -3998,15 +4032,15 @@ src/components/ui/form.tsx
 120 |     />
 121 |   );
 122 | }
-123 | 
+123 |
 124 | function FormMessage({ className, ...props }: React.ComponentProps<'p'>) {
 125 |   const { error, formMessageId } = useFormField();
 126 |   const body = error ? String(error?.message ?? '') : props.children;
-127 | 
+127 |
 128 |   if (!body) {
 129 |     return null;
 130 |   }
-131 | 
+131 |
 132 |   return (
 133 |     <p
 134 |       data-slot="form-message"
@@ -4018,7 +4052,7 @@ src/components/ui/form.tsx
 140 |     </p>
 141 |   );
 142 | }
-143 | 
+143 |
 144 | export {
 145 |   useFormField,
 146 |   Form,
@@ -4032,11 +4066,12 @@ src/components/ui/form.tsx
 ```
 
 src/components/ui/input.tsx
+
 ```
 1 | import * as React from 'react';
-2 | 
+2 |
 3 | import { cn } from '@/lib/utils';
-4 | 
+4 |
 5 | function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
 6 |   return (
 7 |     <input
@@ -4052,19 +4087,20 @@ src/components/ui/input.tsx
 17 |     />
 18 |   );
 19 | }
-20 | 
+20 |
 21 | export { Input };
 ```
 
 src/components/ui/label.tsx
+
 ```
 1 | 'use client';
-2 | 
+2 |
 3 | import * as LabelPrimitive from '@radix-ui/react-label';
 4 | import * as React from 'react';
-5 | 
+5 |
 6 | import { cn } from '@/lib/utils';
-7 | 
+7 |
 8 | function Label({ className, ...props }: React.ComponentProps<typeof LabelPrimitive.Root>) {
 9 |   return (
 10 |     <LabelPrimitive.Root
@@ -4077,32 +4113,33 @@ src/components/ui/label.tsx
 17 |     />
 18 |   );
 19 | }
-20 | 
+20 |
 21 | export { Label };
 ```
 
 src/components/ui/select.tsx
+
 ```
 1 | 'use client';
-2 | 
+2 |
 3 | import * as SelectPrimitive from '@radix-ui/react-select';
 4 | import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 5 | import * as React from 'react';
-6 | 
+6 |
 7 | import { cn } from '@/lib/utils';
-8 | 
+8 |
 9 | function Select({ ...props }: React.ComponentProps<typeof SelectPrimitive.Root>) {
 10 |   return <SelectPrimitive.Root data-slot="select" {...props} />;
 11 | }
-12 | 
+12 |
 13 | function SelectGroup({ ...props }: React.ComponentProps<typeof SelectPrimitive.Group>) {
 14 |   return <SelectPrimitive.Group data-slot="select-group" {...props} />;
 15 | }
-16 | 
+16 |
 17 | function SelectValue({ ...props }: React.ComponentProps<typeof SelectPrimitive.Value>) {
 18 |   return <SelectPrimitive.Value data-slot="select-value" {...props} />;
 19 | }
-20 | 
+20 |
 21 | function SelectTrigger({
 22 |   className,
 23 |   children,
@@ -4124,7 +4161,7 @@ src/components/ui/select.tsx
 39 |     </SelectPrimitive.Trigger>
 40 |   );
 41 | }
-42 | 
+42 |
 43 | function SelectContent({
 44 |   className,
 45 |   children,
@@ -4159,7 +4196,7 @@ src/components/ui/select.tsx
 74 |     </SelectPrimitive.Portal>
 75 |   );
 76 | }
-77 | 
+77 |
 78 | function SelectLabel({ className, ...props }: React.ComponentProps<typeof SelectPrimitive.Label>) {
 79 |   return (
 80 |     <SelectPrimitive.Label
@@ -4169,7 +4206,7 @@ src/components/ui/select.tsx
 84 |     />
 85 |   );
 86 | }
-87 | 
+87 |
 88 | function SelectItem({
 89 |   className,
 90 |   children,
@@ -4193,7 +4230,7 @@ src/components/ui/select.tsx
 108 |     </SelectPrimitive.Item>
 109 |   );
 110 | }
-111 | 
+111 |
 112 | function SelectSeparator({
 113 |   className,
 114 |   ...props
@@ -4206,7 +4243,7 @@ src/components/ui/select.tsx
 121 |     />
 122 |   );
 123 | }
-124 | 
+124 |
 125 | function SelectScrollUpButton({
 126 |   className,
 127 |   ...props
@@ -4221,7 +4258,7 @@ src/components/ui/select.tsx
 136 |     </SelectPrimitive.ScrollUpButton>
 137 |   );
 138 | }
-139 | 
+139 |
 140 | function SelectScrollDownButton({
 141 |   className,
 142 |   ...props
@@ -4236,7 +4273,7 @@ src/components/ui/select.tsx
 151 |     </SelectPrimitive.ScrollDownButton>
 152 |   );
 153 | }
-154 | 
+154 |
 155 | export {
 156 |   Select,
 157 |   SelectContent,
@@ -4252,11 +4289,12 @@ src/components/ui/select.tsx
 ```
 
 src/components/ui/textarea.tsx
+
 ```
 1 | import * as React from 'react';
-2 | 
+2 |
 3 | import { cn } from '@/lib/utils';
-4 | 
+4 |
 5 | const Textarea = React.forwardRef<
 6 |   HTMLTextAreaElement,
 7 |   React.TextareaHTMLAttributes<HTMLTextAreaElement>
@@ -4273,11 +4311,12 @@ src/components/ui/textarea.tsx
 18 |   );
 19 | });
 20 | Textarea.displayName = 'Textarea';
-21 | 
+21 |
 22 | export { Textarea };
 ```
 
 src/lib/ai/types.ts
+
 ```
 1 | // Define transaction types
 2 | export enum TransactionType {
@@ -4285,7 +4324,7 @@ src/lib/ai/types.ts
 4 |   OUTCOME = 'OUTCOME',
 5 |   TRANSFER = 'TRANSFER',
 6 | }
-7 | 
+7 |
 8 | // Define transaction categories
 9 | export enum TransactionCategory {
 10 |   // Income categories
@@ -4294,7 +4333,7 @@ src/lib/ai/types.ts
 13 |   REIMBURSEMENT = 'REIMBURSEMENT',
 14 |   GIFT = 'GIFT',
 15 |   OTHER_INCOME = 'OTHER_INCOME',
-16 | 
+16 |
 17 |   // Expense categories
 18 |   GROCERIES = 'GROCERIES',
 19 |   DINING = 'DINING',
@@ -4309,19 +4348,19 @@ src/lib/ai/types.ts
 28 |   PERSONAL_CARE = 'PERSONAL_CARE',
 29 |   SUBSCRIPTIONS = 'SUBSCRIPTIONS',
 30 |   OTHER_EXPENSE = 'OTHER_EXPENSE',
-31 | 
+31 |
 32 |   // Transfer category
 33 |   TRANSFER = 'TRANSFER',
-34 | 
+34 |
 35 |   // Specific to Brazilian financial system
 36 |   PIX = 'PIX',
 37 |   BOLETO = 'BOLETO',
 38 |   CREDIT_CARD_PAYMENT = 'CREDIT_CARD_PAYMENT',
-39 | 
+39 |
 40 |   // Unknown/uncategorized
 41 |   UNCATEGORIZED = 'UNCATEGORIZED',
 42 | }
-43 | 
+43 |
 44 | // Define investment categories - separate from transaction categories
 45 | export enum InvestmentCategory {
 46 |   // General investment types
@@ -4334,7 +4373,7 @@ src/lib/ai/types.ts
 53 |   RETIREMENT = 'RETIREMENT',
 54 |   SAVINGS = 'SAVINGS',
 55 |   FIXED_INCOME = 'FIXED_INCOME',
-56 | 
+56 |
 57 |   // Brazilian-specific investment types
 58 |   TESOURO_DIRETO = 'TESOURO_DIRETO',
 59 |   CDB = 'CDB',
@@ -4342,12 +4381,12 @@ src/lib/ai/types.ts
 61 |   LCA = 'LCA',
 62 |   DEBENTURES = 'DEBENTURES',
 63 |   FUNDOS_IMOBILIARIOS = 'FUNDOS_IMOBILIARIOS',
-64 | 
+64 |
 65 |   // Other
 66 |   OTHER = 'OTHER',
 67 |   UNCATEGORIZED = 'UNCATEGORIZED',
 68 | }
-69 | 
+69 |
 70 | // Define investment asset classes
 71 | export enum AssetClass {
 72 |   EQUITY = 'EQUITY', // Stocks, ETFs
@@ -4358,7 +4397,7 @@ src/lib/ai/types.ts
 77 |   REAL_ESTATE = 'REAL_ESTATE', // Property, REITs
 78 |   MIXED = 'MIXED', // Mutual Funds, Mixed Portfolios
 79 | }
-80 | 
+80 |
 81 | // Define investment transaction types
 82 | export enum InvestmentTransactionType {
 83 |   BUY = 'BUY', // Purchase of investment
@@ -4376,18 +4415,19 @@ src/lib/ai/types.ts
 ```
 
 src/app/(app)/ai-playground/page.tsx
+
 ```
-1 | 
+1 |
 2 | import { TransactionCategorizer } from '@/components/ai-playground/transaction-categorizer';
 3 | import { TransactionExtractor } from '@/components/ai-playground/transaction-extractor';
-4 | 
+4 |
 5 | import type { Metadata } from 'next';
-6 | 
+6 |
 7 | export const metadata: Metadata = {
 8 |   title: 'AI-Powered Playground',
 9 |   description: 'Try out our tools for transaction management',
 10 | };
-11 | 
+11 |
 12 | export default function AIPlaygroundPage() {
 13 |   return (
 14 |     <div className="container mx-auto px-8 py-16 space-y-12">
@@ -4395,11 +4435,11 @@ src/app/(app)/ai-playground/page.tsx
 16 |         <h1 className="text-3xl font-bold tracking-tight">AI-Powered Playground</h1>
 17 |         <p className="mt-2 text-muted-foreground">Try out our tools for transaction management</p>
 18 |       </div>
-19 | 
+19 |
 20 |       <div className="flex flex-wrap gap-8">
 21 |         {/* Transaction Extractor Section */}
 22 |         <TransactionExtractor />
-23 | 
+23 |
 24 |         {/* Transaction Categorizer Section */}
 25 |         <TransactionCategorizer />
 26 |       </div>
