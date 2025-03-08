@@ -143,7 +143,7 @@ export default function RootLayout({
           <footer className="border-t border-border mt-12">
             <div className="container mx-auto px-8 py-12">
               <div className="flex flex-col md:flex-row gap-8">
-                <div className="flex-1">
+                <div className="flex-1 pb-6">
                   <div className="flex items-center">
                     <h3 className="text-lg font-semibold text-foreground flex-1">
                       Finance Mind
@@ -169,22 +169,10 @@ export default function RootLayout({
                 </div>
 
                 <div className="hidden md:block">
-                  <h4 className="text-sm font-medium text-foreground mb-2 text-right">
+                  <h4 className="text-sm font-medium text-foreground mb-2 text-left">
                     Features
                   </h4>
-                  <ul className="space-y-2 text-sm text-muted-foreground text-right">
-                    <li>Bank statement processing</li>
-                    <li>Transaction categorization</li>
-                    <li>Financial insights</li>
-                    <li>Multi-currency support</li>
-                  </ul>
-                </div>
-
-                <div className="md:hidden">
-                  <h4 className="text-sm font-medium text-foreground">
-                    Features
-                  </h4>
-                  <ul className="mt-2 space-y-2 text-sm text-muted-foreground text-right">
+                  <ul className="space-y-2 text-sm text-muted-foreground text-left">
                     <li>Bank statement processing</li>
                     <li>Transaction categorization</li>
                     <li>Financial insights</li>
@@ -203,14 +191,14 @@ export default function RootLayout({
                 </div>
 
                 <div className="hidden md:block">
-                  <h4 className="text-sm font-medium text-foreground mb-2 text-right">
+                  <h4 className="text-sm font-medium text-foreground mb-2 text-left">
                     Links
                   </h4>
-                  <ul className="space-y-2 text-sm text-muted-foreground text-right">
+                  <ul className="space-y-2 text-sm text-muted-foreground text-left">
                     <li>Documentation</li>
-                    <li>Support</li>
                     <li>Privacy Policy</li>
                     <li>Terms of Service</li>
+                    <li>Support</li>
                   </ul>
                 </div>
               </div>
