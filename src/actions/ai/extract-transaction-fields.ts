@@ -68,16 +68,27 @@ Extract all relevant transaction information from user input, including descript
 - Do not translate user content except for date parsing
 
 // FORMATTING RULES
-- Format merchant names with proper capitalization, also in the description (e.g., "CAIO RODRIGUES" -> "Caio Rodrigues")
-- Format merchant names without translating them
+- Merchant Names
+  * Format merchant names with proper capitalization (e.g., "CAIO RODRIGUES" -> "Caio Rodrigues")
+  * Preserve original language in merchant names (no translation)
+  * Include merchant document/ID when present (e.g., "CAIO RODRIGUES •••.229.046-••" -> "Caio Rodrigues •••.229.046-••")
 
-// FORMATTING EXAMPLES
+- Transaction Descriptions
+  * Format descriptions according to the detected language conventions
+  * Include merchant name in description with proper capitalization
+  * For transfers, use appropriate transfer terminology based on language
+
+// EXAMPLES BY LANGUAGE, TYPE AND CATEGORY
+// Regular Transactions
 - Portuguese: "150 corrida uber ontem" → "Corrida de Uber", type: OUTCOME, category: TRANSPORTATION
 - English: "150 uber" → "Uber ride", type: OUTCOME, category: TRANSPORTATION
 - Spanish: "50 comida ayer" → "Comida", type: OUTCOME, category: DINING
-- P2P: "caio 150" → "Transferência para Caio", type: TRANSFER
-- P2P: "Transferência recebida pelo Pix - CAIO RODRIGUES GUIMARAES - •••.229.046-•• - BANCO INTER (0077) Agência: 1 Conta: 6886889-8" → "Transferência recebida pelo Pix de Caio Rodrigues Guimarães •••.229.046-•• (Banco Inter | Agência: 1 | Conta: 6886889-8)", type: TRANSFER, category: UNCATEGORIZED
-- P2P with context: "caio 150 churrasco" → "Transferência para Caio (Churrasco)", type: TRANSFER, category: DINING
+
+// P2P Transfers
+- Simple: "caio 150" → "Transferência para Caio", type: TRANSFER
+- With context: "caio 150 churrasco" → "Transferência para Caio (Churrasco)", type: TRANSFER, category: DINING
+- Complex: "Transferência recebida pelo Pix - CAIO RODRIGUES GUIMARAES - •••.229.046-•• - BANCO INTER (0077) Agência: 1 Conta: 6886889-8" → 
+  "Transferência recebida pelo Pix de Caio Rodrigues Guimarães (Banco Inter | Agência: 1 | Conta: 6886889-8)", type: TRANSFER, category: UNCATEGORIZED
 `.trim();
 
     // Define the specific user input for analysis
