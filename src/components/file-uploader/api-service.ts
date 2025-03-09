@@ -45,7 +45,11 @@ export const fileProcessingService = {
     response: Response,
     onTimingUpdate?: (metrics: TimingMetrics) => void
   ): Promise<ProcessedStatement> => {
-    const reader = response.body!.getReader();
+    if (!response.body) {
+      throw new Error('Response body is null');
+    }
+
+    const reader = response.body.getReader();
     const decoder = new TextDecoder();
 
     let result: ProcessedStatement | null = null;

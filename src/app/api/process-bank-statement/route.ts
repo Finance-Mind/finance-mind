@@ -187,50 +187,6 @@ async function processBankStatementWithStreaming(
 }
 
 /**
- * Process bank statement files (CSV or PDF)
- * @param fileContents Object containing file content as string/ArrayBuffer and metadata
- * @param existingTransactions Optional array of existing transactions to check for duplicates
- * @returns ProcessedStatement object with extracted transactions
- */
-async function processBankStatement(
-  fileContents: FileContent[],
-  existingTransactions: Transaction[] = []
-): Promise<ProcessedStatement> {
-  const result = initializeResult();
-  const startTime = Date.now();
-
-  try {
-    // Extract and process all transactions from files
-    const { transactions, detectedAccounts } = await extractTransactionsFromFiles(
-      fileContents,
-      existingTransactions,
-      result
-    );
-
-    // Detect P2P transfers among transactions
-    const detectionStartTime = Date.now();
-    const processedTransactions = await detectP2PTransfers(
-      transactions,
-      Array.from(detectedAccounts)
-    );
-
-    result.processingTime.detection = Date.now() - detectionStartTime;
-
-    // Store and sort the processed transactions
-    result.transactions = sortTransactionsByDate(processedTransactions);
-
-    // Record total processing time
-    result.processingTime.total = Date.now() - startTime;
-
-    return result;
-  } catch (error) {
-    console.error('Error processing bank statements:', error);
-    result.processingTime.total = Date.now() - startTime;
-    throw new Error(`Failed to process bank statements: ${(error as Error).message}`);
-  }
-}
-
-/**
  * Sort transactions by date (newest first)
  */
 function sortTransactionsByDate(transactions: Transaction[]): Transaction[] {
