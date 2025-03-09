@@ -13,6 +13,8 @@ import {
 import { useState, useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 
+import type { Transaction } from '@/interfaces/transaction';
+
 import { processBankStatement } from '@/actions/process-bank-statement';
 import { Button } from '@/components/ui/button';
 import {
@@ -24,8 +26,6 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-
-import type { Transaction } from '@/interfaces/transaction';
 
 interface FileUploaderProps {
   onTransactionsProcessed: (
