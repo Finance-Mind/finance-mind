@@ -7,13 +7,12 @@ import {
   Loader2,
   ActivityIcon,
   DatabaseIcon,
-  ClockIcon,
   ServerIcon,
 } from 'lucide-react';
 import { useState, useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 
-import type { ProcessedStatement } from '@/app/api/process-bank-statement/route';
+import type { ProcessedStatement, TimingMetrics } from '@/app/api/process-bank-statement/schemas';
 import type { Transaction } from '@/interfaces/transaction';
 
 import { Button } from '@/components/ui/button';
@@ -58,9 +57,13 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
   // Add a new state variable to track the current elapsed time
   const [elapsedTime, setElapsedTime] = useState<number>(0);
   // Add state for detailed processing times
-  const [processingDurations, setProcessingDurations] = useState<ProcessingDurations>(
-    {} as ProcessingDurations
-  );
+  const [processingDurations, setProcessingDurations] = useState<ProcessingDurations>({
+    total: 0,
+  });
+  // Add variables to track which step is currently active and when it started
+  const [activeStep, setActiveStep] = useState<string | null>(null);
+  const [activeStepStartTime, setActiveStepStartTime] = useState<number | null>(null);
+  const [activeStepElapsedTime, setActiveStepElapsedTime] = useState<number>(0);
 
   // Detect if user is on a mobile device
   useEffect(() => {
@@ -82,43 +85,92 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
 
   // Format the processing time in a user-friendly way
   const formatDuration = (ms: number): string => {
-    const seconds = Math.floor(ms / 1000);
-
-    if (seconds < 60) {
-      return `${seconds}s`;
+    if (ms < 1000) {
+      return `${ms}ms`;
     }
 
+    const seconds = Math.floor(ms / 1000);
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
+
+    if (minutes === 0) {
+      return `${seconds}s`;
+    }
 
     return `${minutes}m ${remainingSeconds}s`;
   };
 
-  // Add useEffect to update the elapsed time in real-time with an interval
+  // Update useEffect for elapsed time to also update active step elapsed time
   useEffect(() => {
     let intervalId: NodeJS.Timeout | null = null;
 
-    // Only set up the interval when processing is active and we have a start time
-    if (isProcessing && startTime !== null) {
-      // Update elapsed time immediately
-      setElapsedTime(Date.now() - startTime);
-
-      // Then set up an interval to update it every 100ms (smoother updates)
+    if (isProcessing && startTime) {
+      // Start the interval to update elapsed time every 100ms
       intervalId = setInterval(() => {
-        setElapsedTime(Date.now() - startTime);
+        const currentTime = Date.now();
+        const elapsed = currentTime - startTime;
+
+        setElapsedTime(elapsed);
+
+        // Also update active step elapsed time if there is an active step
+        if (activeStepStartTime) {
+          const stepElapsed = currentTime - activeStepStartTime;
+
+          setActiveStepElapsedTime(stepElapsed);
+        }
       }, 100);
     } else {
-      // Reset elapsed time when not processing
+      // Reset elapsed times when not processing
       setElapsedTime(0);
+      setActiveStepElapsedTime(0);
     }
 
-    // Clean up interval when component unmounts or dependencies change
+    // Clean up the interval when the component unmounts or processing stops
     return () => {
       if (intervalId) {
         clearInterval(intervalId);
       }
     };
-  }, [isProcessing, startTime]);
+  }, [isProcessing, startTime, activeStepStartTime]);
+
+  // Add useEffect to track active step changes
+  useEffect(() => {
+    if (!isProcessing) {
+      setActiveStep(null);
+      setActiveStepStartTime(null);
+
+      return;
+    }
+
+    // Determine which step is currently active based on processingDurations
+    let currentActiveStep: string | null = null;
+
+    if (processingDurations.detection !== undefined && processingDurations.detection > 0) {
+      // Detection completed, no active step
+      currentActiveStep = null;
+    } else if (processingDurations.extraction !== undefined && processingDurations.extraction > 0) {
+      // Extraction completed, detection is active
+      currentActiveStep = 'detection';
+    } else if (processingDurations.parsing !== undefined && processingDurations.parsing > 0) {
+      // Parsing completed, extraction is active
+      currentActiveStep = 'extraction';
+    } else if (isProcessing) {
+      // Processing started, parsing is active
+      currentActiveStep = 'parsing';
+    }
+
+    // If active step changed, update the start time
+    if (currentActiveStep !== activeStep) {
+      setActiveStep(currentActiveStep);
+
+      if (currentActiveStep) {
+        setActiveStepStartTime(Date.now());
+        setActiveStepElapsedTime(0);
+      } else {
+        setActiveStepStartTime(null);
+      }
+    }
+  }, [isProcessing, processingDurations, activeStep]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFiles(prev => [...prev, ...acceptedFiles]);
@@ -263,7 +315,7 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
         })
       );
 
-      // Use fetch to call the API route instead of direct server action
+      // Use streaming mode
       const response = await fetch('/api/process-bank-statement', {
         method: 'POST',
         headers: {
@@ -281,33 +333,90 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
         throw new Error(errorData.error || `HTTP error ${response.status}`);
       }
 
-      const result: ProcessedStatement = await response.json();
-
-      // Calculate the processing duration
-      const endTime = Date.now();
-      const duration = endTime - processingStartTime;
-
-      setShowDuration(true);
-
-      setProcessingDurations(prev => ({
-        ...prev,
-        total: duration,
-      }));
-
-      // Store detailed processing times returned from server
-      if (result.processingTime) {
-        setProcessingDurations(result.processingTime);
+      if (!response.body) {
+        throw new Error('Response body is null');
       }
 
-      // Use the deduplication helper function for storing transactions
+      // Handle the streaming response
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+
+      let result: ProcessedStatement | null = null;
+      let streamError: Error | null = null;
+
+      try {
+        while (true) {
+          const { done, value } = await reader.read();
+
+          if (done) {
+            break;
+          }
+
+          // Decode the chunk and split by newlines (each line is an event)
+          const text = decoder.decode(value, { stream: true });
+          const lines = text.split('\n').filter(line => line.trim());
+
+          for (const line of lines) {
+            try {
+              const event = JSON.parse(line);
+
+              if (event.event === 'timing-update') {
+                // Update the timing metrics
+                const timingMetrics = event.data as TimingMetrics;
+
+                setProcessingDurations(prev => ({
+                  ...prev,
+                  ...timingMetrics,
+                }));
+
+                // Show duration information
+                setShowDuration(true);
+              } else if (event.event === 'complete') {
+                // This is the final result
+                result = event.data as ProcessedStatement;
+              } else if (event.event === 'error') {
+                // Handle error event
+                streamError = new Error(event.data.message);
+              }
+            } catch (parseError) {
+              console.error('Failed to parse streaming event:', parseError, line);
+            }
+          }
+        }
+      } catch (streamingError) {
+        console.error('Error during streaming:', streamingError);
+        throw streamingError;
+      } finally {
+        reader.releaseLock();
+      }
+
+      // Check if we got an error from the stream
+      if (streamError) {
+        throw streamError;
+      }
+
+      // Check if we got a result
+      if (!result) {
+        throw new Error('No result received from the server');
+      }
+
+      // Success - use the final result
       setProcessedTransactions(prevTransactions =>
-        deduplicateTransactions(prevTransactions, result.transactions)
+        deduplicateTransactions(prevTransactions, result!.transactions)
       );
 
-      setSkippedDuplicates(prev => prev + result.duplicatesSkipped);
+      setSkippedDuplicates(prev => prev + result!.duplicatesSkipped);
 
       // Pass the results to the parent component
       onTransactionsProcessed(result.transactions, result.errors, result.warnings);
+
+      // Calculate total time including streaming
+      const totalDuration = Date.now() - processingStartTime;
+
+      setProcessingDurations(prev => ({
+        ...prev,
+        total: totalDuration,
+      }));
 
       // Clear the files after successful processing
       setFiles([]);
@@ -328,6 +437,89 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
     } finally {
       setIsProcessing(false);
     }
+  };
+
+  // Update renderProcessingSteps function to show real-time elapsed time for active step
+  const renderProcessingSteps = () => {
+    const steps = [
+      {
+        id: 'parsing',
+        name: 'Parsing',
+        icon: <ServerIcon className="w-3 h-3 mr-1" />,
+        isActive: isProcessing && activeStep === 'parsing',
+        isComplete: processingDurations.parsing !== undefined && processingDurations.parsing > 0,
+        isPending: isProcessing && !processingDurations.parsing,
+        time: processingDurations.parsing,
+      },
+      {
+        id: 'extraction',
+        name: 'Extraction',
+        icon: <DatabaseIcon className="w-3 h-3 mr-1" />,
+        isActive: isProcessing && activeStep === 'extraction',
+        isComplete:
+          processingDurations.extraction !== undefined && processingDurations.extraction > 0,
+        isPending:
+          isProcessing &&
+          processingDurations.parsing !== undefined &&
+          processingDurations.parsing > 0 &&
+          !processingDurations.extraction,
+        time: processingDurations.extraction,
+      },
+      {
+        id: 'detection',
+        name: 'Transfer detection',
+        icon: <ActivityIcon className="w-3 h-3 mr-1" />,
+        isActive: isProcessing && activeStep === 'detection',
+        isComplete:
+          processingDurations.detection !== undefined && processingDurations.detection > 0,
+        isPending:
+          isProcessing &&
+          processingDurations.extraction !== undefined &&
+          processingDurations.extraction > 0 &&
+          !processingDurations.detection,
+        time: processingDurations.detection,
+      },
+    ];
+
+    return (
+      <div className="flex flex-col space-y-1 mt-2">
+        {steps.map(step => {
+          let statusIndicator = null;
+          let className = 'flex items-center';
+
+          // Determine what time to display
+          let displayTime: number | undefined = step.time;
+
+          if (step.isActive && activeStep === step.id) {
+            // For the active step, show the real-time elapsed time
+            displayTime = activeStepElapsedTime;
+          }
+
+          if (step.isComplete) {
+            statusIndicator = null;
+            className += ' text-emerald-600';
+          } else if (step.isActive) {
+            statusIndicator = <span className="ml-2 text-primary animate-pulse">⋯</span>;
+            className += ' text-primary';
+          } else if (step.isPending) {
+            statusIndicator = <span className="ml-2 text-muted-foreground text-xs">pending</span>;
+            className += ' text-muted-foreground';
+          }
+
+          return (
+            <div key={step.id} className={className}>
+              {step.icon}
+
+              <span>
+                {`${step.name}: ${displayTime !== undefined ? formatDuration(displayTime) : '—'}`}
+              </span>
+
+              {statusIndicator}
+            </div>
+          );
+        })}
+      </div>
+    );
   };
 
   return (
@@ -440,42 +632,12 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
             )}
           </CardContent>
 
-          <CardFooter className="mt-auto flex flex-col gap-4 items-start">
-            {showDuration && processingDurations ? (
-              <div className="mt-4 w-full p-5 bg-primary/10 rounded-md space-y-2 text-xs text-muted-foreground">
-                <div className="flex items-center">
-                  <ClockIcon className="h-3 w-3 mr-2 text-primary/70" />
-
-                  <span>
-                    Processing completed in {formatDuration(processingDurations?.total ?? 0)}
-                  </span>
-                </div>
-
-                {processingDurations.parsing ? (
-                  <div className="flex items-center">
-                    <ServerIcon className="h-3 w-3 mr-2 text-primary/70" />
-
-                    <span>Parsing: {formatDuration(processingDurations.parsing)}</span>
-                  </div>
-                ) : null}
-
-                {processingDurations.extraction ? (
-                  <div className="flex items-center">
-                    <DatabaseIcon className="h-3 w-3 mr-2 text-primary/70" />
-
-                    <span>Data extraction: {formatDuration(processingDurations.extraction)}</span>
-                  </div>
-                ) : null}
-
-                {processingDurations.detection ? (
-                  <div className="flex items-center">
-                    <ActivityIcon className="h-3 w-3 mr-2 text-primary/70" />
-
-                    <span>Transfer detection: {formatDuration(processingDurations.detection)}</span>
-                  </div>
-                ) : null}
+          <CardFooter className="mt-auto flex flex-col gap-5 items-start">
+            {showDuration && (
+              <div className="text-xs text-muted-foreground mt-2">
+                <div className="flex flex-col space-y-1">{renderProcessingSteps()}</div>
               </div>
-            ) : null}
+            )}
 
             <div className="w-full flex flex-col gap-1">
               <p className="mb-2 text-sm">{files.length} file(s) selected</p>

@@ -1,4 +1,13 @@
-import type { TransactionCategory } from '@/interfaces/enums';
+import {
+  type FileContent,
+  type ExtractedRow,
+  type TransactionFields,
+  type TransferDetectionResult,
+  type TimingMetrics,
+  type ProcessedStatement,
+  ProcessBankStatementRequestSchema,
+} from './schemas';
+
 import type { Transaction } from '@/interfaces/transaction';
 
 import { detectP2PTransfer } from '@/actions/ai/detect-person-to-person-transfer';
@@ -8,82 +17,89 @@ import { TransactionType } from '@/interfaces/enums';
 import { parseCSV } from '@/lib/parsers/csv-parser';
 import { parsePDF } from '@/lib/parsers/pdf-parser';
 
-// Types
-interface FileContent {
-  name: string;
-  content: string | ArrayBuffer;
-  contentType: string;
-}
-
-type ExtractedRow = Record<string, string | number>;
-
-interface TransactionFields {
-  description: string;
-  amount: number;
-  date: string;
-  merchant?: string;
-  type: TransactionType;
-  category: TransactionCategory;
-  currency?: string;
-  installmentInfo?: {
-    current: number;
-    total: number;
-  };
-  confidence?: number;
-}
-
-interface TransferDetectionResult {
-  isP2PTransfer: boolean;
-  isInternalTransfer: boolean;
-  confidence: number;
-  matchingTransactionId?: string;
-  fromPerson?: string;
-  toPerson?: string;
-}
-
-interface TimingMetrics {
-  total: number;
-  parsing: number;
-  extraction: number;
-  detection: number;
-}
-
-export interface ProcessedStatement {
-  transactions: Transaction[];
-  errors: string[];
-  warnings: string[];
-  duplicatesSkipped: number;
-  processingTime: TimingMetrics;
-}
-
 // API route handlers
 export async function POST(request: Request): Promise<Response> {
   try {
     const data = await request.json();
-    const { fileContents, existingTransactions = [] } = data;
 
-    if (!fileContents || !Array.isArray(fileContents)) {
+    // Validate request data using Zod schema
+    const parseResult = ProcessBankStatementRequestSchema.safeParse(data);
+
+    if (!parseResult.success) {
       return Response.json(
-        { error: 'Invalid request: fileContents array is required' },
+        { error: `Invalid request: ${parseResult.error.message}` },
         { status: 400 }
       );
     }
 
-    // Convert Base64-encoded content back to ArrayBuffer for PDF files
-    const processableFileContents = fileContents.map(file => {
-      if (file.contentType === 'application/pdf' && typeof file.content === 'string') {
-        return {
-          ...file,
-          content: base64ToArrayBuffer(file.content),
-        };
-      }
+    const { fileContents, existingTransactions = [] } = parseResult.data;
 
-      return file;
+    // Always use streaming mode - no need to check URL parameters
+    const encoder = new TextEncoder();
+    const customReadable = new ReadableStream({
+      async start(controller) {
+        try {
+          // Convert Base64-encoded content back to ArrayBuffer for PDF files
+          const processableFileContents = fileContents.map(file => {
+            if (file.contentType === 'application/pdf' && typeof file.content === 'string') {
+              return {
+                ...file,
+                content: base64ToArrayBuffer(file.content),
+              };
+            }
+
+            return file;
+          });
+
+          // Process with streaming updates
+          const result = await processBankStatementWithStreaming(
+            processableFileContents,
+            existingTransactions,
+            // Stream timing updates callback
+            timingMetrics => {
+              const update = JSON.stringify({
+                event: 'timing-update',
+                data: timingMetrics,
+              });
+
+              controller.enqueue(encoder.encode(update + '\n'));
+            }
+          );
+
+          // Send the final result
+          controller.enqueue(
+            encoder.encode(
+              JSON.stringify({
+                event: 'complete',
+                data: result,
+              }) + '\n'
+            )
+          );
+          controller.close();
+        } catch (error) {
+          console.error('Error processing files:', error);
+          controller.enqueue(
+            encoder.encode(
+              JSON.stringify({
+                event: 'error',
+                data: {
+                  message: `Failed to process bank statements: ${(error as Error).message}`,
+                },
+              }) + '\n'
+            )
+          );
+          controller.close();
+        }
+      },
     });
 
-    const result = await processBankStatement(processableFileContents, existingTransactions);
-
-    return Response.json(result);
+    return new Response(customReadable, {
+      headers: {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        Connection: 'keep-alive',
+      },
+    });
   } catch (error) {
     console.error('Error in API route:', error);
 
@@ -100,6 +116,75 @@ function base64ToArrayBuffer(base64: string): ArrayBuffer {
   const binary = Buffer.from(base64, 'base64');
 
   return binary.buffer.slice(binary.byteOffset, binary.byteOffset + binary.byteLength);
+}
+
+/**
+ * Process bank statement files (CSV or PDF) with streaming updates
+ * @param fileContents Object containing file content as string/ArrayBuffer and metadata
+ * @param existingTransactions Optional array of existing transactions to check for duplicates
+ * @param onTimingUpdate Callback for streaming timing updates
+ * @returns ProcessedStatement object with extracted transactions
+ */
+async function processBankStatementWithStreaming(
+  fileContents: FileContent[],
+  existingTransactions: Transaction[] = [],
+  onTimingUpdate: (timingMetrics: TimingMetrics) => void
+): Promise<ProcessedStatement> {
+  const result = initializeResult();
+  const startTime = Date.now();
+
+  // Send initial timing metrics
+  onTimingUpdate(result.processingTime);
+
+  try {
+    // Extract and process all transactions from files
+    const { transactions, detectedAccounts } = await extractTransactionsFromFiles(
+      fileContents,
+      existingTransactions,
+      result,
+      // Send updates during extraction
+      updatedMetrics => {
+        result.processingTime = updatedMetrics;
+        onTimingUpdate(updatedMetrics);
+      }
+    );
+
+    // Detect P2P transfers among transactions
+    const detectionStartTime = Date.now();
+
+    // Send update before detection starts
+    result.processingTime.detection = 0;
+    onTimingUpdate(result.processingTime);
+
+    const processedTransactions = await detectP2PTransfers(
+      transactions,
+      Array.from(detectedAccounts)
+    );
+
+    result.processingTime.detection = Date.now() - detectionStartTime;
+
+    // Send update after detection completes
+    onTimingUpdate(result.processingTime);
+
+    // Store and sort the processed transactions
+    result.transactions = sortTransactionsByDate(processedTransactions);
+
+    // Record total processing time
+    result.processingTime.total = Date.now() - startTime;
+
+    // Send final timing metrics
+    onTimingUpdate(result.processingTime);
+
+    return result;
+  } catch (error) {
+    console.error('Error processing bank statements:', error);
+    result.processingTime.total = Date.now() - startTime;
+
+    // Send final timing metrics even on error
+    onTimingUpdate(result.processingTime);
+
+    throw new Error(`Failed to process bank statements: ${(error as Error).message}`);
+  }
 }
 
 /**
@@ -177,7 +262,8 @@ function initializeResult(): ProcessedStatement {
 async function extractTransactionsFromFiles(
   fileContents: FileContent[],
   existingTransactions: Transaction[],
-  result: ProcessedStatement
+  result: ProcessedStatement,
+  onTimingUpdate?: (timingMetrics: TimingMetrics) => void
 ): Promise<{ transactions: Transaction[]; detectedAccounts: Set<string> }> {
   const allTransactions: Transaction[] = [];
   const detectedAccounts: Set<string> = new Set();
@@ -205,6 +291,11 @@ async function extractTransactionsFromFiles(
       // Update parsing time
       result.processingTime.parsing = Date.now() - parsingStartTime;
 
+      // Send timing update if callback is provided
+      if (onTimingUpdate) {
+        onTimingUpdate(result.processingTime);
+      }
+
       // Process rows into transactions
       const extractionStartTime = Date.now();
       const fileTransactions = await processExtractedRows(
@@ -216,6 +307,11 @@ async function extractTransactionsFromFiles(
 
       allTransactions.push(...fileTransactions);
       result.processingTime.extraction += Date.now() - extractionStartTime;
+
+      // Send timing update if callback is provided
+      if (onTimingUpdate) {
+        onTimingUpdate(result.processingTime);
+      }
     } catch (fileError) {
       result.errors.push(`Error processing file ${file.name}: ${(fileError as Error).message}`);
     }
