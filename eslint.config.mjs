@@ -42,14 +42,17 @@ const eslintConfig = [
       'space-before-blocks': ['error', 'always'],
       'space-infix-ops': 'error',
       'space-in-parens': ['error', 'never'],
-      'space-before-function-paren': ['error', {
-        'anonymous': 'always',
-        'named': 'never',
-        'asyncArrow': 'always'
-      }],
-      'comma-spacing': ['error', { 'before': false, 'after': true }],
-      'semi-spacing': ['error', { 'before': false, 'after': true }],
-      'brace-style': ['error', '1tbs', { 'allowSingleLine': true }],
+      'space-before-function-paren': [
+        'error',
+        {
+          anonymous: 'always',
+          named: 'never',
+          asyncArrow: 'always',
+        },
+      ],
+      'comma-spacing': ['error', { before: false, after: true }],
+      'semi-spacing': ['error', { before: false, after: true }],
+      'brace-style': ['error', '1tbs', { allowSingleLine: true }],
       'padded-blocks': ['error', 'never'],
 
       // Statement separation rule
@@ -57,8 +60,12 @@ const eslintConfig = [
         'error',
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] },
-        { blankLine: 'always', prev: '*', next: ['return', 'if', 'for', 'while', 'do', 'switch', 'try'] },
-        { blankLine: 'always', prev: ['if', 'for', 'while', 'do', 'switch', 'try'], next: '*' }
+        {
+          blankLine: 'always',
+          prev: '*',
+          next: ['return', 'if', 'for', 'while', 'do', 'switch', 'try'],
+        },
+        { blankLine: 'always', prev: ['if', 'for', 'while', 'do', 'switch', 'try'], next: '*' },
       ],
 
       // Unused imports auto-fix rules
