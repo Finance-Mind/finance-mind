@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { FileUploader } from '@/components/file-upload/file-uploader';
+import { FileUploader } from '@/components/file-uploader';
 import { ManualTransactionForm } from '@/components/manual-transaction-form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -60,17 +60,7 @@ export default function OverviewPage() {
         <FileUploader onTransactionsProcessed={handleTransactionsProcessed} />
 
         {/* Add Manual Transaction */}
-        <Card className="border h-full flex flex-col">
-          <CardHeader>
-            <CardTitle>Add Manual Transaction</CardTitle>
-            <CardDescription>
-              Record financial activities not present in your bank statements
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex-grow">
-            <ManualTransactionForm />
-          </CardContent>
-        </Card>
+        <ManualTransactionForm />
       </div>
 
       {/* Errors and Warnings */}
