@@ -5,10 +5,10 @@ import {
   XIcon,
   UploadIcon,
   Loader2,
+  ActivityIcon,
+  DatabaseIcon,
   ClockIcon,
   ServerIcon,
-  DatabaseIcon,
-  ActivityIcon,
 } from 'lucide-react';
 import { useState, useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
@@ -300,7 +300,7 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
       >
         <input {...getInputProps()} />
 
-        <Card className="border-0 bg-transparent flex flex-col">
+        <Card className="border-0 bg-transparent flex flex-col h-full">
           <CardHeader>
             <CardTitle>Upload Bank Statements</CardTitle>
             <CardDescription>
@@ -383,8 +383,17 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
               </div>
             )}
 
+            {isProcessing && startTime && (
+              <div className="mt-4 p-3 bg-muted text-muted-foreground text-sm rounded-md flex items-center">
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                Processing for {formatDuration(elapsedTime)}...
+              </div>
+            )}
+          </CardContent>
+
+          <CardFooter className="mt-auto flex flex-col gap-4 items-start">
             {showDuration && processingDurations ? (
-              <div className="mt-4 p-5 bg-primary/10 rounded-md space-y-2 text-xs text-muted-foreground">
+              <div className="mt-4 w-full p-5 bg-primary/10 rounded-md space-y-2 text-xs text-muted-foreground">
                 <div className="flex items-center">
                   <ClockIcon className="h-3 w-3 mr-2 text-primary/70" />
                   <span>
@@ -414,17 +423,9 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
               </div>
             ) : null}
 
-            {isProcessing && startTime && (
-              <div className="mt-4 p-3 bg-muted text-muted-foreground text-sm rounded-md flex items-center">
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                Processing for {formatDuration(elapsedTime)}...
-              </div>
-            )}
-          </CardContent>
-
-          <CardFooter className="mt-auto">
-            <div className="w-full">
+            <div className="w-full flex flex-col gap-1">
               <p className="mb-2 text-sm">{files.length} file(s) selected</p>
+
               <Button
                 className="w-full"
                 disabled={files.length === 0 || isProcessing}
