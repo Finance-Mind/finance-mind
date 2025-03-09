@@ -13,9 +13,9 @@ import {
 import { useState, useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 
+import type { ProcessedStatement } from '@/app/api/process-bank-statement/route';
 import type { Transaction } from '@/interfaces/transaction';
 
-import { processBankStatement } from '@/actions/process-bank-statement';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -189,6 +189,19 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
     });
   };
 
+  // Add this helper function to convert ArrayBuffer to Base64
+  const arrayBufferToBase64 = (buffer: ArrayBuffer): string => {
+    let binary = '';
+    const bytes = new Uint8Array(buffer);
+    const len = bytes.byteLength;
+
+    for (let i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+
+    return window.btoa(binary);
+  };
+
   // Add a helper function to properly deduplicate transactions
   const deduplicateTransactions = (
     currentTransactions: Transaction[],
@@ -227,10 +240,16 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
               throw new Error(`File ${file.name} is too large for mobile processing.`);
             }
 
-            const content =
-              file.type === 'text/csv'
-                ? await readFileAsText(file)
-                : await readFileAsArrayBuffer(file);
+            let content;
+
+            if (file.type === 'text/csv') {
+              content = await readFileAsText(file);
+            } else {
+              // For binary files like PDF, convert ArrayBuffer to Base64 string for JSON serialization
+              const arrayBuffer = await readFileAsArrayBuffer(file);
+
+              content = arrayBufferToBase64(arrayBuffer);
+            }
 
             return {
               name: file.name,
@@ -244,8 +263,25 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
         })
       );
 
-      // Process the files - pass existing processed transactions to avoid duplicates
-      const result = await processBankStatement(fileContents, processedTransactions);
+      // Use fetch to call the API route instead of direct server action
+      const response = await fetch('/api/process-bank-statement', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fileContents,
+          existingTransactions: processedTransactions,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+
+        throw new Error(errorData.error || `HTTP error ${response.status}`);
+      }
+
+      const result: ProcessedStatement = await response.json();
 
       // Calculate the processing duration
       const endTime = Date.now();

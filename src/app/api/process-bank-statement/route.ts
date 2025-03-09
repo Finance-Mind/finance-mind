@@ -1,4 +1,5 @@
-'use server';
+import type { TransactionCategory } from '@/interfaces/enums';
+import type { Transaction } from '@/interfaces/transaction';
 
 import { detectP2PTransfer } from '@/actions/ai/detect-person-to-person-transfer';
 import { extractCardFromFilename as aiExtractCardFromFilename } from '@/actions/ai/extract-card-info';
@@ -6,9 +7,6 @@ import { extractTransactionFields } from '@/actions/ai/extract-transaction-field
 import { TransactionType } from '@/interfaces/enums';
 import { parseCSV } from '@/lib/parsers/csv-parser';
 import { parsePDF } from '@/lib/parsers/pdf-parser';
-
-import type { TransactionCategory } from '@/interfaces/enums';
-import type { Transaction } from '@/interfaces/transaction';
 
 // Types
 interface FileContent {
@@ -58,13 +56,59 @@ export interface ProcessedStatement {
   processingTime: TimingMetrics;
 }
 
+// API route handlers
+export async function POST(request: Request): Promise<Response> {
+  try {
+    const data = await request.json();
+    const { fileContents, existingTransactions = [] } = data;
+
+    if (!fileContents || !Array.isArray(fileContents)) {
+      return Response.json(
+        { error: 'Invalid request: fileContents array is required' },
+        { status: 400 }
+      );
+    }
+
+    // Convert Base64-encoded content back to ArrayBuffer for PDF files
+    const processableFileContents = fileContents.map(file => {
+      if (file.contentType === 'application/pdf' && typeof file.content === 'string') {
+        return {
+          ...file,
+          content: base64ToArrayBuffer(file.content),
+        };
+      }
+
+      return file;
+    });
+
+    const result = await processBankStatement(processableFileContents, existingTransactions);
+
+    return Response.json(result);
+  } catch (error) {
+    console.error('Error in API route:', error);
+
+    return Response.json(
+      { error: `Failed to process bank statements: ${(error as Error).message}` },
+      { status: 500 }
+    );
+  }
+}
+
+// Helper function to convert Base64 back to ArrayBuffer
+function base64ToArrayBuffer(base64: string): ArrayBuffer {
+  // Use Buffer in Node.js environment instead of window.atob
+  const binary = Buffer.from(base64, 'base64');
+
+  return binary.buffer.slice(binary.byteOffset, binary.byteOffset + binary.byteLength);
+}
+
 /**
  * Process bank statement files (CSV or PDF)
  * @param fileContents Object containing file content as string/ArrayBuffer and metadata
  * @param existingTransactions Optional array of existing transactions to check for duplicates
  * @returns ProcessedStatement object with extracted transactions
  */
-export async function processBankStatement(
+async function processBankStatement(
   fileContents: FileContent[],
   existingTransactions: Transaction[] = []
 ): Promise<ProcessedStatement> {

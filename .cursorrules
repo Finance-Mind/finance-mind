@@ -12,7 +12,7 @@ The AI should:
 - Read the `README.md` first to understand the project requirements and structure
 - Read the `codebase.md` in folder `codefetch`
 - Before coding, write a brief plan of implementation
-- Always write/update tests for each new feature or component
+- Only write/update tests when explicitly requested by the user
 - Run tests to confirm each change works as expected
 - Update documentation for new components and features
 - Follow user requirements carefully and accurately
@@ -75,21 +75,71 @@ The AI should:
 - Define TypeScript types and interfaces for all props and state
 - NEVER use the `any` type - always define proper types for all variables, parameters, and return values
 
+## Code Documentation and Comments
+
+- Avoid "stupid comments" that only repeat what the code already says
+- Comments should explain WHY, not WHAT (the code already shows what it does)
+- Do not add comments for obvious operations
+- Only comment complex logic, business rules, or non-obvious decisions
+- Use proper grammar and complete sentences in comments
+- Keep comments up-to-date when changing code
+
+### JSDoc Documentation
+
+- Use JSDoc comments for all public functions, classes, and interfaces
+- Document parameters with `@param`, return values with `@returns`
+- Include type information even when TypeScript already provides it
+- Add examples with `@example` for complex functions
+- Document thrown exceptions with `@throws`
+- Add proper descriptions that explain purpose and context
+- Use `@see` to reference related functionality
+- Keep JSDoc comments concise but complete
+
+### Examples
+
+Bad comment (avoid):
+
+```typescript
+// This function increments the counter by 1
+function incrementCounter() {
+  counter += 1;
+}
+```
+
+Good comment:
+
+```typescript
+/**
+ * Increments the activity counter and triggers analytics
+ * when threshold is reached.
+ *
+ * @see trackUserActivity for the analytics implementation
+ */
+function incrementCounter() {
+  counter += 1;
+  if (counter >= ACTIVITY_THRESHOLD) {
+    trackUserActivity();
+  }
+}
+```
+
 ## Testing Standards
 
-- Test components in isolation
-- Test both UI rendering and functionality
-- Use React Testing Library best practices
-- Test server-side functionality separately
-- Keep tests independent and isolated
-- Tests should be repeatable with consistent results
-- Tests should be readable and maintainable
-- Tests should run quickly
-- Test both positive and negative scenarios
-- Test edge cases and boundary conditions
-- Follow the AAA (Arrange-Act-Assert) pattern
-- Use descriptive test names
-- Mock external dependencies appropriately
+- Only write tests when explicitly requested by the user
+- When implementing tests, follow these guidelines:
+  - Test components in isolation
+  - Test both UI rendering and functionality
+  - Use React Testing Library best practices
+  - Test server-side functionality separately
+  - Keep tests independent and isolated
+  - Tests should be repeatable with consistent results
+  - Tests should be readable and maintainable
+  - Tests should run quickly
+  - Test both positive and negative scenarios
+  - Test edge cases and boundary conditions
+  - Follow the AAA (Arrange-Act-Assert) pattern
+  - Use descriptive test names
+  - Mock external dependencies appropriately
 
 ## Prompt Engineering Standards
 
