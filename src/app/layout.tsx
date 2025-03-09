@@ -110,6 +110,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   <div className="flex flex-col md:flex-row justify-between md:items-center items-start gap-8">
                     <div className="mr-8">
                       <h1 className="text-3xl font-bold text-foreground">Finance Mind</h1>
+
                       <p className="mt-2 text-sm text-muted-foreground">
                         AI-driven finance tracker for intelligent bank statement analysis and
                         insights
@@ -153,40 +154,56 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
                   <div className="md:hidden">
                     <h4 className="text-sm font-medium text-foreground">Features</h4>
+
                     <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
                       <li>Bank statement processing</li>
+
                       <li>Transaction categorization</li>
+
                       <li>Financial insights</li>
+
                       <li>Multi-currency support</li>
                     </ul>
                   </div>
 
                   <div className="hidden md:block">
                     <h4 className="text-sm font-medium text-foreground mb-2 text-left">Features</h4>
+
                     <ul className="space-y-2 text-sm text-muted-foreground text-left">
                       <li>Bank statement processing</li>
+
                       <li>Transaction categorization</li>
+
                       <li>Financial insights</li>
+
                       <li>Multi-currency support</li>
                     </ul>
                   </div>
 
                   <div className="md:hidden">
                     <h4 className="text-sm font-medium text-foreground">Links</h4>
+
                     <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
                       <li>Documentation</li>
+
                       <li>Support</li>
+
                       <li>Privacy Policy</li>
+
                       <li>Terms of Service</li>
                     </ul>
                   </div>
 
                   <div className="hidden md:block">
                     <h4 className="text-sm font-medium text-foreground mb-2 text-left">Links</h4>
+
                     <ul className="space-y-2 text-sm text-muted-foreground text-left">
                       <li>Documentation</li>
+
                       <li>Privacy Policy</li>
+
                       <li>Terms of Service</li>
+
                       <li>Support</li>
                     </ul>
                   </div>
@@ -196,6 +213,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   <p className="text-xs text-muted-foreground">
                     &copy; {new Date().getFullYear()} Finance Mind. All rights reserved.
                   </p>
+
                   <div className="mt-4 md:mt-0 flex space-x-4">
                     <span className="text-xs text-muted-foreground">
                       <a

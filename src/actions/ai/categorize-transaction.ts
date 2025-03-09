@@ -2,8 +2,8 @@
 
 import { generateObject } from 'ai';
 
-import { openai, defaultModel } from '@/lib/ai';
 import { TransactionCategory, TransactionType } from '@/interfaces/enums';
+import { openai, defaultModel } from '@/lib/ai';
 import { transactionCategorizeResponseSchema } from '@/schemas/transaction-schemas';
 
 import type { TransactionCategorizeResponse } from '@/schemas/transaction-schemas';

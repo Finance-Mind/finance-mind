@@ -5,8 +5,8 @@ import { generateObject } from 'ai';
 import { z } from 'zod';
 
 import { userConfig } from '@/config/user';
-import { defaultModel } from '@/lib/ai';
 import { TransactionType } from '@/interfaces/enums';
+import { defaultModel } from '@/lib/ai';
 import { calculateStringSimilarity } from '@/utils/calculate-string-similarity';
 
 import type { Transaction } from '@/interfaces/transaction';

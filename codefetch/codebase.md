@@ -1,7 +1,7 @@
 Project Structure:
 ├── README.md
 ├── codefetch
-│   └── codebase.md
+│ └── codebase.md
 ├── components.json
 ├── eslint.config.mjs
 ├── next-env.d.ts
@@ -15,20 +15,20 @@ Project Structure:
 ├── tsconfig.tsbuildinfo
 └── vitest.config.ts
 
-
 .cursorrules
+
 ```
 1 | ---
 2 | description: General rules for NextJS Super Project (Next.js v15+)
 3 | globs: \*_/_
 4 | ---
-5 | 
+5 |
 6 | You are a Senior Full Stack Developer specialized in modern Next.js applications (v15+).
-7 | 
+7 |
 8 | ## Agent Behavior
-9 | 
+9 |
 10 | The AI should:
-11 | 
+11 |
 12 | - Read the `README.md` first to understand the project requirements and structure
 13 | - Read the `codebase.md` in folder `codefetch`
 14 | - Before coding, write a brief plan of implementation
@@ -38,9 +38,9 @@ Project Structure:
 18 | - Follow user requirements carefully and accurately
 19 | - Ensure code is complete and production-ready
 20 | - Leave NO todos, placeholders, or incomplete implementations
-21 | 
+21 |
 22 | ## Honesty and Clarity
-23 | 
+23 |
 24 | - If you're uncertain about an answer, say so
 25 | - If you don't know the answer, admit it rather than guessing
 26 | - Be concise and minimize unnecessary prose
@@ -48,11 +48,11 @@ Project Structure:
 28 | - Think step-by-step for complex tasks
 29 | - Describe your plan before implementing complex solutions
 30 | - Confirm understanding before writing code
-31 | 
+31 |
 32 | ## Terminal Commands
-33 | 
+33 |
 34 | ### NextJS Commands
-35 | 
+35 |
 36 | - `pnpm run dev` - Start the development server
 37 |   - Use when: Actively developing with hot-reloading
 38 |   - The server typically starts at http://localhost:3000
@@ -67,16 +67,16 @@ Project Structure:
 47 |   - Example: `pnpm test -- --watch` to run in watch mode
 48 | - `pnpm run test:ci` - Run tests in CI mode
 49 |   - Use when: Running tests in a continuous integration environment
-50 | 
+50 |
 51 | ### Best Practices
-52 | 
+52 |
 53 | - Always run commands from the project root directory
 54 | - Run both lint and tests before committing changes
 55 | - Use watch mode during active development
 56 | - Always verify that the build succeeds before deployment
-57 | 
+57 |
 58 | ## General Code Standards
-59 | 
+59 |
 60 | - Use TypeScript for all `.ts` and `.tsx` files
 61 | - Follow the Next.js App Router project structure
 62 | - Implement routing using Next.js App Router file-based routing system
@@ -94,9 +94,9 @@ Project Structure:
 74 | - Use constants instead of raw values
 75 | - Define TypeScript types and interfaces for all props and state
 76 | - NEVER use the `any` type - always define proper types for all variables, parameters, and return values
-77 | 
+77 |
 78 | ## Testing Standards
-79 | 
+79 |
 80 | - Test components in isolation
 81 | - Test both UI rendering and functionality
 82 | - Use React Testing Library best practices
@@ -110,9 +110,9 @@ Project Structure:
 90 | - Follow the AAA (Arrange-Act-Assert) pattern
 91 | - Use descriptive test names
 92 | - Mock external dependencies appropriately
-93 | 
+93 |
 94 | ## Prompt Engineering Standards
-95 | 
+95 |
 96 | - Design prompts using Vercel AI SDK's structured output generation
 97 | - Use Zod schemas with proper `.describe()` annotations for all schema properties
 98 | - Focus on financial domain specificity with special attention to:
@@ -134,9 +134,9 @@ Project Structure:
 114 | - Implement appropriate transformers for complex data types like dates
 115 | - Balance schema complexity with model capabilities
 116 | - Integrate AI components with proper server action patterns
-117 | 
+117 |
 118 | ## Additional Guidance
-119 | 
+119 |
 120 | - Use Next.js's optimized Image component for images
 121 | - Implement SEO best practices with the Metadata API
 122 | - Use Route Handlers for API functionality
@@ -153,9 +153,9 @@ Project Structure:
 133 | - Use environment variables for configuration
 134 | - Implement proper form validation and handling with Server Actions
 135 | - Follow responsive design principles
-136 | 
+136 |
 137 | ## TypeScript Best Practices
-138 | 
+138 |
 139 | - NEVER use the `any` type in the codebase
 140 | - Always define explicit types for variables, parameters, function returns, and component props
 141 | - Use proper type narrowing techniques instead of type assertions when possible
@@ -171,12 +171,12 @@ Project Structure:
 151 | - Define constants with literal types when appropriate
 152 | - Use enums for related constants with semantic meaning
 153 | - Test TypeScript types with test cases that would fail to compile if the types are incorrect
-154 | 
+154 |
 155 | <available_instructions>
 156 | Cursor rules are user provided instructions for the AI to follow to help work with the codebase.
 157 | They may or may not be relevent to the task at hand. If they are, use the fetch_rules tool to fetch the full rule.
 158 | Some rules may be automatically attached to the conversation if the user attaches a file that matches the rule's glob, and wont need to be fetched.
-159 | 
+159 |
 160 | nextjs: Next.js v15+ specific rules
 161 | performance: Performance optimization specific rules for Next.js v15+
 162 | api: API and Backend specific rules for Next.js v15+
@@ -190,6 +190,7 @@ Project Structure:
 ```
 
 components.json
+
 ```
 1 | {
 2 |   "$schema": "https://ui.shadcn.com/schema.json",
@@ -215,31 +216,32 @@ components.json
 ```
 
 eslint.config.mjs
+
 ```
 1 | import { dirname } from 'path';
 2 | import { fileURLToPath } from 'url';
-3 | 
+3 |
 4 | import { FlatCompat } from '@eslint/eslintrc';
 5 | import typescriptPlugin from '@typescript-eslint/eslint-plugin';
 6 | import typescriptParser from '@typescript-eslint/parser';
 7 | import prettierConfig from 'eslint-config-prettier';
 8 | import importPlugin from 'eslint-plugin-import';
 9 | import unusedImportsPlugin from 'eslint-plugin-unused-imports';
-10 | 
+10 |
 11 | const __filename = fileURLToPath(import.meta.url);
 12 | const __dirname = dirname(__filename);
-13 | 
+13 |
 14 | const compat = new FlatCompat({
 15 |   baseDirectory: __dirname,
 16 | });
-17 | 
+17 |
 18 | const eslintConfig = [
 19 |   // Base configurations
 20 |   ...compat.extends('next/core-web-vitals', 'next/typescript', 'prettier'),
-21 | 
+21 |
 22 |   // Prettier config to turn off ESLint rules that conflict with Prettier
 23 |   prettierConfig,
-24 | 
+24 |
 25 |   // Common JavaScript/TypeScript rules
 26 |   {
 27 |     files: ['**/*.{js,mjs,cjs,jsx,ts,tsx}'],
@@ -333,22 +335,24 @@ eslint.config.mjs
 115 |     },
 116 |   },
 117 | ];
-118 | 
+118 |
 119 | export default eslintConfig;
 ```
 
 next.config.ts
+
 ```
 1 | import type { NextConfig } from 'next';
-2 | 
+2 |
 3 | const nextConfig: NextConfig = {
 4 |   /* config options here */
 5 | };
-6 | 
+6 |
 7 | export default nextConfig;
 ```
 
 package.json
+
 ```
 1 | {
 2 |   "name": "finance-mind",
@@ -422,15 +426,17 @@ package.json
 ```
 
 postcss.config.mjs
+
 ```
 1 | const config = {
 2 |   plugins: ['@tailwindcss/postcss'],
 3 | };
-4 | 
+4 |
 5 | export default config;
 ```
 
 tsconfig.json
+
 ```
 1 | {
 2 |   "compilerOptions": {
@@ -462,11 +468,12 @@ tsconfig.json
 ```
 
 vitest.config.ts
+
 ```
 1 | import { resolve } from 'path';
-2 | 
+2 |
 3 | import { defineConfig } from 'vitest/config';
-4 | 
+4 |
 5 | export default defineConfig({
 6 |   test: {
 7 |     environment: 'node',
@@ -480,17 +487,18 @@ vitest.config.ts
 ```
 
 .cursor/rules/api.mdc
+
 ```
 1 | ---
 2 | description: API and Backend specific rules for Next.js v15+
 3 | globs: **/api/**/*
 4 | alwaysApply: false
 5 | ---
-6 | 
+6 |
 7 | You are an API development expert specializing in Next.js v15+ Route Handlers and backend development.
-8 | 
+8 |
 9 | ## API Design Best Practices
-10 | 
+10 |
 11 | - Follow RESTful principles:
 12 |   - Use proper HTTP methods (GET, POST, PUT, PATCH, DELETE)
 13 |   - Use proper status codes
@@ -530,9 +538,9 @@ vitest.config.ts
 47 |   - Log errors and exceptions
 48 |   - Include relevant context in logs
 49 |   - Use proper log levels
-50 | 
+50 |
 51 | ## Next.js v15+ Route Handlers Best Practices
-52 | 
+52 |
 53 | - Use the modern Route Handlers syntax:
 54 |   - Implement in app/api/[route]/route.ts files
 55 |   - Use proper HTTP method exports (GET, POST, PUT, PATCH, DELETE)
@@ -574,9 +582,9 @@ vitest.config.ts
 91 |   - Integration tests for API routes
 92 |   - End-to-end tests for complete flows
 93 |   - Use proper mocking techniques
-94 | 
+94 |
 95 | ## API Documentation
-96 | 
+96 |
 97 | - Document API endpoints properly:
 98 |   - Include HTTP method
 99 |   - Include path
@@ -593,32 +601,33 @@ vitest.config.ts
 110 | - Include authentication requirements
 111 | - Document rate limits and throttling
 112 | - Include versioning information
-113 | - Document caching behavior 
+113 | - Document caching behavior
 ```
 
 .cursor/rules/colors.mdc
-```
+
+````
 1 | ---
 2 | description: Color system and theming guidelines
 3 | globs: **/*
 4 | alwaysApply: false
 5 | ---
 6 | # Color System and Theming
-7 | 
+7 |
 8 | You are a theming and design system expert for Next.js applications using Tailwind CSS.
-9 | 
+9 |
 10 | ## Semantic Color Classes
-11 | 
+11 |
 12 | Always use semantic color tokens instead of hard-coded color values. This ensures:
 13 | - Consistency across the application
 14 | - Support for multiple themes (light/dark)
 15 | - Easier global changes to the color system
 16 | - Better accessibility
-17 | 
+17 |
 18 | ### Core Semantic Colors
-19 | 
+19 |
 20 | Use these semantic color tokens throughout the application:
-21 | 
+21 |
 22 | | Semantic Class | Purpose | Example Usage |
 23 | |---------------|---------|--------------|
 24 | | `bg-background` | Main background of the application | Page backgrounds |
@@ -638,25 +647,25 @@ vitest.config.ts
 38 | | `text-destructive-foreground` | Text on destructive backgrounds | Text on delete buttons |
 39 | | `bg-accent` | Accent color for UI elements | Highlighted UI elements |
 40 | | `text-accent-foreground` | Text on accent backgrounds | Text on accent backgrounds |
-41 | 
+41 |
 42 | ### Color Opacity Variants
-43 | 
+43 |
 44 | Use opacity modifiers for transparency:
 45 | - `bg-primary/10` - Primary color at 10% opacity
 46 | - `text-foreground/80` - Foreground text at 80% opacity
 47 | - `border-border/50` - Border color at 50% opacity
-48 | 
+48 |
 49 | ### Interactive State Colors
-50 | 
+50 |
 51 | Use semantic colors with state variants:
 52 | - `hover:bg-primary/90` - Primary background with 90% opacity on hover
 53 | - `focus-visible:outline-primary` - Primary color outline on focus
 54 | - `active:bg-primary/70` - Primary background with 70% opacity when active
-55 | 
+55 |
 56 | ## Theme Implementation
-57 | 
+57 |
 58 | The color system should be implemented using Tailwind CSS's theme configuration:
-59 | 
+59 |
 60 | ```js
 61 | // Example tailwind.config.js setup (partial)
 62 | module.exports = {
@@ -697,9 +706,9 @@ vitest.config.ts
 97 |   },
 98 | };
 99 | ```
-100 | 
+100 |
 101 | CSS variables should be defined in your global CSS file:
-102 | 
+102 |
 103 | ```css
 104 | @layer base {
 105 |   :root {
@@ -724,7 +733,7 @@ vitest.config.ts
 124 |     --ring: 221.2 83.2% 53.3%;
 125 |     --radius: 0.5rem;
 126 |   }
-127 | 
+127 |
 128 |   .dark {
 129 |     --background: 222.2 84% 4.9%;
 130 |     --foreground: 210 40% 98%;
@@ -748,24 +757,24 @@ vitest.config.ts
 148 |   }
 149 | }
 150 | ```
-151 | 
+151 |
 152 | ## Best Practices
-153 | 
+153 |
 154 | 1. **Never use hard-coded color values** like `text-blue-500` or `bg-gray-200`
 155 | 2. **Use semantic color tokens** that represent their purpose, not their appearance
 156 | 3. **Maintain contrast ratios** for accessibility (WCAG AA compliance minimum)
 157 | 4. **Test in both light and dark modes** to ensure proper color application
 158 | 5. **Use consistent opacity values** across the application
 159 | 6. **Limit color palette** to maintain visual consistency
-160 | 
+160 |
 161 | ## Theme Switching
-162 | 
+162 |
 163 | Implement theme switching using the `next-themes` package and CSS variables:
-164 | 
+164 |
 165 | ```tsx
 166 | // Example theme provider setup
 167 | import { ThemeProvider } from 'next-themes'
-168 | 
+168 |
 169 | export function Providers({ children }) {
 170 |   return (
 171 |     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
@@ -774,29 +783,30 @@ vitest.config.ts
 174 |   )
 175 | }
 176 | ```
-177 | 
+177 |
 178 | ## Color Application Guidelines
-179 | 
+179 |
 180 | - Use `primary` for main CTAs and key interactive elements
 181 | - Use `secondary` for less prominent actions
 182 | - Use `destructive` only for destructive actions (delete, remove)
 183 | - Use `muted` for subtle UI elements that should recede visually
 184 | - Use `accent` sparingly for highlighting important UI elements
 185 | - Use opacity variants to create visual hierarchy
-```
+````
 
 .cursor/rules/nextjs.mdc
+
 ```
 1 | ---
 2 | description: Next.js v15+ specific rules
 3 | globs: **/*
 4 | alwaysApply: false
 5 | ---
-6 | 
+6 |
 7 | You are a Next.js expert with deep knowledge of Next.js v15+ features and best practices.
-8 | 
+8 |
 9 | ## Next.js v15+ Best Practices
-10 | 
+10 |
 11 | - Focus exclusively on the App Router for all new projects and features
 12 | - Leverage React Server Components as the default:
 13 |   - Use Server Components for data fetching, accessing backend resources, and sensitive operations
@@ -843,9 +853,9 @@ vitest.config.ts
 54 | - Use dynamic imports for code splitting when appropriate
 55 | - Implement proper authentication and authorization
 56 | - Use environment variables for configuration
-57 | 
+57 |
 58 | ## Next.js v15+ Patterns
-59 | 
+59 |
 60 | - App directory structure:
 61 |   - layout.tsx for shared UI
 62 |   - page.tsx for route-specific UI
@@ -876,9 +886,9 @@ vitest.config.ts
 87 |   - Use middleware for protecting routes
 88 |   - Take advantage of server components for secure auth checks
 89 |   - Implement proper session management
-90 | 
+90 |
 91 | ## Next.js v15+ Component Structure
-92 | 
+92 |
 93 | - Separate components by responsibility:
 94 |   - Page components for routes
 95 |   - Layout components for shared UI
@@ -901,21 +911,22 @@ vitest.config.ts
 112 |   - hooks/ for custom hooks
 113 |   - types/ for TypeScript types
 114 |   - styles/ for global styles
-115 |   - routes organized by feature or domain 
+115 |   - routes organized by feature or domain
 ```
 
 .cursor/rules/performance.mdc
+
 ```
 1 | ---
 2 | description: Performance optimization specific rules for Next.js v15+
 3 | globs: **/*
 4 | alwaysApply: false
 5 | ---
-6 | 
+6 |
 7 | You are a performance optimization expert specializing in Next.js v15+ applications.
-8 | 
+8 |
 9 | ## Performance Best Practices
-10 | 
+10 |
 11 | - Optimize Core Web Vitals:
 12 |   - Improve Largest Contentful Paint (LCP)
 13 |   - Minimize Cumulative Layout Shift (CLS)
@@ -973,9 +984,9 @@ vitest.config.ts
 65 |   - Use proper state management libraries
 66 |   - Implement proper data fetching strategies
 67 |   - Take advantage of React's automatic memo in Server Components
-68 | 
+68 |
 69 | ## Next.js v15+ Performance Optimization
-70 | 
+70 |
 71 | - Use the App Router effectively:
 72 |   - Leverage React Server Components for improved performance
 73 |   - Implement proper streaming and suspense for faster time-to-first-byte
@@ -1014,9 +1025,9 @@ vitest.config.ts
 106 |   - Use proper serverless deployment
 107 |   - Implement proper scaling strategies
 108 |   - Take advantage of Vercel's Edge Runtime or similar edge capabilities
-109 | 
+109 |
 110 | ## Performance Monitoring and Analysis
-111 | 
+111 |
 112 | - Use proper performance monitoring tools:
 113 |   - Lighthouse
 114 |   - Web Vitals
@@ -1043,56 +1054,57 @@ vitest.config.ts
 135 |   - Test on multiple networks
 136 |   - Test on multiple browsers
 137 |   - Test real-world scenarios
-138 |   - Use proper performance testing tools 
+138 |   - Use proper performance testing tools
 ```
 
 .cursor/rules/prompts.mdc
-```
+
+````
 1 | ---
 2 | description: Prompt engineering guidelines for Finance Mind's AI components using Vercel AI SDK
 3 | globs: src/actions/ai/**/*
 4 | ---
-5 | 
+5 |
 6 | You are a prompt engineering expert specializing in financial AI systems for the Finance Mind application, with deep knowledge of Vercel AI SDK implementation.
-7 | 
+7 |
 8 | # Prompt Engineering with Vercel AI SDK for Finance Mind
-9 | 
+9 |
 10 | ## Core Principles
-11 | 
+11 |
 12 | 1. **Financial Domain Specificity**: All prompts must be tailored to financial contexts with special attention to:
 13 |    - Banking terminology accuracy
 14 |    - Transaction categorization patterns
 15 |    - Financial instruments and their characteristics
 16 |    - Multi-currency handling and formatting
 17 |    - Brazilian financial system specifics (PIX, boletos, parcelamentos)
-18 | 
+18 |
 19 | 2. **Structured Output Generation**: Leverage Vercel AI SDK's `generateObject` for deterministic structured responses:
 20 |    - Define Zod schemas for validation and type safety
 21 |    - Add `.describe("...")` to Zod schema properties to guide the model
 22 |    - Use transformers for complex data types like dates
 23 |    - Keep schema complexity manageable for better model performance
-24 | 
+24 |
 25 | 3. **Language Preservation**: Create prompts that are language-aware:
 26 |    - Detect input language automatically
 27 |    - Preserve original language in text fields (descriptions, merchant names)
 28 |    - Standardize only category and type values to English constants
 29 |    - Handle date expressions in multiple languages (Portuguese, English, Spanish)
-30 | 
+30 |
 31 | 4. **Schema-First Approach**: Begin with the end in mind:
 32 |    - Define Zod schemas before writing prompts
 33 |    - Create clear property descriptions in schemas
 34 |    - Use semantic naming for all schema properties
 35 |    - Implement proper transformers for data conversion
-36 | 
+36 |
 37 | ## Vercel AI SDK Implementation
-38 | 
+38 |
 39 | ### Transaction Field Extraction Example
-40 | 
+40 |
 41 | ```typescript
 42 | import { generateObject } from 'ai';
 43 | import { openai } from '@ai-sdk/openai';
 44 | import { z } from 'zod';
-45 | 
+45 |
 46 | // Define schema with Zod for type safety and validation
 47 | const transactionSchema = z.object({
 48 |   description: z.string().describe("Cleaned transaction description in original language"),
@@ -1109,7 +1121,7 @@ vitest.config.ts
 59 |   totalInstallments: z.number().nullable().describe("Total number of installments if applicable"),
 60 |   currency: z.string().default("BRL").describe("ISO currency code")
 61 | });
-62 | 
+62 |
 63 | // Extract transaction data from user input
 64 | export async function extractTransactionFields(userInput: string) {
 65 |   try {
@@ -1118,17 +1130,17 @@ vitest.config.ts
 68 |       schema: transactionSchema,
 69 |       prompt: `You are a financial data extraction expert for Finance Mind.
 70 | Extract structured transaction data from the user's input.
-71 | 
+71 |
 72 | INPUT GUIDELINES:
 73 | - Input may be in any language (primarily Portuguese, English, or Spanish)
 74 | - Input may contain transaction details in natural language format
 75 | - Input may include dates in various formats
 76 | - Input may include currency amounts
 77 | - Input may include merchant names
-78 | 
+78 |
 79 | OUTPUT REQUIREMENTS:
 80 | Return a structured transaction object following the schema provided.
-81 | 
+81 |
 82 | EXAMPLES:
 83 | Input: "150 para corrida de uber ontem"
 84 | Output: {
@@ -1143,16 +1155,16 @@ vitest.config.ts
 93 |   "totalInstallments": null,
 94 |   "currency": "BRL"
 95 | }
-96 | 
+96 |
 97 | Input: "${userInput}"`,
 98 |       temperature: 0.2, // Low temperature for consistent results
 99 |     });
-100 | 
+100 |
 101 |     // Check for warnings
 102 |     if (result.warnings && result.warnings.length > 0) {
 103 |       console.warn('Extraction warnings:', result.warnings);
 104 |     }
-105 | 
+105 |
 106 |     return result;
 107 |   } catch (error) {
 108 |     console.error('Transaction extraction error:', error);
@@ -1160,14 +1172,14 @@ vitest.config.ts
 110 |   }
 111 | }
 112 | ```
-113 | 
+113 |
 114 | ### Transaction Categorization with Tool Calling
-115 | 
+115 |
 116 | ```typescript
 117 | import { generateObject } from 'ai';
 118 | import { openai } from '@ai-sdk/openai';
 119 | import { z } from 'zod';
-120 | 
+120 |
 121 | // Define the categorization schema
 122 | const categorizationSchema = z.object({
 123 |   category: z.string().describe("Predefined transaction category"),
@@ -1180,7 +1192,7 @@ vitest.config.ts
 130 |   isInternalTransfer: z.boolean().describe("Whether this is a transfer between user's own accounts"),
 131 |   tags: z.array(z.string()).describe("Optional tags for further classification")
 132 | });
-133 | 
+133 |
 134 | // Define tools for enhanced transaction categorization
 135 | const tools = [
 136 |   {
@@ -1198,7 +1210,7 @@ vitest.config.ts
 148 |     }),
 149 |   }
 150 | ];
-151 | 
+151 |
 152 | // Categorize transaction data
 153 | export async function categorizeTransaction(transactionData) {
 154 |   try {
@@ -1208,10 +1220,10 @@ vitest.config.ts
 158 |       tools,
 159 |       prompt: `You are a financial transaction categorization expert for Finance Mind.
 160 | Analyze the transaction details and determine the appropriate category, type, and other metadata.
-161 | 
+161 |
 162 | INPUT:
 163 | ${JSON.stringify(transactionData, null, 2)}
-164 | 
+164 |
 165 | CATEGORIES:
 166 | FOOD_DINING: Restaurants, food delivery, groceries, etc.
 167 | SHOPPING: Retail purchases, online shopping, etc.
@@ -1229,7 +1241,7 @@ vitest.config.ts
 179 | CREDIT_CARD_PAYMENT: Credit card bill payments
 180 | SUBSCRIPTION: Regular subscription services
 181 | OTHER: Miscellaneous expenses
-182 | 
+182 |
 183 | BRAZILIAN FINANCIAL SYSTEM SPECIFICS:
 184 | - PIX transactions are transfers and should be categorized as TRANSFER
 185 | - "Compras parceladas" (installment purchases) should have isInstallment=true
@@ -1238,15 +1250,15 @@ vitest.config.ts
 188 |       temperature: 0.2,
 189 |       toolChoice: "auto",
 190 |     });
-191 | 
+191 |
 192 |     // Check for warnings
 193 |     if (result.warnings && result.warnings.length > 0) {
 194 |       console.warn('Categorization warnings:', result.warnings);
 195 |     }
-196 | 
+196 |
 197 |     // Log request body for debugging if needed
 198 |     // console.log('Request body:', result.request.body);
-199 | 
+199 |
 200 |     return result;
 201 |   } catch (error) {
 202 |     console.error('Transaction categorization error:', error);
@@ -1254,128 +1266,129 @@ vitest.config.ts
 204 |   }
 205 | }
 206 | ```
-207 | 
+207 |
 208 | ## Best Practices with Vercel AI SDK
-209 | 
+209 |
 210 | 1. **Model Selection**:
 211 |    - Use `openai('gpt-4-turbo')` for complex financial reasoning tasks
-212 |    - Use `openai('gpt-3.5-turbo')` for simpler categorization tasks 
+212 |    - Use `openai('gpt-3.5-turbo')` for simpler categorization tasks
 213 |    - Consider Claude models for enhanced reasoning capabilities
 214 |    - Match model capabilities to task complexity
-215 | 
+215 |
 216 | 2. **Temperature Settings**:
 217 |    - Use temperature 0.1-0.3 for financial data extraction and categorization
 218 |    - Explicitly set in the SDK params: `temperature: 0.2`
-219 | 
+219 |
 220 | 3. **Tool Design**:
 221 |    - Keep tools focused and limited (5 or less per prompt)
 222 |    - Use semantically meaningful names
 223 |    - Provide clear descriptions for tools and parameters
 224 |    - Add parameter descriptions using Zod's `.describe()`
-225 | 
+225 |
 226 | 4. **Error Handling and Debugging**:
 227 |    - Check `result.warnings` to identify potential issues
 228 |    - Inspect request bodies with `result.request.body` when debugging
 229 |    - Implement proper error handling with try/catch
 230 |    - Log relevant information for troubleshooting
-231 | 
+231 |
 232 | 5. **Schema Design**:
 233 |    - Keep schemas as simple as possible while meeting requirements
 234 |    - Use appropriate Zod validators and transformers
 235 |    - Define clear types with descriptive property names
 236 |    - Handle date formats with proper transformers
-237 | 
+237 |
 238 | 6. **Testing and Iteration**:
 239 |    - Test across multiple languages (PT-BR, EN, ES)
 240 |    - Test edge cases (negative amounts, future dates, etc.)
 241 |    - Systematically track model performance across iterations
 242 |    - Document both successful and unsuccessful prompt strategies
-243 | 
+243 |
 244 | ## Implementation Guidelines
-245 | 
+245 |
 246 | 1. **Project Integration**:
 247 |    ```typescript
 248 |    // src/lib/ai/index.ts
 249 |    import { openai } from '@ai-sdk/openai';
-250 |    
+250 |
 251 |    // Configure OpenAI provider
 252 |    export const openaiModel = openai(
-253 |      process.env.OPENAI_MODEL || 'gpt-4-turbo', 
+253 |      process.env.OPENAI_MODEL || 'gpt-4-turbo',
 254 |      { apiKey: process.env.OPENAI_API_KEY }
 255 |    );
-256 |    
+256 |
 257 |    // Default configuration
 258 |    export const defaultConfig = {
 259 |      temperature: 0.2,
 260 |      maxTokens: 1000,
 261 |    };
 262 |    ```
-263 | 
+263 |
 264 | 2. **Schema Organization**:
 265 |    ```typescript
 266 |    // src/schemas/transaction-schemas.ts
 267 |    import { z } from 'zod';
-268 |    
+268 |
 269 |    export const transactionBaseSchema = z.object({
 270 |      description: z.string().describe("Transaction description"),
 271 |      amount: z.number().describe("Transaction amount"),
 272 |      // ... other common properties
 273 |    });
-274 |    
+274 |
 275 |    export const extractionSchema = transactionBaseSchema.extend({
 276 |      // Additional extraction fields
 277 |    });
-278 |    
+278 |
 279 |    export const categorizationSchema = z.object({
 280 |      // Categorization specific fields
 281 |    });
 282 |    ```
-283 | 
+283 |
 284 | 3. **Server Actions Integration**:
 285 |    ```typescript
 286 |    // src/actions/ai/extract-transaction-fields.ts
 287 |    'use server';
-288 |    
+288 |
 289 |    import { generateObject } from 'ai';
 290 |    import { openaiModel, defaultConfig } from '@/lib/ai';
 291 |    import { extractionSchema } from '@/schemas/transaction-schemas';
-292 |    
+292 |
 293 |    export async function extractTransactionFields(input: string) {
 294 |      // Implementation using Vercel AI SDK
 295 |    }
 296 |    ```
-297 | 
+297 |
 298 | 4. **UI Integration**:
 299 |    ```typescript
 300 |    'use client';
-301 |    
+301 |
 302 |    import { useCompletion } from 'ai/react';
-303 |    
+303 |
 304 |    function TransactionInput() {
-305 |      const { completion, input, handleInputChange, handleSubmit, isLoading } = 
+305 |      const { completion, input, handleInputChange, handleSubmit, isLoading } =
 306 |        useCompletion({
 307 |          api: '/api/extract-transaction',
 308 |        });
-309 |      
+309 |
 310 |      // UI implementation
 311 |    }
 312 |    ```
-313 | 
-314 | Remember to inspect and handle warnings from the AI SDK calls to ensure proper integration, and implement appropriate error handling throughout your application. 
-```
+313 |
+314 | Remember to inspect and handle warnings from the AI SDK calls to ensure proper integration, and implement appropriate error handling throughout your application.
+````
 
 .cursor/rules/react.mdc
+
 ```
 1 | ---
 2 | description: React specific rules
 3 | globs: **/*
 4 | alwaysApply: false
 5 | ---
-6 | 
+6 |
 7 | You are a React expert specializing in modern React development with hooks and functional components.
-8 | 
+8 |
 9 | ## React Best Practices
-10 | 
+10 |
 11 | - Use functional components instead of class components
 12 | - Use React hooks effectively:
 13 |   - useState for local component state
@@ -1405,9 +1418,9 @@ vitest.config.ts
 37 | - Implement proper forms and controlled components
 38 | - Use the Context API for global state when appropriate
 39 | - Use proper state management tools for complex applications (Redux, Zustand, Jotai, etc.)
-40 | 
+40 |
 41 | ## React Component Structure
-42 | 
+42 |
 43 | - Use proper file organization:
 44 |   - One component per file
 45 |   - Group related components in folders
@@ -1434,9 +1447,9 @@ vitest.config.ts
 66 |   - Ensure keyboard navigation works
 67 |   - Ensure proper color contrast
 68 | - Implement proper internationalization (i18n) when needed
-69 | 
+69 |
 70 | ## React Testing Best Practices
-71 | 
+71 |
 72 | - Use React Testing Library for component testing
 73 | - Test component behavior, not implementation details
 74 | - Write user-centric tests
@@ -1448,45 +1461,46 @@ vitest.config.ts
 80 | - Test responsive behavior when appropriate
 81 | - Use proper testing patterns:
 82 |   - Arrange-Act-Assert (AAA)
-83 |   - Given-When-Then (BDD style) 
+83 |   - Given-When-Then (BDD style)
 ```
 
 .cursor/rules/shadcn.mdc
-```
+
+````
 1 | # shadcn/ui Guidelines
-2 | 
+2 |
 3 | You are a UI implementation expert for Next.js applications using shadcn/ui component patterns.
-4 | 
+4 |
 5 | ## Overview
-6 | 
+6 |
 7 | This project uses shadcn/ui component patterns without direct installation of the shadcn CLI or component library. Instead, we:
-8 | 
+8 |
 9 | 1. Follow shadcn/ui design principles and patterns
 10 | 2. Manually implement components following shadcn structure
 11 | 3. Use the existing CSS variables system for theming
-12 | 
+12 |
 13 | ## Component Structure
-14 | 
+14 |
 15 | When creating shadcn-style components:
-16 | 
+16 |
 17 | 1. Use a modular, composable approach where components are broken down into reusable parts
 18 | 2. Follow the `ui/` directory structure
 19 | 3. Use the `cn()` utility for merging classNames
 20 | 4. Implement Radix UI patterns for accessibility (without the actual dependency)
-21 | 
+21 |
 22 | ## Implementation Strategy
-23 | 
+23 |
 24 | For each shadcn component to be replicated:
-25 | 
+25 |
 26 | 1. Create a dedicated component file in `src/components/ui/` directory
 27 | 2. Ensure components support the theme system using semantic color tokens
 28 | 3. Implement proper keyboard navigation and accessibility features
 29 | 4. Maintain consistent styling across components
-30 | 
+30 |
 31 | ## Component Variants
-32 | 
+32 |
 33 | Use a consistent approach to component variants:
-34 | 
+34 |
 35 | ```tsx
 36 | // Button component example
 37 | const buttonVariants = cva(
@@ -1515,33 +1529,33 @@ vitest.config.ts
 60 |   }
 61 | );
 62 | ```
-63 | 
+63 |
 64 | ## Common Utilities
-65 | 
+65 |
 66 | Implement these utilities to support shadcn-style components:
-67 | 
+67 |
 68 | 1. **`cn` utility** for merging classNames with Tailwind:
-69 | 
+69 |
 70 | ```tsx
 71 | import { twMerge } from "tailwind-merge";
 72 | import { clsx, type ClassValue } from "clsx";
-73 | 
+73 |
 74 | export function cn(...inputs: ClassValue[]) {
 75 |   return twMerge(clsx(inputs));
 76 | }
 77 | ```
-78 | 
+78 |
 79 | 2. **Component structure** following this pattern:
-80 | 
+80 |
 81 | ```tsx
 82 | import * as React from "react";
 83 | import { cn } from "@/lib/utils";
-84 | 
+84 |
 85 | interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 86 |   variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
 87 |   size?: "default" | "sm" | "lg" | "icon";
 88 | }
-89 | 
+89 |
 90 | const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 91 |   ({ className, variant = "default", size = "default", ...props }, ref) => {
 92 |     return (
@@ -1554,12 +1568,12 @@ vitest.config.ts
 99 |   }
 100 | );
 101 | Button.displayName = "Button";
-102 | 
+102 |
 103 | export { Button, buttonVariants };
 104 | ```
-105 | 
+105 |
 106 | ## Best Practices
-107 | 
+107 |
 108 | 1. Always use semantic HTML elements
 109 | 2. Implement proper ARIA attributes
 110 | 3. Support keyboard navigation
@@ -1567,53 +1581,54 @@ vitest.config.ts
 112 | 5. Maintain consistent spacing and sizing
 113 | 6. Forward refs for all interactive components
 114 | 7. Provide clear displayName for debugging
-115 | 
+115 |
 116 | ## Theme Integration
-117 | 
+117 |
 118 | Ensure all components respect the theme system:
-119 | 
+119 |
 120 | 1. Use semantic color tokens (`bg-primary`, `text-foreground`, etc.)
 121 | 2. Respect dark mode with proper color transitions
 122 | 3. Use CSS variables for themeable properties
-123 | 
+123 |
 124 | ## Form Components
-125 | 
+125 |
 126 | For form components, follow these guidelines:
-127 | 
+127 |
 128 | 1. Implement proper form validation states
 129 | 2. Provide visual feedback for errors
 130 | 3. Support disabled states
 131 | 4. Include proper labeling
 132 | 5. Use consistent styling across all form elements
-133 | 
+133 |
 134 | ## Implementation without Dependencies
-135 | 
+135 |
 136 | Since we're implementing without direct dependencies:
-137 | 
+137 |
 138 | 1. Manually create component files in the appropriate directory structure
 139 | 2. Implement accessible patterns even without Radix UI
 140 | 3. Use React's built-in capabilities for state management
-141 | 4. Progressively enhance components as needed 
-```
+141 | 4. Progressively enhance components as needed
+````
 
 .cursor/rules/tailwind.mdc
-```
+
+````
 1 | ---
 2 | description: Tailwind CSS v4 specific rules
 3 | globs: **/*
 4 | alwaysApply: false
 5 | ---
-6 | 
+6 |
 7 | You are a Tailwind CSS v4 expert with deep knowledge of utility-first CSS and modern design systems.
-8 | 
+8 |
 9 | ## Tailwind CSS v4 Core Changes
-10 | 
+10 |
 11 | - **CSS-first configuration**: Configuration is now done in CSS instead of JavaScript
 12 |   - Use `@theme` directive in CSS instead of `tailwind.config.js`
 13 |   - Example:
 14 |     ```css
 15 |     @import "tailwindcss";
-16 | 
+16 |
 17 |     @theme {
 18 |       --font-display: "Satoshi", "sans-serif";
 19 |       --breakpoint-3xl: 1920px;
@@ -1629,17 +1644,17 @@ vitest.config.ts
 29 | - **CSS import syntax**: Use `@import "tailwindcss"` instead of `@tailwind` directives
 30 |   - Old: `@tailwind base; @tailwind components; @tailwind utilities;`
 31 |   - New: `@import "tailwindcss";`
-32 | 
+32 |
 33 | - **Package changes**:
 34 |   - PostCSS plugin is now `@tailwindcss/postcss` (not `tailwindcss`)
 35 |   - CLI is now `@tailwindcss/cli`
 36 |   - Vite plugin is `@tailwindcss/vite`
 37 |   - No need for `postcss-import` or `autoprefixer` anymore
-38 | 
+38 |
 39 | - **Native CSS cascade layers**: Uses real CSS `@layer` instead of Tailwind's custom implementation
-40 | 
+40 |
 41 | ## Tailwind CSS v4 Theme Configuration
-42 | 
+42 |
 43 | - **CSS theme variables**: All design tokens are available as CSS variables
 44 |   - Namespace format: `--category-name` (e.g., `--color-blue-500`, `--font-sans`)
 45 |   - Access in CSS: `var(--color-blue-500)`
@@ -1662,27 +1677,27 @@ vitest.config.ts
 62 |     - `--aspect-*` : Aspect ratio utilities like `aspect-video`
 63 |     - `--ease-*` : Transition timing function utilities like `ease-out`
 64 |     - `--animate-*` : Animation utilities like `animate-spin`
-65 | 
+65 |
 66 | - **Simplified theme configuration**: Many utilities no longer need theme configuration
 67 |   - Utilities like `grid-cols-12`, `z-40`, and `opacity-70` work without configuration
 68 |   - Data attributes like `data-selected:opacity-100` don't need configuration
-69 | 
+69 |
 70 | - **Dynamic spacing scale**: Derived from a single spacing value
 71 |   - Default: `--spacing: 0.25rem`
 72 |   - Every multiple of the base value is available (e.g., `mt-21` works automatically)
-73 | 
+73 |
 74 | - **Overriding theme namespaces**:
 75 |   - Override entire namespace: `--font-*: initial;`
 76 |   - Override entire theme: `--*: initial;`
-77 | 
+77 |
 78 | ## Tailwind CSS v4 New Features
-79 | 
+79 |
 80 | - **Container query support**: Built-in now, no plugin needed
 81 |   - `@container` for container context
 82 |   - `@sm:`, `@md:`, etc. for container-based breakpoints
 83 |   - `@max-md:` for max-width container queries
 84 |   - Combine with `@min-md:@max-xl:hidden` for ranges
-85 | 
+85 |
 86 | - **3D transforms**:
 87 |   - `transform-3d` enables 3D transforms
 88 |   - `rotate-x-*`, `rotate-y-*`, `rotate-z-*` for 3D rotation
@@ -1691,26 +1706,26 @@ vitest.config.ts
 91 |   - `perspective-*` utilities (`perspective-near`, `perspective-distant`, etc.)
 92 |   - `perspective-origin-*` utilities
 93 |   - `backface-visible` and `backface-hidden`
-94 | 
+94 |
 95 | - **Gradient enhancements**:
 96 |   - Linear gradient angles: `bg-linear-45` (renamed from `bg-gradient-*`)
 97 |   - Gradient interpolation: `bg-linear-to-r/oklch`, `bg-linear-to-r/srgb`
 98 |   - Conic and radial gradients: `bg-conic`, `bg-radial-[at_25%_25%]`
-99 | 
+99 |
 100 | - **Shadow enhancements**:
 101 |   - `inset-shadow-*` and `inset-ring-*` utilities
 102 |   - Can be composed with regular `shadow-*` and `ring-*`
-103 | 
+103 |
 104 | - **New CSS property utilities**:
 105 |   - `field-sizing-content` for auto-resizing textareas
 106 |   - `scheme-light`, `scheme-dark` for `color-scheme` property
 107 |   - `font-stretch-*` utilities for variable fonts
-108 | 
+108 |
 109 | ## Tailwind CSS v4 New Variants
-110 | 
+110 |
 111 | - **Composable variants**: Chain variants together
 112 |   - Example: `group-has-data-potato:opacity-100`
-113 | 
+113 |
 114 | - **New variants**:
 115 |   - `starting` variant for `@starting-style` transitions
 116 |   - `not-*` variant for `:not()` pseudo-class
@@ -1719,77 +1734,77 @@ vitest.config.ts
 119 |   - `in-*` variant (like `group-*` but without adding `group` class)
 120 |   - `open` variant now supports `:popover-open`
 121 |   - `**` variant for targeting all descendants
-122 | 
+122 |
 123 | ## Tailwind CSS v4 Custom Extensions
-124 | 
+124 |
 125 | - **Custom utilities**: Use `@utility` directive
 126 |   ```css
 127 |   @utility tab-4 {
 128 |     tab-size: 4;
 129 |   }
 130 |   ```
-131 | 
+131 |
 132 | - **Custom variants**: Use `@variant` directive
 133 |   ```css
 134 |   @variant pointer-coarse (@media (pointer: coarse));
 135 |   @variant theme-midnight (&:where([data-theme="midnight"] *));
 136 |   ```
-137 | 
+137 |
 138 | - **Plugins**: Use `@plugin` directive
 139 |   ```css
 140 |   @plugin "@tailwindcss/typography";
 141 |   ```
-142 | 
+142 |
 143 | ## Tailwind CSS v4 Breaking Changes
-144 | 
+144 |
 145 | - **Removed deprecated utilities**:
 146 |   - `bg-opacity-*` → Use `bg-black/50` instead
 147 |   - `text-opacity-*` → Use `text-black/50` instead
 148 |   - And others: `border-opacity-*`, `divide-opacity-*`, etc.
-149 | 
+149 |
 150 | - **Renamed utilities**:
 151 |   - `shadow-sm` → `shadow-xs` (and `shadow` → `shadow-sm`)
 152 |   - `drop-shadow-sm` → `drop-shadow-xs` (and `drop-shadow` → `drop-shadow-sm`)
 153 |   - `blur-sm` → `blur-xs` (and `blur` → `blur-sm`)
 154 |   - `rounded-sm` → `rounded-xs` (and `rounded` → `rounded-sm`)
 155 |   - `outline-none` → `outline-hidden` (for the old behavior)
-156 | 
+156 |
 157 | - **Default style changes**:
 158 |   - Default border color is now `currentColor` (was `gray-200`)
 159 |   - Default `ring` width is now 1px (was 3px)
 160 |   - Placeholder text now uses current color at 50% opacity (was `gray-400`)
 161 |   - Hover styles only apply on devices that support hover (`@media (hover: hover)`)
-162 | 
+162 |
 163 | - **Syntax changes**:
 164 |   - CSS variables in arbitrary values: `bg-(--brand-color)` instead of `bg-[--brand-color]`
 165 |   - Stacked variants now apply left-to-right (not right-to-left)
 166 |   - Use CSS variables instead of `theme()` function
-167 | 
+167 |
 168 | ## Tailwind CSS v4 Advanced Configuration
-169 | 
+169 |
 170 | - **Using a prefix**:
 171 |   ```css
 172 |   @import "tailwindcss" prefix(tw);
 173 |   ```
 174 |   - Results in classes like `tw:flex`, `tw:bg-red-500`, `tw:hover:bg-red-600`
-175 | 
+175 |
 176 | - **Source detection**:
 177 |   - Automatic by default (ignores `.gitignore` files and binary files)
 178 |   - Add sources: `@source "../node_modules/@my-company/ui-lib";`
 179 |   - Disable automatic detection: `@import "tailwindcss" source(none);`
-180 | 
+180 |
 181 | - **Legacy config files**:
 182 |   ```css
 183 |   @import "tailwindcss";
 184 |   @config "../../tailwind.config.js";
 185 |   ```
-186 | 
+186 |
 187 | - **Dark mode configuration**:
 188 |   ```css
 189 |   @import "tailwindcss";
 190 |   @variant dark (&:where(.dark, .dark *));
 191 |   ```
-192 | 
+192 |
 193 | - **Container customization**: Extend with `@utility`
 194 |   ```css
 195 |   @utility container {
@@ -1797,22 +1812,22 @@ vitest.config.ts
 197 |     padding-inline: 2rem;
 198 |   }
 199 |   ```
-200 | 
+200 |
 201 | - **Using `@apply` in Vue/Svelte**:
 202 |   ```html
 203 |   <style>
 204 |     @import "../../my-theme.css" theme(reference);
 205 |     /* or */
 206 |     @import "tailwindcss/theme" theme(reference);
-207 |     
+207 |
 208 |     h1 {
 209 |       @apply font-bold text-2xl text-red-500;
 210 |     }
 211 |   </style>
 212 |   ```
-213 | 
+213 |
 214 | ## Tailwind CSS Best Practices
-215 | 
+215 |
 216 | - Use Tailwind's utility classes effectively:
 217 |   - Understand the utility-first CSS approach
 218 |   - Leverage the full range of available utilities
@@ -1849,9 +1864,9 @@ vitest.config.ts
 249 |   - Configure proper source detection
 250 |   - Use appropriate content configuration
 251 |   - Minimize unused utilities
-252 | 
+252 |
 253 | ## Tailwind CSS and Accessibility
-254 | 
+254 |
 255 | - Ensure proper color contrast
 256 | - Use semantic HTML elements
 257 | - Implement proper focus styles
@@ -1859,9 +1874,9 @@ vitest.config.ts
 259 | - Implement proper spacing for readability
 260 | - Use proper ARIA attributes with Tailwind classes
 261 | - Test with screen readers and keyboard navigation
-262 | 
+262 |
 263 | ## Tailwind CSS and JavaScript Frameworks
-264 | 
+264 |
 265 | - Properly integrate Tailwind v4 with React/Next.js:
 266 |   - Use className prop effectively
 267 |   - Create properly typed utility components
@@ -1871,21 +1886,22 @@ vitest.config.ts
 271 |   - Conditionally apply classes based on state
 272 |   - Use dynamic class generation when appropriate
 273 |   - Properly handle class transitions and animations
-274 |   - Use the new composable variants for complex state relationships 
-```
+274 |   - Use the new composable variants for complex state relationships
+````
 
 .cursor/rules/testing.mdc
+
 ```
 1 | ---
 2 | description: Testing specific rules for Next.js v15+
 3 | globs: **/*
 4 | alwaysApply: false
 5 | ---
-6 | 
+6 |
 7 | You are a testing expert specializing in testing Next.js v15+ applications with Jest, React Testing Library, and Playwright/Cypress.
-8 | 
+8 |
 9 | ## Testing Best Practices
-10 | 
+10 |
 11 | - Follow the testing pyramid:
 12 |   - Unit tests for individual functions and components
 13 |   - Integration tests for component interactions
@@ -1916,9 +1932,9 @@ vitest.config.ts
 38 |   - Use proper describe and test blocks
 39 |   - Use proper beforeEach/afterEach hooks
 40 |   - Use proper beforeAll/afterAll hooks
-41 | 
+41 |
 42 | ## React Testing Best Practices for Next.js v15+
-43 | 
+43 |
 44 | - Use React Testing Library effectively:
 45 |   - Focus on user interactions, not component internals
 46 |   - Use proper queries (getBy, findBy, queryBy)
@@ -1945,9 +1961,9 @@ vitest.config.ts
 67 |   - Test hook behavior, not implementation
 68 |   - Test hook side effects
 69 |   - Test hook error handling
-70 | 
+70 |
 71 | ## Next.js v15+ Testing Best Practices
-72 | 
+72 |
 73 | - Test App Router components:
 74 |   - Test layout components
 75 |   - Test page components
@@ -1979,9 +1995,9 @@ vitest.config.ts
 101 |   - Mock server-side data fetching
 102 |   - Mock authentication
 103 |   - Use proper dependency injection for testability
-104 | 
+104 |
 105 | ## End-to-End Testing for Next.js v15+
-106 | 
+106 |
 107 | - Use Playwright or Cypress effectively:
 108 |   - Test critical user flows
 109 |   - Test authentication flows
@@ -2005,21 +2021,22 @@ vitest.config.ts
 127 |   - Test responsive behavior
 128 |   - Test accessibility
 129 |   - Test performance when appropriate
-130 |   - Test with different device types 
+130 |   - Test with different device types
 ```
 
 .cursor/rules/typescript.mdc
+
 ```
 1 | ---
 2 | description: TypeScript specific rules
 3 | globs: **/*
 4 | alwaysApply: false
 5 | ---
-6 | 
+6 |
 7 | You are a TypeScript expert with deep knowledge of type systems and modern TypeScript features.
-8 | 
+8 |
 9 | ## TypeScript Best Practices
-10 | 
+10 |
 11 | - Use TypeScript's type system effectively:
 12 |   - Define interfaces and types for all data structures
 13 |   - Use union types for variables that can be of multiple types
@@ -2055,9 +2072,9 @@ vitest.config.ts
 43 |   - Strict type checking
 44 |   - Proper lib configurations
 45 |   - Proper module resolution
-46 | 
+46 |
 47 | ## TypeScript Code Structure
-48 | 
+48 |
 49 | - Use proper file organization:
 50 |   - Separate types into dedicated type files when appropriate
 51 |   - Use barrel exports for related types
@@ -2081,9 +2098,9 @@ vitest.config.ts
 69 |   - Use proper event types
 70 |   - Use proper state types
 71 |   - Use proper ref types
-72 | 
+72 |
 73 | ## TypeScript Documentation
-74 | 
+74 |
 75 | - Use JSDoc comments for functions, interfaces, and types:
 76 |   - Document parameters with @param
 77 |   - Document return values with @returns
@@ -2094,31 +2111,32 @@ vitest.config.ts
 82 | - Use TypeScript-specific JSDoc tags:
 83 |   - @template for generics
 84 |   - @typeParam for generic type parameters
-85 | - Keep documentation up to date with code changes 
+85 | - Keep documentation up to date with code changes
 ```
 
 src/actions/process-bank-statement.ts
+
 ```
 1 | 'use server';
-2 | 
+2 |
 3 | import { detectP2PTransfer } from '@/actions/ai/detect-person-to-person-transfer';
 4 | import { extractCardFromFilename as aiExtractCardFromFilename } from '@/actions/ai/extract-card-info';
 5 | import { TransactionType } from '@/lib/ai/types';
 6 | import { parseCSV } from '@/lib/parsers/csv-parser';
 7 | import { parsePDF } from '@/lib/parsers/pdf-parser';
 8 | import { generateTransactionId } from '@/lib/utils/transaction-utils';
-9 | 
+9 |
 10 | import { extractTransactionFields } from './ai/extract-transaction-fields';
-11 | 
+11 |
 12 | import type { Transaction } from '@/interfaces/transaction';
-13 | 
+13 |
 14 | export interface ProcessedStatement {
 15 |   transactions: Transaction[];
 16 |   errors?: string[];
 17 |   warnings?: string[];
 18 |   duplicatesSkipped?: number; // Add count of duplicates that were skipped
 19 | }
-20 | 
+20 |
 21 | /**
 22 |  * Process bank statement files (CSV or PDF)
 23 |  * @param fileContents Object containing file content as string/ArrayBuffer and metadata
@@ -2139,27 +2157,27 @@ src/actions/process-bank-statement.ts
 38 |     warnings: [],
 39 |     duplicatesSkipped: 0,
 40 |   };
-41 | 
+41 |
 42 |   try {
 43 |     const allExtractedTransactions: Transaction[] = [];
 44 |     const detectedAccounts: Set<string> = new Set();
-45 | 
+45 |
 46 |     // Track existing transaction IDs to avoid duplicates
 47 |     const processedTransactionIds: Set<string> = new Set(existingTransactions.map(t => t.id));
-48 | 
+48 |
 49 |     // First pass: Extract all transactions from all files
 50 |     for (const file of fileContents) {
 51 |       try {
 52 |         // Extract card info from filename using AI
 53 |         const cardInfo = await extractCardInfoFromFilename(file.name);
-54 | 
+54 |
 55 |         // Store card/account info for later transfer detection
 56 |         if (cardInfo) {
 57 |           detectedAccounts.add(cardInfo);
 58 |         }
-59 | 
+59 |
 60 |         let extractedRows: Array<Record<string, string | number>> = [];
-61 | 
+61 |
 62 |         // Parse the file based on its type
 63 |         if (file.contentType === 'text/csv' && typeof file.content === 'string') {
 64 |           extractedRows = await parseCSV(file.content);
@@ -2169,27 +2187,27 @@ src/actions/process-bank-statement.ts
 68 |           result.errors?.push(`Unsupported file type for ${file.name}: ${file.contentType}`);
 69 |           continue;
 70 |         }
-71 | 
+71 |
 72 |         if (extractedRows.length === 0) {
 73 |           result.warnings?.push(`No data extracted from ${file.name}`);
 74 |           continue;
 75 |         }
-76 | 
+76 |
 77 |         // Process each row to create transactions
 78 |         for (const row of extractedRows) {
 79 |           const transactionId = generateTransactionId(row);
-80 | 
+80 |
 81 |           if (processedTransactionIds.has(transactionId)) {
 82 |             if (result.duplicatesSkipped !== undefined) {
 83 |               result.duplicatesSkipped++;
 84 |             }
-85 | 
+85 |
 86 |             continue;
 87 |           }
-88 | 
+88 |
 89 |           try {
 90 |             const transactionFields = await extractTransactionFields(JSON.stringify(row));
-91 | 
+91 |
 92 |             const transaction: Transaction = {
 93 |               id: transactionId,
 94 |               description: transactionFields.description,
@@ -2202,7 +2220,7 @@ src/actions/process-bank-statement.ts
 101 |               card: cardInfo,
 102 |               installment: transactionFields.installmentInfo,
 103 |             };
-104 | 
+104 |
 105 |             // Add to processed IDs to avoid duplicates within this batch
 106 |             processedTransactionIds.add(transaction.id);
 107 |             allExtractedTransactions.push(transaction);
@@ -2216,26 +2234,26 @@ src/actions/process-bank-statement.ts
 115 |         result.errors?.push(`Error processing file ${file.name}: ${(fileError as Error).message}`);
 116 |       }
 117 |     }
-118 | 
+118 |
 119 |     // Second pass: Detect person-to-person transfers across all extracted transactions
 120 |     const processedTransactions = await detectP2PTransfers(
 121 |       allExtractedTransactions,
 122 |       Array.from(detectedAccounts)
 123 |     );
-124 | 
+124 |
 125 |     // Store the processed transactions in the result
 126 |     result.transactions = processedTransactions;
-127 | 
+127 |
 128 |     // Sort transactions by date (newest first)
 129 |     result.transactions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-130 | 
+130 |
 131 |     return result;
 132 |   } catch (error) {
 133 |     console.error('Error processing bank statements:', error);
 134 |     throw new Error(`Failed to process bank statements: ${(error as Error).message}`);
 135 |   }
 136 | }
-137 | 
+137 |
 138 | /**
 139 |  * Process all transactions to detect P2P transfers
 140 |  * @param transactions List of transactions to process
@@ -2248,28 +2266,28 @@ src/actions/process-bank-statement.ts
 147 | ): Promise<Transaction[]> {
 148 |   const processedTransactions: Transaction[] = [];
 149 |   const transferMatches: Map<string, string> = new Map(); // Maps transaction IDs to their matching transfer
-150 | 
+150 |
 151 |   // First pass: Use AI to detect potential P2P transfers
 152 |   for (const transaction of transactions) {
 153 |     // Skip transactions that have already been matched as a transfer
 154 |     if (transferMatches.has(transaction.id)) {
 155 |       continue;
 156 |     }
-157 | 
+157 |
 158 |     // Only check for transfers for large amounts or explicit transfer types
 159 |     const isSignificantAmount = Math.abs(transaction.amount) >= 50; // Threshold to avoid checking small transactions
 160 |     if (transaction.type === TransactionType.TRANSFER || isSignificantAmount) {
 161 |       // Get other transactions to compare with (excluding this one)
 162 |       const otherTransactions = transactions.filter(t => t.id !== transaction.id);
-163 | 
+163 |
 164 |       // Detect if this is a P2P transfer
 165 |       const result = await detectP2PTransfer(transaction, otherTransactions, knownAccounts);
-166 | 
+166 |
 167 |       if ((result.isP2PTransfer || result.isInternalTransfer) && result.confidence >= 0.7) {
 168 |         // Mark this transaction with the appropriate transfer types
 169 |         transaction.isP2PTransfer = result.isP2PTransfer;
 170 |         transaction.isInternalTransfer = result.isInternalTransfer;
-171 | 
+171 |
 172 |         // If a matching transaction was identified
 173 |         if (result.matchingTransactionId) {
 174 |           // Store the transfer details
@@ -2280,17 +2298,17 @@ src/actions/process-bank-statement.ts
 179 |             fromPerson: result.fromPerson,
 180 |             toPerson: result.toPerson,
 181 |           };
-182 | 
+182 |
 183 |           // Store the match to avoid duplicate processing
 184 |           transferMatches.set(transaction.id, result.matchingTransactionId);
 185 |           transferMatches.set(result.matchingTransactionId, transaction.id);
 186 |         }
 187 |       }
 188 |     }
-189 | 
+189 |
 190 |     processedTransactions.push(transaction);
 191 |   }
-192 | 
+192 |
 193 |   // Second pass: Make sure all transactions involved in transfers are marked correctly
 194 |   for (const transaction of processedTransactions) {
 195 |     // If this transaction is matched as part of a transfer but not yet marked
@@ -2302,12 +2320,12 @@ src/actions/process-bank-statement.ts
 201 |       // Find the matching transaction
 202 |       const matchingId = transferMatches.get(transaction.id);
 203 |       const matchingTransaction = processedTransactions.find(t => t.id === matchingId);
-204 | 
+204 |
 205 |       if (matchingTransaction) {
 206 |         // Copy transfer types from the matching transaction
 207 |         transaction.isP2PTransfer = matchingTransaction.isP2PTransfer;
 208 |         transaction.isInternalTransfer = matchingTransaction.isInternalTransfer;
-209 | 
+209 |
 210 |         // Copy transfer details from the matching transaction
 211 |         if (matchingTransaction.transfer) {
 212 |           transaction.transfer = {
@@ -2322,10 +2340,10 @@ src/actions/process-bank-statement.ts
 221 |       }
 222 |     }
 223 |   }
-224 | 
+224 |
 225 |   return processedTransactions;
 226 | }
-227 | 
+227 |
 228 | /**
 229 |  * Extract card information from filename using AI
 230 |  * @param fileName The name of the file
@@ -2335,31 +2353,31 @@ src/actions/process-bank-statement.ts
 234 |   try {
 235 |     // Use AI to extract card information from filename
 236 |     const extraction = await aiExtractCardFromFilename(fileName);
-237 | 
+237 |
 238 |     // If confidence is too low, return generic card info
 239 |     if (!extraction || extraction.confidence < 0.3) {
 240 |       return '';
 241 |     }
-242 | 
+242 |
 243 |     // Format the card information based on the extraction
 244 |     const parts: string[] = [];
-245 | 
+245 |
 246 |     if (extraction.bankName) {
 247 |       parts.push(extraction.bankName);
 248 |     }
-249 | 
+249 |
 250 |     if (extraction.accountType) {
 251 |       parts.push(extraction.accountType);
 252 |     }
-253 | 
+253 |
 254 |     if (extraction.cardType) {
 255 |       parts.push(extraction.cardType);
 256 |     }
-257 | 
+257 |
 258 |     if (extraction.cardIdentifier) {
 259 |       parts.push(extraction.cardIdentifier);
 260 |     }
-261 | 
+261 |
 262 |     return parts.join(' ');
 263 |   } catch (error) {
 264 |     console.warn('Error extracting card info from filename:', error);
@@ -2369,13 +2387,14 @@ src/actions/process-bank-statement.ts
 ```
 
 src/app/globals.css
+
 ```
 1 | @import 'tailwindcss';
-2 | 
+2 |
 3 | @plugin "tailwindcss-animate";
-4 | 
+4 |
 5 | @custom-variant dark (&:is(.dark *));
-6 | 
+6 |
 7 | :root {
 8 |   --background: oklch(1 0 0);
 9 |   --foreground: oklch(0.145 0 0);
@@ -2411,7 +2430,7 @@ src/app/globals.css
 39 |   --sidebar-border: oklch(0.922 0 0);
 40 |   --sidebar-ring: oklch(0.708 0 0);
 41 | }
-42 | 
+42 |
 43 | .dark {
 44 |   --background: oklch(0.145 0 0);
 45 |   --foreground: oklch(0.985 0 0);
@@ -2446,7 +2465,7 @@ src/app/globals.css
 74 |   --sidebar-border: oklch(0.269 0 0);
 75 |   --sidebar-ring: oklch(0.439 0 0);
 76 | }
-77 | 
+77 |
 78 | @theme inline {
 79 |   --font-sans: var(--font-sans);
 80 |   --font-mono: var(--font-mono);
@@ -2488,7 +2507,7 @@ src/app/globals.css
 116 |   --color-sidebar-ring: var(--sidebar-ring);
 117 |   --animate-accordion-down: accordion-down 0.2s ease-out;
 118 |   --animate-accordion-up: accordion-up 0.2s ease-out;
-119 | 
+119 |
 120 |   @keyframes accordion-down {
 121 |     from {
 122 |       height: 0;
@@ -2497,7 +2516,7 @@ src/app/globals.css
 125 |       height: var(--radix-accordion-content-height);
 126 |     }
 127 |   }
-128 | 
+128 |
 129 |   @keyframes accordion-up {
 130 |     from {
 131 |       height: var(--radix-accordion-content-height);
@@ -2507,7 +2526,7 @@ src/app/globals.css
 135 |     }
 136 |   }
 137 | }
-138 | 
+138 |
 139 | @layer base {
 140 |   * {
 141 |     @apply border-border outline-ring/50;
@@ -2519,32 +2538,33 @@ src/app/globals.css
 ```
 
 src/app/layout.tsx
+
 ```
 1 | import './globals.css';
-2 | 
+2 |
 3 | import { Analytics } from '@vercel/analytics/react';
 4 | import { Geist, Geist_Mono } from 'next/font/google';
 5 | import Link from 'next/link';
-6 | 
+6 |
 7 | import { Providers } from '@/app/providers';
 8 | import { ThemeProvider } from '@/components/theme-provider';
 9 | import { ThemeToggle } from '@/components/theme-toggle';
 10 | import { Button } from '@/components/ui/button';
 11 | import { META_THEME_COLORS, siteConfig } from '@/config/site';
 12 | import { cn } from '@/lib/utils';
-13 | 
+13 |
 14 | import type { Metadata, Viewport } from 'next';
-15 | 
+15 |
 16 | const geistSans = Geist({
 17 |   variable: '--font-geist-sans',
 18 |   subsets: ['latin'],
 19 | });
-20 | 
+20 |
 21 | const geistMono = Geist_Mono({
 22 |   variable: '--font-geist-mono',
 23 |   subsets: ['latin'],
 24 | });
-25 | 
+25 |
 26 | export const metadata: Metadata = {
 27 |   title: {
 28 |     default: siteConfig.name,
@@ -2590,11 +2610,11 @@ src/app/layout.tsx
 68 |   },
 69 |   manifest: `${siteConfig.url}/site.webmanifest`,
 70 | };
-71 | 
+71 |
 72 | export const viewport: Viewport = {
 73 |   themeColor: META_THEME_COLORS.light,
 74 | };
-75 | 
+75 |
 76 | export default function RootLayout({ children }: { children: React.ReactNode }) {
 77 |   return (
 78 |     <html lang="en" suppressHydrationWarning>
@@ -2611,7 +2631,7 @@ src/app/layout.tsx
 89 |           }}
 90 |         />
 91 |       </head>
-92 | 
+92 |
 93 |       <body
 94 |         className={cn(
 95 |           `bg-background overscroll-none font-sans antialiased`,
@@ -2637,19 +2657,19 @@ src/app/layout.tsx
 115 |                         insights
 116 |                       </p>
 117 |                     </div>
-118 | 
+118 |
 119 |                     <ThemeToggle className="order-first md:order-last" />
 120 |                   </div>
-121 | 
+121 |
 122 |                   <div className="flex gap-3 flex-wrap">
 123 |                     <Button variant="secondary" asChild>
 124 |                       <Link href="/">Overview</Link>
 125 |                     </Button>
-126 | 
+126 |
 127 |                     <Button variant="secondary" asChild>
 128 |                       <Link href="/ai-playground">AI Playground</Link>
 129 |                     </Button>
-130 | 
+130 |
 131 |                     <Button variant="outline" asChild>
 132 |                       <Link href="https://andredezzy.com">@andredezzy</Link>
 133 |                     </Button>
@@ -2657,9 +2677,9 @@ src/app/layout.tsx
 135 |                 </div>
 136 |               </div>
 137 |             </header>
-138 | 
+138 |
 139 |             {children}
-140 | 
+140 |
 141 |             <footer className="border-t border-border mt-12">
 142 |               <div className="container mx-auto px-8 py-12">
 143 |                 <div className="flex flex-col md:flex-row gap-8">
@@ -2667,12 +2687,12 @@ src/app/layout.tsx
 145 |                     <div className="flex items-center">
 146 |                       <h3 className="text-lg font-semibold text-foreground flex-1">Finance Mind</h3>
 147 |                     </div>
-148 | 
+148 |
 149 |                     <p className="mt-2 text-sm text-muted-foreground">
 150 |                       Take control of your financial life with intelligent analytics and insights.
 151 |                     </p>
 152 |                   </div>
-153 | 
+153 |
 154 |                   <div className="md:hidden">
 155 |                     <h4 className="text-sm font-medium text-foreground">Features</h4>
 156 |                     <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
@@ -2682,7 +2702,7 @@ src/app/layout.tsx
 160 |                       <li>Multi-currency support</li>
 161 |                     </ul>
 162 |                   </div>
-163 | 
+163 |
 164 |                   <div className="hidden md:block">
 165 |                     <h4 className="text-sm font-medium text-foreground mb-2 text-left">Features</h4>
 166 |                     <ul className="space-y-2 text-sm text-muted-foreground text-left">
@@ -2692,7 +2712,7 @@ src/app/layout.tsx
 170 |                       <li>Multi-currency support</li>
 171 |                     </ul>
 172 |                   </div>
-173 | 
+173 |
 174 |                   <div className="md:hidden">
 175 |                     <h4 className="text-sm font-medium text-foreground">Links</h4>
 176 |                     <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
@@ -2702,7 +2722,7 @@ src/app/layout.tsx
 180 |                       <li>Terms of Service</li>
 181 |                     </ul>
 182 |                   </div>
-183 | 
+183 |
 184 |                   <div className="hidden md:block">
 185 |                     <h4 className="text-sm font-medium text-foreground mb-2 text-left">Links</h4>
 186 |                     <ul className="space-y-2 text-sm text-muted-foreground text-left">
@@ -2713,7 +2733,7 @@ src/app/layout.tsx
 191 |                     </ul>
 192 |                   </div>
 193 |                 </div>
-194 | 
+194 |
 195 |                 <div className="mt-8 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center">
 196 |                   <p className="text-xs text-muted-foreground">
 197 |                     &copy; {new Date().getFullYear()} Finance Mind. All rights reserved.
@@ -2735,7 +2755,7 @@ src/app/layout.tsx
 213 |             </footer>
 214 |           </ThemeProvider>
 215 |         </Providers>
-216 | 
+216 |
 217 |         <Analytics />
 218 |       </body>
 219 |     </html>
@@ -2744,22 +2764,23 @@ src/app/layout.tsx
 ```
 
 src/app/providers.tsx
+
 ```
 1 | 'use client';
-2 | 
+2 |
 3 | import { Toaster } from '@/components/ui/sonner';
-4 | 
+4 |
 5 | import type { ReactNode } from 'react';
-6 | 
+6 |
 7 | interface ProvidersProps {
 8 |   children: ReactNode;
 9 | }
-10 | 
+10 |
 11 | export function Providers({ children }: ProvidersProps) {
 12 |   return (
 13 |     <>
 14 |       {children}
-15 | 
+15 |
 16 |       <Toaster position="bottom-right" />
 17 |     </>
 18 |   );
@@ -2767,16 +2788,17 @@ src/app/providers.tsx
 ```
 
 src/components/manual-transaction-form.tsx
+
 ```
 1 | 'use client';
-2 | 
+2 |
 3 | import { zodResolver } from '@hookform/resolvers/zod';
 4 | import { Loader2 } from 'lucide-react';
 5 | import { useState } from 'react';
 6 | import { useForm } from 'react-hook-form';
 7 | import { toast } from 'sonner';
 8 | import { z } from 'zod';
-9 | 
+9 |
 10 | import { extractTransactionFields } from '@/actions/ai/extract-transaction-fields';
 11 | import { Button } from '@/components/ui/button';
 12 | import { DatePicker } from '@/components/ui/date-picker';
@@ -2790,7 +2812,7 @@ src/components/manual-transaction-form.tsx
 20 |   SelectValue,
 21 | } from '@/components/ui/select';
 22 | import { TransactionType, TransactionCategory } from '@/lib/ai/types';
-23 | 
+23 |
 24 | // Transaction form schema with required fields
 25 | const transactionFormSchema = z.object({
 26 |   description: z.string().min(1, { message: 'Description is required' }),
@@ -2801,9 +2823,9 @@ src/components/manual-transaction-form.tsx
 31 |   merchant: z.string().optional(),
 32 |   currency: z.string().default('BRL'),
 33 | });
-34 | 
+34 |
 35 | type TransactionFormValues = z.infer<typeof transactionFormSchema>;
-36 | 
+36 |
 37 | // Helper function to get a display-friendly category name
 38 | const getCategoryLabel = (category: string): string => {
 39 |   // Convert SNAKE_CASE to Title Case and replace underscores with spaces
@@ -2812,18 +2834,18 @@ src/components/manual-transaction-form.tsx
 42 |     .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
 43 |     .join(' ');
 44 | };
-45 | 
+45 |
 46 | // Currencies
 47 | const CURRENCIES = [
 48 |   { value: 'BRL', label: 'BRL' },
 49 |   { value: 'USD', label: 'USD' },
 50 |   { value: 'EUR', label: 'EUR' },
 51 | ];
-52 | 
+52 |
 53 | export function ManualTransactionForm() {
 54 |   const [aiPrompt, setAiPrompt] = useState('');
 55 |   const [isExtracting, setIsExtracting] = useState(false);
-56 | 
+56 |
 57 |   // Initialize form with default values
 58 |   const form = useForm<TransactionFormValues>({
 59 |     resolver: zodResolver(transactionFormSchema),
@@ -2837,7 +2859,7 @@ src/components/manual-transaction-form.tsx
 67 |       currency: 'BRL',
 68 |     },
 69 |   });
-70 | 
+70 |
 71 |   // Handle AI extraction
 72 |   const handleExtractTransaction = async () => {
 73 |     if (!aiPrompt.trim()) {
@@ -2846,15 +2868,15 @@ src/components/manual-transaction-form.tsx
 76 |       });
 77 |       return;
 78 |     }
-79 | 
+79 |
 80 |     setIsExtracting(true);
 81 |     try {
 82 |       const extraction = await extractTransactionFields(aiPrompt);
-83 | 
+83 |
 84 |       // Update form with extracted values
 85 |       form.setValue('description', extraction.description || '');
 86 |       form.setValue('amount', extraction.amount || 0);
-87 | 
+87 |
 88 |       // Type safety for category
 89 |       if (
 90 |         extraction.category &&
@@ -2862,7 +2884,7 @@ src/components/manual-transaction-form.tsx
 92 |       ) {
 93 |         form.setValue('category', extraction.category as TransactionCategory);
 94 |       }
-95 | 
+95 |
 96 |       // Type safety for transaction type
 97 |       if (
 98 |         extraction.type &&
@@ -2870,14 +2892,14 @@ src/components/manual-transaction-form.tsx
 100 |       ) {
 101 |         form.setValue('type', extraction.type as TransactionType);
 102 |       }
-103 | 
+103 |
 104 |       form.setValue('currency', extraction.currency || 'BRL');
 105 |       form.setValue('merchant', extraction.merchant || '');
-106 | 
+106 |
 107 |       if (extraction.date) {
 108 |         form.setValue('date', new Date(extraction.date));
 109 |       }
-110 | 
+110 |
 111 |       toast.success('Transaction extracted', {
 112 |         description: 'The transaction details have been extracted',
 113 |       });
@@ -2890,7 +2912,7 @@ src/components/manual-transaction-form.tsx
 120 |       setIsExtracting(false);
 121 |     }
 122 |   };
-123 | 
+123 |
 124 |   // Handle form submission
 125 |   const onSubmit = (data: TransactionFormValues) => {
 126 |     // Here you would typically save the transaction to your database
@@ -2898,12 +2920,12 @@ src/components/manual-transaction-form.tsx
 128 |     toast.success('Transaction added', {
 129 |       description: 'Your transaction has been successfully added',
 130 |     });
-131 | 
+131 |
 132 |     // Reset form
 133 |     form.reset();
 134 |     setAiPrompt('');
 135 |   };
-136 | 
+136 |
 137 |   // Handle key press for quick add input
 138 |   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
 139 |     if (e.key === 'Enter' && !isExtracting) {
@@ -2911,7 +2933,7 @@ src/components/manual-transaction-form.tsx
 141 |       handleExtractTransaction();
 142 |     }
 143 |   };
-144 | 
+144 |
 145 |   return (
 146 |     <div className="space-y-8">
 147 |       {/* Row 1: Input field with button */}
@@ -2940,7 +2962,7 @@ src/components/manual-transaction-form.tsx
 170 |           )}
 171 |         </Button>
 172 |       </div>
-173 | 
+173 |
 174 |       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-3">
 175 |         {/* Row 2: Currency, Amount, Description */}
 176 |         <div className="grid grid-cols-12 gap-3">
@@ -2963,7 +2985,7 @@ src/components/manual-transaction-form.tsx
 193 |               </SelectContent>
 194 |             </Select>
 195 |           </div>
-196 | 
+196 |
 197 |           {/* Amount */}
 198 |           <div className="col-span-3 space-y-2">
 199 |             <Label htmlFor="amount">Amount</Label>
@@ -2978,7 +3000,7 @@ src/components/manual-transaction-form.tsx
 208 |               <p className="text-sm text-destructive">{form.formState.errors.amount.message}</p>
 209 |             )}
 210 |           </div>
-211 | 
+211 |
 212 |           {/* Description */}
 213 |           <div className="col-span-6 space-y-2">
 214 |             <Label htmlFor="description">Description</Label>
@@ -2994,7 +3016,7 @@ src/components/manual-transaction-form.tsx
 224 |             )}
 225 |           </div>
 226 |         </div>
-227 | 
+227 |
 228 |         {/* Row 3: Type and Category */}
 229 |         <div className="flex w-full gap-3">
 230 |           {/* Transaction Type */}
@@ -3016,7 +3038,7 @@ src/components/manual-transaction-form.tsx
 246 |               </SelectContent>
 247 |             </Select>
 248 |           </div>
-249 | 
+249 |
 250 |           {/* Category */}
 251 |           <div className="flex-1 space-y-2">
 252 |             <Label htmlFor="category">Category</Label>
@@ -3029,7 +3051,7 @@ src/components/manual-transaction-form.tsx
 259 |               </SelectTrigger>
 260 |               <SelectContent className="max-h-72">
 261 |                 <SelectItem value={TransactionCategory.UNCATEGORIZED}>Uncategorized</SelectItem>
-262 | 
+262 |
 263 |                 {/* Income Categories - Use section dividers instead of invalid empty strings */}
 264 |                 <div className="px-2 py-1.5 text-xs font-semibold text-primary">Income</div>
 265 |                 <SelectItem value={TransactionCategory.SALARY}>Salary</SelectItem>
@@ -3038,7 +3060,7 @@ src/components/manual-transaction-form.tsx
 268 |                 </SelectItem>
 269 |                 <SelectItem value={TransactionCategory.REIMBURSEMENT}>Reimbursement</SelectItem>
 270 |                 <SelectItem value={TransactionCategory.GIFT}>Gift</SelectItem>
-271 | 
+271 |
 272 |                 {/* Expense Categories - Use section dividers instead of invalid empty strings */}
 273 |                 <div className="px-2 py-1.5 text-xs font-semibold text-primary">Expenses</div>
 274 |                 <SelectItem value={TransactionCategory.GROCERIES}>Groceries</SelectItem>
@@ -3060,7 +3082,7 @@ src/components/manual-transaction-form.tsx
 290 |             )}
 291 |           </div>
 292 |         </div>
-293 | 
+293 |
 294 |         {/* Row 4: Date and Merchant */}
 295 |         <div className="flex w-full gap-3">
 296 |           {/* Date */}
@@ -3074,7 +3096,7 @@ src/components/manual-transaction-form.tsx
 304 |               <p className="text-sm text-destructive">{form.formState.errors.date.message}</p>
 305 |             )}
 306 |           </div>
-307 | 
+307 |
 308 |           {/* Merchant */}
 309 |           <div className="flex-1 space-y-2">
 310 |             <Label htmlFor="merchant">Merchant</Label>
@@ -3085,7 +3107,7 @@ src/components/manual-transaction-form.tsx
 315 |             />
 316 |           </div>
 317 |         </div>
-318 | 
+318 |
 319 |         {/* Submit Button */}
 320 |         <Button type="submit" className="w-full mt-4">
 321 |           Add Transaction
@@ -3097,12 +3119,13 @@ src/components/manual-transaction-form.tsx
 ```
 
 src/components/theme-provider.tsx
+
 ```
 1 | 'use client';
-2 | 
+2 |
 3 | import { ThemeProvider as NextThemesProvider } from 'next-themes';
 4 | import * as React from 'react';
-5 | 
+5 |
 6 | export function ThemeProvider({
 7 |   children,
 8 |   ...props
@@ -3112,17 +3135,18 @@ src/components/theme-provider.tsx
 ```
 
 src/components/theme-toggle.tsx
+
 ```
 1 | 'use client';
-2 | 
+2 |
 3 | import { useTheme } from 'next-themes';
 4 | import { useEffect, useState } from 'react';
 5 | import { FiSun, FiMoon, FiMonitor } from 'react-icons/fi';
-6 | 
+6 |
 7 | import { cn } from '@/lib/utils';
-8 | 
+8 |
 9 | type ThemeOption = 'light' | 'dark' | 'system';
-10 | 
+10 |
 11 | interface ThemeButtonProps {
 12 |   theme: string | undefined;
 13 |   value: ThemeOption;
@@ -3130,10 +3154,10 @@ src/components/theme-toggle.tsx
 15 |   label: string;
 16 |   onClick: (theme: ThemeOption) => void;
 17 | }
-18 | 
+18 |
 19 | function ThemeButton({ theme, value, icon: Icon, label, onClick }: ThemeButtonProps) {
 20 |   const isActive = theme === value;
-21 | 
+21 |
 22 |   return (
 23 |     <button
 24 |       onClick={() => onClick(value)}
@@ -3146,20 +3170,20 @@ src/components/theme-toggle.tsx
 31 |     </button>
 32 |   );
 33 | }
-34 | 
+34 |
 35 | export function ThemeToggle({ className }: { className?: string }) {
 36 |   const { theme, setTheme } = useTheme();
 37 |   const [mounted, setMounted] = useState(false);
-38 | 
+38 |
 39 |   // Only render theme toggle on client to avoid hydration mismatch
 40 |   useEffect(() => {
 41 |     setMounted(true);
 42 |   }, []);
-43 | 
+43 |
 44 |   const handleThemeChange = (newTheme: ThemeOption) => {
 45 |     setTheme(newTheme);
 46 |   };
-47 | 
+47 |
 48 |   const themeOptions: Array<{
 49 |     value: ThemeOption;
 50 |     icon: React.ElementType;
@@ -3169,12 +3193,12 @@ src/components/theme-toggle.tsx
 54 |     { value: 'dark', icon: FiMoon, label: 'Dark mode' },
 55 |     { value: 'system', icon: FiMonitor, label: 'System preference' },
 56 |   ];
-57 | 
+57 |
 58 |   // Avoid rendering toggle until client-side to prevent hydration mismatch
 59 |   if (!mounted) {
 60 |     return <div className="w-[138px] h-[38px]" />; // Placeholder with same size
 61 |   }
-62 | 
+62 |
 63 |   return (
 64 |     <div className={cn('relative inline-block text-left', className)}>
 65 |       <div
@@ -3199,6 +3223,7 @@ src/components/theme-toggle.tsx
 ```
 
 src/config/site.ts
+
 ```
 1 | export const siteConfig = {
 2 |   name: 'Finance Mind',
@@ -3211,9 +3236,9 @@ src/config/site.ts
 9 |     github: 'https://github.com/andredezzy/finance-mind',
 10 |   },
 11 | };
-12 | 
+12 |
 13 | export type SiteConfig = typeof siteConfig;
-14 | 
+14 |
 15 | export const META_THEME_COLORS = {
 16 |   light: '#ffffff',
 17 |   dark: '#000000',
@@ -3221,12 +3246,13 @@ src/config/site.ts
 ```
 
 src/config/user.ts
+
 ```
 1 | /**
 2 |  * User configuration with personal financial information
 3 |  * This file contains user-specific settings that are used throughout the application
 4 |  */
-5 | 
+5 |
 6 | export const userConfig = {
 7 |   /**
 8 |    * Card holder information - used for identifying the primary account owner
@@ -3236,7 +3262,7 @@ src/config/user.ts
 12 |     name: 'André Victor',
 13 |     possibleVariations: ['André', 'Andre Victor', 'Andre V.'],
 14 |   },
-15 | 
+15 |
 16 |   /**
 17 |    * Default currency settings
 18 |    */
@@ -3245,14 +3271,15 @@ src/config/user.ts
 21 |     symbol: 'R$',
 22 |   },
 23 | };
-24 | 
+24 |
 25 | export type UserConfig = typeof userConfig;
 ```
 
 src/interfaces/transaction.ts
+
 ```
 1 | import type { TransactionType, TransactionCategory } from '@/lib/ai/types';
-2 | 
+2 |
 3 | export interface Transaction {
 4 |   id: string;
 5 |   type: TransactionType;
@@ -3281,30 +3308,33 @@ src/interfaces/transaction.ts
 ```
 
 src/lib/ai.ts
+
 ```
 1 | import { openai } from '@ai-sdk/openai';
-2 | 
+2 |
 3 | // Default model to use - can be overridden in specific implementations
 4 | export const defaultModel = process.env.AI_MODEL || 'gpt-3.5-turbo';
-5 | 
+5 |
 6 | // Export the OpenAI client instance
 7 | export { openai };
 ```
 
 src/lib/utils.ts
+
 ```
 1 | import { type ClassValue, clsx } from 'clsx';
 2 | import { twMerge } from 'tailwind-merge';
-3 | 
+3 |
 4 | export function cn(...inputs: ClassValue[]) {
 5 |   return twMerge(clsx(inputs));
 6 | }
 ```
 
 src/schemas/form-schemas.ts
+
 ```
 1 | import { z } from 'zod';
-2 | 
+2 |
 3 | /**
 4 |  * Schema for the transaction categorizer form
 5 |  */
@@ -3323,25 +3353,26 @@ src/schemas/form-schemas.ts
 18 |   date: z.string().optional().describe('Optional transaction date in string format'),
 19 |   merchant: z.string().optional().describe('Optional merchant name for the transaction'),
 20 | });
-21 | 
+21 |
 22 | /**
 23 |  * Schema for the transaction extractor form
 24 |  */
 25 | export const transactionExtractorFormSchema = z.object({
 26 |   prompt: z.string().min(1, 'Please describe the transaction'),
 27 | });
-28 | 
+28 |
 29 | // Types for the form values
 30 | export type TransactionCategorizerFormValues = z.infer<typeof transactionCategorizerFormSchema>;
 31 | export type TransactionExtractorFormValues = z.infer<typeof transactionExtractorFormSchema>;
 ```
 
 src/schemas/investment-schemas.ts
+
 ```
 1 | import { z } from 'zod';
-2 | 
+2 |
 3 | import { AssetClass, InvestmentCategory, InvestmentTransactionType } from '@/lib/ai/types';
-4 | 
+4 |
 5 | /**
 6 |  * Schema for investment asset
 7 |  */
@@ -3358,7 +3389,7 @@ src/schemas/investment-schemas.ts
 18 |   createdAt: z.date().optional(),
 19 |   updatedAt: z.date().optional(),
 20 | });
-21 | 
+21 |
 22 | /**
 23 |  * Schema for investment transaction
 24 |  */
@@ -3379,7 +3410,7 @@ src/schemas/investment-schemas.ts
 39 |   createdAt: z.date().optional(),
 40 |   updatedAt: z.date().optional(),
 41 | });
-42 | 
+42 |
 43 | /**
 44 |  * Schema for investment portfolio
 45 |  */
@@ -3392,7 +3423,7 @@ src/schemas/investment-schemas.ts
 52 |   createdAt: z.date().optional(),
 53 |   updatedAt: z.date().optional(),
 54 | });
-55 | 
+55 |
 56 | /**
 57 |  * Schema for investment holdings (calculated/current state)
 58 |  */
@@ -3407,7 +3438,7 @@ src/schemas/investment-schemas.ts
 67 |   realizedGainLoss: z.number().describe('Total realized gain/loss from this asset'),
 68 |   lastUpdated: z.date().describe('When this holding was last updated'),
 69 | });
-70 | 
+70 |
 71 | /**
 72 |  * Schema for investment performance metrics
 73 |  */
@@ -3427,7 +3458,7 @@ src/schemas/investment-schemas.ts
 87 |   contributions: z.number().describe('New money contributed during the period'),
 88 |   withdrawals: z.number().describe('Money withdrawn during the period'),
 89 | });
-90 | 
+90 |
 91 | // Types for schema inference
 92 | export type InvestmentAsset = z.infer<typeof investmentAssetSchema>;
 93 | export type InvestmentTransaction = z.infer<typeof investmentTransactionSchema>;
@@ -3437,11 +3468,12 @@ src/schemas/investment-schemas.ts
 ```
 
 src/schemas/transaction-schemas.ts
+
 ```
 1 | import { z } from 'zod';
-2 | 
+2 |
 3 | import { TransactionCategory, TransactionType } from '@/lib/ai/types';
-4 | 
+4 |
 5 | /**
 6 |  * Schema for transaction categorization input
 7 |  */
@@ -3451,7 +3483,7 @@ src/schemas/transaction-schemas.ts
 11 |   date: z.string().or(z.date()).describe('Transaction date as string or Date object'),
 12 |   merchant: z.string().optional().describe('Merchant name if available'),
 13 | });
-14 | 
+14 |
 15 | /**
 16 |  * Schema for transaction categorization response
 17 |  */
@@ -3477,7 +3509,7 @@ src/schemas/transaction-schemas.ts
 37 |     .describe('Installment details if this is an installment payment'),
 38 |   confidence: z.number().min(0).max(1).optional().describe('AI confidence score from 0.0 to 1.0'),
 39 | });
-40 | 
+40 |
 41 | /**
 42 |  * Schema for transaction extraction
 43 |  */
@@ -3510,7 +3542,7 @@ src/schemas/transaction-schemas.ts
 70 |     .optional()
 71 |     .describe('AI confidence level in the extraction (0.0 to 1.0)'),
 72 | });
-73 | 
+73 |
 74 | // Types for schema inference
 75 | export type TransactionCategorizeInput = z.infer<typeof transactionCategorizeSchema>;
 76 | export type TransactionCategorizeResponse = z.infer<typeof transactionCategorizeResponseSchema>;
@@ -3518,6 +3550,7 @@ src/schemas/transaction-schemas.ts
 ```
 
 src/types/pdfjs.d.ts
+
 ```
 1 | /**
 2 |  * Type declaration for PDF.js worker module
@@ -3526,17 +3559,18 @@ src/types/pdfjs.d.ts
 ```
 
 src/actions/ai/categorize-transaction.ts
+
 ```
 1 | 'use server';
-2 | 
+2 |
 3 | import { generateObject } from 'ai';
-4 | 
+4 |
 5 | import { openai, defaultModel } from '@/lib/ai';
 6 | import { TransactionCategory, TransactionType } from '@/lib/ai/types';
 7 | import { transactionCategorizeResponseSchema } from '@/schemas/transaction-schemas';
-8 | 
+8 |
 9 | import type { TransactionCategorizeResponse } from '@/schemas/transaction-schemas';
-10 | 
+10 |
 11 | /**
 12 |  * Categorizes a financial transaction using AI
 13 |  */
@@ -3556,20 +3590,20 @@ src/actions/ai/categorize-transaction.ts
 27 |     const systemPrompt = `
 28 | // ROLE
 29 | You are a financial transaction categorization expert specializing in Brazilian and global financial systems.
-30 | 
+30 |
 31 | // TASK
 32 | Analyze transaction details and determine the appropriate category, type, and additional metadata.
-33 | 
+33 |
 34 | // CATEGORIES
 35 | Income: SALARY, INVESTMENT, REIMBURSEMENT, GIFT
 36 | Expense: GROCERIES, DINING, ENTERTAINMENT, TRANSPORTATION, UTILITIES, HOUSING, HEALTH, EDUCATION, SHOPPING, TRAVEL, PERSONAL_CARE, SUBSCRIPTIONS
 37 | Other: UNCATEGORIZED
-38 | 
+38 |
 39 | // TRANSACTION TYPES
 40 | - INCOME: For money coming in (positive amounts)
-41 | - OUTCOME: For money going out (negative amounts) 
+41 | - OUTCOME: For money going out (negative amounts)
 42 | - TRANSFER: For money movement between accounts (PIX, bank transfers, credit card payments)
-43 | 
+43 |
 44 | // RULES
 45 | - Preserve original language: Keep merchant names and descriptions in their ORIGINAL LANGUAGE
 46 | - Format merchant names without translating them
@@ -3579,23 +3613,23 @@ src/actions/ai/categorize-transaction.ts
 50 | - Transfer keywords: "Transferência", "TED", "DOC", "Transfer" -> set type to TRANSFER
 51 | - Credit card payment keywords: "Pagamento de fatura", "Pagamento fatura" -> set type to TRANSFER
 52 | - Salary keywords: "Salário", "Salary", "Pagamento", "Folha"
-53 | 
+53 |
 54 | // P2P TRANSFER DETECTION
 55 | - Short descriptions with just names (e.g., "caio", "jon") are likely transfers
 56 | - Negative amounts indicate money sent TO someone
 57 | - Positive amounts indicate money received FROM someone
 58 | `.trim();
-59 | 
+59 |
 60 |     // Define the specific transaction data for analysis
 61 |     const userPrompt = `
 62 | Analyze and categorize this financial transaction:
-63 | 
+63 |
 64 | Description: ${description}
 65 | Amount: ${amount}
 66 | Date: ${date instanceof Date ? date.toISOString() : date}
 67 | ${merchant ? `Merchant: ${merchant}` : ''}
 68 | `.trim();
-69 | 
+69 |
 70 |     // Use generateObject with the schema to structure the output
 71 |     const result = await generateObject({
 72 |       model: openai(defaultModel),
@@ -3604,14 +3638,14 @@ src/actions/ai/categorize-transaction.ts
 75 |       prompt: userPrompt,
 76 |       temperature: 0.2, // Low temperature for consistent results
 77 |     });
-78 | 
+78 |
 79 |     // Log warnings if any
 80 |     if (result.warnings && result.warnings.length > 0) {
 81 |       console.warn('Transaction categorization warnings:', result.warnings);
 82 |     }
-83 | 
+83 |
 84 |     console.log('Categorization result:', result.object);
-85 | 
+85 |
 86 |     // Return the categorization result
 87 |     return result.object;
 88 |   } catch (error) {
@@ -3630,19 +3664,20 @@ src/actions/ai/categorize-transaction.ts
 ```
 
 src/actions/ai/detect-person-to-person-transfer.ts
+
 ```
 1 | 'use server';
-2 | 
+2 |
 3 | import { openai } from '@ai-sdk/openai';
 4 | import { generateObject } from 'ai';
 5 | import { z } from 'zod';
-6 | 
+6 |
 7 | import { userConfig } from '@/config/user';
 8 | import { defaultModel } from '@/lib/ai';
 9 | import { TransactionType } from '@/lib/ai/types';
-10 | 
+10 |
 11 | import type { Transaction } from '@/interfaces/transaction';
-12 | 
+12 |
 13 | // Schema for person-to-person transfer detection response
 14 | const p2pTransferSchema = z.object({
 15 |   isP2PTransfer: z
@@ -3681,9 +3716,9 @@ src/actions/ai/detect-person-to-person-transfer.ts
 48 |     .optional()
 49 |     .describe('Clear explanation for the classification in a single sentence'),
 50 | });
-51 | 
+51 |
 52 | export type P2PTransferDetection = z.infer<typeof p2pTransferSchema>;
-53 | 
+53 |
 54 | /**
 55 |  * Detect if a transaction is a person-to-person transfer, including internal transfers
 56 |  * @param transaction The transaction to analyze
@@ -3709,54 +3744,54 @@ src/actions/ai/detect-person-to-person-transfer.ts
 76 |         reason: "Transaction type is not TRANSFER and description doesn't suggest a transfer",
 77 |       };
 78 |     }
-79 | 
+79 |
 80 |     // Check if we have any matching transactions in the opposite direction
 81 |     const matchingTransaction = findMatchingTransaction(transaction, otherTransactions);
-82 | 
+82 |
 83 |     // Define system instructions for the AI model
 84 |     const systemPrompt = `
 85 | // ROLE
 86 | You are a financial transfer detection expert specializing in Brazilian banking systems.
-87 | 
+87 |
 88 | // TASK
 89 | Analyze transactions and determine if they represent transfers between people or accounts.
-90 | 
+90 |
 91 | // TRANSFER TYPES
 92 | - INTERNAL TRANSFERS: Between accounts owned by the same person (e.g., from checking to savings)
 93 | - EXTERNAL TRANSFERS: From one person to another person (e.g., paying a friend)
-94 | 
+94 |
 95 | // TRANSACTION TYPE
 96 | Remember that TRANSFER is a transaction type, not a category. Transactions with type TRANSFER can have various categories based on the purpose of the transfer.
-97 | 
+97 |
 98 | // INTERNAL TRANSFER INDICATORS
 99 | - Transfer terminology with account references ("transfer from checking to savings")
 100 | - Banking terms: "transferência", "TED", "DOC", "PIX" between own accounts
 101 | - Bank names on both sides of the transaction
 102 | - Matching opposing transaction with similar amount and timing
 103 | - References to "own account", "self", or "between accounts"
-104 | 
+104 |
 105 | // EXTERNAL TRANSFER INDICATORS
 106 | - Recipient names that are not the account holder
 107 | - PIX/payment services with recipient information
 108 | - References to sending/receiving money to others
 109 | - Personal transfer descriptions
-110 | 
+110 |
 111 | // CONTEXT
 112 | Account holder name: "${userConfig.cardHolder.name}"
 113 | Known accounts: ${accountsAndCards.join(', ')}
 114 | `.trim();
-115 | 
+115 |
 116 |     // Define the specific transaction data for analysis
 117 |     const userPrompt = `
 118 | Analyze this transaction for P2P transfer detection:
-119 | 
+119 |
 120 | Description: ${transaction.description}
 121 | Amount: ${transaction.amount}
 122 | Date: ${transaction.date}
 123 | Type: ${transaction.type}
 124 | Category: ${transaction.category}
 125 | ${transaction.merchant ? `Merchant: ${transaction.merchant}` : ''}
-126 | 
+126 |
 127 | ${
 128 |   matchingTransaction
 129 |     ? `There is a matching transaction in the opposite direction:
@@ -3768,7 +3803,7 @@ src/actions/ai/detect-person-to-person-transfer.ts
 135 |     : 'No matching transaction found in the opposite direction.'
 136 | }
 137 | `.trim();
-138 | 
+138 |
 139 |     const result = await generateObject({
 140 |       model: openai(defaultModel),
 141 |       schema: p2pTransferSchema,
@@ -3776,14 +3811,14 @@ src/actions/ai/detect-person-to-person-transfer.ts
 143 |       prompt: userPrompt,
 144 |       temperature: 0.2,
 145 |     });
-146 | 
+146 |
 147 |     // Log warnings if any
 148 |     if (result.warnings && result.warnings.length > 0) {
 149 |       console.warn('P2P transfer detection warnings:', result.warnings);
 150 |     }
-151 | 
+151 |
 152 |     console.log('P2P transfer detection result:', result.object);
-153 | 
+153 |
 154 |     return result.object;
 155 |   } catch (error) {
 156 |     console.error('P2P transfer detection error:', error);
@@ -3795,7 +3830,7 @@ src/actions/ai/detect-person-to-person-transfer.ts
 162 |     };
 163 |   }
 164 | }
-165 | 
+165 |
 166 | /**
 167 |  * Check if a transaction description is likely to be a transfer
 168 |  * @param description The transaction description
@@ -3827,12 +3862,12 @@ src/actions/ai/detect-person-to-person-transfer.ts
 194 |     'recebeu pix',
 195 |     'received pix',
 196 |   ];
-197 | 
+197 |
 198 |   const normalizedDesc = description.toLowerCase();
-199 | 
+199 |
 200 |   return transferTerms.some(term => normalizedDesc.includes(term));
 201 | }
-202 | 
+202 |
 203 | /**
 204 |  * Find a matching transaction that likely represents the other side of a transfer
 205 |  * @param transaction The transaction to find a match for
@@ -3845,49 +3880,50 @@ src/actions/ai/detect-person-to-person-transfer.ts
 212 | ): Transaction | undefined {
 213 |   // Don't try to match if we don't have other transactions
 214 |   if (!otherTransactions.length) return undefined;
-215 | 
+215 |
 216 |   // For transfers, we look for transactions in the opposite direction
 217 |   // with a similar amount within a short time window
 218 |   const isOutgoing = transaction.amount < 0;
 219 |   const absAmount = Math.abs(transaction.amount);
-220 | 
+220 |
 221 |   // For matching, we allow a 3-day window (transfers might take time to appear)
 222 |   const maxTimeDifference = 3 * 24 * 60 * 60 * 1000; // 3 days in milliseconds
-223 | 
+223 |
 224 |   // Look for matching transactions
 225 |   return otherTransactions.find(other => {
 226 |     // If transactions have the same direction, they're not matching sides of a transfer
 227 |     const otherIsOutgoing = other.amount < 0;
 228 |     if (isOutgoing === otherIsOutgoing) return false;
-229 | 
+229 |
 230 |     // Check if amounts match (allow for small differences due to fees)
 231 |     const otherAbsAmount = Math.abs(other.amount);
 232 |     const amountDiff = Math.abs(absAmount - otherAbsAmount);
 233 |     const isAmountSimilar = amountDiff <= 1 || amountDiff / absAmount <= 0.01; // 1 currency unit or 1% difference
-234 | 
+234 |
 235 |     if (!isAmountSimilar) return false;
-236 | 
+236 |
 237 |     // Check if the transactions are close in time
 238 |     const timeDiff = Math.abs(
 239 |       new Date(transaction.date).getTime() - new Date(other.date).getTime()
 240 |     );
 241 |     const isTimeClose = timeDiff <= maxTimeDifference;
-242 | 
+242 |
 243 |     return isTimeClose;
 244 |   });
 245 | }
 ```
 
 src/actions/ai/extract-card-info-from-row.ts
+
 ```
 1 | 'use server';
-2 | 
+2 |
 3 | import { openai } from '@ai-sdk/openai';
 4 | import { generateObject } from 'ai';
 5 | import { z } from 'zod';
-6 | 
+6 |
 7 | import { defaultModel } from '@/lib/ai';
-8 | 
+8 |
 9 | // Schema for card extraction from transaction data
 10 | const cardExtractionFromRowSchema = z.object({
 11 |   cardType: z
@@ -3920,9 +3956,9 @@ src/actions/ai/extract-card-info-from-row.ts
 38 |     .max(1)
 39 |     .describe('Confidence level of the extraction from 0.0 (low) to 1.0 (high)'),
 40 | });
-41 | 
+41 |
 42 | export type CardExtractionFromRow = z.infer<typeof cardExtractionFromRowSchema>;
-43 | 
+43 |
 44 | /**
 45 |  * Use AI to extract card information from transaction row data
 46 |  * @param rowData Transaction row data
@@ -3936,22 +3972,22 @@ src/actions/ai/extract-card-info-from-row.ts
 54 |     const rowDataString = Object.entries(rowData)
 55 |       .map(([key, value]) => `${key}: ${value}`)
 56 |       .join('\n');
-57 | 
+57 |
 58 |     // Define system instructions for the AI model
 59 |     const systemPrompt = `
 60 | // ROLE
 61 | You are a financial data specialist focused on identifying card information in transaction data.
-62 | 
+62 |
 63 | // TASK
 64 | Extract card details from transaction rows with high precision.
-65 | 
+65 |
 66 | // PATTERNS TO IDENTIFY
 67 | - Card types: Visa, Mastercard, Elo, Amex, etc.
 68 | - Card identifiers: "****1234", "XXXX1234", "Final 1234"
 69 | - Credit vs. debit indicators
 70 | - Bank names associated with cards
 71 | - Card product tiers (Gold, Platinum, Black)
-72 | 
+72 |
 73 | // BRAZILIAN TERMINOLOGY
 74 | - "cartão" = card
 75 | - "crédito" = credit
@@ -3959,19 +3995,19 @@ src/actions/ai/extract-card-info-from-row.ts
 77 | - "fatura" = statement/bill
 78 | - "compra no cartão" = card purchase
 79 | - "pagamento" = payment
-80 | 
+80 |
 81 | // FORMATTING RULES
 82 | - Keep all extracted text in its ORIGINAL LANGUAGE and case
 83 | - Set confidence based on the clarity of the card information (0.0-1.0)
 84 | `.trim();
-85 | 
+85 |
 86 |     // Define the specific transaction data for analysis
 87 |     const userPrompt = `
 88 | Extract card information from this transaction data:
-89 | 
+89 |
 90 | ${rowDataString}
 91 | `.trim();
-92 | 
+92 |
 93 |     // Generate the card extraction using Vercel AI SDK
 94 |     const result = await generateObject({
 95 |       model: openai(defaultModel),
@@ -3980,12 +4016,12 @@ src/actions/ai/extract-card-info-from-row.ts
 98 |       prompt: userPrompt,
 99 |       temperature: 0.2, // Low temperature for consistent results
 100 |     });
-101 | 
+101 |
 102 |     // Log warnings if any
 103 |     if (result.warnings && result.warnings.length > 0) {
 104 |       console.warn('Card extraction warnings:', result.warnings);
 105 |     }
-106 | 
+106 |
 107 |     console.log('Card extraction from row result:', result.object);
 108 |     return result.object;
 109 |   } catch (error) {
@@ -3996,7 +4032,7 @@ src/actions/ai/extract-card-info-from-row.ts
 114 |     };
 115 |   }
 116 | }
-117 | 
+117 |
 118 | /**
 119 |  * Format extracted card information into a readable string
 120 |  * @param extraction Card extraction result
@@ -4008,14 +4044,14 @@ src/actions/ai/extract-card-info-from-row.ts
 126 |   if (!extraction || extraction.confidence < 0.3) {
 127 |     return undefined;
 128 |   }
-129 | 
+129 |
 130 |   const parts: string[] = [];
-131 | 
+131 |
 132 |   // Add bank name if available
 133 |   if (extraction.bankName) {
 134 |     parts.push(extraction.bankName);
 135 |   }
-136 | 
+136 |
 137 |   // Add card type with credit/debit designation if available
 138 |   if (extraction.cardType) {
 139 |     if (extraction.isCredit !== undefined) {
@@ -4027,31 +4063,32 @@ src/actions/ai/extract-card-info-from-row.ts
 145 |     // Just add credit/debit if we have that but no card type
 146 |     parts.push(extraction.isCredit ? 'Credit' : 'Debit');
 147 |   }
-148 | 
+148 |
 149 |   // Add card name if available and not redundant with bank name
 150 |   if (extraction.cardName && extraction.bankName !== extraction.cardName) {
 151 |     parts.push(extraction.cardName);
 152 |   }
-153 | 
+153 |
 154 |   // Add card identifier if available
 155 |   if (extraction.cardIdentifier) {
 156 |     parts.push(extraction.cardIdentifier);
 157 |   }
-158 | 
+158 |
 159 |   return parts.length > 0 ? parts.join(' - ') : undefined;
 160 | }
 ```
 
 src/actions/ai/extract-card-info.ts
+
 ```
 1 | 'use server';
-2 | 
+2 |
 3 | import { openai } from '@ai-sdk/openai';
 4 | import { generateObject } from 'ai';
 5 | import { z } from 'zod';
-6 | 
+6 |
 7 | import { defaultModel } from '@/lib/ai';
-8 | 
+8 |
 9 | // Schema for card extraction response
 10 | const cardExtractionSchema = z.object({
 11 |   bankName: z.string().optional().describe('The name of the bank (e.g., Nubank, Itaú, Bradesco)'),
@@ -4068,9 +4105,9 @@ src/actions/ai/extract-card-info.ts
 22 |   statementPeriod: z.string().optional().describe('Period covered by the statement if present'),
 23 |   confidence: z.number().min(0).max(1).describe('Confidence level of the extraction (0-1)'),
 24 | });
-25 | 
+25 |
 26 | export type CardExtraction = z.infer<typeof cardExtractionSchema>;
-27 | 
+27 |
 28 | /**
 29 |  * Use AI to extract card and bank information from a filename
 30 |  * @param fileName The filename to analyze
@@ -4082,10 +4119,10 @@ src/actions/ai/extract-card-info.ts
 36 |     const systemPrompt = `
 37 | // ROLE
 38 | You are a financial data specialist with expertise in bank statement files.
-39 | 
+39 |
 40 | // TASK
 41 | Analyze a filename and extract information about the bank, card type, account type, and other relevant details.
-42 | 
+42 |
 43 | // COMMON BRAZILIAN BANKS
 44 | - Nubank
 45 | - Itaú
@@ -4096,26 +4133,26 @@ src/actions/ai/extract-card-info.ts
 50 | - Inter
 51 | - C6 Bank
 52 | - BTG Pactual
-53 | 
+53 |
 54 | // COMMON CARD TYPES
 55 | - Visa
 56 | - Mastercard
 57 | - Elo
 58 | - American Express (often Amex)
 59 | - Hipercard
-60 | 
+60 |
 61 | // ACCOUNT TYPES
 62 | - Checking account (conta corrente)
 63 | - Savings account (poupança)
 64 | - Credit card (cartão de crédito)
 65 | - Investment account (conta investimento)
-66 | 
+66 |
 67 | // BRAZILIAN TERMINOLOGY
 68 | - "extrato" = account statement
 69 | - "fatura" = credit card statement
 70 | - Month names in Portuguese: janeiro, fevereiro, março, abril, maio, junho, julho, agosto, setembro, outubro, novembro, dezembro
 71 | - Abbreviated months: jan, fev, mar, abr, mai, jun, jul, ago, set, out, nov, dez
-72 | 
+72 |
 73 | // GUIDELINES
 74 | - Analyze the filename carefully for bank names, card types, or account types
 75 | - Extract any identifiable information like statement periods or card identifiers
@@ -4123,14 +4160,14 @@ src/actions/ai/extract-card-info.ts
 77 | - Provide confidence level based on clarity of matches
 78 | - For unclear filenames, provide best guess with lower confidence
 79 | `.trim();
-80 | 
+80 |
 81 |     // Define the specific filename for analysis
 82 |     const userPrompt = `
-83 | Analyze this bank statement filename and extract any relevant bank or card information: 
-84 | 
+83 | Analyze this bank statement filename and extract any relevant bank or card information:
+84 |
 85 | "${fileName}"
 86 | `.trim();
-87 | 
+87 |
 88 |     // Generate the card extraction
 89 |     const result = await generateObject({
 90 |       model: openai(defaultModel),
@@ -4139,14 +4176,14 @@ src/actions/ai/extract-card-info.ts
 93 |       prompt: userPrompt,
 94 |       temperature: 0.2, // Low temperature for more consistent results
 95 |     });
-96 | 
+96 |
 97 |     // Log warnings if any
 98 |     if (result.warnings && result.warnings.length > 0) {
 99 |       console.warn('Card extraction warnings:', result.warnings);
 100 |     }
-101 | 
+101 |
 102 |     console.log('Card extraction result:', result.object);
-103 | 
+103 |
 104 |     return result.object;
 105 |   } catch (error) {
 106 |     console.error('Card extraction error:', error);
@@ -4159,18 +4196,19 @@ src/actions/ai/extract-card-info.ts
 ```
 
 src/actions/ai/extract-transaction-fields.ts
+
 ```
 1 | 'use server';
-2 | 
+2 |
 3 | import { openai } from '@ai-sdk/openai';
 4 | import { generateObject } from 'ai';
 5 | import * as chrono from 'chrono-node';
-6 | 
+6 |
 7 | import { defaultModel } from '@/lib/ai';
 8 | import { transactionExtractionSchema } from '@/schemas/transaction-schemas';
-9 | 
+9 |
 10 | import type { TransactionExtraction } from '@/schemas/transaction-schemas';
-11 | 
+11 |
 12 | /**
 13 |  * Extract transaction fields from a text prompt
 14 |  * @param prompt The user's text description of a transaction
@@ -4182,10 +4220,10 @@ src/actions/ai/extract-transaction-fields.ts
 20 |     const systemPrompt = `
 21 | // ROLE
 22 | You are a financial assistant specialized in extracting transaction details from text.
-23 | 
+23 |
 24 | // TASK
 25 | Extract all relevant transaction information from user input, including description, amount, date, merchant, and categorization.
-26 | 
+26 |
 27 | // REQUIRED FIELDS
 28 | - Description: What the transaction is for
 29 | - Amount: As a number, negative for expenses
@@ -4195,25 +4233,25 @@ src/actions/ai/extract-transaction-fields.ts
 33 | - Transaction type: INCOME, OUTCOME, or TRANSFER
 34 | - Installment information: If applicable
 35 | - Currency: Default to BRL if not specified
-36 | 
+36 |
 37 | // DATE HANDLING EXAMPLES
 38 | - "hoje" in Portuguese → "original: hoje|english: today"
 39 | - "明天" in Chinese → "original: 明天|english: tomorrow"
 40 | - "last Friday" in English → "original: last Friday|english: last Friday"
 41 | - "próximo mês" → "original: próximo mês|english: next month"
 42 | - When no date is specified in the input → use "original: today|english: today" (today's date)
-43 | 
+43 |
 44 | // TRANSACTION TYPE RULES
 45 | - Positive amounts: Treat as INCOME
 46 | - Negative amounts: Treat as OUTCOME
 47 | - Transfer keywords: "transfer", "sent to", "received from" → TRANSFER
 48 | - PIX, TED, DOC keywords → TRANSFER type
-49 | 
+49 |
 50 | // CATEGORIES
 51 | - Income: SALARY, INVESTMENT, REIMBURSEMENT, GIFT
 52 | - Expense: GROCERIES, DINING, ENTERTAINMENT, TRANSPORTATION, UTILITIES, HOUSING, HEALTH, EDUCATION, SHOPPING, TRAVEL, PERSONAL_CARE, SUBSCRIPTIONS
 53 | - Default: UNCATEGORIZED
-54 | 
+54 |
 55 | // P2P TRANSFER DETECTION
 56 | - Person name with amount (e.g., "caio 150", "jon 100"):
 57 |   * Set type to TRANSFER
@@ -4222,17 +4260,17 @@ src/actions/ai/extract-transaction-fields.ts
 60 |   * Extract person name as merchant
 61 |   * Assume negative amount unless context indicates otherwise
 62 |   * + prefix indicates money received from person
-63 | 
+63 |
 64 | // LANGUAGE HANDLING
 65 | - Detect input language and preserve it in text fields
 66 | - Only use English for predefined category and type values
 67 | - Format according to conventions of detected language
 68 | - Do not translate user content except for date parsing
-69 | 
+69 |
 70 | // FORMATTING RULES
 71 | - Format merchant names with proper capitalization, also in the description (e.g., "CAIO RODRIGUES" -> "Caio Rodrigues")
 72 | - Format merchant names without translating them
-73 | 
+73 |
 74 | // FORMATTING EXAMPLES
 75 | - Portuguese: "150 corrida uber ontem" → "Corrida de Uber", type: OUTCOME, category: TRANSPORTATION
 76 | - English: "150 uber" → "Uber ride", type: OUTCOME, category: TRANSPORTATION
@@ -4240,10 +4278,10 @@ src/actions/ai/extract-transaction-fields.ts
 78 | - P2P: "caio 150" → "Transferência para Caio", type: TRANSFER
 79 | - P2P with context: "caio 150 churrasco" → "Transferência para Caio (Churrasco)", type: TRANSFER, category: DINING
 80 | `.trim();
-81 | 
+81 |
 82 |     // Define the specific user input for analysis
 83 |     const userPrompt = prompt; // The user's input is directly used as the prompt
-84 | 
+84 |
 85 |     // Use generateObject with the schema to structure the output
 86 |     const result = await generateObject({
 87 |       model: openai(defaultModel),
@@ -4252,22 +4290,22 @@ src/actions/ai/extract-transaction-fields.ts
 90 |       prompt: userPrompt,
 91 |       temperature: 0.2, // Low temperature for consistent results
 92 |     });
-93 | 
+93 |
 94 |     // Log warnings if any
 95 |     if (result.warnings && result.warnings.length > 0) {
 96 |       console.warn('Transaction extraction warnings:', result.warnings);
 97 |     }
-98 | 
+98 |
 99 |     // Parse natural language date using chrono-node
 100 |     const extractedResult = result.object as TransactionExtraction;
-101 | 
+101 |
 102 |     // If we have a date string, try to parse it with chrono-node
 103 |     if (typeof extractedResult.date === 'string') {
 104 |       try {
 105 |         // Parse the formatted date string to extract original and English versions
 106 |         const dateString = extractedResult.date;
 107 |         let englishDateExpression = dateString;
-108 | 
+108 |
 109 |         // Check if the date is in the expected format "original: X|english: Y"
 110 |         if (dateString.includes('|english:')) {
 111 |           const parts = dateString.split('|english:');
@@ -4275,10 +4313,10 @@ src/actions/ai/extract-transaction-fields.ts
 113 |             englishDateExpression = parts[1].trim();
 114 |           }
 115 |         }
-116 | 
+116 |
 117 |         // Parse the English date expression using chrono-node
 118 |         const parsedDate = chrono.parseDate(englishDateExpression);
-119 | 
+119 |
 120 |         // If we successfully parsed the date, convert it to ISO format
 121 |         if (parsedDate) {
 122 |           extractedResult.date = parsedDate.toISOString();
@@ -4304,9 +4342,9 @@ src/actions/ai/extract-transaction-fields.ts
 142 |       console.log('No date provided, defaulting to today');
 143 |       extractedResult.date = new Date().toISOString();
 144 |     }
-145 | 
+145 |
 146 |     console.log('Extraction result:', extractedResult);
-147 | 
+147 |
 148 |     return extractedResult;
 149 |   } catch (error) {
 150 |     console.error('Transaction extraction error:', error);
@@ -4316,16 +4354,17 @@ src/actions/ai/extract-transaction-fields.ts
 ```
 
 src/actions/ai/identify-columns.ts
+
 ```
 1 | 'use server';
-2 | 
+2 |
 3 | import { openai } from '@ai-sdk/openai';
 4 | import { generateObject } from 'ai';
 5 | import { z } from 'zod';
-6 | 
+6 |
 7 | import { userConfig } from '@/config/user';
 8 | import { defaultModel } from '@/lib/ai';
-9 | 
+9 |
 10 | // Schema for column mapping
 11 | const columnMappingSchema = z.object({
 12 |   date: z.string().optional().describe('Column containing transaction dates'),
@@ -4361,9 +4400,9 @@ src/actions/ai/identify-columns.ts
 42 |     .max(1)
 43 |     .describe('Confidence level in the column mapping from 0.0 to 1.0'),
 44 | });
-45 | 
+45 |
 46 | export type ColumnMapping = z.infer<typeof columnMappingSchema>;
-47 | 
+47 |
 48 | /**
 49 |  * Identify the purpose of columns in a bank statement using AI
 50 |  * @param headers Array of column headers from the file
@@ -4385,15 +4424,15 @@ src/actions/ai/identify-columns.ts
 66 |           .join(', ');
 67 |       })
 68 |       .join('\n');
-69 | 
+69 |
 70 |     // Define system instructions for the AI model
 71 |     const systemPrompt = `
 72 | // ROLE
 73 | You are a financial data processing expert specializing in bank statement analysis.
-74 | 
+74 |
 75 | // TASK
 76 | Identify the purpose of each column in a bank statement by analyzing column headers and sample data.
-77 | 
+77 |
 78 | // STANDARD FINANCIAL FIELDS
 79 | - date: Transaction date column
 80 | - amount: Transaction amount column (positive for income, negative for expenses)
@@ -4407,7 +4446,7 @@ src/actions/ai/identify-columns.ts
 88 | - fee: Transaction fee column
 89 | - notes: Additional information column
 90 | - cardHolder: Card holder name column (expected to contain "${userConfig.cardHolder.name}")
-91 | 
+91 |
 92 | // CONSIDERATIONS
 93 | - Column headers vary across banks and languages
 94 | - Date formats vary (DD/MM/YYYY, MM/DD/YYYY, etc.)
@@ -4415,19 +4454,19 @@ src/actions/ai/identify-columns.ts
 96 | - In Brazilian statements, "Data" means "Date" and "Valor" means "Amount"/"Value"
 97 | - Some statements use negative numbers for expenses, others use separate columns
 98 | `.trim();
-99 | 
+99 |
 100 |     // Define the specific statement data for analysis
 101 |     const userPrompt = `
 102 | Identify the purpose of each column in this bank statement:
-103 | 
+103 |
 104 | Headers: ${headerStr}
-105 | 
+105 |
 106 | Sample Data:
 107 | ${sampleDataStr}
-108 | 
+108 |
 109 | Map each column to the appropriate standard field.
 110 | `.trim();
-111 | 
+111 |
 112 |     // Use Vercel AI SDK to generate the column mapping
 113 |     const result = await generateObject({
 114 |       model: openai(defaultModel),
@@ -4436,12 +4475,12 @@ src/actions/ai/identify-columns.ts
 117 |       prompt: userPrompt,
 118 |       temperature: 0.2, // Low temperature for consistent results
 119 |     });
-120 | 
+120 |
 121 |     // Log warnings if any
 122 |     if (result.warnings && result.warnings.length > 0) {
 123 |       console.warn('Column mapping warnings:', result.warnings);
 124 |     }
-125 | 
+125 |
 126 |     console.log('Column mapping result:', result.object);
 127 |     return result.object;
 128 |   } catch (error) {
@@ -4455,24 +4494,25 @@ src/actions/ai/identify-columns.ts
 ```
 
 src/app/(app)/page.tsx
+
 ```
 1 | 'use client';
-2 | 
+2 |
 3 | import { useState } from 'react';
-4 | 
+4 |
 5 | import { FileUploader } from '@/components/file-upload/file-uploader';
 6 | import { ManualTransactionForm } from '@/components/manual-transaction-form';
 7 | import { Button } from '@/components/ui/button';
 8 | import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 9 | import { TransactionCategory } from '@/lib/ai/types';
-10 | 
+10 |
 11 | import type { Transaction } from '@/interfaces/transaction';
-12 | 
+12 |
 13 | export default function OverviewPage() {
 14 |   const [transactions, setTransactions] = useState<Transaction[]>([]);
 15 |   const [errors, setErrors] = useState<string[]>([]);
 16 |   const [warnings, setWarnings] = useState<string[]>([]);
-17 | 
+17 |
 18 |   // Handler for processed transactions
 19 |   const handleTransactionsProcessed = (
 20 |     newTransactions: Transaction[],
@@ -4487,17 +4527,17 @@ src/app/(app)/page.tsx
 29 |       // Sort transactions by date (newest first)
 30 |       return combined.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 31 |     });
-32 | 
+32 |
 33 |     // Update errors and warnings
 34 |     if (newErrors && newErrors.length > 0) {
 35 |       setErrors(prev => [...newErrors, ...prev]);
 36 |     }
-37 | 
+37 |
 38 |     if (newWarnings && newWarnings.length > 0) {
 39 |       setWarnings(prev => [...newWarnings, ...prev]);
 40 |     }
 41 |   };
-42 | 
+42 |
 43 |   // Format currency for display
 44 |   const formatCurrency = (amount: number, currency: string = 'BRL') => {
 45 |     return new Intl.NumberFormat('pt-BR', {
@@ -4505,18 +4545,18 @@ src/app/(app)/page.tsx
 47 |       currency,
 48 |     }).format(amount);
 49 |   };
-50 | 
+50 |
 51 |   // Format date for display
 52 |   const formatDate = (date: string) => {
 53 |     return new Intl.DateTimeFormat('pt-BR').format(new Date(date));
 54 |   };
-55 | 
+55 |
 56 |   return (
 57 |     <div className="container mx-auto px-8 py-16">
 58 |       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
 59 |         {/* Upload Bank Statements */}
 60 |         <FileUploader onTransactionsProcessed={handleTransactionsProcessed} />
-61 | 
+61 |
 62 |         {/* Add Manual Transaction */}
 63 |         <Card className="border h-full flex flex-col">
 64 |           <CardHeader>
@@ -4530,7 +4570,7 @@ src/app/(app)/page.tsx
 72 |           </CardContent>
 73 |         </Card>
 74 |       </div>
-75 | 
+75 |
 76 |       {/* Errors and Warnings */}
 77 |       {(errors.length > 0 || warnings.length > 0) && (
 78 |         <Card className="border mb-8">
@@ -4551,7 +4591,7 @@ src/app/(app)/page.tsx
 93 |                 </ul>
 94 |               </div>
 95 |             )}
-96 | 
+96 |
 97 |             {warnings.length > 0 && (
 98 |               <div>
 99 |                 <h3 className="text-sm font-medium text-amber-600 mb-2">Warnings:</h3>
@@ -4565,7 +4605,7 @@ src/app/(app)/page.tsx
 107 |           </CardContent>
 108 |         </Card>
 109 |       )}
-110 | 
+110 |
 111 |       {/* Transactions Table */}
 112 |       <Card className="border mb-8">
 113 |         <CardHeader>
@@ -4768,13 +4808,14 @@ src/app/(app)/page.tsx
 ```
 
 src/components/ai-playground/transaction-categorizer.tsx
+
 ```
 1 | 'use client';
-2 | 
+2 |
 3 | import { zodResolver } from '@hookform/resolvers/zod';
 4 | import { useState } from 'react';
 5 | import { useForm } from 'react-hook-form';
-6 | 
+6 |
 7 | import { categorizeTransaction } from '@/actions/ai/categorize-transaction';
 8 | import { Button } from '@/components/ui/button';
 9 | import {
@@ -4795,16 +4836,16 @@ src/components/ai-playground/transaction-categorizer.tsx
 24 | } from '@/components/ui/form';
 25 | import { Input } from '@/components/ui/input';
 26 | import { transactionCategorizerFormSchema } from '@/schemas/form-schemas';
-27 | 
+27 |
 28 | import type { TransactionCategory, TransactionType } from '@/lib/ai/types';
 29 | import type { TransactionCategorizerFormValues } from '@/schemas/form-schemas';
 30 | import type { TransactionCategorizeResponse } from '@/schemas/transaction-schemas';
-31 | 
+31 |
 32 | export const TransactionCategorizer = () => {
 33 |   const [result, setResult] = useState<TransactionCategorizeResponse | null>(null);
 34 |   const [isLoading, setIsLoading] = useState(false);
 35 |   const [error, setError] = useState<string | null>(null);
-36 | 
+36 |
 37 |   // Initialize the form with react-hook-form
 38 |   const form = useForm<TransactionCategorizerFormValues>({
 39 |     resolver: zodResolver(transactionCategorizerFormSchema),
@@ -4815,11 +4856,11 @@ src/components/ai-playground/transaction-categorizer.tsx
 44 |       merchant: '',
 45 |     },
 46 |   });
-47 | 
+47 |
 48 |   const onSubmit = async (values: TransactionCategorizerFormValues) => {
 49 |     setIsLoading(true);
 50 |     setError(null);
-51 | 
+51 |
 52 |     try {
 53 |       // Use the server action instead of fetch API
 54 |       const result = await categorizeTransaction({
@@ -4828,7 +4869,7 @@ src/components/ai-playground/transaction-categorizer.tsx
 57 |         date: values.date ? values.date : new Date().toISOString(),
 58 |         merchant: values.merchant || undefined,
 59 |       });
-60 | 
+60 |
 61 |       setResult(result);
 62 |     } catch (err) {
 63 |       setError(err instanceof Error ? err.message : 'An unknown error occurred');
@@ -4836,7 +4877,7 @@ src/components/ai-playground/transaction-categorizer.tsx
 65 |       setIsLoading(false);
 66 |     }
 67 |   };
-68 | 
+68 |
 69 |   // Helper function to get the category label
 70 |   const getCategoryLabel = (category: TransactionCategory) => {
 71 |     return category
@@ -4844,26 +4885,26 @@ src/components/ai-playground/transaction-categorizer.tsx
 73 |       .toLowerCase()
 74 |       .replace(/\b\w/g, l => l.toUpperCase());
 75 |   };
-76 | 
+76 |
 77 |   // Helper function to get the type label
 78 |   const getTypeLabel = (type: TransactionType) => {
 79 |     return type.toLowerCase().charAt(0).toUpperCase() + type.toLowerCase().slice(1);
 80 |   };
-81 | 
+81 |
 82 |   // Reset form and results
 83 |   const handleReset = () => {
 84 |     form.reset();
 85 |     setResult(null);
 86 |     setError(null);
 87 |   };
-88 | 
+88 |
 89 |   return (
 90 |     <Card className="w-full max-w-md">
 91 |       <CardHeader>
 92 |         <CardTitle>Transaction Categorizer</CardTitle>
 93 |         <CardDescription>Enter transaction details to categorize it using AI.</CardDescription>
 94 |       </CardHeader>
-95 | 
+95 |
 96 |       <CardContent>
 97 |         <Form {...form}>
 98 |           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -4884,7 +4925,7 @@ src/components/ai-playground/transaction-categorizer.tsx
 113 |                   </FormItem>
 114 |                 )}
 115 |               />
-116 | 
+116 |
 117 |               <FormField
 118 |                 control={form.control}
 119 |                 name="amount"
@@ -4903,7 +4944,7 @@ src/components/ai-playground/transaction-categorizer.tsx
 132 |                   </FormItem>
 133 |                 )}
 134 |               />
-135 | 
+135 |
 136 |               <FormField
 137 |                 control={form.control}
 138 |                 name="date"
@@ -4917,7 +4958,7 @@ src/components/ai-playground/transaction-categorizer.tsx
 146 |                   </FormItem>
 147 |                 )}
 148 |               />
-149 | 
+149 |
 150 |               <FormField
 151 |                 control={form.control}
 152 |                 name="merchant"
@@ -4932,39 +4973,39 @@ src/components/ai-playground/transaction-categorizer.tsx
 161 |                 )}
 162 |               />
 163 |             </div>
-164 | 
+164 |
 165 |             <Button type="submit" className="w-full" disabled={isLoading}>
 166 |               {isLoading ? 'Categorizing...' : 'Categorize Transaction'}
 167 |             </Button>
 168 |           </form>
 169 |         </Form>
-170 | 
+170 |
 171 |         {error && (
 172 |           <div className="mt-4 p-3 bg-destructive/20 text-destructive rounded-md">
 173 |             <p>{error}</p>
 174 |           </div>
 175 |         )}
-176 | 
+176 |
 177 |         {result && (
 178 |           <div className="mt-8 space-y-6">
 179 |             <pre className="text-xs">{JSON.stringify(result, null, 2)}</pre>
-180 | 
+180 |
 181 |             <div className="space-y-2">
 182 |               <h3 className="font-medium">Result:</h3>
 183 |               <div className="grid grid-cols-2 gap-2">
 184 |                 <div className="text-sm font-medium">Category:</div>
 185 |                 <div className="text-sm">{getCategoryLabel(result.category)}</div>
-186 | 
+186 |
 187 |                 <div className="text-sm font-medium">Type:</div>
 188 |                 <div className="text-sm">{getTypeLabel(result.type)}</div>
-189 | 
+189 |
 190 |                 {result.merchant && (
 191 |                   <>
 192 |                     <div className="text-sm font-medium">Merchant:</div>
 193 |                     <div className="text-sm">{result.merchant}</div>
 194 |                   </>
 195 |                 )}
-196 | 
+196 |
 197 |                 {result.isInstallment && result.installmentInfo && (
 198 |                   <>
 199 |                     <div className="text-sm font-medium">Installment:</div>
@@ -4973,7 +5014,7 @@ src/components/ai-playground/transaction-categorizer.tsx
 202 |                     </div>
 203 |                   </>
 204 |                 )}
-205 | 
+205 |
 206 |                 {result.confidence !== undefined && (
 207 |                   <>
 208 |                     <div className="text-sm font-medium">Confidence:</div>
@@ -4985,7 +5026,7 @@ src/components/ai-playground/transaction-categorizer.tsx
 214 |           </div>
 215 |         )}
 216 |       </CardContent>
-217 | 
+217 |
 218 |       <CardFooter className="flex flex-col space-y-4 mt-auto pt-8">
 219 |         <div>
 220 |           <h3 className="text-sm font-medium mb-2">How It Works</h3>
@@ -5020,13 +5061,14 @@ src/components/ai-playground/transaction-categorizer.tsx
 ```
 
 src/components/ai-playground/transaction-extractor.tsx
+
 ```
 1 | 'use client';
-2 | 
+2 |
 3 | import { zodResolver } from '@hookform/resolvers/zod';
 4 | import { useState } from 'react';
 5 | import { useForm } from 'react-hook-form';
-6 | 
+6 |
 7 | import { extractTransactionFields } from '@/actions/ai/extract-transaction-fields';
 8 | import { Button } from '@/components/ui/button';
 9 | import {
@@ -5047,16 +5089,16 @@ src/components/ai-playground/transaction-extractor.tsx
 24 | } from '@/components/ui/form';
 25 | import { Textarea } from '@/components/ui/textarea';
 26 | import { transactionExtractorFormSchema } from '@/schemas/form-schemas';
-27 | 
+27 |
 28 | import type { TransactionCategory, TransactionType } from '@/lib/ai/types';
 29 | import type { TransactionExtractorFormValues } from '@/schemas/form-schemas';
 30 | import type { TransactionExtraction } from '@/schemas/transaction-schemas';
-31 | 
+31 |
 32 | export const TransactionExtractor = () => {
 33 |   const [result, setResult] = useState<TransactionExtraction | null>(null);
 34 |   const [isLoading, setIsLoading] = useState(false);
 35 |   const [error, setError] = useState<string | null>(null);
-36 | 
+36 |
 37 |   // Initialize the form with react-hook-form
 38 |   const form = useForm<TransactionExtractorFormValues>({
 39 |     resolver: zodResolver(transactionExtractorFormSchema),
@@ -5064,11 +5106,11 @@ src/components/ai-playground/transaction-extractor.tsx
 41 |       prompt: '',
 42 |     },
 43 |   });
-44 | 
+44 |
 45 |   const onSubmit = async (values: TransactionExtractorFormValues) => {
 46 |     setIsLoading(true);
 47 |     setError(null);
-48 | 
+48 |
 49 |     try {
 50 |       // Use the server action instead of the API call
 51 |       const result = await extractTransactionFields(values.prompt);
@@ -5079,7 +5121,7 @@ src/components/ai-playground/transaction-extractor.tsx
 56 |       setIsLoading(false);
 57 |     }
 58 |   };
-59 | 
+59 |
 60 |   // Helper function to get the category label
 61 |   const getCategoryLabel = (category: TransactionCategory) => {
 62 |     return category
@@ -5087,31 +5129,31 @@ src/components/ai-playground/transaction-extractor.tsx
 64 |       .toLowerCase()
 65 |       .replace(/\b\w/g, l => l.toUpperCase());
 66 |   };
-67 | 
+67 |
 68 |   // Helper function to get the type label
 69 |   const getTypeLabel = (type: TransactionType) => {
 70 |     return type.toLowerCase().charAt(0).toUpperCase() + type.toLowerCase().slice(1);
 71 |   };
-72 | 
+72 |
 73 |   // Format date for display
 74 |   const formatDate = (date: string) => {
 75 |     try {
 76 |       const parsed = new Date(date);
-77 | 
+77 |
 78 |       return parsed.toLocaleDateString();
 79 |     } catch {
 80 |       // Return the original string if it can't be parsed as date
 81 |       return date;
 82 |     }
 83 |   };
-84 | 
+84 |
 85 |   // Reset form and results
 86 |   const handleReset = () => {
 87 |     form.reset();
 88 |     setResult(null);
 89 |     setError(null);
 90 |   };
-91 | 
+91 |
 92 |   return (
 93 |     <Card className="w-full max-w-md">
 94 |       <CardHeader>
@@ -5120,7 +5162,7 @@ src/components/ai-playground/transaction-extractor.tsx
 97 |           Describe a transaction in natural language, and our AI will extract the details.
 98 |         </CardDescription>
 99 |       </CardHeader>
-100 | 
+100 |
 101 |       <CardContent>
 102 |         <Form {...form}>
 103 |           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -5130,7 +5172,7 @@ src/components/ai-playground/transaction-extractor.tsx
 107 |               render={({ field }) => (
 108 |                 <FormItem>
 109 |                   <FormLabel>Describe Your Transaction</FormLabel>
-110 | 
+110 |
 111 |                   <FormControl>
 112 |                     <Textarea
 113 |                       placeholder="Examples: 'I spent R$150 at Restaurant Central on groceries yesterday' or 'caio 150' (transfer to Caio)"
@@ -5143,50 +5185,50 @@ src/components/ai-playground/transaction-extractor.tsx
 120 |                 </FormItem>
 121 |               )}
 122 |             />
-123 | 
+123 |
 124 |             <Button type="submit" className="w-full" disabled={isLoading}>
 125 |               {isLoading ? 'Extracting...' : 'Extract Transaction Details'}
 126 |             </Button>
 127 |           </form>
 128 |         </Form>
-129 | 
+129 |
 130 |         {error && (
 131 |           <div className="mt-4 p-3 bg-destructive/20 text-destructive rounded-md">
 132 |             <p>{error}</p>
 133 |           </div>
 134 |         )}
-135 | 
+135 |
 136 |         {result && (
 137 |           <div className="mt-8 space-y-6">
 138 |             <pre className="text-xs">{JSON.stringify(result, null, 2)}</pre>
-139 | 
+139 |
 140 |             <div className="space-y-2">
 141 |               <h3 className="font-medium">Extracted Details:</h3>
 142 |               <div className="grid grid-cols-2 gap-2">
 143 |                 <div className="text-sm font-medium">Description:</div>
 144 |                 <div className="text-sm">{result.description}</div>
-145 | 
+145 |
 146 |                 <div className="text-sm font-medium">Amount:</div>
 147 |                 <div className="text-sm">
 148 |                   {result.amount} {result.currency || 'BRL'}
 149 |                 </div>
-150 | 
+150 |
 151 |                 <div className="text-sm font-medium">Date:</div>
 152 |                 <div className="text-sm">{formatDate(result.date)}</div>
-153 | 
+153 |
 154 |                 <div className="text-sm font-medium">Category:</div>
 155 |                 <div className="text-sm">{getCategoryLabel(result.category)}</div>
-156 | 
+156 |
 157 |                 <div className="text-sm font-medium">Type:</div>
 158 |                 <div className="text-sm">{getTypeLabel(result.type)}</div>
-159 | 
+159 |
 160 |                 {result.merchant && (
 161 |                   <>
 162 |                     <div className="text-sm font-medium">Merchant:</div>
 163 |                     <div className="text-sm">{result.merchant}</div>
 164 |                   </>
 165 |                 )}
-166 | 
+166 |
 167 |                 {result.isInstallment && result.installmentInfo && (
 168 |                   <>
 169 |                     <div className="text-sm font-medium">Installment:</div>
@@ -5200,7 +5242,7 @@ src/components/ai-playground/transaction-extractor.tsx
 177 |           </div>
 178 |         )}
 179 |       </CardContent>
-180 | 
+180 |
 181 |       <CardFooter className="flex flex-col space-y-4 mt-auto pt-8">
 182 |         <div>
 183 |           <h3 className="text-sm font-medium mb-2">How It Works</h3>
@@ -5223,7 +5265,7 @@ src/components/ai-playground/transaction-extractor.tsx
 200 |             </ul>
 201 |           </div>
 202 |         </div>
-203 | 
+203 |
 204 |         <Button variant="outline" className="w-full mt-4" onClick={handleReset}>
 205 |           Clear
 206 |         </Button>
@@ -5234,13 +5276,14 @@ src/components/ai-playground/transaction-extractor.tsx
 ```
 
 src/components/file-upload/file-uploader.tsx
+
 ```
 1 | 'use client';
-2 | 
+2 |
 3 | import { FileIcon, XIcon, UploadIcon, Loader2 } from 'lucide-react';
 4 | import { useState, useCallback } from 'react';
 5 | import { useDropzone } from 'react-dropzone';
-6 | 
+6 |
 7 | import { processBankStatement } from '@/actions/process-bank-statement';
 8 | import { Button } from '@/components/ui/button';
 9 | import {
@@ -5252,9 +5295,9 @@ src/components/file-upload/file-uploader.tsx
 15 |   CardTitle,
 16 | } from '@/components/ui/card';
 17 | import { cn } from '@/lib/utils';
-18 | 
+18 |
 19 | import type { Transaction } from '@/interfaces/transaction';
-20 | 
+20 |
 21 | interface FileUploaderProps {
 22 |   onTransactionsProcessed: (
 23 |     transactions: Transaction[],
@@ -5262,7 +5305,7 @@ src/components/file-upload/file-uploader.tsx
 25 |     warnings?: string[]
 26 |   ) => void;
 27 | }
-28 | 
+28 |
 29 | export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
 30 |   const [files, setFiles] = useState<File[]>([]);
 31 |   const [isProcessing, setIsProcessing] = useState(false);
@@ -5271,12 +5314,12 @@ src/components/file-upload/file-uploader.tsx
 34 |   const [processedTransactions, setProcessedTransactions] = useState<Transaction[]>([]);
 35 |   // Add state to track duplicates that were skipped
 36 |   const [skippedDuplicates, setSkippedDuplicates] = useState<number>(0);
-37 | 
+37 |
 38 |   const onDrop = useCallback((acceptedFiles: File[]) => {
 39 |     setFiles(prev => [...prev, ...acceptedFiles]);
 40 |     setError(null);
 41 |   }, []);
-42 | 
+42 |
 43 |   const { getRootProps, getInputProps, isDragActive } = useDropzone({
 44 |     onDrop,
 45 |     accept: {
@@ -5285,13 +5328,13 @@ src/components/file-upload/file-uploader.tsx
 48 |     },
 49 |     disabled: isProcessing,
 50 |   });
-51 | 
+51 |
 52 |   const handleProcessFiles = async () => {
 53 |     if (files.length === 0) return;
-54 | 
+54 |
 55 |     setIsProcessing(true);
 56 |     setError(null);
-57 | 
+57 |
 58 |     try {
 59 |       // Read file contents
 60 |       const fileContents = await Promise.all(
@@ -5301,7 +5344,7 @@ src/components/file-upload/file-uploader.tsx
 64 |               file.type === 'text/csv'
 65 |                 ? await readFileAsText(file)
 66 |                 : await readFileAsArrayBuffer(file);
-67 | 
+67 |
 68 |             return {
 69 |               name: file.name,
 70 |               content,
@@ -5313,21 +5356,21 @@ src/components/file-upload/file-uploader.tsx
 76 |           }
 77 |         })
 78 |       );
-79 | 
+79 |
 80 |       // Process the files - pass existing processed transactions to avoid duplicates
 81 |       const result = await processBankStatement(fileContents, processedTransactions);
-82 | 
+82 |
 83 |       // Store the new transactions to check for duplicates in future uploads
 84 |       setProcessedTransactions(prevTransactions => [...prevTransactions, ...result.transactions]);
-85 | 
+85 |
 86 |       // Update skipped duplicates counter
 87 |       if (result.duplicatesSkipped !== undefined) {
 88 |         setSkippedDuplicates(prev => prev + result.duplicatesSkipped!);
 89 |       }
-90 | 
+90 |
 91 |       // Pass the results to the parent component
 92 |       onTransactionsProcessed(result.transactions, result.errors, result.warnings);
-93 | 
+93 |
 94 |       // Clear the files after successful processing
 95 |       setFiles([]);
 96 |     } catch (error) {
@@ -5337,7 +5380,7 @@ src/components/file-upload/file-uploader.tsx
 100 |       setIsProcessing(false);
 101 |     }
 102 |   };
-103 | 
+103 |
 104 |   const readFileAsText = (file: File): Promise<string> => {
 105 |     return new Promise((resolve, reject) => {
 106 |       const reader = new FileReader();
@@ -5346,7 +5389,7 @@ src/components/file-upload/file-uploader.tsx
 109 |       reader.readAsText(file);
 110 |     });
 111 |   };
-112 | 
+112 |
 113 |   const readFileAsArrayBuffer = (file: File): Promise<ArrayBuffer> => {
 114 |     return new Promise((resolve, reject) => {
 115 |       const reader = new FileReader();
@@ -5355,7 +5398,7 @@ src/components/file-upload/file-uploader.tsx
 118 |       reader.readAsArrayBuffer(file);
 119 |     });
 120 |   };
-121 | 
+121 |
 122 |   return (
 123 |     <div
 124 |       {...getRootProps()}
@@ -5366,7 +5409,7 @@ src/components/file-upload/file-uploader.tsx
 129 |       )}
 130 |     >
 131 |       <input {...getInputProps()} />
-132 | 
+132 |
 133 |       <Card className="border-0 bg-transparent h-full flex flex-col">
 134 |         <CardHeader>
 135 |           <CardTitle>Upload Bank Statements</CardTitle>
@@ -5418,13 +5461,13 @@ src/components/file-upload/file-uploader.tsx
 181 |               </p>
 182 |             </div>
 183 |           )}
-184 | 
+184 |
 185 |           {error && (
 186 |             <div className="mt-4 p-3 bg-destructive/10 text-destructive text-sm rounded-md">
 187 |               {error}
 188 |             </div>
 189 |           )}
-190 | 
+190 |
 191 |           {skippedDuplicates > 0 && (
 192 |             <div className="mt-4 p-3 bg-muted text-muted-foreground text-sm rounded-md">
 193 |               {skippedDuplicates} duplicate transaction{skippedDuplicates !== 1 ? 's' : ''} skipped
@@ -5460,13 +5503,14 @@ src/components/file-upload/file-uploader.tsx
 ```
 
 src/components/ui/button.tsx
+
 ```
 1 | import { Slot } from '@radix-ui/react-slot';
 2 | import { cva, type VariantProps } from 'class-variance-authority';
 3 | import * as React from 'react';
-4 | 
+4 |
 5 | import { cn } from '@/lib/utils';
-6 | 
+6 |
 7 | const buttonVariants = cva(
 8 |   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,box-shadow] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
 9 |   {
@@ -5493,7 +5537,7 @@ src/components/ui/button.tsx
 30 |     },
 31 |   }
 32 | );
-33 | 
+33 |
 34 | function Button({
 35 |   className,
 36 |   variant,
@@ -5505,7 +5549,7 @@ src/components/ui/button.tsx
 42 |     asChild?: boolean;
 43 |   }) {
 44 |   const Comp = asChild ? Slot : 'button';
-45 | 
+45 |
 46 |   return (
 47 |     <Comp
 48 |       data-slot="button"
@@ -5514,23 +5558,24 @@ src/components/ui/button.tsx
 51 |     />
 52 |   );
 53 | }
-54 | 
+54 |
 55 | export { Button, buttonVariants };
 ```
 
 src/components/ui/calendar.tsx
+
 ```
 1 | 'use client';
-2 | 
+2 |
 3 | import { ChevronLeft, ChevronRight } from 'lucide-react';
 4 | import * as React from 'react';
 5 | import { DayPicker } from 'react-day-picker';
-6 | 
+6 |
 7 | import { buttonVariants } from '@/components/ui/button';
 8 | import { cn } from '@/lib/utils';
-9 | 
+9 |
 10 | export type CalendarProps = React.ComponentProps<typeof DayPicker>;
-11 | 
+11 |
 12 | function Calendar({ className, classNames, showOutsideDays = true, ...props }: CalendarProps) {
 13 |   return (
 14 |     <DayPicker
@@ -5576,18 +5621,19 @@ src/components/ui/calendar.tsx
 54 |     />
 55 |   );
 56 | }
-57 | 
+57 |
 58 | Calendar.displayName = 'Calendar';
-59 | 
+59 |
 60 | export { Calendar };
 ```
 
 src/components/ui/card.tsx
+
 ```
 1 | import * as React from 'react';
-2 | 
+2 |
 3 | import { cn } from '@/lib/utils';
-4 | 
+4 |
 5 | function Card({ className, ...props }: React.ComponentProps<'div'>) {
 6 |   return (
 7 |     <div
@@ -5600,7 +5646,7 @@ src/components/ui/card.tsx
 14 |     />
 15 |   );
 16 | }
-17 | 
+17 |
 18 | function CardHeader({ className, ...props }: React.ComponentProps<'div'>) {
 19 |   return (
 20 |     <div
@@ -5610,7 +5656,7 @@ src/components/ui/card.tsx
 24 |     />
 25 |   );
 26 | }
-27 | 
+27 |
 28 | function CardTitle({ className, ...props }: React.ComponentProps<'div'>) {
 29 |   return (
 30 |     <div
@@ -5620,7 +5666,7 @@ src/components/ui/card.tsx
 34 |     />
 35 |   );
 36 | }
-37 | 
+37 |
 38 | function CardDescription({ className, ...props }: React.ComponentProps<'div'>) {
 39 |   return (
 40 |     <div
@@ -5630,11 +5676,11 @@ src/components/ui/card.tsx
 44 |     />
 45 |   );
 46 | }
-47 | 
+47 |
 48 | function CardContent({ className, ...props }: React.ComponentProps<'div'>) {
 49 |   return <div data-slot="card-content" className={cn('px-8', className)} {...props} />;
 50 | }
-51 | 
+51 |
 52 | function CardFooter({ className, ...props }: React.ComponentProps<'div'>) {
 53 |   return (
 54 |     <div
@@ -5644,28 +5690,29 @@ src/components/ui/card.tsx
 58 |     />
 59 |   );
 60 | }
-61 | 
+61 |
 62 | export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent };
 ```
 
 src/components/ui/date-picker.tsx
+
 ```
 1 | 'use client';
-2 | 
+2 |
 3 | import { format } from 'date-fns';
 4 | import { ptBR } from 'date-fns/locale';
 5 | import { Calendar as CalendarIcon } from 'lucide-react';
-6 | 
+6 |
 7 | import { Button } from '@/components/ui/button';
 8 | import { Calendar } from '@/components/ui/calendar';
 9 | import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 10 | import { cn } from '@/lib/utils';
-11 | 
+11 |
 12 | interface DatePickerProps {
 13 |   date?: Date;
 14 |   onSelect: (date: Date | undefined) => void;
 15 | }
-16 | 
+16 |
 17 | export function DatePicker({ date, onSelect }: DatePickerProps) {
 18 |   return (
 19 |     <Popover>
@@ -5690,9 +5737,10 @@ src/components/ui/date-picker.tsx
 ```
 
 src/components/ui/form.tsx
+
 ```
 1 | 'use client';
-2 | 
+2 |
 3 | import { Slot } from '@radix-ui/react-slot';
 4 | import * as React from 'react';
 5 | import {
@@ -5704,23 +5752,23 @@ src/components/ui/form.tsx
 11 |   type FieldPath,
 12 |   type FieldValues,
 13 | } from 'react-hook-form';
-14 | 
+14 |
 15 | import { Label } from '@/components/ui/label';
 16 | import { cn } from '@/lib/utils';
-17 | 
+17 |
 18 | import type * as LabelPrimitive from '@radix-ui/react-label';
-19 | 
+19 |
 20 | const Form = FormProvider;
-21 | 
+21 |
 22 | interface FormFieldContextValue<
 23 |   TFieldValues extends FieldValues = FieldValues,
 24 |   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 25 | > {
 26 |   name: TName;
 27 | }
-28 | 
+28 |
 29 | const FormFieldContext = React.createContext<FormFieldContextValue>({} as FormFieldContextValue);
-30 | 
+30 |
 31 | const FormField = <
 32 |   TFieldValues extends FieldValues = FieldValues,
 33 |   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
@@ -5733,20 +5781,20 @@ src/components/ui/form.tsx
 40 |     </FormFieldContext.Provider>
 41 |   );
 42 | };
-43 | 
+43 |
 44 | const useFormField = () => {
 45 |   const fieldContext = React.useContext(FormFieldContext);
 46 |   const itemContext = React.useContext(FormItemContext);
 47 |   const { getFieldState } = useFormContext();
 48 |   const formState = useFormState({ name: fieldContext.name });
 49 |   const fieldState = getFieldState(fieldContext.name, formState);
-50 | 
+50 |
 51 |   if (!fieldContext) {
 52 |     throw new Error('useFormField should be used within <FormField>');
 53 |   }
-54 | 
+54 |
 55 |   const { id } = itemContext;
-56 | 
+56 |
 57 |   return {
 58 |     id,
 59 |     name: fieldContext.name,
@@ -5756,26 +5804,26 @@ src/components/ui/form.tsx
 63 |     ...fieldState,
 64 |   };
 65 | };
-66 | 
+66 |
 67 | interface FormItemContextValue {
 68 |   id: string;
 69 | }
-70 | 
+70 |
 71 | const FormItemContext = React.createContext<FormItemContextValue>({} as FormItemContextValue);
-72 | 
+72 |
 73 | function FormItem({ className, ...props }: React.ComponentProps<'div'>) {
 74 |   const id = React.useId();
-75 | 
+75 |
 76 |   return (
 77 |     <FormItemContext.Provider value={{ id }}>
 78 |       <div data-slot="form-item" className={cn('grid gap-2', className)} {...props} />
 79 |     </FormItemContext.Provider>
 80 |   );
 81 | }
-82 | 
+82 |
 83 | function FormLabel({ className, ...props }: React.ComponentProps<typeof LabelPrimitive.Root>) {
 84 |   const { error, formItemId } = useFormField();
-85 | 
+85 |
 86 |   return (
 87 |     <Label
 88 |       data-slot="form-label"
@@ -5786,10 +5834,10 @@ src/components/ui/form.tsx
 93 |     />
 94 |   );
 95 | }
-96 | 
+96 |
 97 | function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
 98 |   const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
-99 | 
+99 |
 100 |   return (
 101 |     <Slot
 102 |       data-slot="form-control"
@@ -5800,10 +5848,10 @@ src/components/ui/form.tsx
 107 |     />
 108 |   );
 109 | }
-110 | 
+110 |
 111 | function FormDescription({ className, ...props }: React.ComponentProps<'p'>) {
 112 |   const { formDescriptionId } = useFormField();
-113 | 
+113 |
 114 |   return (
 115 |     <p
 116 |       data-slot="form-description"
@@ -5813,15 +5861,15 @@ src/components/ui/form.tsx
 120 |     />
 121 |   );
 122 | }
-123 | 
+123 |
 124 | function FormMessage({ className, ...props }: React.ComponentProps<'p'>) {
 125 |   const { error, formMessageId } = useFormField();
 126 |   const body = error ? String(error?.message ?? '') : props.children;
-127 | 
+127 |
 128 |   if (!body) {
 129 |     return null;
 130 |   }
-131 | 
+131 |
 132 |   return (
 133 |     <p
 134 |       data-slot="form-message"
@@ -5833,7 +5881,7 @@ src/components/ui/form.tsx
 140 |     </p>
 141 |   );
 142 | }
-143 | 
+143 |
 144 | export {
 145 |   useFormField,
 146 |   Form,
@@ -5847,11 +5895,12 @@ src/components/ui/form.tsx
 ```
 
 src/components/ui/input.tsx
+
 ```
 1 | import * as React from 'react';
-2 | 
+2 |
 3 | import { cn } from '@/lib/utils';
-4 | 
+4 |
 5 | function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
 6 |   return (
 7 |     <input
@@ -5867,19 +5916,20 @@ src/components/ui/input.tsx
 17 |     />
 18 |   );
 19 | }
-20 | 
+20 |
 21 | export { Input };
 ```
 
 src/components/ui/label.tsx
+
 ```
 1 | 'use client';
-2 | 
+2 |
 3 | import * as LabelPrimitive from '@radix-ui/react-label';
 4 | import * as React from 'react';
-5 | 
+5 |
 6 | import { cn } from '@/lib/utils';
-7 | 
+7 |
 8 | function Label({ className, ...props }: React.ComponentProps<typeof LabelPrimitive.Root>) {
 9 |   return (
 10 |     <LabelPrimitive.Root
@@ -5892,23 +5942,24 @@ src/components/ui/label.tsx
 17 |     />
 18 |   );
 19 | }
-20 | 
+20 |
 21 | export { Label };
 ```
 
 src/components/ui/popover.tsx
+
 ```
 1 | 'use client';
-2 | 
+2 |
 3 | import * as PopoverPrimitive from '@radix-ui/react-popover';
 4 | import * as React from 'react';
-5 | 
+5 |
 6 | import { cn } from '@/lib/utils';
-7 | 
+7 |
 8 | const Popover = PopoverPrimitive.Root;
-9 | 
+9 |
 10 | const PopoverTrigger = PopoverPrimitive.Trigger;
-11 | 
+11 |
 12 | const PopoverContent = React.forwardRef<
 13 |   React.ElementRef<typeof PopoverPrimitive.Content>,
 14 |   React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
@@ -5927,32 +5978,33 @@ src/components/ui/popover.tsx
 27 |   </PopoverPrimitive.Portal>
 28 | ));
 29 | PopoverContent.displayName = PopoverPrimitive.Content.displayName;
-30 | 
+30 |
 31 | export { Popover, PopoverTrigger, PopoverContent };
 ```
 
 src/components/ui/select.tsx
+
 ```
 1 | 'use client';
-2 | 
+2 |
 3 | import * as SelectPrimitive from '@radix-ui/react-select';
 4 | import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 5 | import * as React from 'react';
-6 | 
+6 |
 7 | import { cn } from '@/lib/utils';
-8 | 
+8 |
 9 | function Select({ ...props }: React.ComponentProps<typeof SelectPrimitive.Root>) {
 10 |   return <SelectPrimitive.Root data-slot="select" {...props} />;
 11 | }
-12 | 
+12 |
 13 | function SelectGroup({ ...props }: React.ComponentProps<typeof SelectPrimitive.Group>) {
 14 |   return <SelectPrimitive.Group data-slot="select-group" {...props} />;
 15 | }
-16 | 
+16 |
 17 | function SelectValue({ ...props }: React.ComponentProps<typeof SelectPrimitive.Value>) {
 18 |   return <SelectPrimitive.Value data-slot="select-value" {...props} />;
 19 | }
-20 | 
+20 |
 21 | function SelectTrigger({
 22 |   className,
 23 |   children,
@@ -5974,7 +6026,7 @@ src/components/ui/select.tsx
 39 |     </SelectPrimitive.Trigger>
 40 |   );
 41 | }
-42 | 
+42 |
 43 | function SelectContent({
 44 |   className,
 45 |   children,
@@ -6009,7 +6061,7 @@ src/components/ui/select.tsx
 74 |     </SelectPrimitive.Portal>
 75 |   );
 76 | }
-77 | 
+77 |
 78 | function SelectLabel({ className, ...props }: React.ComponentProps<typeof SelectPrimitive.Label>) {
 79 |   return (
 80 |     <SelectPrimitive.Label
@@ -6019,7 +6071,7 @@ src/components/ui/select.tsx
 84 |     />
 85 |   );
 86 | }
-87 | 
+87 |
 88 | function SelectItem({
 89 |   className,
 90 |   children,
@@ -6043,7 +6095,7 @@ src/components/ui/select.tsx
 108 |     </SelectPrimitive.Item>
 109 |   );
 110 | }
-111 | 
+111 |
 112 | function SelectSeparator({
 113 |   className,
 114 |   ...props
@@ -6056,7 +6108,7 @@ src/components/ui/select.tsx
 121 |     />
 122 |   );
 123 | }
-124 | 
+124 |
 125 | function SelectScrollUpButton({
 126 |   className,
 127 |   ...props
@@ -6071,7 +6123,7 @@ src/components/ui/select.tsx
 136 |     </SelectPrimitive.ScrollUpButton>
 137 |   );
 138 | }
-139 | 
+139 |
 140 | function SelectScrollDownButton({
 141 |   className,
 142 |   ...props
@@ -6086,7 +6138,7 @@ src/components/ui/select.tsx
 151 |     </SelectPrimitive.ScrollDownButton>
 152 |   );
 153 | }
-154 | 
+154 |
 155 | export {
 156 |   Select,
 157 |   SelectContent,
@@ -6102,17 +6154,18 @@ src/components/ui/select.tsx
 ```
 
 src/components/ui/sonner.tsx
+
 ```
 1 | 'use client';
-2 | 
+2 |
 3 | import { useTheme } from 'next-themes';
 4 | import { Toaster as Sonner } from 'sonner';
-5 | 
+5 |
 6 | import type { ToasterProps } from 'sonner';
-7 | 
+7 |
 8 | const Toaster = ({ ...props }: ToasterProps) => {
 9 |   const { theme = 'system' } = useTheme();
-10 | 
+10 |
 11 |   return (
 12 |     <Sonner
 13 |       theme={theme as ToasterProps['theme']}
@@ -6132,18 +6185,19 @@ src/components/ui/sonner.tsx
 27 |     />
 28 |   );
 29 | };
-30 | 
+30 |
 31 | export { Toaster };
 ```
 
 src/components/ui/textarea.tsx
+
 ```
 1 | import * as React from 'react';
-2 | 
+2 |
 3 | import { cn } from '@/lib/utils';
-4 | 
+4 |
 5 | export type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
-6 | 
+6 |
 7 | const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
 8 |   ({ className, ...props }, ref) => {
 9 |     return (
@@ -6159,11 +6213,12 @@ src/components/ui/textarea.tsx
 19 |   }
 20 | );
 21 | Textarea.displayName = 'Textarea';
-22 | 
+22 |
 23 | export { Textarea };
 ```
 
 src/lib/ai/types.ts
+
 ```
 1 | // Define transaction types
 2 | export enum TransactionType {
@@ -6171,7 +6226,7 @@ src/lib/ai/types.ts
 4 |   OUTCOME = 'OUTCOME',
 5 |   TRANSFER = 'TRANSFER',
 6 | }
-7 | 
+7 |
 8 | // Define transaction categories
 9 | export enum TransactionCategory {
 10 |   // Income categories
@@ -6179,7 +6234,7 @@ src/lib/ai/types.ts
 12 |   INVESTMENT_INCOME = 'INVESTMENT_INCOME', // Keep this as income from investments, not the investments themselves
 13 |   REIMBURSEMENT = 'REIMBURSEMENT',
 14 |   GIFT = 'GIFT',
-15 | 
+15 |
 16 |   // Expense categories
 17 |   GROCERIES = 'GROCERIES',
 18 |   DINING = 'DINING',
@@ -6193,11 +6248,11 @@ src/lib/ai/types.ts
 26 |   TRAVEL = 'TRAVEL',
 27 |   PERSONAL_CARE = 'PERSONAL_CARE',
 28 |   SUBSCRIPTIONS = 'SUBSCRIPTIONS',
-29 | 
+29 |
 30 |   // Unknown/uncategorized
 31 |   UNCATEGORIZED = 'UNCATEGORIZED',
 32 | }
-33 | 
+33 |
 34 | // Define investment categories - separate from transaction categories
 35 | export enum InvestmentCategory {
 36 |   // General investment types
@@ -6210,7 +6265,7 @@ src/lib/ai/types.ts
 43 |   RETIREMENT = 'RETIREMENT',
 44 |   SAVINGS = 'SAVINGS',
 45 |   FIXED_INCOME = 'FIXED_INCOME',
-46 | 
+46 |
 47 |   // Brazilian-specific investment types
 48 |   TESOURO_DIRETO = 'TESOURO_DIRETO',
 49 |   CDB = 'CDB',
@@ -6218,12 +6273,12 @@ src/lib/ai/types.ts
 51 |   LCA = 'LCA',
 52 |   DEBENTURES = 'DEBENTURES',
 53 |   FUNDOS_IMOBILIARIOS = 'FUNDOS_IMOBILIARIOS',
-54 | 
+54 |
 55 |   // Other
 56 |   OTHER = 'OTHER',
 57 |   UNCATEGORIZED = 'UNCATEGORIZED',
 58 | }
-59 | 
+59 |
 60 | // Define investment asset classes
 61 | export enum AssetClass {
 62 |   EQUITY = 'EQUITY', // Stocks, ETFs
@@ -6234,7 +6289,7 @@ src/lib/ai/types.ts
 67 |   REAL_ESTATE = 'REAL_ESTATE', // Property, REITs
 68 |   MIXED = 'MIXED', // Mutual Funds, Mixed Portfolios
 69 | }
-70 | 
+70 |
 71 | // Define investment transaction types
 72 | export enum InvestmentTransactionType {
 73 |   BUY = 'BUY', // Purchase of investment
@@ -6252,6 +6307,7 @@ src/lib/ai/types.ts
 ```
 
 src/lib/parsers/csv-parser.ts
+
 ```
 1 | /**
 2 |  * CSV Parser for bank statements
@@ -6259,7 +6315,7 @@ src/lib/parsers/csv-parser.ts
 4 |  * This module provides utilities to parse CSV files into structured data
 5 |  * for bank statement processing.
 6 |  */
-7 | 
+7 |
 8 | /**
 9 |  * Parse a CSV string into an array of objects
 10 |  * @param csvContent The CSV content as a string
@@ -6270,42 +6326,42 @@ src/lib/parsers/csv-parser.ts
 15 | ): Promise<Array<Record<string, string | number>>> {
 16 |   try {
 17 |     const rows = csvContent.split(/\r?\n/);
-18 | 
+18 |
 19 |     // Filter out empty rows
 20 |     const nonEmptyRows = rows.filter(row => row.trim().length > 0);
-21 | 
+21 |
 22 |     if (nonEmptyRows.length === 0) {
 23 |       throw new Error('CSV file is empty');
 24 |     }
-25 | 
+25 |
 26 |     // Different CSV files might use different delimiters
 27 |     // Let's detect the most likely delimiter
 28 |     const possibleDelimiters = [',', ';', '\t', '|'];
 29 |     const headerRow = nonEmptyRows[0];
 30 |     const delimiter = detectDelimiter(headerRow, possibleDelimiters);
-31 | 
+31 |
 32 |     // Parse headers (first row), and normalize to lowercase
 33 |     const headers = parseCSVRow(headerRow, delimiter).map(header => header.toLowerCase().trim());
-34 | 
+34 |
 35 |     // Parse data rows (all rows except the first)
 36 |     const results: Array<Record<string, string | number>> = [];
-37 | 
+37 |
 38 |     for (let i = 1; i < nonEmptyRows.length; i++) {
 39 |       const row = nonEmptyRows[i];
 40 |       const values = parseCSVRow(row, delimiter);
-41 | 
+41 |
 42 |       if (values.length !== headers.length) {
 43 |         console.warn(
 44 |           `Row ${i + 1} has ${values.length} fields, expected ${headers.length}. Skipping.`
 45 |         );
 46 |         continue;
 47 |       }
-48 | 
+48 |
 49 |       const rowObject: Record<string, string | number> = {};
-50 | 
+50 |
 51 |       for (let j = 0; j < headers.length; j++) {
 52 |         const value = values[j].trim();
-53 | 
+53 |
 54 |         // Try to convert to number if it looks like a number
 55 |         if (looksLikeNumber(value)) {
 56 |           rowObject[headers[j]] = parseFloat(value.replace(',', '.'));
@@ -6313,21 +6369,21 @@ src/lib/parsers/csv-parser.ts
 58 |           rowObject[headers[j]] = value;
 59 |         }
 60 |       }
-61 | 
+61 |
 62 |       results.push(rowObject);
 63 |     }
-64 | 
+64 |
 65 |     if (results.length === 0) {
 66 |       console.warn('No data rows found in CSV');
 67 |     }
-68 | 
+68 |
 69 |     return results;
 70 |   } catch (error) {
 71 |     console.error('Error parsing CSV:', error);
 72 |     throw new Error(`CSV parsing failed: ${(error as Error).message}`);
 73 |   }
 74 | }
-75 | 
+75 |
 76 | /**
 77 |  * Apply column mapping to parsed CSV data
 78 |  * @param rows The parsed CSV data
@@ -6343,12 +6399,12 @@ src/lib/parsers/csv-parser.ts
 88 |   if (!rows.length) {
 89 |     return [];
 90 |   }
-91 | 
+91 |
 92 |   return rows.map(row => {
 93 |     const mappedRow: {
 94 |       [key in keyof T]?: string | number;
 95 |     } = {};
-96 | 
+96 |
 97 |     // Apply each field mapping
 98 |     Object.entries(mapping).forEach(([field, columnName]) => {
 99 |       // If we have a mapping for this field and the column exists in the row
@@ -6356,7 +6412,7 @@ src/lib/parsers/csv-parser.ts
 101 |         mappedRow[field as keyof T] = row[columnName];
 102 |       }
 103 |     });
-104 | 
+104 |
 105 |     // Include all original fields too with their original names
 106 |     // This ensures we don't lose any data
 107 |     Object.entries(row).forEach(([key, value]) => {
@@ -6364,11 +6420,11 @@ src/lib/parsers/csv-parser.ts
 109 |         mappedRow[key as keyof T] = value;
 110 |       }
 111 |     });
-112 | 
+112 |
 113 |     return mappedRow;
 114 |   });
 115 | }
-116 | 
+116 |
 117 | /**
 118 |  * Parse a single CSV row, respecting quoted values that might contain delimiters
 119 |  * @param row The CSV row as a string
@@ -6379,11 +6435,11 @@ src/lib/parsers/csv-parser.ts
 124 |   const result: string[] = [];
 125 |   let currentValue = '';
 126 |   let inQuotes = false;
-127 | 
+127 |
 128 |   for (let i = 0; i < row.length; i++) {
 129 |     const char = row[i];
 130 |     const nextChar = i < row.length - 1 ? row[i + 1] : '';
-131 | 
+131 |
 132 |     if (char === '"') {
 133 |       if (inQuotes && nextChar === '"') {
 134 |         // Escaped quote inside a quoted value
@@ -6401,13 +6457,13 @@ src/lib/parsers/csv-parser.ts
 146 |       currentValue += char;
 147 |     }
 148 |   }
-149 | 
+149 |
 150 |   // Add the last field
 151 |   result.push(currentValue);
-152 | 
+152 |
 153 |   return result;
 154 | }
-155 | 
+155 |
 156 | /**
 157 |  * Detect the most likely delimiter in a CSV file
 158 |  * @param headerRow The first row of the CSV file
@@ -6419,31 +6475,31 @@ src/lib/parsers/csv-parser.ts
 164 |     // Count occurrences outside of quotes
 165 |     let count = 0;
 166 |     let inQuotes = false;
-167 | 
+167 |
 168 |     for (let i = 0; i < headerRow.length; i++) {
 169 |       const char = headerRow[i];
-170 | 
+170 |
 171 |       if (char === '"') {
 172 |         inQuotes = !inQuotes;
 173 |       } else if (char === delimiter && !inQuotes) {
 174 |         count++;
 175 |       }
 176 |     }
-177 | 
+177 |
 178 |     return { delimiter, count };
 179 |   });
-180 | 
+180 |
 181 |   // Return the delimiter with the highest count
 182 |   const mostLikely = counts.sort((a, b) => b.count - a.count)[0];
-183 | 
+183 |
 184 |   if (mostLikely.count === 0) {
 185 |     // If no delimiter is found, default to comma
 186 |     return ',';
 187 |   }
-188 | 
+188 |
 189 |   return mostLikely.delimiter;
 190 | }
-191 | 
+191 |
 192 | /**
 193 |  * Check if a string looks like a number
 194 |  * @param value The string to check
@@ -6456,6 +6512,7 @@ src/lib/parsers/csv-parser.ts
 ```
 
 src/lib/parsers/pdf-parser.ts
+
 ```
 1 | /**
 2 |  * PDF Parser for bank statements
@@ -6466,7 +6523,7 @@ src/lib/parsers/pdf-parser.ts
 7 |  * Note: PDF parsing requires client-side libraries which must be dynamically
 8 |  * imported to avoid server-side issues.
 9 |  */
-10 | 
+10 |
 11 | /**
 12 |  * Parse a PDF file into an array of objects
 13 |  * @param pdfContent The PDF content as an ArrayBuffer
@@ -6482,43 +6539,43 @@ src/lib/parsers/pdf-parser.ts
 23 |       console.warn('PDF parsing attempted in a server environment, returning empty result');
 24 |       return [];
 25 |     }
-26 | 
+26 |
 27 |     // Dynamically import PDF.js only on the client side
 28 |     // We use any typing here to avoid dependency on specific PDF.js types
 29 |     // which can cause issues with type checking in SSR
 30 |     const pdfjs = await import('pdfjs-dist');
-31 | 
+31 |
 32 |     // Set the worker source
 33 |     const pdfjsWorker = await import('pdfjs-dist/build/pdf.worker.mjs');
 34 |     pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
-35 | 
+35 |
 36 |     // Load the PDF document
 37 |     const loadingTask = pdfjs.getDocument({ data: pdfContent });
 38 |     const pdf = await loadingTask.promise;
-39 | 
+39 |
 40 |     // Extract text from all pages
 41 |     const extractedText: string[] = [];
-42 | 
+42 |
 43 |     for (let i = 1; i <= pdf.numPages; i++) {
 44 |       const page = await pdf.getPage(i);
 45 |       const textContent = await page.getTextContent();
 46 |       // Use a type assertion to handle unknown structure
-47 | 
+47 |
 48 |       const pageText = textContent.items.map(item => ('str' in item ? item.str : '')).join(' ');
-49 | 
+49 |
 50 |       extractedText.push(pageText);
 51 |     }
-52 | 
+52 |
 53 |     // Join all pages' text
 54 |     const fullText = extractedText.join('\n');
-55 | 
+55 |
 56 |     // Try to extract a table-like structure from the PDF
 57 |     const extractedData = extractStructuredData(fullText);
-58 | 
+58 |
 59 |     return extractedData;
 60 |   } catch (error) {
 61 |     console.error('Error parsing PDF:', error);
-62 | 
+62 |
 63 |     // PDF.js might not be available during server-side rendering
 64 |     // Return an empty array in this case to prevent blocking the process
 65 |     if (
@@ -6528,11 +6585,11 @@ src/lib/parsers/pdf-parser.ts
 69 |       console.warn('PDF parsing attempted in a server environment, returning empty result');
 70 |       return [];
 71 |     }
-72 | 
+72 |
 73 |     throw new Error(`PDF parsing failed: ${(error as Error).message}`);
 74 |   }
 75 | }
-76 | 
+76 |
 77 | /**
 78 |  * Extract structured data from PDF text
 79 |  * @param text The extracted text from the PDF
@@ -6540,11 +6597,11 @@ src/lib/parsers/pdf-parser.ts
 81 |  */
 82 | function extractStructuredData(text: string): Array<Record<string, string | number>> {
 83 |   const result: Array<Record<string, string | number>> = [];
-84 | 
+84 |
 85 |   try {
 86 |     // Look for table-like sections in the PDF
 87 |     // This is a simplified approach that looks for common patterns in bank statements
-88 | 
+88 |
 89 |     // First, try to find date patterns in the text
 90 |     const datePatterns = [
 91 |       // Common date formats: DD/MM/YYYY or MM/DD/YYYY or YYYY-MM-DD
@@ -6552,9 +6609,9 @@ src/lib/parsers/pdf-parser.ts
 93 |       // ISO format: YYYY-MM-DD
 94 |       /\d{4}-\d{2}-\d{2}/g,
 95 |     ];
-96 | 
+96 |
 97 |     const potentialDateMatches: number[] = [];
-98 | 
+98 |
 99 |     // Find all position indices where dates appear
 100 |     for (const pattern of datePatterns) {
 101 |       let match;
@@ -6562,25 +6619,25 @@ src/lib/parsers/pdf-parser.ts
 103 |         potentialDateMatches.push(match.index);
 104 |       }
 105 |     }
-106 | 
+106 |
 107 |     if (potentialDateMatches.length === 0) {
 108 |       // No dates found, try a different approach
 109 |       return parseUnstructuredText(text);
 110 |     }
-111 | 
+111 |
 112 |     // Sort date positions
 113 |     potentialDateMatches.sort((a, b) => a - b);
-114 | 
+114 |
 115 |     // Use date positions to identify potential rows
 116 |     // This assumes dates are at consistent positions in each row
 117 |     const lines = text.split('\n');
 118 |     let currentLine = '';
-119 | 
+119 |
 120 |     for (let i = 0; i < lines.length; i++) {
 121 |       const line = lines[i].trim();
-122 | 
+122 |
 123 |       if (line.length === 0) continue;
-124 | 
+124 |
 125 |       // Check if this line contains a date
 126 |       let hasDate = false;
 127 |       for (const pattern of datePatterns) {
@@ -6589,7 +6646,7 @@ src/lib/parsers/pdf-parser.ts
 130 |           break;
 131 |         }
 132 |       }
-133 | 
+133 |
 134 |       if (hasDate) {
 135 |         // If we had a previous row, add it to the result
 136 |         if (currentLine) {
@@ -6598,7 +6655,7 @@ src/lib/parsers/pdf-parser.ts
 139 |             result.push(parsedRow);
 140 |           }
 141 |         }
-142 | 
+142 |
 143 |         // Start a new row
 144 |         currentLine = line;
 145 |       } else if (currentLine) {
@@ -6606,7 +6663,7 @@ src/lib/parsers/pdf-parser.ts
 147 |         currentLine += ' ' + line;
 148 |       }
 149 |     }
-150 | 
+150 |
 151 |     // Add the last row if any
 152 |     if (currentLine) {
 153 |       const parsedRow = parseStatementRow(currentLine);
@@ -6614,12 +6671,12 @@ src/lib/parsers/pdf-parser.ts
 155 |         result.push(parsedRow);
 156 |       }
 157 |     }
-158 | 
+158 |
 159 |     // If we couldn't extract any structured data, fall back to unstructured parsing
 160 |     if (result.length === 0) {
 161 |       return parseUnstructuredText(text);
 162 |     }
-163 | 
+163 |
 164 |     return result;
 165 |   } catch (error) {
 166 |     console.warn('Error extracting structured data from PDF:', error);
@@ -6627,7 +6684,7 @@ src/lib/parsers/pdf-parser.ts
 168 |     return parseUnstructuredText(text);
 169 |   }
 170 | }
-171 | 
+171 |
 172 | /**
 173 |  * Parse a single row from a bank statement
 174 |  * @param text The row text
@@ -6635,14 +6692,14 @@ src/lib/parsers/pdf-parser.ts
 176 |  */
 177 | function parseStatementRow(text: string): Record<string, string | number> {
 178 |   const result: Record<string, string | number> = {};
-179 | 
+179 |
 180 |   try {
 181 |     // Try to extract date
 182 |     const dateMatch = text.match(/\d{1,2}[/-]\d{1,2}[/-]\d{2,4}|\d{4}-\d{2}-\d{2}/);
 183 |     if (dateMatch) {
 184 |       result.date = dateMatch[0];
 185 |     }
-186 | 
+186 |
 187 |     // Try to extract amount (typically currency values)
 188 |     // Look for patterns like $123.45, R$123,45, 123.45, -123.45
 189 |     const amountMatch = text.match(/[-+]?\s*[R$£€$]?\s*\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2})/);
@@ -6650,7 +6707,7 @@ src/lib/parsers/pdf-parser.ts
 191 |       const amountStr = amountMatch[0].replace(/[R$£€$\s]/g, '').replace(',', '.');
 192 |       result.amount = parseFloat(amountStr);
 193 |     }
-194 | 
+194 |
 195 |     // Extract description (everything except date and amount)
 196 |     let description = text;
 197 |     if (dateMatch) {
@@ -6659,20 +6716,20 @@ src/lib/parsers/pdf-parser.ts
 200 |     if (amountMatch) {
 201 |       description = description.replace(amountMatch[0], '');
 202 |     }
-203 | 
+203 |
 204 |     // Clean up description
 205 |     description = description.replace(/\s+/g, ' ').trim();
 206 |     if (description) {
 207 |       result.description = description;
 208 |     }
-209 | 
+209 |
 210 |     return result;
 211 |   } catch (error) {
 212 |     console.warn('Error parsing statement row:', error);
 213 |     return {};
 214 |   }
 215 | }
-216 | 
+216 |
 217 | /**
 218 |  * Parse unstructured PDF text as a fallback
 219 |  * @param text The full PDF text
@@ -6680,23 +6737,23 @@ src/lib/parsers/pdf-parser.ts
 221 |  */
 222 | function parseUnstructuredText(text: string): Array<Record<string, string | number>> {
 223 |   const result: Array<Record<string, string | number>> = [];
-224 | 
+224 |
 225 |   try {
 226 |     // Split by newlines and remove empty lines
 227 |     const lines = text.split('\n').filter(line => line.trim().length > 0);
-228 | 
+228 |
 229 |     // Look for lines that might represent transactions
 230 |     // This is a simplified approach that looks for lines containing both
 231 |     // date patterns and currency values
 232 |     for (const line of lines) {
 233 |       const parsedRow = parseStatementRow(line);
-234 | 
+234 |
 235 |       // Only consider rows that have at least a date or amount
 236 |       if (parsedRow.date || parsedRow.amount !== undefined) {
 237 |         result.push(parsedRow);
 238 |       }
 239 |     }
-240 | 
+240 |
 241 |     return result;
 242 |   } catch (error) {
 243 |     console.warn('Error parsing unstructured text:', error);
@@ -6706,13 +6763,14 @@ src/lib/parsers/pdf-parser.ts
 ```
 
 src/lib/utils/transaction-utils.ts
+
 ```
 1 | /**
 2 |  * Transaction Utilities
 3 |  *
 4 |  * This module provides utility functions for working with transactions.
 5 |  */
-6 | 
+6 |
 7 | /**
 8 |  * Generates a deterministic transaction ID based on transaction data
 9 |  *
@@ -6728,14 +6786,14 @@ src/lib/utils/transaction-utils.ts
 19 |   if (!transaction) {
 20 |     return crypto.randomUUID();
 21 |   }
-22 | 
+22 |
 23 |   // Safely extract and normalize transaction properties
 24 |   let dateStr = '';
 25 |   let amountStr = '';
 26 |   let descriptionStr = '';
 27 |   let merchantStr = '';
 28 |   let cardStr = '';
-29 | 
+29 |
 30 |   // Extract date
 31 |   if (transaction.date) {
 32 |     if (transaction.date instanceof Date) {
@@ -6748,7 +6806,7 @@ src/lib/utils/transaction-utils.ts
 39 |       }
 40 |     }
 41 |   }
-42 | 
+42 |
 43 |   // Extract amount
 44 |   if (transaction.amount !== undefined && transaction.amount !== null) {
 45 |     if (typeof transaction.amount === 'number') {
@@ -6760,7 +6818,7 @@ src/lib/utils/transaction-utils.ts
 51 |       }
 52 |     }
 53 |   }
-54 | 
+54 |
 55 |   // Extract description
 56 |   if (transaction.description) {
 57 |     if (typeof transaction.description === 'string') {
@@ -6769,7 +6827,7 @@ src/lib/utils/transaction-utils.ts
 60 |       descriptionStr = String(transaction.description).trim().toLowerCase();
 61 |     }
 62 |   }
-63 | 
+63 |
 64 |   // Extract merchant if available
 65 |   if (transaction.merchant) {
 66 |     if (typeof transaction.merchant === 'string') {
@@ -6778,7 +6836,7 @@ src/lib/utils/transaction-utils.ts
 69 |       merchantStr = String(transaction.merchant).trim().toLowerCase();
 70 |     }
 71 |   }
-72 | 
+72 |
 73 |   // Extract card if available
 74 |   if (transaction.card) {
 75 |     if (typeof transaction.card === 'string') {
@@ -6787,21 +6845,21 @@ src/lib/utils/transaction-utils.ts
 78 |       cardStr = String(transaction.card).trim().toLowerCase();
 79 |     }
 80 |   }
-81 | 
+81 |
 82 |   // If essential data is missing, return random UUID
 83 |   if (!dateStr || !amountStr || !descriptionStr) {
 84 |     return crypto.randomUUID();
 85 |   }
-86 | 
+86 |
 87 |   // Combine all components for hashing
 88 |   const dataToHash = `${dateStr}|${amountStr}|${descriptionStr}|${merchantStr}|${cardStr}`;
-89 | 
+89 |
 90 |   // Create a hash of the data
 91 |   // Note: In browser environments, this uses the subtle crypto API
 92 |   // In Node.js, it would use the crypto module
 93 |   const encoder = new TextEncoder();
 94 |   const data = encoder.encode(dataToHash);
-95 | 
+95 |
 96 |   // Using a simple hashing approach that works in both browser and Node.js
 97 |   // For production, consider using a more robust hashing algorithm
 98 |   let hash = 0;
@@ -6809,12 +6867,12 @@ src/lib/utils/transaction-utils.ts
 100 |     hash = (hash << 5) - hash + data[i];
 101 |     hash |= 0; // Convert to 32bit integer
 102 |   }
-103 | 
+103 |
 104 |   // Create a hex representation and add a prefix to make it clear this is a deterministic ID
 105 |   const hexHash = Math.abs(hash).toString(16).padStart(8, '0');
 106 |   return `tx-${dateStr}-${hexHash}`;
 107 | }
-108 | 
+108 |
 109 | /**
 110 |  * Determines if a transaction is likely a duplicate of another
 111 |  *
@@ -6837,22 +6895,22 @@ src/lib/utils/transaction-utils.ts
 128 |   // Check if amount is the same (within a small epsilon for floating point issues)
 129 |   const amountMatches = Math.abs(transaction1.amount - transaction2.amount) < 0.01;
 130 |   if (!amountMatches) return false;
-131 | 
+131 |
 132 |   // Check if descriptions are similar
 133 |   const description1 = transaction1.description.toLowerCase();
 134 |   const description2 = transaction2.description.toLowerCase();
 135 |   const descriptionSimilarity = calculateStringSimilarity(description1, description2);
-136 | 
+136 |
 137 |   // Check if dates are close (within 1 day)
 138 |   const dateTimeDiff = Math.abs(transaction1.date.getTime() - transaction2.date.getTime());
 139 |   const dateMatches = dateTimeDiff <= 24 * 60 * 60 * 1000; // 1 day in milliseconds
-140 | 
+140 |
 141 |   // If dates are more than 2 days apart, it's not a duplicate regardless of description
 142 |   if (dateTimeDiff > 48 * 60 * 60 * 1000) return false;
-143 | 
+143 |
 144 |   // If dates are between 1-2 days apart, only consider it a duplicate if descriptions are identical
 145 |   if (dateTimeDiff > 24 * 60 * 60 * 1000 && descriptionSimilarity < 1) return false;
-146 | 
+146 |
 147 |   // For transactions within 24 hours, use similarity threshold
 148 |   return (
 149 |     amountMatches &&
@@ -6860,7 +6918,7 @@ src/lib/utils/transaction-utils.ts
 151 |       (description1 === description2 && dateTimeDiff <= 48 * 60 * 60 * 1000))
 152 |   );
 153 | }
-154 | 
+154 |
 155 | /**
 156 |  * Calculate similarity between two strings (0-1 where 1 is identical)
 157 |  * Using a simplified version of Levenshtein distance
@@ -6874,24 +6932,24 @@ src/lib/utils/transaction-utils.ts
 165 |   if (str1.length === 0 || str2.length === 0) {
 166 |     return 0;
 167 |   }
-168 | 
+168 |
 169 |   // If strings are identical, return 1
 170 |   if (str1 === str2) {
 171 |     return 1;
 172 |   }
-173 | 
+173 |
 174 |   // Calculate Levenshtein distance
 175 |   const matrix: number[][] = [];
-176 | 
+176 |
 177 |   // Initialize matrix
 178 |   for (let i = 0; i <= str1.length; i++) {
 179 |     matrix[i] = [i];
 180 |   }
-181 | 
+181 |
 182 |   for (let j = 0; j <= str2.length; j++) {
 183 |     matrix[0][j] = j;
 184 |   }
-185 | 
+185 |
 186 |   // Fill matrix
 187 |   for (let i = 1; i <= str1.length; i++) {
 188 |     for (let j = 1; j <= str2.length; j++) {
@@ -6903,27 +6961,28 @@ src/lib/utils/transaction-utils.ts
 194 |       );
 195 |     }
 196 |   }
-197 | 
+197 |
 198 |   // Calculate similarity (1 - normalized distance)
 199 |   const distance = matrix[str1.length][str2.length];
 200 |   const maxLength = Math.max(str1.length, str2.length);
-201 | 
+201 |
 202 |   return 1 - distance / maxLength;
 203 | }
 ```
 
 src/app/(app)/ai-playground/page.tsx
+
 ```
 1 | import { TransactionCategorizer } from '@/components/ai-playground/transaction-categorizer';
 2 | import { TransactionExtractor } from '@/components/ai-playground/transaction-extractor';
-3 | 
+3 |
 4 | import type { Metadata } from 'next';
-5 | 
+5 |
 6 | export const metadata: Metadata = {
 7 |   title: 'AI-Powered Playground',
 8 |   description: 'Try out our tools for transaction management',
 9 | };
-10 | 
+10 |
 11 | export default function AIPlaygroundPage() {
 12 |   return (
 13 |     <div className="container mx-auto px-8 py-16 space-y-12">
@@ -6931,11 +6990,11 @@ src/app/(app)/ai-playground/page.tsx
 15 |         <h1 className="text-3xl font-bold tracking-tight">AI-Powered Playground</h1>
 16 |         <p className="mt-2 text-muted-foreground">Try out our tools for transaction management</p>
 17 |       </div>
-18 | 
+18 |
 19 |       <div className="flex flex-wrap gap-8">
 20 |         {/* Transaction Extractor Section */}
 21 |         <TransactionExtractor />
-22 | 
+22 |
 23 |         {/* Transaction Categorizer Section */}
 24 |         <TransactionCategorizer />
 25 |       </div>
@@ -6944,13 +7003,14 @@ src/app/(app)/ai-playground/page.tsx
 28 | }
 ```
 
-src/lib/utils/__tests__/transaction-utils.test.ts
+src/lib/utils/**tests**/transaction-utils.test.ts
+
 ```
 1 | import { describe, expect, test } from 'vitest';
-2 | 
+2 |
 3 | import { generateTransactionId, isDuplicateTransaction } from '@/lib/utils/transaction-utils';
-4 | 
-5 | 
+4 |
+5 |
 6 | describe('Transaction Utilities', () => {
 7 |   describe('generateTransactionId', () => {
 8 |     test('should generate a deterministic ID for the same transaction data', () => {
@@ -6961,7 +7021,7 @@ src/lib/utils/__tests__/transaction-utils.test.ts
 13 |         merchant: 'Starbucks',
 14 |         card: 'Credit Card',
 15 |       };
-16 | 
+16 |
 17 |       const transaction2 = {
 18 |         date: new Date('2023-05-15'),
 19 |         amount: 42.99,
@@ -6969,62 +7029,62 @@ src/lib/utils/__tests__/transaction-utils.test.ts
 21 |         merchant: 'Starbucks',
 22 |         card: 'Credit Card',
 23 |       };
-24 | 
+24 |
 25 |       const id1 = generateTransactionId(transaction1);
 26 |       const id2 = generateTransactionId(transaction2);
-27 | 
+27 |
 28 |       expect(id1).toBe(id2);
 29 |       expect(id1).toMatch(/^tx-\d{4}-\d{2}-\d{2}-[a-f0-9]+$/); // Format: tx-YYYY-MM-DD-hash
 30 |     });
-31 | 
+31 |
 32 |     test('should generate different IDs for different transaction data', () => {
 33 |       const transaction1 = {
 34 |         date: new Date('2023-05-15'),
 35 |         amount: 42.99,
 36 |         description: 'Coffee Shop',
 37 |       };
-38 | 
+38 |
 39 |       const transaction2 = {
 40 |         date: new Date('2023-05-15'),
 41 |         amount: 42.99,
 42 |         description: 'Bookstore',
 43 |       };
-44 | 
+44 |
 45 |       const id1 = generateTransactionId(transaction1);
 46 |       const id2 = generateTransactionId(transaction2);
-47 | 
+47 |
 48 |       expect(id1).not.toBe(id2);
 49 |     });
-50 | 
+50 |
 51 |     test('should generate different IDs for transactions with same description but different amounts', () => {
 52 |       const transaction1 = {
 53 |         date: new Date('2023-05-15'),
 54 |         amount: 42.99,
 55 |         description: 'Coffee Shop',
 56 |       };
-57 | 
+57 |
 58 |       const transaction2 = {
 59 |         date: new Date('2023-05-15'),
 60 |         amount: 37.5,
 61 |         description: 'Coffee Shop',
 62 |       };
-63 | 
+63 |
 64 |       const id1 = generateTransactionId(transaction1);
 65 |       const id2 = generateTransactionId(transaction2);
-66 | 
+66 |
 67 |       expect(id1).not.toBe(id2);
 68 |     });
-69 | 
+69 |
 70 |     test('should generate a UUID if transaction data is incomplete', () => {
 71 |       const id = generateTransactionId({
 72 |         date: new Date(),
 73 |         // Missing required amount or description
 74 |       });
-75 | 
+75 |
 76 |       expect(id).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i); // UUID format
 77 |     });
 78 |   });
-79 | 
+79 |
 80 |   describe('isDuplicateTransaction', () => {
 81 |     test('should identify exact duplicates', () => {
 82 |       const transaction1 = {
@@ -7032,121 +7092,121 @@ src/lib/utils/__tests__/transaction-utils.test.ts
 84 |         amount: 42.99,
 85 |         description: 'Coffee Shop',
 86 |       };
-87 | 
+87 |
 88 |       const transaction2 = {
 89 |         date: new Date('2023-05-15'),
 90 |         amount: 42.99,
 91 |         description: 'Coffee Shop',
 92 |       };
-93 | 
+93 |
 94 |       expect(isDuplicateTransaction(transaction1, transaction2)).toBe(true);
 95 |     });
-96 | 
+96 |
 97 |     test('should identify duplicates with small variations in description', () => {
 98 |       const transaction1 = {
 99 |         date: new Date('2023-05-15'),
 100 |         amount: 42.99,
 101 |         description: 'Coffee Shop - Main St',
 102 |       };
-103 | 
+103 |
 104 |       const transaction2 = {
 105 |         date: new Date('2023-05-15'),
 106 |         amount: 42.99,
 107 |         description: 'Coffee Shop Main St',
 108 |       };
-109 | 
+109 |
 110 |       expect(isDuplicateTransaction(transaction1, transaction2)).toBe(true);
 111 |     });
-112 | 
+112 |
 113 |     test('should identify duplicates with date within 24 hours', () => {
 114 |       const transaction1 = {
 115 |         date: new Date('2023-05-15T10:00:00'),
 116 |         amount: 42.99,
 117 |         description: 'Coffee Shop',
 118 |       };
-119 | 
+119 |
 120 |       const transaction2 = {
 121 |         date: new Date('2023-05-16T09:00:00'), // 23 hours later
 122 |         amount: 42.99,
 123 |         description: 'Coffee Shop',
 124 |       };
-125 | 
+125 |
 126 |       expect(isDuplicateTransaction(transaction1, transaction2)).toBe(true);
 127 |     });
-128 | 
+128 |
 129 |     test('should not identify as duplicate if description is very different', () => {
 130 |       const transaction1 = {
 131 |         date: new Date('2023-05-15'),
 132 |         amount: 42.99,
 133 |         description: 'Coffee Shop',
 134 |       };
-135 | 
+135 |
 136 |       const transaction2 = {
 137 |         date: new Date('2023-05-15'),
 138 |         amount: 42.99,
 139 |         description: 'Bookstore Downtown', // Very different description
 140 |       };
-141 | 
+141 |
 142 |       expect(isDuplicateTransaction(transaction1, transaction2)).toBe(false);
 143 |     });
-144 | 
+144 |
 145 |     test('should not identify as duplicate if amount is different', () => {
 146 |       const transaction1 = {
 147 |         date: new Date('2023-05-15'),
 148 |         amount: 42.99,
 149 |         description: 'Coffee Shop',
 150 |       };
-151 | 
+151 |
 152 |       const transaction2 = {
 153 |         date: new Date('2023-05-15'),
 154 |         amount: 37.5, // Different amount
 155 |         description: 'Coffee Shop',
 156 |       };
-157 | 
+157 |
 158 |       expect(isDuplicateTransaction(transaction1, transaction2)).toBe(false);
 159 |     });
-160 | 
+160 |
 161 |     test('should not identify as duplicate if date is more than 48 hours apart', () => {
 162 |       const transaction1 = {
 163 |         date: new Date('2023-05-15T10:00:00'),
 164 |         amount: 42.99,
 165 |         description: 'Coffee Shop',
 166 |       };
-167 | 
+167 |
 168 |       const transaction2 = {
 169 |         date: new Date('2023-05-18T10:00:00'), // 72 hours later
 170 |         amount: 42.99,
 171 |         description: 'Coffee Shop',
 172 |       };
-173 | 
+173 |
 174 |       // Calculate similarity for debugging
 175 |       const description1 = transaction1.description.toLowerCase();
 176 |       const description2 = transaction2.description.toLowerCase();
-177 | 
+177 |
 178 |       // Import the similarity function for testing
 179 |       const calculateStringSimilarity = (str1: string, str2: string): number => {
 180 |         // If either string is empty, return 0
 181 |         if (str1.length === 0 || str2.length === 0) {
 182 |           return 0;
 183 |         }
-184 | 
+184 |
 185 |         // If strings are identical, return 1
 186 |         if (str1 === str2) {
 187 |           return 1;
 188 |         }
-189 | 
+189 |
 190 |         // Calculate Levenshtein distance
 191 |         const matrix: number[][] = [];
-192 | 
+192 |
 193 |         // Initialize matrix
 194 |         for (let i = 0; i <= str1.length; i++) {
 195 |           matrix[i] = [i];
 196 |         }
-197 | 
+197 |
 198 |         for (let j = 0; j <= str2.length; j++) {
 199 |           matrix[0][j] = j;
 200 |         }
-201 | 
+201 |
 202 |         // Fill matrix
 203 |         for (let i = 1; i <= str1.length; i++) {
 204 |           for (let j = 1; j <= str2.length; j++) {
@@ -7158,20 +7218,20 @@ src/lib/utils/__tests__/transaction-utils.test.ts
 210 |             );
 211 |           }
 212 |         }
-213 | 
+213 |
 214 |         // Calculate similarity (1 - normalized distance)
 215 |         const distance = matrix[str1.length][str2.length];
 216 |         const maxLength = Math.max(str1.length, str2.length);
-217 | 
+217 |
 218 |         return 1 - distance / maxLength;
 219 |       };
-220 | 
+220 |
 221 |       const descriptionSimilarity = calculateStringSimilarity(description1, description2);
-222 | 
+222 |
 223 |       // Using the same calculation as in the function
 224 |       const dateTimeDiff = Math.abs(transaction1.date.getTime() - transaction2.date.getTime());
 225 |       const dateMatches = dateTimeDiff <= 24 * 60 * 60 * 1000; // 1 day in milliseconds
-226 | 
+226 |
 227 |       console.log('Debug info:');
 228 |       console.log('Description 1:', description1);
 229 |       console.log('Description 2:', description2);
@@ -7179,10 +7239,10 @@ src/lib/utils/__tests__/transaction-utils.test.ts
 231 |       console.log('Date time difference (ms):', dateTimeDiff);
 232 |       console.log('Date time difference (hours):', dateTimeDiff / (60 * 60 * 1000));
 233 |       console.log('Date matches (within 24h):', dateMatches);
-234 | 
+234 |
 235 |       const result = isDuplicateTransaction(transaction1, transaction2);
 236 |       console.log('Result:', result);
-237 | 
+237 |
 238 |       expect(result).toBe(false);
 239 |     });
 240 |   });

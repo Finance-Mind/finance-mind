@@ -187,7 +187,7 @@ export async function processBankStatement(
                 // Add to processed IDs to avoid duplicates within this batch
                 processedTransactionIds.add(transaction.id);
                 allExtractedTransactions.push(transaction);
-              } catch (rowError) {
+              } catch {
                 result.errors?.push(
                   `Error extracting transaction from row: ${JSON.stringify(row).substring(0, 100)}...`
                 );

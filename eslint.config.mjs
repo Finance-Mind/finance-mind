@@ -45,6 +45,9 @@ const eslintConfig = [
           argsIgnorePattern: '^_',
         },
       ],
+      // JSX specific rules
+      'react/jsx-newline': ['error', { prevent: false }],
+      // Import order rules
       'import/order': [
         'error',
         {

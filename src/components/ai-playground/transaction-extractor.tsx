@@ -93,6 +93,7 @@ export const TransactionExtractor = () => {
     <Card className="w-full max-w-md">
       <CardHeader>
         <CardTitle>Transaction Extractor</CardTitle>
+
         <CardDescription>
           Describe a transaction in natural language, and our AI will extract the details.
         </CardDescription>
@@ -116,6 +117,7 @@ export const TransactionExtractor = () => {
                       {...field}
                     />
                   </FormControl>
+
                   <FormMessage />
                 </FormItem>
               )}
@@ -139,27 +141,32 @@ export const TransactionExtractor = () => {
 
             <div className="space-y-2">
               <h3 className="font-medium">Extracted Details:</h3>
+
               <div className="grid grid-cols-2 gap-2">
                 <div className="text-sm font-medium">Description:</div>
+
                 <div className="text-sm">{result.description}</div>
 
                 <div className="text-sm font-medium">Amount:</div>
-                <div className="text-sm">
-                  {result.amount} {result.currency || 'BRL'}
-                </div>
+
+                <div className="text-sm">{`${result.amount} ${result.currency || 'BRL'}`}</div>
 
                 <div className="text-sm font-medium">Date:</div>
+
                 <div className="text-sm">{formatDate(result.date)}</div>
 
                 <div className="text-sm font-medium">Category:</div>
+
                 <div className="text-sm">{getCategoryLabel(result.category)}</div>
 
                 <div className="text-sm font-medium">Type:</div>
+
                 <div className="text-sm">{getTypeLabel(result.type)}</div>
 
                 {result.merchant && (
                   <>
                     <div className="text-sm font-medium">Merchant:</div>
+
                     <div className="text-sm">{result.merchant}</div>
                   </>
                 )}
@@ -167,8 +174,9 @@ export const TransactionExtractor = () => {
                 {result.isInstallment && result.installmentInfo && (
                   <>
                     <div className="text-sm font-medium">Installment:</div>
+
                     <div className="text-sm">
-                      {result.installmentInfo.current}/{result.installmentInfo.total}
+                      {`${result.installmentInfo.current}/${result.installmentInfo.total}`}
                     </div>
                   </>
                 )}
@@ -181,21 +189,30 @@ export const TransactionExtractor = () => {
       <CardFooter className="flex flex-col space-y-4 mt-auto pt-8">
         <div>
           <h3 className="text-sm font-medium mb-2">How It Works</h3>
+
           <div className="space-y-2">
             <p className="text-xs text-muted-foreground">
               The Transaction Extractor uses AI to parse natural language descriptions into
               structured transaction data.
             </p>
+
             <p className="text-xs text-muted-foreground">Try examples like:</p>
+
             <ul className="text-xs text-muted-foreground list-decimal pl-4 space-y-1">
               <li>&quot;I paid R$150 for groceries at Mercado Extra yesterday&quot;</li>
+
               <li>&quot;Received my salary of R$3500 from Company XYZ&quot;</li>
+
               <li>
                 &quot;Smartphone installment payment of R$210, 3rd of 12 monthly payments&quot;
               </li>
+
               <li>&quot;Transferred R$500 from my checking account to my savings account&quot;</li>
+
               <li>&quot;caio 150&quot; (transfer to Caio of R$150)</li>
+
               <li>&quot;jon 100&quot; (transfer to Jon of R$100)</li>
+
               <li>&quot;+150 maria&quot; (received R$150 from Maria)</li>
             </ul>
           </div>

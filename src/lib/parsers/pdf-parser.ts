@@ -79,8 +79,8 @@ export async function parsePDF(
       for (let i = 1; i <= pagesToProcess; i++) {
         try {
           const page = await pdf.getPage(i);
+          // Using a simpler text extraction approach
           const textContent = await page.getTextContent();
-          // Use a type assertion to handle unknown structure
 
           const pageText = textContent.items.map(item => ('str' in item ? item.str : '')).join(' ');
 
@@ -333,6 +333,17 @@ function parseUnstructuredText(text: string): Array<Record<string, string | numb
   }
 }
 
+// Define a proper interface for PDF.js document options
+interface PDFDocumentLoadingOptions {
+  data: ArrayBuffer;
+  disableFontFace?: boolean;
+  nativeImageDecoderSupport?: string;
+  ignoreErrors?: boolean;
+  isEvalSupported?: boolean;
+  cMapUrl?: string;
+  cMapPacked?: boolean;
+}
+
 /**
  * Extract a minimal amount of text from a PDF, optimized for mobile devices
  * This is a fallback when full processing fails on mobile
@@ -352,14 +363,13 @@ async function extractMinimalPdfContent(
     const loadingTask = pdfjs.getDocument({
       data: pdfContent,
       disableFontFace: true,
-      // Use type assertion to handle pdfjs-specific options
       // @ts-ignore - PDF.js custom properties
       nativeImageDecoderSupport: 'none',
       ignoreErrors: true,
       isEvalSupported: false,
       cMapUrl: 'https://unpkg.com/pdfjs-dist@3.11.174/cmaps/',
       cMapPacked: true,
-    } as any); // Use type assertion for PDF.js specific options
+    } as PDFDocumentLoadingOptions);
 
     // Use a shorter timeout for mobile
     const timeoutMs = 10000; // 10 seconds
@@ -377,11 +387,7 @@ async function extractMinimalPdfContent(
       try {
         const page = await pdf.getPage(i);
         // Using a simpler text extraction approach
-        const textContent = await page.getTextContent({
-          // Use type assertion for PDF.js specific options
-          normalizeWhitespace: true,
-          disableCombineTextItems: false,
-        } as any);
+        const textContent = await page.getTextContent();
 
         const pageText = textContent.items
           .map(item => ('str' in item ? item.str : ''))
@@ -430,7 +436,7 @@ async function extractMinimalPdfContent(
           const amountStr = amounts[i].replace(/[R$£€$\s]/g, '').replace(',', '.');
           try {
             record.amount = parseFloat(amountStr);
-          } catch (e) {
+          } catch {
             record.amount_text = amounts[i];
           }
         }

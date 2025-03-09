@@ -90,6 +90,7 @@ export const TransactionCategorizer = () => {
     <Card className="w-full max-w-md">
       <CardHeader>
         <CardTitle>Transaction Categorizer</CardTitle>
+
         <CardDescription>Enter transaction details to categorize it using AI.</CardDescription>
       </CardHeader>
 
@@ -103,12 +104,14 @@ export const TransactionCategorizer = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Description</FormLabel>
+
                     <FormControl>
                       <Input
                         placeholder="Transaction description (e.g., 'Groceries' or 'caio')"
                         {...field}
                       />
                     </FormControl>
+
                     <FormMessage />
                   </FormItem>
                 )}
@@ -120,6 +123,7 @@ export const TransactionCategorizer = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Amount</FormLabel>
+
                     <FormControl>
                       <Input
                         type="number"
@@ -128,6 +132,7 @@ export const TransactionCategorizer = () => {
                         {...field}
                       />
                     </FormControl>
+
                     <FormMessage />
                   </FormItem>
                 )}
@@ -139,9 +144,11 @@ export const TransactionCategorizer = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Date</FormLabel>
+
                     <FormControl>
                       <Input type="date" placeholder="Transaction date" {...field} />
                     </FormControl>
+
                     <FormMessage />
                   </FormItem>
                 )}
@@ -153,9 +160,11 @@ export const TransactionCategorizer = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Merchant (optional)</FormLabel>
+
                     <FormControl>
                       <Input placeholder="Merchant name" {...field} />
                     </FormControl>
+
                     <FormMessage />
                   </FormItem>
                 )}
@@ -180,16 +189,20 @@ export const TransactionCategorizer = () => {
 
             <div className="space-y-2">
               <h3 className="font-medium">Result:</h3>
+
               <div className="grid grid-cols-2 gap-2">
                 <div className="text-sm font-medium">Category:</div>
+
                 <div className="text-sm">{getCategoryLabel(result.category)}</div>
 
                 <div className="text-sm font-medium">Type:</div>
+
                 <div className="text-sm">{getTypeLabel(result.type)}</div>
 
                 {result.merchant && (
                   <>
                     <div className="text-sm font-medium">Merchant:</div>
+
                     <div className="text-sm">{result.merchant}</div>
                   </>
                 )}
@@ -197,8 +210,9 @@ export const TransactionCategorizer = () => {
                 {result.isInstallment && result.installmentInfo && (
                   <>
                     <div className="text-sm font-medium">Installment:</div>
+
                     <div className="text-sm">
-                      {result.installmentInfo.current}/{result.installmentInfo.total}
+                      {`${result.installmentInfo.current}/${result.installmentInfo.total}`}
                     </div>
                   </>
                 )}
@@ -206,6 +220,7 @@ export const TransactionCategorizer = () => {
                 {result.confidence !== undefined && (
                   <>
                     <div className="text-sm font-medium">Confidence:</div>
+
                     <div className="text-sm">{(result.confidence * 100).toFixed(1)}%</div>
                   </>
                 )}
@@ -218,27 +233,34 @@ export const TransactionCategorizer = () => {
       <CardFooter className="flex flex-col space-y-4 mt-auto pt-8">
         <div>
           <h3 className="text-sm font-medium mb-2">How It Works</h3>
+
           <div className="space-y-2">
             <p className="text-xs text-muted-foreground">
               The Transaction Categorizer uses AI to intelligently categorize transactions based on
               description and amount.
             </p>
+
             <p className="text-xs text-muted-foreground">Our system:</p>
+
             <ul className="text-xs text-muted-foreground list-decimal pl-4 space-y-1">
               <li>
                 Uses advanced language models to handle Brazilian financial terms and patterns
               </li>
+
               <li>Detects installment payments, transfers, and other special transaction types</li>
+
               <li>
                 Recognizes person-to-person transfers like &quot;caio 150&quot; or &quot;jon
                 100&quot; as PIX transactions
               </li>
+
               <li>
                 All processing happens securely on the server, with no data stored permanently
               </li>
             </ul>
           </div>
         </div>
+
         <Button variant="outline" className="w-full mt-4" onClick={handleReset}>
           Clear
         </Button>

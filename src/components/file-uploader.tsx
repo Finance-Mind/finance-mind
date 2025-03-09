@@ -65,7 +65,12 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
   // Detect if user is on a mobile device
   useEffect(() => {
     const checkMobile = () => {
-      const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+      // Access window.opera in a type-safe way without using 'any'
+      const userAgent =
+        navigator.userAgent ||
+        navigator.vendor ||
+        (window as Window & { opera?: string }).opera ||
+        '';
       const mobileRegex =
         /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i;
 
@@ -303,6 +308,7 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
         <Card className="border-0 bg-transparent flex flex-col h-full">
           <CardHeader>
             <CardTitle>Upload Bank Statements</CardTitle>
+
             <CardDescription>
               {isMobile
                 ? 'Tap the button below to select your bank or credit card statements'
@@ -314,6 +320,7 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
             {files.length > 0 ? (
               <div className="space-y-3">
                 <div className="text-sm font-medium">Selected files:</div>
+
                 <ul className="space-y-2">
                   {files.map((file, index) => (
                     <li
@@ -322,7 +329,9 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
                     >
                       <div className="flex items-center gap-2 flex-1">
                         <FileIcon className="h-4 w-4 text-muted-foreground" />
+
                         <span className="truncate max-w-36 flex-1">{file.name}</span>
+
                         <span className="text-muted-foreground min-w-10">
                           ({Math.round(file.size / 1024)} KB)
                         </span>
@@ -339,6 +348,7 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
                         }}
                       >
                         <XIcon className="h-4 w-4" />
+
                         <span className="sr-only">Remove file</span>
                       </Button>
                     </li>
@@ -348,6 +358,7 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
             ) : (
               <div className="flex flex-col items-center justify-center h-full py-8 text-center">
                 <UploadIcon className="h-10 w-10 text-muted-foreground mb-2" />
+
                 <p className="text-sm text-muted-foreground">
                   {isProcessing
                     ? 'Processing files... Please wait'
@@ -355,6 +366,7 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
                       ? 'Tap to select files'
                       : 'Click or drag and drop to upload files'}
                 </p>
+
                 {isMobile && (
                   <Button
                     variant="outline"
@@ -378,15 +390,15 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
 
             {skippedDuplicates > 0 && (
               <div className="mt-4 p-3 bg-muted text-muted-foreground text-sm rounded-md">
-                {skippedDuplicates} duplicated transaction{skippedDuplicates !== 1 ? 's' : ''}{' '}
-                skipped
+                {`${skippedDuplicates} duplicated transaction${skippedDuplicates !== 1 ? 's' : ''} skipped`}
               </div>
             )}
 
             {isProcessing && startTime && (
               <div className="mt-4 p-3 bg-muted text-muted-foreground text-sm rounded-md flex items-center">
                 <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                Processing for {formatDuration(elapsedTime)}...
+
+                <span>Processing for {formatDuration(elapsedTime)}...</span>
               </div>
             )}
           </CardContent>
@@ -396,6 +408,7 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
               <div className="mt-4 w-full p-5 bg-primary/10 rounded-md space-y-2 text-xs text-muted-foreground">
                 <div className="flex items-center">
                   <ClockIcon className="h-3 w-3 mr-2 text-primary/70" />
+
                   <span>
                     Processing completed in {formatDuration(processingDurations?.total ?? 0)}
                   </span>
@@ -404,6 +417,7 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
                 {processingDurations.parsing ? (
                   <div className="flex items-center">
                     <ServerIcon className="h-3 w-3 mr-2 text-primary/70" />
+
                     <span>Parsing: {formatDuration(processingDurations.parsing)}</span>
                   </div>
                 ) : null}
@@ -411,12 +425,15 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
                 {processingDurations.extraction ? (
                   <div className="flex items-center">
                     <DatabaseIcon className="h-3 w-3 mr-2 text-primary/70" />
+
                     <span>Data extraction: {formatDuration(processingDurations.extraction)}</span>
                   </div>
                 ) : null}
+
                 {processingDurations.detection ? (
                   <div className="flex items-center">
                     <ActivityIcon className="h-3 w-3 mr-2 text-primary/70" />
+
                     <span>Transfer detection: {formatDuration(processingDurations.detection)}</span>
                   </div>
                 ) : null}

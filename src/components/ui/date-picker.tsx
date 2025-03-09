@@ -26,9 +26,11 @@ export function DatePicker({ date, onSelect }: DatePickerProps) {
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
+
           {date ? format(date, 'PPP', { locale: ptBR }) : <span>Selecione uma data</span>}
         </Button>
       </PopoverTrigger>
+
       <PopoverContent className="w-auto p-0">
         <Calendar mode="single" selected={date} onSelect={onSelect} initialFocus locale={ptBR} />
       </PopoverContent>

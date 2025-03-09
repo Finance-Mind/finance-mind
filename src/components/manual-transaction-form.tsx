@@ -164,8 +164,10 @@ export function ManualTransactionForm({
     <Card className={`border h-full flex flex-col ${className}`}>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
+
         <CardDescription>{description}</CardDescription>
       </CardHeader>
+
       <CardContent>
         <div className="space-y-8">
           {/* Row 1: Input field with button */}
@@ -178,6 +180,7 @@ export function ManualTransactionForm({
               onKeyDown={handleKeyPress}
               className="flex-1"
             />
+
             <Button
               variant="secondary"
               onClick={handleExtractTransaction}
@@ -205,6 +208,7 @@ export function ManualTransactionForm({
               {/* Currency */}
               <div className="col-span-3 space-y-2">
                 <Label htmlFor="currency">Currency</Label>
+
                 <Select
                   value={form.watch('currency')}
                   onValueChange={value => form.setValue('currency', value)}
@@ -212,6 +216,7 @@ export function ManualTransactionForm({
                   <SelectTrigger id="currency" className="w-full">
                     <SelectValue placeholder="BRL" />
                   </SelectTrigger>
+
                   <SelectContent>
                     {CURRENCIES.map(currency => (
                       <SelectItem key={currency.value} value={currency.value}>
@@ -225,6 +230,7 @@ export function ManualTransactionForm({
               {/* Amount */}
               <div className="col-span-3 space-y-2">
                 <Label htmlFor="amount">Amount</Label>
+
                 <Input
                   id="amount"
                   type="number"
@@ -232,6 +238,7 @@ export function ManualTransactionForm({
                   placeholder="0.00"
                   {...form.register('amount', { valueAsNumber: true })}
                 />
+
                 {form.formState.errors.amount && (
                   <p className="text-sm text-destructive">{form.formState.errors.amount.message}</p>
                 )}
@@ -240,11 +247,13 @@ export function ManualTransactionForm({
               {/* Description */}
               <div className="col-span-6 space-y-2">
                 <Label htmlFor="description">Description</Label>
+
                 <Input
                   id="description"
                   placeholder="Transaction description"
                   {...form.register('description')}
                 />
+
                 {form.formState.errors.description && (
                   <p className="text-sm text-destructive">
                     {form.formState.errors.description.message}
@@ -258,6 +267,7 @@ export function ManualTransactionForm({
               {/* Transaction Type */}
               <div className="flex-1 space-y-2">
                 <Label htmlFor="transaction-type">Type</Label>
+
                 <Select
                   value={form.watch('type')}
                   onValueChange={value => form.setValue('type', value as TransactionType)}
@@ -265,6 +275,7 @@ export function ManualTransactionForm({
                   <SelectTrigger id="transaction-type" className="w-full">
                     <SelectValue placeholder="Select type" />
                   </SelectTrigger>
+
                   <SelectContent>
                     {Object.values(TransactionType).map(type => (
                       <SelectItem key={type} value={type}>
@@ -278,6 +289,7 @@ export function ManualTransactionForm({
               {/* Category */}
               <div className="flex-1 space-y-2">
                 <Label htmlFor="category">Category</Label>
+
                 <Select
                   value={form.watch('category')}
                   onValueChange={value => form.setValue('category', value as TransactionCategory)}
@@ -285,36 +297,54 @@ export function ManualTransactionForm({
                   <SelectTrigger id="category" className="w-full">
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
+
                   <SelectContent className="max-h-72">
                     <SelectItem value={TransactionCategory.UNCATEGORIZED}>Uncategorized</SelectItem>
 
                     {/* Income Categories - Use section dividers instead of invalid empty strings */}
                     <div className="px-2 py-1.5 text-xs font-semibold text-primary">Income</div>
+
                     <SelectItem value={TransactionCategory.SALARY}>Salary</SelectItem>
+
                     <SelectItem value={TransactionCategory.INVESTMENT_INCOME}>
                       Investment Income
                     </SelectItem>
+
                     <SelectItem value={TransactionCategory.REIMBURSEMENT}>Reimbursement</SelectItem>
+
                     <SelectItem value={TransactionCategory.GIFT}>Gift</SelectItem>
 
                     {/* Expense Categories - Use section dividers instead of invalid empty strings */}
                     <div className="px-2 py-1.5 text-xs font-semibold text-primary">Expenses</div>
+
                     <SelectItem value={TransactionCategory.GROCERIES}>Groceries</SelectItem>
+
                     <SelectItem value={TransactionCategory.DINING}>Dining</SelectItem>
+
                     <SelectItem value={TransactionCategory.ENTERTAINMENT}>Entertainment</SelectItem>
+
                     <SelectItem value={TransactionCategory.TRANSPORTATION}>
                       Transportation
                     </SelectItem>
+
                     <SelectItem value={TransactionCategory.UTILITIES}>Utilities</SelectItem>
+
                     <SelectItem value={TransactionCategory.HOUSING}>Housing</SelectItem>
+
                     <SelectItem value={TransactionCategory.HEALTH}>Health</SelectItem>
+
                     <SelectItem value={TransactionCategory.EDUCATION}>Education</SelectItem>
+
                     <SelectItem value={TransactionCategory.SHOPPING}>Shopping</SelectItem>
+
                     <SelectItem value={TransactionCategory.TRAVEL}>Travel</SelectItem>
+
                     <SelectItem value={TransactionCategory.PERSONAL_CARE}>Personal Care</SelectItem>
+
                     <SelectItem value={TransactionCategory.SUBSCRIPTIONS}>Subscriptions</SelectItem>
                   </SelectContent>
                 </Select>
+
                 {form.formState.errors.category && (
                   <p className="text-sm text-destructive">
                     {form.formState.errors.category.message}
@@ -328,10 +358,12 @@ export function ManualTransactionForm({
               {/* Date */}
               <div className="flex-1 space-y-2">
                 <Label htmlFor="date">Date</Label>
+
                 <DatePicker
                   date={form.watch('date')}
                   onSelect={date => form.setValue('date', date || new Date())}
                 />
+
                 {form.formState.errors.date && (
                   <p className="text-sm text-destructive">{form.formState.errors.date.message}</p>
                 )}
@@ -340,6 +372,7 @@ export function ManualTransactionForm({
               {/* Merchant */}
               <div className="flex-1 space-y-2">
                 <Label htmlFor="merchant">Merchant</Label>
+
                 <Input
                   id="merchant"
                   placeholder="Merchant or payee (optional)"
@@ -350,6 +383,7 @@ export function ManualTransactionForm({
           </form>
         </div>
       </CardContent>
+
       <CardFooter className="mt-auto">
         <Button type="submit" form="transaction-form" className="w-full">
           Add Transaction

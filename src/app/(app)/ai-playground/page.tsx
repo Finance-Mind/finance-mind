@@ -13,6 +13,7 @@ export default function AIPlaygroundPage() {
     <div className="container mx-auto px-8 py-16 space-y-12">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">AI-Powered Playground</h1>
+
         <p className="mt-2 text-muted-foreground">Try out our tools for transaction management</p>
       </div>
 
