@@ -33,6 +33,7 @@ export function calculateStringSimilarity(str1: string, str2: string): number {
   for (let i = 1; i <= str1.length; i++) {
     for (let j = 1; j <= str2.length; j++) {
       const cost = str1[i - 1] === str2[j - 1] ? 0 : 1;
+
       matrix[i][j] = Math.min(
         matrix[i - 1][j] + 1, // deletion
         matrix[i][j - 1] + 1, // insertion

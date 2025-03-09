@@ -49,6 +49,7 @@ function areSimilarNames(name1: string, name2: string): boolean {
   // Use string similarity algorithm for fuzzy matching
   const SIMILARITY_THRESHOLD = 0.75; // High threshold for name matching
   const similarityScore = calculateStringSimilarity(clean1, clean2);
+
   if (similarityScore >= SIMILARITY_THRESHOLD) return true;
 
   // Check if one is a subset of the other
@@ -57,9 +58,11 @@ function areSimilarNames(name1: string, name2: string): boolean {
   // Check for first name match (if both have multiple names)
   const firstName1 = clean1.split(' ')[0];
   const firstName2 = clean2.split(' ')[0];
+
   if (firstName1 && firstName2) {
     // If first names are similar with high threshold
     const firstNameSimilarity = calculateStringSimilarity(firstName1, firstName2);
+
     if (firstNameSimilarity >= 0.9) return true;
 
     // Exact first name match
@@ -221,6 +224,7 @@ Matching Date: ${matchingTransaction.date}
     return result.object;
   } catch (error) {
     console.error('P2P transfer detection error:', error);
+
     return {
       isP2PTransfer: transaction.type === TransactionType.TRANSFER,
       isInternalTransfer: false,
@@ -306,6 +310,7 @@ function findMatchingTransaction(
   return otherTransactions.find(other => {
     // If transactions have the same direction, they're not matching sides of a transfer
     const otherIsOutgoing = other.amount < 0;
+
     if (isOutgoing === otherIsOutgoing) return false;
 
     // Check if amounts match (allow for small differences due to fees)

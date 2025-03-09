@@ -124,9 +124,11 @@ Map each column to the appropriate standard field.
     }
 
     console.log('Column mapping result:', result.object);
+
     return result.object;
   } catch (error) {
     console.error('Column mapping error:', error);
+
     // Return empty mapping on error
     return {
       confidence: 0.1,

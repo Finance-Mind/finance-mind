@@ -181,6 +181,7 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
           'File is too large for mobile processing. Please use a smaller file or try on desktop.'
         );
         reject(new Error('File too large for mobile processing'));
+
         return;
       }
 

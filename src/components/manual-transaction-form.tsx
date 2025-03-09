@@ -92,10 +92,12 @@ export function ManualTransactionForm({
       toast.error('Empty prompt', {
         description: 'Please enter a transaction description to extract',
       });
+
       return;
     }
 
     setIsExtracting(true);
+
     try {
       const extraction = await extractTransactionFields(aiPrompt);
 

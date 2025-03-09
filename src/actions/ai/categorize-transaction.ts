@@ -87,6 +87,7 @@ ${merchant ? `Merchant: ${merchant}` : ''}
     return result.object;
   } catch (error) {
     console.error('AI categorization error:', error);
+
     // Fallback categorization on error
     return {
       category: TransactionCategory.UNCATEGORIZED,

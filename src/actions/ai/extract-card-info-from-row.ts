@@ -105,9 +105,11 @@ ${rowDataString}
     }
 
     console.log('Card extraction from row result:', result.object);
+
     return result.object;
   } catch (error) {
     console.error('Card extraction from row error:', error);
+
     // Return a minimal result with low confidence on error
     return {
       confidence: 0.1,

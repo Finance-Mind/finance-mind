@@ -104,6 +104,7 @@ Analyze this bank statement filename and extract any relevant bank or card infor
     return result.object;
   } catch (error) {
     console.error('Card extraction error:', error);
+
     // Return a minimal result with low confidence on error
     return {
       confidence: 0.1,

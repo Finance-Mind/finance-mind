@@ -107,6 +107,7 @@ export async function extractTransactionFields(
   if (inputArray.length === 1) {
     const item = inputArray[0];
     const stringifiedItem = typeof item === 'string' ? item : JSON.stringify(item);
+
     return [await extractSingleTransaction(stringifiedItem)];
   }
 
@@ -157,6 +158,7 @@ async function extractSingleTransaction(prompt: string): Promise<TransactionExtr
         // Extract English expression if available
         if (dateString.includes('|english:')) {
           const parts = dateString.split('|english:');
+
           if (parts.length > 1) {
             englishDateExpression = parts[1].trim();
           }
@@ -196,6 +198,7 @@ async function processBatchTransactions(prompts: string[]): Promise<TransactionE
     for (let i = 0; i < prompts.length; i += MAX_BATCH_SIZE) {
       const chunk = prompts.slice(i, i + MAX_BATCH_SIZE);
       const chunkResults = await processBatchTransactions(chunk);
+
       results.push(...chunkResults);
     }
 
@@ -248,10 +251,12 @@ EXPECTED OUTPUT FORMAT:
     console.log('Falling back to individual transaction processing');
 
     const results: TransactionExtraction[] = [];
+
     for (const prompt of prompts) {
       try {
         // Process each transaction individually
         const result = await extractSingleTransaction(prompt);
+
         results.push(result);
       } catch (individualError) {
         console.error('Individual transaction extraction error:', individualError);
@@ -288,6 +293,7 @@ function processExtractedDate(extractedResult: TransactionExtraction): Transacti
       // Extract English expression if available
       if (dateString.includes('|english:')) {
         const parts = dateString.split('|english:');
+
         if (parts.length > 1) {
           englishDateExpression = parts[1].trim();
         }

@@ -21,6 +21,7 @@ export async function parsePDF(
     // This avoids issues with server-side rendering
     if (typeof window === 'undefined') {
       console.warn('PDF parsing attempted in a server environment, returning empty result');
+
       return [];
     }
 
@@ -33,6 +34,7 @@ export async function parsePDF(
     if (isMobile && pdfContent.byteLength > 5 * 1024 * 1024) {
       // 5MB limit on mobile
       console.warn('PDF file too large for mobile processing');
+
       return [
         {
           error: 'PDF file too large for mobile processing',
@@ -49,11 +51,13 @@ export async function parsePDF(
 
       // Set the worker source
       const pdfjsWorker = await import('pdfjs-dist/build/pdf.worker.mjs');
+
       pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
       // Use a timeout to prevent hanging on problematic PDFs
       const timeoutPromise = new Promise<never>((_, reject) => {
         const timeout = isMobile ? 15000 : 30000; // Shorter timeout on mobile
+
         setTimeout(() => reject(new Error('PDF processing timed out')), timeout);
       });
 
@@ -126,6 +130,7 @@ export async function parsePDF(
             return await extractMinimalPdfContent(pdfContent);
           } catch (minimalError) {
             console.error('Even minimal PDF extraction failed:', minimalError);
+
             return [
               {
                 error: 'PDF processing failed on mobile',
@@ -148,6 +153,7 @@ export async function parsePDF(
       (error as Error).message.includes('window is not defined')
     ) {
       console.warn('PDF parsing attempted in a server environment, returning empty result');
+
       return [];
     }
 
@@ -187,6 +193,7 @@ function extractStructuredData(text: string): Array<Record<string, string | numb
     // Find all position indices where dates appear
     for (const pattern of datePatterns) {
       let match;
+
       while ((match = pattern.exec(text)) !== null) {
         potentialDateMatches.push(match.index);
       }
@@ -212,6 +219,7 @@ function extractStructuredData(text: string): Array<Record<string, string | numb
 
       // Check if this line contains a date
       let hasDate = false;
+
       for (const pattern of datePatterns) {
         if (pattern.test(line)) {
           hasDate = true;
@@ -223,6 +231,7 @@ function extractStructuredData(text: string): Array<Record<string, string | numb
         // If we had a previous row, add it to the result
         if (currentLine) {
           const parsedRow = parseStatementRow(currentLine);
+
           if (Object.keys(parsedRow).length > 0) {
             result.push(parsedRow);
           }
@@ -239,6 +248,7 @@ function extractStructuredData(text: string): Array<Record<string, string | numb
     // Add the last row if any
     if (currentLine) {
       const parsedRow = parseStatementRow(currentLine);
+
       if (Object.keys(parsedRow).length > 0) {
         result.push(parsedRow);
       }
@@ -252,6 +262,7 @@ function extractStructuredData(text: string): Array<Record<string, string | numb
     return result;
   } catch (error) {
     console.warn('Error extracting structured data from PDF:', error);
+
     // Fall back to unstructured parsing
     return parseUnstructuredText(text);
   }
@@ -268,6 +279,7 @@ function parseStatementRow(text: string): Record<string, string | number> {
   try {
     // Try to extract date
     const dateMatch = text.match(/\d{1,2}[/-]\d{1,2}[/-]\d{2,4}|\d{4}-\d{2}-\d{2}/);
+
     if (dateMatch) {
       result.date = dateMatch[0];
     }
@@ -275,22 +287,27 @@ function parseStatementRow(text: string): Record<string, string | number> {
     // Try to extract amount (typically currency values)
     // Look for patterns like $123.45, R$123,45, 123.45, -123.45
     const amountMatch = text.match(/[-+]?\s*[R$£€$]?\s*\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2})/);
+
     if (amountMatch) {
       const amountStr = amountMatch[0].replace(/[R$£€$\s]/g, '').replace(',', '.');
+
       result.amount = parseFloat(amountStr);
     }
 
     // Extract description (everything except date and amount)
     let description = text;
+
     if (dateMatch) {
       description = description.replace(dateMatch[0], '');
     }
+
     if (amountMatch) {
       description = description.replace(amountMatch[0], '');
     }
 
     // Clean up description
     description = description.replace(/\s+/g, ' ').trim();
+
     if (description) {
       result.description = description;
     }
@@ -298,6 +315,7 @@ function parseStatementRow(text: string): Record<string, string | number> {
     return result;
   } catch (error) {
     console.warn('Error parsing statement row:', error);
+
     return {};
   }
 }
@@ -329,6 +347,7 @@ function parseUnstructuredText(text: string): Array<Record<string, string | numb
     return result;
   } catch (error) {
     console.warn('Error parsing unstructured text:', error);
+
     return [];
   }
 }
@@ -357,6 +376,7 @@ async function extractMinimalPdfContent(
     // Dynamically import PDF.js
     const pdfjs = await import('pdfjs-dist');
     const pdfjsWorker = await import('pdfjs-dist/build/pdf.worker.mjs');
+
     pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
     // Configure PDF.js with minimal memory usage
@@ -434,6 +454,7 @@ async function extractMinimalPdfContent(
 
         if (i < amounts.length) {
           const amountStr = amounts[i].replace(/[R$£€$\s]/g, '').replace(',', '.');
+
           try {
             record.amount = parseFloat(amountStr);
           } catch {
@@ -455,6 +476,7 @@ async function extractMinimalPdfContent(
     return result;
   } catch (error) {
     console.error('Error in minimal PDF extraction:', error);
+
     return [
       {
         error: 'PDF minimal extraction failed',

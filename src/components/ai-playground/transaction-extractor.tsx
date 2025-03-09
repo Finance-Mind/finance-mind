@@ -49,6 +49,7 @@ export const TransactionExtractor = () => {
     try {
       // Use the server action instead of the API call
       const result = await extractTransactionFields(values.prompt);
+
       setResult(result);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unknown error occurred');
