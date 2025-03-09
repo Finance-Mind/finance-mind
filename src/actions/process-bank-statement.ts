@@ -125,7 +125,6 @@ export async function processBankStatement(
 
               if (processedTransactionIds.has(transactionId)) {
                 result.duplicatesSkipped++;
-
                 continue;
               }
 
@@ -158,13 +157,19 @@ export async function processBankStatement(
 
               if (processedTransactionIds.has(transactionId)) {
                 result.duplicatesSkipped++;
-
                 continue;
               }
 
               try {
                 // Can now pass row object directly without JSON.stringify
                 const transactionFields = await extractTransactionFields(row);
+
+                const transactionId = JSON.stringify(row);
+
+                if (processedTransactionIds.has(transactionId)) {
+                  result.duplicatesSkipped++;
+                  continue;
+                }
 
                 const transaction: Transaction = {
                   id: transactionId,

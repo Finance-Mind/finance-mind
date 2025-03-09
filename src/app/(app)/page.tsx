@@ -175,122 +175,128 @@ export default function OverviewPage() {
                 </thead>
                 <tbody>
                   {transactions.length > 0 ? (
-                    transactions.map(transaction => (
-                      <tr
-                        key={transaction.id}
-                        className="border-b last:border-b-0 transition-colors hover:bg-muted/50"
-                      >
-                        <td className="p-4 align-middle">{formatDate(transaction.date)}</td>
-                        <td className="p-4 align-middle">
-                          {transaction.description}
-                          {transaction.merchant && (
-                            <div className="text-xs text-muted-foreground">
-                              {transaction.merchant}
-                            </div>
-                          )}
-                          {transaction.card && (
-                            <div className="text-xs font-medium text-primary mt-1">
-                              {transaction.card}
-                            </div>
-                          )}
-                        </td>
-                        <td className="p-4 align-middle">
-                          <span
-                            className={`inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold ${
-                              transaction.isInternalTransfer
-                                ? 'bg-blue-50 text-blue-700 border-blue-200'
-                                : transaction.isP2PTransfer
-                                  ? 'bg-purple-50 text-purple-700 border-purple-200'
-                                  : transaction.type === 'INCOME'
-                                    ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                                    : transaction.type === 'OUTCOME'
-                                      ? 'bg-red-50 text-red-700 border-red-200'
-                                      : 'bg-blue-50 text-blue-700 border-blue-200'
-                            }`}
-                          >
-                            {transaction.isInternalTransfer
-                              ? 'Internal Transfer'
-                              : transaction.category !== TransactionCategory.UNCATEGORIZED
-                                ? transaction.category
-                                : 'P2P Transfer'}
-                          </span>
-                          {transaction.installment && (
-                            <div className="text-xs text-muted-foreground mt-1">
-                              Installment {transaction.installment.current}/
-                              {transaction.installment.total}
-                            </div>
-                          )}
-                          {(transaction.isInternalTransfer || transaction.isP2PTransfer) &&
-                            transaction.transfer && (
-                              <div className="text-xs text-blue-600 mt-1">
-                                {transaction.transfer.fromPerson &&
-                                transaction.transfer.toPerson ? (
-                                  <>
-                                    From: {transaction.transfer.fromPerson} → To:{' '}
-                                    {transaction.transfer.toPerson}
-                                  </>
-                                ) : transaction.transfer.fromAccount &&
-                                  transaction.transfer.toAccount ? (
-                                  <>
-                                    From: {transaction.transfer.fromAccount} → To:{' '}
-                                    {transaction.transfer.toAccount}
-                                  </>
-                                ) : null}
+                    transactions.map((transaction, index) => {
+                      // Create a composite key using both the transaction ID and array index
+                      // This ensures uniqueness even if the transaction ID is somehow duplicated
+                      const uniqueKey = `${transaction.id}-${index}`;
+
+                      return (
+                        <tr
+                          key={uniqueKey}
+                          className="border-b last:border-b-0 transition-colors hover:bg-muted/50"
+                        >
+                          <td className="p-4 align-middle">{formatDate(transaction.date)}</td>
+                          <td className="p-4 align-middle">
+                            {transaction.description}
+                            {transaction.merchant && (
+                              <div className="text-xs text-muted-foreground">
+                                {transaction.merchant}
                               </div>
                             )}
-                        </td>
-                        <td className="p-4 align-middle">
-                          <span
-                            className={
-                              transaction.type === 'INCOME' ? 'text-emerald-600' : 'text-red-600'
-                            }
-                          >
-                            {formatCurrency(transaction.amount, transaction.currency)}
-                          </span>
-                        </td>
-                        <td className="p-4 align-middle">
-                          <div className="flex gap-2">
-                            <Button variant="ghost" size="icon" className="h-8 w-8">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="h-4 w-4"
-                              >
-                                <path d="M12 20h9" />
-                                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-                              </svg>
-                              <span className="sr-only">Edit</span>
-                            </Button>
-                            <Button variant="ghost" size="icon" className="h-8 w-8">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="h-4 w-4"
-                              >
-                                <path d="M3 6h18" />
-                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                              </svg>
-                              <span className="sr-only">Delete</span>
-                            </Button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
+                            {transaction.card && (
+                              <div className="text-xs font-medium text-primary mt-1">
+                                {transaction.card}
+                              </div>
+                            )}
+                          </td>
+                          <td className="p-4 align-middle">
+                            <span
+                              className={`inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold ${
+                                transaction.isInternalTransfer
+                                  ? 'bg-blue-50 text-blue-700 border-blue-200'
+                                  : transaction.isP2PTransfer
+                                    ? 'bg-purple-50 text-purple-700 border-purple-200'
+                                    : transaction.type === 'INCOME'
+                                      ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                      : transaction.type === 'OUTCOME'
+                                        ? 'bg-red-50 text-red-700 border-red-200'
+                                        : 'bg-blue-50 text-blue-700 border-blue-200'
+                              }`}
+                            >
+                              {transaction.isInternalTransfer
+                                ? 'Internal Transfer'
+                                : transaction.category !== TransactionCategory.UNCATEGORIZED
+                                  ? transaction.category
+                                  : 'P2P Transfer'}
+                            </span>
+                            {transaction.installment && (
+                              <div className="text-xs text-muted-foreground mt-1">
+                                Installment {transaction.installment.current}/
+                                {transaction.installment.total}
+                              </div>
+                            )}
+                            {(transaction.isInternalTransfer || transaction.isP2PTransfer) &&
+                              transaction.transfer && (
+                                <div className="text-xs text-blue-600 mt-1">
+                                  {transaction.transfer.fromPerson &&
+                                  transaction.transfer.toPerson ? (
+                                    <>
+                                      From: {transaction.transfer.fromPerson} → To:{' '}
+                                      {transaction.transfer.toPerson}
+                                    </>
+                                  ) : transaction.transfer.fromAccount &&
+                                    transaction.transfer.toAccount ? (
+                                    <>
+                                      From: {transaction.transfer.fromAccount} → To:{' '}
+                                      {transaction.transfer.toAccount}
+                                    </>
+                                  ) : null}
+                                </div>
+                              )}
+                          </td>
+                          <td className="p-4 align-middle">
+                            <span
+                              className={
+                                transaction.type === 'INCOME' ? 'text-emerald-600' : 'text-red-600'
+                              }
+                            >
+                              {formatCurrency(transaction.amount, transaction.currency)}
+                            </span>
+                          </td>
+                          <td className="p-4 align-middle">
+                            <div className="flex gap-2">
+                              <Button variant="ghost" size="icon" className="h-8 w-8">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  className="h-4 w-4"
+                                >
+                                  <path d="M12 20h9" />
+                                  <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                                </svg>
+                                <span className="sr-only">Edit</span>
+                              </Button>
+                              <Button variant="ghost" size="icon" className="h-8 w-8">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  className="h-4 w-4"
+                                >
+                                  <path d="M3 6h18" />
+                                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                                </svg>
+                                <span className="sr-only">Delete</span>
+                              </Button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })
                   ) : (
                     <tr>
                       <td colSpan={5} className="p-4 text-center text-muted-foreground">

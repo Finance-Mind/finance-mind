@@ -183,6 +183,20 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
     });
   };
 
+  // Add a helper function to properly deduplicate transactions
+  const deduplicateTransactions = (
+    currentTransactions: Transaction[],
+    newTransactions: Transaction[]
+  ): Transaction[] => {
+    // Create a Set of existing transaction IDs
+    const existingTransactionIds = new Set(currentTransactions.map(t => t.id));
+
+    // Filter out new transactions that match existing IDs
+    const uniqueNewTransactions = newTransactions.filter(t => !existingTransactionIds.has(t.id));
+
+    return [...currentTransactions, ...uniqueNewTransactions];
+  };
+
   const handleProcessFiles = async () => {
     if (files.length === 0) return;
 
@@ -243,8 +257,10 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
         setProcessingDurations(result.processingTime);
       }
 
-      // Store the new transactions to check for duplicates in future uploads
-      setProcessedTransactions(prevTransactions => [...prevTransactions, ...result.transactions]);
+      // Use the deduplication helper function for storing transactions
+      setProcessedTransactions(prevTransactions =>
+        deduplicateTransactions(prevTransactions, result.transactions)
+      );
 
       setSkippedDuplicates(prev => prev + result.duplicatesSkipped);
 
@@ -304,13 +320,14 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
                       key={index}
                       className="flex items-center justify-between bg-muted/50 p-2 text-sm"
                     >
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 flex-1">
                         <FileIcon className="h-4 w-4 text-muted-foreground" />
-                        <span className="truncate max-w-[200px]">{file.name}</span>
-                        <span className="text-muted-foreground">
+                        <span className="truncate max-w-36 flex-1">{file.name}</span>
+                        <span className="text-muted-foreground min-w-10">
                           ({Math.round(file.size / 1024)} KB)
                         </span>
                       </div>
+
                       <Button
                         variant="ghost"
                         size="icon"
@@ -367,7 +384,7 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
             )}
 
             {showDuration && processingDurations ? (
-              <div className="mt-4 p-3 bg-primary/10 rounded-md space-y-2 text-xs text-muted-foreground">
+              <div className="mt-4 p-5 bg-primary/10 rounded-md space-y-2 text-xs text-muted-foreground">
                 <div className="flex items-center">
                   <ClockIcon className="h-3 w-3 mr-2 text-primary/70" />
                   <span>
