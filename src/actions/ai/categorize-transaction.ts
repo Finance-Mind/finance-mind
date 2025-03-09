@@ -3,7 +3,7 @@
 import { generateObject } from 'ai';
 
 import { openai, defaultModel } from '@/lib/ai';
-import { TransactionCategory, TransactionType } from '@/lib/ai/types';
+import { TransactionCategory, TransactionType } from '@/interfaces/enums';
 import { transactionCategorizeResponseSchema } from '@/schemas/transaction-schemas';
 
 import type { TransactionCategorizeResponse } from '@/schemas/transaction-schemas';

@@ -4,8 +4,8 @@ import { openai } from '@ai-sdk/openai';
 import { generateObject } from 'ai';
 import * as chrono from 'chrono-node';
 
+import { TransactionCategory, TransactionType } from '@/interfaces/enums';
 import { defaultModel } from '@/lib/ai';
-import { TransactionCategory, TransactionType } from '@/lib/ai/types';
 import { transactionExtractionSchema, transactionBatchSchema } from '@/schemas/transaction-schemas';
 
 import type { TransactionExtraction } from '@/schemas/transaction-schemas';

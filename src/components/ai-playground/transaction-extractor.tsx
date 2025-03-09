@@ -25,7 +25,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { transactionExtractorFormSchema } from '@/schemas/form-schemas';
 
-import type { TransactionCategory, TransactionType } from '@/lib/ai/types';
+import type { TransactionCategory, TransactionType } from '@/interfaces/enums';
 import type { TransactionExtractorFormValues } from '@/schemas/form-schemas';
 import type { TransactionExtraction } from '@/schemas/transaction-schemas';
 

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { AssetClass, InvestmentCategory, InvestmentTransactionType } from '@/lib/ai/types';
+import { AssetClass, InvestmentCategory, InvestmentTransactionType } from '@/interfaces/enums';
 
 /**
  * Schema for investment asset

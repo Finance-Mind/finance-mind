@@ -1,4 +1,4 @@
-import type { TransactionType, TransactionCategory } from '@/lib/ai/types';
+import type { TransactionType, TransactionCategory } from '@/interfaces/enums';
 
 export interface Transaction {
   id: string;

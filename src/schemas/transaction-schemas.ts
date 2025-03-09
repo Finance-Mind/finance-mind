@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { TransactionCategory, TransactionType } from '@/lib/ai/types';
+import { TransactionCategory, TransactionType } from '@/interfaces/enums';
 
 /**
  * Schema for transaction categorization input

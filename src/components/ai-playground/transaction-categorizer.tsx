@@ -25,7 +25,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { transactionCategorizerFormSchema } from '@/schemas/form-schemas';
 
-import type { TransactionCategory, TransactionType } from '@/lib/ai/types';
+import type { TransactionCategory, TransactionType } from '@/interfaces/enums';
 import type { TransactionCategorizerFormValues } from '@/schemas/form-schemas';
 import type { TransactionCategorizeResponse } from '@/schemas/transaction-schemas';
 

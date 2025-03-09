@@ -3,7 +3,7 @@
 import { detectP2PTransfer } from '@/actions/ai/detect-person-to-person-transfer';
 import { extractCardFromFilename as aiExtractCardFromFilename } from '@/actions/ai/extract-card-info';
 import { extractTransactionFields } from '@/actions/ai/extract-transaction-fields';
-import { TransactionType } from '@/lib/ai/types';
+import { TransactionType } from '@/interfaces/enums';
 import { parseCSV } from '@/lib/parsers/csv-parser';
 import { parsePDF } from '@/lib/parsers/pdf-parser';
 
