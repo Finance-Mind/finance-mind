@@ -71,7 +71,18 @@ export const transactionExtractionSchema = z.object({
     .describe('AI confidence level in the extraction (0.0 to 1.0)'),
 });
 
+/**
+ * Schema for batch transaction extraction - uses an object with numbered transaction properties
+ * This is compatible with generateObject which requires object schemas
+ */
+export const transactionBatchSchema = z.object({
+  transactions: z
+    .array(transactionExtractionSchema)
+    .describe('Array of extracted transaction data'),
+});
+
 // Types for schema inference
 export type TransactionCategorizeInput = z.infer<typeof transactionCategorizeSchema>;
 export type TransactionCategorizeResponse = z.infer<typeof transactionCategorizeResponseSchema>;
 export type TransactionExtraction = z.infer<typeof transactionExtractionSchema>;
+export type TransactionBatch = z.infer<typeof transactionBatchSchema>;

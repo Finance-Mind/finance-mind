@@ -24,39 +24,120 @@ export async function parsePDF(
       return [];
     }
 
-    // Dynamically import PDF.js only on the client side
-    // We use any typing here to avoid dependency on specific PDF.js types
-    // which can cause issues with type checking in SSR
-    const pdfjs = await import('pdfjs-dist');
+    // Check if this is a mobile device - use a simpler approach for mobile
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    );
 
-    // Set the worker source
-    const pdfjsWorker = await import('pdfjs-dist/build/pdf.worker.mjs');
-    pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
-
-    // Load the PDF document
-    const loadingTask = pdfjs.getDocument({ data: pdfContent });
-    const pdf = await loadingTask.promise;
-
-    // Extract text from all pages
-    const extractedText: string[] = [];
-
-    for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i);
-      const textContent = await page.getTextContent();
-      // Use a type assertion to handle unknown structure
-
-      const pageText = textContent.items.map(item => ('str' in item ? item.str : '')).join(' ');
-
-      extractedText.push(pageText);
+    // Limit PDF size on mobile devices to prevent crashes
+    if (isMobile && pdfContent.byteLength > 5 * 1024 * 1024) {
+      // 5MB limit on mobile
+      console.warn('PDF file too large for mobile processing');
+      return [
+        {
+          error: 'PDF file too large for mobile processing',
+          message: 'Please use a smaller file or try on desktop',
+        },
+      ];
     }
 
-    // Join all pages' text
-    const fullText = extractedText.join('\n');
+    try {
+      // Dynamically import PDF.js only on the client side
+      // We use any typing here to avoid dependency on specific PDF.js types
+      // which can cause issues with type checking in SSR
+      const pdfjs = await import('pdfjs-dist');
 
-    // Try to extract a table-like structure from the PDF
-    const extractedData = extractStructuredData(fullText);
+      // Set the worker source
+      const pdfjsWorker = await import('pdfjs-dist/build/pdf.worker.mjs');
+      pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
-    return extractedData;
+      // Use a timeout to prevent hanging on problematic PDFs
+      const timeoutPromise = new Promise<never>((_, reject) => {
+        const timeout = isMobile ? 15000 : 30000; // Shorter timeout on mobile
+        setTimeout(() => reject(new Error('PDF processing timed out')), timeout);
+      });
+
+      // Load the PDF document with timeout
+      const loadingTask = pdfjs.getDocument({ data: pdfContent });
+
+      // Add progress callback for better user feedback
+      loadingTask.onProgress = (progressData: { loaded: number; total: number }) => {
+        console.log(
+          `PDF loading: ${Math.round((progressData.loaded / progressData.total) * 100)}%`
+        );
+      };
+
+      // Race between PDF loading and timeout
+      const pdf = await Promise.race([loadingTask.promise, timeoutPromise]);
+
+      // Limit the number of pages processed on mobile to improve performance
+      const pagesToProcess = isMobile ? Math.min(pdf.numPages, 5) : pdf.numPages;
+
+      // Extract text from pages (with limits for mobile)
+      const extractedText: string[] = [];
+
+      for (let i = 1; i <= pagesToProcess; i++) {
+        try {
+          const page = await pdf.getPage(i);
+          const textContent = await page.getTextContent();
+          // Use a type assertion to handle unknown structure
+
+          const pageText = textContent.items.map(item => ('str' in item ? item.str : '')).join(' ');
+
+          extractedText.push(pageText);
+
+          // Mobile optimization: free up memory as we go
+          if (isMobile) {
+            page.cleanup();
+          }
+        } catch (pageError) {
+          console.warn(`Error extracting text from page ${i}:`, pageError);
+          extractedText.push(`[Error extracting page ${i}]`);
+          continue; // Continue with next page despite error
+        }
+      }
+
+      // Join all pages' text
+      const fullText = extractedText.join('\n');
+
+      // Clean up PDF document to free memory
+      pdf.destroy();
+
+      // Try to extract a table-like structure from the PDF
+      const extractedData = extractStructuredData(fullText);
+
+      return extractedData;
+    } catch (pdfJsError) {
+      console.error('PDF.js error:', pdfJsError);
+
+      // Special handling for mobile-specific errors
+      if (isMobile) {
+        const errorMessage = (pdfJsError as Error).message || String(pdfJsError);
+
+        if (
+          errorMessage.includes('out of memory') ||
+          errorMessage.includes('allocation failed') ||
+          errorMessage.includes('timeout')
+        ) {
+          console.log('Attempting minimal PDF extraction for mobile...');
+
+          try {
+            // Try the minimal extraction approach as a fallback
+            return await extractMinimalPdfContent(pdfContent);
+          } catch (minimalError) {
+            console.error('Even minimal PDF extraction failed:', minimalError);
+            return [
+              {
+                error: 'PDF processing failed on mobile',
+                message: 'This PDF is too complex to process on mobile. Please try on desktop.',
+              },
+            ];
+          }
+        }
+      }
+
+      throw pdfJsError;
+    }
   } catch (error) {
     console.error('Error parsing PDF:', error);
 
@@ -70,7 +151,14 @@ export async function parsePDF(
       return [];
     }
 
-    throw new Error(`PDF parsing failed: ${(error as Error).message}`);
+    // Return a meaningful error object rather than throwing
+    // This allows the application to continue and display a user-friendly error
+    return [
+      {
+        error: 'PDF parsing failed',
+        message: (error as Error).message || 'Unknown error',
+      },
+    ];
   }
 }
 
@@ -242,5 +330,130 @@ function parseUnstructuredText(text: string): Array<Record<string, string | numb
   } catch (error) {
     console.warn('Error parsing unstructured text:', error);
     return [];
+  }
+}
+
+/**
+ * Extract a minimal amount of text from a PDF, optimized for mobile devices
+ * This is a fallback when full processing fails on mobile
+ * @param pdfContent The PDF content as an ArrayBuffer
+ * @returns A simplified extraction with just basic information
+ */
+async function extractMinimalPdfContent(
+  pdfContent: ArrayBuffer
+): Promise<Array<Record<string, string | number>>> {
+  try {
+    // Dynamically import PDF.js
+    const pdfjs = await import('pdfjs-dist');
+    const pdfjsWorker = await import('pdfjs-dist/build/pdf.worker.mjs');
+    pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
+
+    // Configure PDF.js with minimal memory usage
+    const loadingTask = pdfjs.getDocument({
+      data: pdfContent,
+      disableFontFace: true,
+      // Use type assertion to handle pdfjs-specific options
+      // @ts-ignore - PDF.js custom properties
+      nativeImageDecoderSupport: 'none',
+      ignoreErrors: true,
+      isEvalSupported: false,
+      cMapUrl: 'https://unpkg.com/pdfjs-dist@3.11.174/cmaps/',
+      cMapPacked: true,
+    } as any); // Use type assertion for PDF.js specific options
+
+    // Use a shorter timeout for mobile
+    const timeoutMs = 10000; // 10 seconds
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(() => reject(new Error('PDF minimal processing timed out')), timeoutMs);
+    });
+
+    // Only process the first 2 pages at most
+    const pdf = await Promise.race([loadingTask.promise, timeoutPromise]);
+    const pagesToProcess = Math.min(pdf.numPages, 2);
+
+    const extractedText: string[] = [];
+
+    for (let i = 1; i <= pagesToProcess; i++) {
+      try {
+        const page = await pdf.getPage(i);
+        // Using a simpler text extraction approach
+        const textContent = await page.getTextContent({
+          // Use type assertion for PDF.js specific options
+          normalizeWhitespace: true,
+          disableCombineTextItems: false,
+        } as any);
+
+        const pageText = textContent.items
+          .map(item => ('str' in item ? item.str : ''))
+          .join(' ')
+          .trim();
+
+        extractedText.push(pageText);
+
+        // Free up memory immediately
+        page.cleanup();
+      } catch (pageError) {
+        console.warn(`Error in minimal extraction from page ${i}:`, pageError);
+        continue;
+      }
+    }
+
+    // Clean up
+    pdf.destroy();
+
+    // Extract just the most likely transaction data
+    // Look for date patterns and currency values
+    const result: Array<Record<string, string | number>> = [];
+    const fullText = extractedText.join(' ');
+
+    // Find all dates in the text
+    const dateRegex = /\d{1,2}[/-]\d{1,2}[/-]\d{2,4}|\d{4}-\d{2}-\d{2}/g;
+    const dates = Array.from(fullText.matchAll(dateRegex), m => m[0]);
+
+    // Find all monetary values
+    const moneyRegex = /[-+]?\s*[R$£€$]?\s*\d{1,3}(?:[,.]\d{3})*(?:[,.]\d{2})/g;
+    const amounts = Array.from(fullText.matchAll(moneyRegex), m => m[0]);
+
+    // Create simple records with just dates and amounts if we have any
+    if (dates.length > 0 || amounts.length > 0) {
+      // Create records with what we have
+      const maxItems = Math.max(dates.length, amounts.length);
+
+      for (let i = 0; i < maxItems; i++) {
+        const record: Record<string, string | number> = {};
+
+        if (i < dates.length) {
+          record.date = dates[i];
+        }
+
+        if (i < amounts.length) {
+          const amountStr = amounts[i].replace(/[R$£€$\s]/g, '').replace(',', '.');
+          try {
+            record.amount = parseFloat(amountStr);
+          } catch (e) {
+            record.amount_text = amounts[i];
+          }
+        }
+
+        if (Object.keys(record).length > 0) {
+          result.push(record);
+        }
+      }
+    }
+
+    // If we couldn't extract structured data, return at least what we found
+    if (result.length === 0 && extractedText.length > 0) {
+      return [{ raw_content: extractedText.join('\n').substring(0, 1000) }];
+    }
+
+    return result;
+  } catch (error) {
+    console.error('Error in minimal PDF extraction:', error);
+    return [
+      {
+        error: 'PDF minimal extraction failed',
+        message: 'Could not extract even basic information from this PDF',
+      },
+    ];
   }
 }
