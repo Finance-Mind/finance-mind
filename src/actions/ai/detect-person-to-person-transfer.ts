@@ -6,10 +6,9 @@ import { z } from 'zod';
 
 import { userConfig } from '@/config/user';
 import { TransactionType } from '@/interfaces/enums';
+import type { Transaction } from '@/interfaces/transaction';
 import { defaultModel } from '@/lib/ai';
 import { calculateStringSimilarity } from '@/utils/calculate-string-similarity';
-
-import type { Transaction } from '@/interfaces/transaction';
 
 // Schema for person-to-person transfer detection response
 const p2pTransferSchema = z.object({

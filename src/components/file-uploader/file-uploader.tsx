@@ -1,16 +1,9 @@
 'use client';
 
-import { Loader2, UploadIcon } from 'lucide-react';
 import { useCallback } from 'react';
+
+import { Loader2, UploadIcon } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
-
-import { FileItem } from './file-item';
-import { getProcessingSteps } from './processing-steps-config';
-import { ProcessingStepsList } from './processing-steps-list';
-import { useFileProcessing } from './use-file-processing';
-import { formatDuration } from './utils';
-
-import type { FileUploaderProps } from './types';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -22,6 +15,13 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+
+import { FileItem } from './file-item';
+import { getProcessingSteps } from './processing-steps-config';
+import { ProcessingStepsList } from './processing-steps-list';
+import type { FileUploaderProps } from './types';
+import { useFileProcessing } from './use-file-processing';
+import { formatDuration } from './utils';
 
 /**
  * Component for handling file upload and processing of bank statements
@@ -72,14 +72,14 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
       <div
         {...getRootProps()}
         className={cn(
-          'border-2 border-dashed transition-colors h-full',
+          'h-full border-2 border-dashed transition-colors',
           isDragActive ? 'border-primary' : 'border-muted-foreground/25',
-          isProcessing ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer hover:bg-muted/50'
+          isProcessing ? 'cursor-not-allowed opacity-60' : 'hover:bg-muted/50 cursor-pointer'
         )}
       >
         <input {...getInputProps()} />
 
-        <Card className="border-0 bg-transparent flex flex-col h-full">
+        <Card className="flex h-full flex-col border-0 bg-transparent">
           <CardHeader>
             <CardTitle>Upload Bank Statements</CardTitle>
 
@@ -107,10 +107,10 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
                 </ul>
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center h-full py-8 text-center">
-                <UploadIcon className="h-10 w-10 text-muted-foreground mb-2" />
+              <div className="flex h-full flex-col items-center justify-center py-8 text-center">
+                <UploadIcon className="text-muted-foreground mb-2 h-10 w-10" />
 
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   {isProcessing
                     ? 'Processing files... Please wait'
                     : isMobile
@@ -134,13 +134,13 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
             )}
 
             {error && (
-              <div className="mt-4 p-3 bg-destructive/10 text-destructive text-sm rounded-md">
+              <div className="bg-destructive/10 text-destructive mt-4 rounded-md p-3 text-sm">
                 {error}
               </div>
             )}
 
             {skippedDuplicates > 0 && (
-              <div className="mt-4 p-3 bg-muted text-muted-foreground text-sm rounded-md">
+              <div className="bg-muted text-muted-foreground mt-4 rounded-md p-3 text-sm">
                 {`${skippedDuplicates} duplicated transaction${
                   skippedDuplicates !== 1 ? 's' : ''
                 } skipped`}
@@ -148,17 +148,17 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
             )}
 
             {isProcessing && startTime && (
-              <div className="mt-4 p-3 bg-muted text-muted-foreground text-sm rounded-md flex items-center">
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+              <div className="bg-muted text-muted-foreground mt-4 flex items-center rounded-md p-3 text-sm">
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
 
                 <span>Processing for {formatDuration(elapsedTime)}...</span>
               </div>
             )}
           </CardContent>
 
-          <CardFooter className="mt-auto flex flex-col gap-5 items-start">
+          <CardFooter className="mt-auto flex flex-col items-start gap-5">
             {showDuration && (
-              <div className="text-xs text-muted-foreground mt-2">
+              <div className="text-muted-foreground mt-2 text-xs">
                 <ProcessingStepsList
                   steps={processingSteps}
                   activeStep={activeStep}
@@ -167,7 +167,7 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
               </div>
             )}
 
-            <div className="w-full flex flex-col gap-1">
+            <div className="flex w-full flex-col gap-1">
               <p className="mb-2 text-sm">{files.length} file(s) selected</p>
 
               <Button

@@ -7,7 +7,6 @@ import { ManualTransactionForm } from '@/components/manual-transaction-form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { TransactionCategory } from '@/interfaces/enums';
-
 import type { Transaction } from '@/interfaces/transaction';
 
 export default function OverviewPage() {
@@ -56,7 +55,7 @@ export default function OverviewPage() {
 
   return (
     <div className="container mx-auto px-8 py-16">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+      <div className="mb-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
         {/* Upload Bank Statements */}
         <FileUploader onTransactionsProcessed={handleTransactionsProcessed} />
 
@@ -66,7 +65,7 @@ export default function OverviewPage() {
 
       {/* Errors and Warnings */}
       {(errors.length > 0 || warnings.length > 0) && (
-        <Card className="border mb-8">
+        <Card className="mb-8 border">
           <CardHeader>
             <CardTitle>Processing Messages</CardTitle>
 
@@ -78,9 +77,9 @@ export default function OverviewPage() {
           <CardContent>
             {errors.length > 0 && (
               <div className="mb-4">
-                <h3 className="text-sm font-medium text-destructive mb-2">Errors:</h3>
+                <h3 className="text-destructive mb-2 text-sm font-medium">Errors:</h3>
 
-                <ul className="space-y-1 text-sm text-destructive/80 list-disc pl-5">
+                <ul className="text-destructive/80 list-disc space-y-1 pl-5 text-sm">
                   {errors.map((error, index) => (
                     <li key={index}>{error}</li>
                   ))}
@@ -90,9 +89,9 @@ export default function OverviewPage() {
 
             {warnings.length > 0 && (
               <div>
-                <h3 className="text-sm font-medium text-amber-600 mb-2">Warnings:</h3>
+                <h3 className="mb-2 text-sm font-medium text-amber-600">Warnings:</h3>
 
-                <ul className="space-y-1 text-sm text-amber-600/80 list-disc pl-5">
+                <ul className="list-disc space-y-1 pl-5 text-sm text-amber-600/80">
                   {warnings.map((warning, index) => (
                     <li key={index}>{warning}</li>
                   ))}
@@ -104,7 +103,7 @@ export default function OverviewPage() {
       )}
 
       {/* Transactions Table */}
-      <Card className="border mb-8">
+      <Card className="mb-8 border">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
@@ -125,7 +124,7 @@ export default function OverviewPage() {
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="h-4 w-4 mr-1"
+                  className="mr-1 h-4 w-4"
                 >
                   <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
 
@@ -147,7 +146,7 @@ export default function OverviewPage() {
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="h-4 w-4 mr-1"
+                  className="mr-1 h-4 w-4"
                 >
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
 
@@ -166,12 +165,12 @@ export default function OverviewPage() {
             <div className="relative w-full overflow-auto">
               <table className="w-full caption-bottom text-sm">
                 <thead>
-                  <tr className="border-b transition-colors bg-muted/50">
+                  <tr className="bg-muted/50 border-b transition-colors">
                     <th className="h-12 px-4 text-left align-middle font-medium">Date</th>
 
                     <th className="h-12 px-4 text-left align-middle font-medium">Description</th>
 
-                    <th className="h-12 px-4 text-left align-middle font-medium min-w-[200px]">
+                    <th className="h-12 min-w-[200px] px-4 text-left align-middle font-medium">
                       Category
                     </th>
 
@@ -191,7 +190,7 @@ export default function OverviewPage() {
                       return (
                         <tr
                           key={uniqueKey}
-                          className="border-b last:border-b-0 transition-colors hover:bg-muted/50"
+                          className="hover:bg-muted/50 border-b transition-colors last:border-b-0"
                         >
                           <td className="p-4 align-middle">{formatDate(transaction.date)}</td>
 
@@ -199,13 +198,13 @@ export default function OverviewPage() {
                             {transaction.description}
 
                             {transaction.merchant && (
-                              <div className="text-xs text-muted-foreground">
+                              <div className="text-muted-foreground text-xs">
                                 {transaction.merchant}
                               </div>
                             )}
 
                             {transaction.card && (
-                              <div className="text-xs font-medium text-primary mt-1">
+                              <div className="text-primary mt-1 text-xs font-medium">
                                 {transaction.card}
                               </div>
                             )}
@@ -215,14 +214,14 @@ export default function OverviewPage() {
                             <span
                               className={`inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold ${
                                 transaction.isInternalTransfer
-                                  ? 'bg-blue-50 text-blue-700 border-blue-200'
+                                  ? 'border-blue-200 bg-blue-50 text-blue-700'
                                   : transaction.isP2PTransfer
-                                    ? 'bg-purple-50 text-purple-700 border-purple-200'
+                                    ? 'border-purple-200 bg-purple-50 text-purple-700'
                                     : transaction.type === 'INCOME'
-                                      ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                      ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
                                       : transaction.type === 'OUTCOME'
-                                        ? 'bg-red-50 text-red-700 border-red-200'
-                                        : 'bg-blue-50 text-blue-700 border-blue-200'
+                                        ? 'border-red-200 bg-red-50 text-red-700'
+                                        : 'border-blue-200 bg-blue-50 text-blue-700'
                               }`}
                             >
                               {transaction.isInternalTransfer
@@ -233,14 +232,14 @@ export default function OverviewPage() {
                             </span>
 
                             {transaction.installment && (
-                              <div className="text-xs text-muted-foreground mt-1">
+                              <div className="text-muted-foreground mt-1 text-xs">
                                 {`Installment ${transaction.installment.current}/${transaction.installment.total}`}
                               </div>
                             )}
 
                             {(transaction.isInternalTransfer || transaction.isP2PTransfer) &&
                               transaction.transfer && (
-                                <div className="text-xs text-blue-600 mt-1">
+                                <div className="mt-1 text-xs text-blue-600">
                                   {transaction.transfer.fromPerson &&
                                   transaction.transfer.toPerson ? (
                                     <>
@@ -318,7 +317,7 @@ export default function OverviewPage() {
                     })
                   ) : (
                     <tr>
-                      <td colSpan={5} className="p-4 text-center text-muted-foreground">
+                      <td colSpan={5} className="text-muted-foreground p-4 text-center">
                         No transactions found. Upload a bank statement or add a manual transaction.
                       </td>
                     </tr>

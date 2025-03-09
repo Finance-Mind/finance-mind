@@ -1,8 +1,9 @@
 'use client';
 
+import { useState } from 'react';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -27,7 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { TransactionType, TransactionCategory } from '@/interfaces/enums';
+import { TransactionCategory, TransactionType } from '@/interfaces/enums';
 
 // Transaction form schema with required fields
 const transactionFormSchema = z.object({
@@ -163,7 +164,7 @@ export function ManualTransactionForm({
   };
 
   return (
-    <Card className={`border h-full flex flex-col ${className}`}>
+    <Card className={`flex h-full flex-col border ${className}`}>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
 
@@ -242,7 +243,7 @@ export function ManualTransactionForm({
                 />
 
                 {form.formState.errors.amount && (
-                  <p className="text-sm text-destructive">{form.formState.errors.amount.message}</p>
+                  <p className="text-destructive text-sm">{form.formState.errors.amount.message}</p>
                 )}
               </div>
 
@@ -257,7 +258,7 @@ export function ManualTransactionForm({
                 />
 
                 {form.formState.errors.description && (
-                  <p className="text-sm text-destructive">
+                  <p className="text-destructive text-sm">
                     {form.formState.errors.description.message}
                   </p>
                 )}
@@ -304,7 +305,7 @@ export function ManualTransactionForm({
                     <SelectItem value={TransactionCategory.UNCATEGORIZED}>Uncategorized</SelectItem>
 
                     {/* Income Categories - Use section dividers instead of invalid empty strings */}
-                    <div className="px-2 py-1.5 text-xs font-semibold text-primary">Income</div>
+                    <div className="text-primary px-2 py-1.5 text-xs font-semibold">Income</div>
 
                     <SelectItem value={TransactionCategory.SALARY}>Salary</SelectItem>
 
@@ -317,7 +318,7 @@ export function ManualTransactionForm({
                     <SelectItem value={TransactionCategory.GIFT}>Gift</SelectItem>
 
                     {/* Expense Categories - Use section dividers instead of invalid empty strings */}
-                    <div className="px-2 py-1.5 text-xs font-semibold text-primary">Expenses</div>
+                    <div className="text-primary px-2 py-1.5 text-xs font-semibold">Expenses</div>
 
                     <SelectItem value={TransactionCategory.GROCERIES}>Groceries</SelectItem>
 
@@ -348,7 +349,7 @@ export function ManualTransactionForm({
                 </Select>
 
                 {form.formState.errors.category && (
-                  <p className="text-sm text-destructive">
+                  <p className="text-destructive text-sm">
                     {form.formState.errors.category.message}
                   </p>
                 )}
@@ -367,7 +368,7 @@ export function ManualTransactionForm({
                 />
 
                 {form.formState.errors.date && (
-                  <p className="text-sm text-destructive">{form.formState.errors.date.message}</p>
+                  <p className="text-destructive text-sm">{form.formState.errors.date.message}</p>
                 )}
               </div>
 

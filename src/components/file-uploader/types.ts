@@ -1,6 +1,7 @@
+import type { ReactNode } from 'react';
+
 import type { ProcessedStatement, TimingMetrics } from '@/app/api/process-bank-statement/schemas';
 import type { Transaction } from '@/interfaces/transaction';
-import type { ReactNode } from 'react';
 
 /**
  * Props for the main FileUploader component

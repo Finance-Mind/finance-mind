@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { TransactionType, TransactionCategory } from '@/interfaces/enums';
+import { TransactionCategory, TransactionType } from '@/interfaces/enums';
 
 // Zod schemas for all the types used in the API
 export const FileContentSchema = z.object({

@@ -1,8 +1,10 @@
 import './globals.css';
 
-import { Analytics } from '@vercel/analytics/react';
+import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import Link from 'next/link';
+
+import { Analytics } from '@vercel/analytics/react';
 
 import { Providers } from '@/app/providers';
 import { ThemeProvider } from '@/components/theme-provider';
@@ -10,8 +12,6 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
 import { META_THEME_COLORS, siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
-
-import type { Metadata, Viewport } from 'next';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -104,14 +104,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             enableSystem
             disableTransitionOnChange
           >
-            <header className="border-b border-border">
+            <header className="border-border border-b">
               <div className="container mx-auto px-8 py-12">
                 <div className="space-y-6">
-                  <div className="flex flex-col md:flex-row justify-between md:items-center items-start gap-8">
+                  <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
                     <div className="mr-8">
-                      <h1 className="text-3xl font-bold text-foreground">Finance Mind</h1>
+                      <h1 className="text-foreground text-3xl font-bold">Finance Mind</h1>
 
-                      <p className="mt-2 text-sm text-muted-foreground">
+                      <p className="text-muted-foreground mt-2 text-sm">
                         AI-driven finance tracker for intelligent bank statement analysis and
                         insights
                       </p>
@@ -120,7 +120,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <ThemeToggle className="order-first md:order-last" />
                   </div>
 
-                  <div className="flex gap-3 flex-wrap">
+                  <div className="flex flex-wrap gap-3">
                     <Button variant="secondary" asChild>
                       <Link href="/">Overview</Link>
                     </Button>
@@ -139,23 +139,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
             {children}
 
-            <footer className="border-t border-border mt-12">
+            <footer className="border-border mt-12 border-t">
               <div className="container mx-auto px-8 py-12">
-                <div className="flex flex-col md:flex-row gap-8">
+                <div className="flex flex-col gap-8 md:flex-row">
                   <div className="flex-1 pb-6">
                     <div className="flex items-center">
-                      <h3 className="text-lg font-semibold text-foreground flex-1">Finance Mind</h3>
+                      <h3 className="text-foreground flex-1 text-lg font-semibold">Finance Mind</h3>
                     </div>
 
-                    <p className="mt-2 text-sm text-muted-foreground">
+                    <p className="text-muted-foreground mt-2 text-sm">
                       Take control of your financial life with intelligent analytics and insights.
                     </p>
                   </div>
 
                   <div className="md:hidden">
-                    <h4 className="text-sm font-medium text-foreground">Features</h4>
+                    <h4 className="text-foreground text-sm font-medium">Features</h4>
 
-                    <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
+                    <ul className="text-muted-foreground mt-2 space-y-2 text-sm">
                       <li>Bank statement processing</li>
 
                       <li>Transaction categorization</li>
@@ -167,9 +167,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   </div>
 
                   <div className="hidden md:block">
-                    <h4 className="text-sm font-medium text-foreground mb-2 text-left">Features</h4>
+                    <h4 className="text-foreground mb-2 text-left text-sm font-medium">Features</h4>
 
-                    <ul className="space-y-2 text-sm text-muted-foreground text-left">
+                    <ul className="text-muted-foreground space-y-2 text-left text-sm">
                       <li>Bank statement processing</li>
 
                       <li>Transaction categorization</li>
@@ -181,9 +181,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   </div>
 
                   <div className="md:hidden">
-                    <h4 className="text-sm font-medium text-foreground">Links</h4>
+                    <h4 className="text-foreground text-sm font-medium">Links</h4>
 
-                    <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
+                    <ul className="text-muted-foreground mt-2 space-y-2 text-sm">
                       <li>Documentation</li>
 
                       <li>Support</li>
@@ -195,9 +195,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   </div>
 
                   <div className="hidden md:block">
-                    <h4 className="text-sm font-medium text-foreground mb-2 text-left">Links</h4>
+                    <h4 className="text-foreground mb-2 text-left text-sm font-medium">Links</h4>
 
-                    <ul className="space-y-2 text-sm text-muted-foreground text-left">
+                    <ul className="text-muted-foreground space-y-2 text-left text-sm">
                       <li>Documentation</li>
 
                       <li>Privacy Policy</li>
@@ -209,13 +209,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   </div>
                 </div>
 
-                <div className="mt-8 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center">
-                  <p className="text-xs text-muted-foreground">
+                <div className="border-border mt-8 flex flex-col items-center justify-between border-t pt-8 md:flex-row">
+                  <p className="text-muted-foreground text-xs">
                     &copy; {new Date().getFullYear()} Finance Mind. All rights reserved.
                   </p>
 
-                  <div className="mt-4 md:mt-0 flex space-x-4">
-                    <span className="text-xs text-muted-foreground">
+                  <div className="mt-4 flex space-x-4 md:mt-0">
+                    <span className="text-muted-foreground text-xs">
                       <a
                         href="https://andredezzy.com"
                         target="_blank"

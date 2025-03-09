@@ -1,11 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { fileProcessingService } from './api-service';
-import { detectMobileDevice, deduplicateTransactions, fileReaderUtils } from './utils';
-
-import type { Transaction, ProcessingDurations, ProcessingStepId } from './types';
+import type { ProcessingDurations, ProcessingStepId, Transaction } from './types';
+import { deduplicateTransactions, detectMobileDevice, fileReaderUtils } from './utils';
 
 /**
  * Hook for managing file processing state and logic

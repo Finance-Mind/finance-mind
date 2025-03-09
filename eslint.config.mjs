@@ -5,7 +5,6 @@ import { FlatCompat } from '@eslint/eslintrc';
 import typescriptPlugin from '@typescript-eslint/eslint-plugin';
 import typescriptParser from '@typescript-eslint/parser';
 import prettierConfig from 'eslint-config-prettier';
-import importPlugin from 'eslint-plugin-import';
 import unusedImportsPlugin from 'eslint-plugin-unused-imports';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -26,15 +25,9 @@ const eslintConfig = [
   {
     files: ['**/*.{js,mjs,cjs,jsx,ts,tsx}'],
     plugins: {
-      import: importPlugin,
       'unused-imports': unusedImportsPlugin,
     },
     rules: {
-      // Import sorting rules
-      'import/first': 'error',
-      'import/newline-after-import': 'error',
-      'import/no-duplicates': 'error',
-
       // Keyword spacing rule
       'keyword-spacing': ['error', { before: true, after: true }],
 
@@ -82,37 +75,6 @@ const eslintConfig = [
 
       // JSX specific rules
       'react/jsx-newline': ['error', { prevent: false }],
-
-      // Import order rules
-      'import/order': [
-        'error',
-        {
-          groups: [
-            'builtin', // Node.js built-in modules
-            'external', // Packages from node_modules
-            'internal', // Absolute imports within the project (using paths alias)
-            'parent', // Imports from parent directories
-            'sibling', // Imports from sibling directories
-            'index', // Index imports
-            'object', // Object imports
-            'type', // Type imports
-          ],
-          'newlines-between': 'always',
-          alphabetize: {
-            order: 'asc',
-            caseInsensitive: true,
-          },
-          pathGroups: [
-            // Optional: if you're using path aliases, define them here
-            // Example for a common 'components' alias
-            // {
-            //   'pattern': '@/components/**',
-            //   'group': 'internal',
-            //   'position': 'before'
-            // },
-          ],
-        },
-      ],
     },
   },
 

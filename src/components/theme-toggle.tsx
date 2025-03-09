@@ -1,8 +1,9 @@
 'use client';
 
-import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
-import { FiSun, FiMoon, FiMonitor } from 'react-icons/fi';
+
+import { useTheme } from 'next-themes';
+import { FiMonitor, FiMoon, FiSun } from 'react-icons/fi';
 
 import { cn } from '@/lib/utils';
 
@@ -22,7 +23,7 @@ function ThemeButton({ theme, value, icon: Icon, label, onClick }: ThemeButtonPr
   return (
     <button
       onClick={() => onClick(value)}
-      className="h-10 w-10 flex items-center justify-center rounded-none cursor-pointer text-foreground"
+      className="text-foreground flex h-10 w-10 cursor-pointer items-center justify-center rounded-none"
       aria-label={label}
       aria-pressed={isActive}
       data-state={isActive ? 'active' : 'inactive'}
@@ -57,13 +58,13 @@ export function ThemeToggle({ className }: { className?: string }) {
 
   // Avoid rendering toggle until client-side to prevent hydration mismatch
   if (!mounted) {
-    return <div className="w-[138px] h-[38px]" />; // Placeholder with same size
+    return <div className="h-[38px] w-[138px]" />; // Placeholder with same size
   }
 
   return (
     <div className={cn('relative inline-block text-left', className)}>
       <div
-        className="flex items-center border border-border bg-background"
+        className="border-border bg-background flex items-center border"
         role="group"
         aria-label="Theme selection"
       >

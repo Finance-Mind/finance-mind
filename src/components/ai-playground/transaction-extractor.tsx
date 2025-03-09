@@ -1,7 +1,8 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
+
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
 import { extractTransactionFields } from '@/actions/ai/extract-transaction-fields';
@@ -23,10 +24,11 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
-import { transactionExtractorFormSchema } from '@/schemas/form-schemas';
-
 import type { TransactionCategory, TransactionType } from '@/interfaces/enums';
-import type { TransactionExtractorFormValues } from '@/schemas/form-schemas';
+import {
+  transactionExtractorFormSchema,
+  type TransactionExtractorFormValues,
+} from '@/schemas/form-schemas';
 import type { TransactionExtraction } from '@/schemas/transaction-schemas';
 
 export const TransactionExtractor = () => {
@@ -114,7 +116,7 @@ export const TransactionExtractor = () => {
                     <Textarea
                       placeholder="Examples: 'I spent R$150 at Restaurant Central on groceries yesterday' or 'caio 150' (transfer to Caio)"
                       rows={5}
-                      className="resize-none mt-1"
+                      className="mt-1 resize-none"
                       {...field}
                     />
                   </FormControl>
@@ -131,7 +133,7 @@ export const TransactionExtractor = () => {
         </Form>
 
         {error && (
-          <div className="mt-4 p-3 bg-destructive/20 text-destructive rounded-md">
+          <div className="bg-destructive/20 text-destructive mt-4 rounded-md p-3">
             <p>{error}</p>
           </div>
         )}
@@ -187,19 +189,19 @@ export const TransactionExtractor = () => {
         )}
       </CardContent>
 
-      <CardFooter className="flex flex-col space-y-4 mt-auto pt-8">
+      <CardFooter className="mt-auto flex flex-col space-y-4 pt-8">
         <div>
-          <h3 className="text-sm font-medium mb-2">How It Works</h3>
+          <h3 className="mb-2 text-sm font-medium">How It Works</h3>
 
           <div className="space-y-2">
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               The Transaction Extractor uses AI to parse natural language descriptions into
               structured transaction data.
             </p>
 
-            <p className="text-xs text-muted-foreground">Try examples like:</p>
+            <p className="text-muted-foreground text-xs">Try examples like:</p>
 
-            <ul className="text-xs text-muted-foreground list-decimal pl-4 space-y-1">
+            <ul className="text-muted-foreground list-decimal space-y-1 pl-4 text-xs">
               <li>&quot;I paid R$150 for groceries at Mercado Extra yesterday&quot;</li>
 
               <li>&quot;Received my salary of R$3500 from Company XYZ&quot;</li>
@@ -219,7 +221,7 @@ export const TransactionExtractor = () => {
           </div>
         </div>
 
-        <Button variant="outline" className="w-full mt-4" onClick={handleReset}>
+        <Button variant="outline" className="mt-4 w-full" onClick={handleReset}>
           Clear
         </Button>
       </CardFooter>

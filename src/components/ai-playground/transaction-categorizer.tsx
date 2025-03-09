@@ -1,7 +1,8 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
+
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
 import { categorizeTransaction } from '@/actions/ai/categorize-transaction';
@@ -23,10 +24,11 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { transactionCategorizerFormSchema } from '@/schemas/form-schemas';
-
 import type { TransactionCategory, TransactionType } from '@/interfaces/enums';
-import type { TransactionCategorizerFormValues } from '@/schemas/form-schemas';
+import {
+  transactionCategorizerFormSchema,
+  type TransactionCategorizerFormValues,
+} from '@/schemas/form-schemas';
 import type { TransactionCategorizeResponse } from '@/schemas/transaction-schemas';
 
 export const TransactionCategorizer = () => {
@@ -178,7 +180,7 @@ export const TransactionCategorizer = () => {
         </Form>
 
         {error && (
-          <div className="mt-4 p-3 bg-destructive/20 text-destructive rounded-md">
+          <div className="bg-destructive/20 text-destructive mt-4 rounded-md p-3">
             <p>{error}</p>
           </div>
         )}
@@ -230,19 +232,19 @@ export const TransactionCategorizer = () => {
         )}
       </CardContent>
 
-      <CardFooter className="flex flex-col space-y-4 mt-auto pt-8">
+      <CardFooter className="mt-auto flex flex-col space-y-4 pt-8">
         <div>
-          <h3 className="text-sm font-medium mb-2">How It Works</h3>
+          <h3 className="mb-2 text-sm font-medium">How It Works</h3>
 
           <div className="space-y-2">
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               The Transaction Categorizer uses AI to intelligently categorize transactions based on
               description and amount.
             </p>
 
-            <p className="text-xs text-muted-foreground">Our system:</p>
+            <p className="text-muted-foreground text-xs">Our system:</p>
 
-            <ul className="text-xs text-muted-foreground list-decimal pl-4 space-y-1">
+            <ul className="text-muted-foreground list-decimal space-y-1 pl-4 text-xs">
               <li>
                 Uses advanced language models to handle Brazilian financial terms and patterns
               </li>
@@ -261,7 +263,7 @@ export const TransactionCategorizer = () => {
           </div>
         </div>
 
-        <Button variant="outline" className="w-full mt-4" onClick={handleReset}>
+        <Button variant="outline" className="mt-4 w-full" onClick={handleReset}>
           Clear
         </Button>
       </CardFooter>

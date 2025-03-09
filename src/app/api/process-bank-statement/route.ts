@@ -1,21 +1,20 @@
-import {
-  type FileContent,
-  type ExtractedRow,
-  type TransactionFields,
-  type TransferDetectionResult,
-  type TimingMetrics,
-  type ProcessedStatement,
-  ProcessBankStatementRequestSchema,
-} from './schemas';
-
-import type { Transaction } from '@/interfaces/transaction';
-
 import { detectP2PTransfer } from '@/actions/ai/detect-person-to-person-transfer';
 import { extractCardFromFilename as aiExtractCardFromFilename } from '@/actions/ai/extract-card-info';
 import { extractTransactionFields } from '@/actions/ai/extract-transaction-fields';
 import { TransactionType } from '@/interfaces/enums';
+import type { Transaction } from '@/interfaces/transaction';
 import { parseCSV } from '@/lib/parsers/csv-parser';
 import { parsePDF } from '@/lib/parsers/pdf-parser';
+
+import {
+  ProcessBankStatementRequestSchema,
+  type ExtractedRow,
+  type FileContent,
+  type ProcessedStatement,
+  type TimingMetrics,
+  type TransactionFields,
+  type TransferDetectionResult,
+} from './schemas';
 
 // API route handlers
 export async function POST(request: Request): Promise<Response> {

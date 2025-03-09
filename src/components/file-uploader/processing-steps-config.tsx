@@ -14,7 +14,7 @@ export function getProcessingSteps(
     {
       id: 'parsing',
       name: 'Parsing',
-      icon: <ServerIcon className="w-3 h-3 mr-1" />,
+      icon: <ServerIcon className="mr-1 h-3 w-3" />,
       isActive: isProcessing && activeStep === 'parsing',
       isComplete: processingDurations.parsing !== undefined && processingDurations.parsing > 0,
       isPending: isProcessing && !processingDurations.parsing,
@@ -23,7 +23,7 @@ export function getProcessingSteps(
     {
       id: 'extraction',
       name: 'Extraction',
-      icon: <DatabaseIcon className="w-3 h-3 mr-1" />,
+      icon: <DatabaseIcon className="mr-1 h-3 w-3" />,
       isActive: isProcessing && activeStep === 'extraction',
       isComplete:
         processingDurations.extraction !== undefined && processingDurations.extraction > 0,
@@ -37,7 +37,7 @@ export function getProcessingSteps(
     {
       id: 'detection',
       name: 'Transfer detection',
-      icon: <ActivityIcon className="w-3 h-3 mr-1" />,
+      icon: <ActivityIcon className="mr-1 h-3 w-3" />,
       isActive: isProcessing && activeStep === 'detection',
       isComplete: processingDurations.detection !== undefined && processingDurations.detection > 0,
       isPending:
