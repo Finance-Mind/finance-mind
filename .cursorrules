@@ -54,6 +54,7 @@ The AI should:
 - Run both lint and tests before committing changes
 - Use watch mode during active development
 - Always verify that the build succeeds before deployment
+- Never create, copy or move files and folder using command line
 
 ## General Code Standards
 
