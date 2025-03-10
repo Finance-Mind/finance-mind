@@ -1,5 +1,5 @@
 import { detectP2PTransfer } from '@/actions/ai/detect-person-to-person-transfer';
-import { extractCardFromFilename as aiExtractCardFromFilename } from '@/actions/ai/extract-card-info';
+import { extractCardFromFilename as aiExtractCardFromFilename } from '@/actions/ai/extract-card-from-filename';
 import { extractTransactionFields } from '@/actions/ai/extract-transaction-fields';
 import { parseCSV } from '@/lib/parsers/csv-parser';
 import { parsePDF } from '@/lib/parsers/pdf-parser';

@@ -5,8 +5,7 @@ import { useMemo } from 'react';
 import { ActivityIcon, DatabaseIcon, ServerIcon } from 'lucide-react';
 
 import type { ProcessingDurations } from '@/types/file-uploader/processing-durations';
-import type { ProcessingStep } from '@/types/file-uploader/processing-step';
-import type { ProcessingStepId } from '@/types/file-uploader/processing-step-id';
+import type { ProcessingStep, ProcessingStepId } from '@/types/file-uploader/processing-step';
 import { formatDuration } from '@/utils/format-duration';
 
 /**

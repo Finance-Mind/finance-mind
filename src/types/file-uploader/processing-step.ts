@@ -1,6 +1,9 @@
 import type { ReactNode } from 'react';
 
-import type { ProcessingStepId } from './processing-step-id';
+/**
+ * Supported processing step IDs
+ */
+export type ProcessingStepId = 'parsing' | 'extraction' | 'detection';
 
 /**
  * Processing step UI model

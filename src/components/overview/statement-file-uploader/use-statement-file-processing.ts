@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import type { ProcessedStatement, TimingMetrics } from '@/app/api/process-bank-statement/schemas';
 import type { Transaction } from '@/schemas/transaction';
 import type { ProcessingDurations } from '@/types/file-uploader/processing-durations';
-import type { ProcessingStepId } from '@/types/file-uploader/processing-step-id';
+import type { ProcessingStepId } from '@/types/file-uploader/processing-step';
 import { detectMobileDevice } from '@/utils/detect-mobile-device';
 import { arrayBufferToBase64 } from '@/utils/file-reading/array-buffer-to-base64';
 import { readFileAsArrayBuffer } from '@/utils/file-reading/read-file-as-array-buffer';
