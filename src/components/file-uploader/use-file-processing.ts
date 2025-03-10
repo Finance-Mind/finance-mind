@@ -14,7 +14,6 @@ import type {
   TimingMetrics,
   Transaction,
 } from './types';
-import { deduplicateTransactions } from './utils';
 
 /**
  * Handles the streaming response from the API
@@ -302,9 +301,15 @@ export function useFileProcessing({
       );
 
       // Update state with results
-      setProcessedTransactions(prevTransactions =>
-        deduplicateTransactions(prevTransactions, result.transactions)
-      );
+      setProcessedTransactions(prevTransactions => {
+        const existingTransactionIds = new Set(prevTransactions.map(t => t.id));
+        const uniqueNewTransactions = result.transactions.filter(
+          t => !existingTransactionIds.has(t.id)
+        );
+
+        return [...prevTransactions, ...uniqueNewTransactions];
+      });
+
       setSkippedDuplicates(prev => prev + result.duplicatesSkipped);
 
       // Pass the results to the parent component
