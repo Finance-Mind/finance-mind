@@ -120,7 +120,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <ThemeToggle className="order-first md:order-last" />
                   </div>
 
-                  <div className="flex flex-wrap gap-3">
+                  <div className="mr-16 flex flex-wrap gap-3">
                     <Button variant="secondary" asChild>
                       <Link href="/">Overview</Link>
                     </Button>
@@ -209,7 +209,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   </div>
                 </div>
 
-                <div className="border-border mt-8 flex flex-col items-center justify-between border-t pt-8 md:flex-row">
+                <div className="border-border mt-8 flex flex-col items-start justify-between border-t pt-8 md:flex-row md:items-center">
                   <p className="text-muted-foreground text-xs">
                     &copy; {new Date().getFullYear()} Finance Mind. All rights reserved.
                   </p>
