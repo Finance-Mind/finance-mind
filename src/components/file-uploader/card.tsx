@@ -18,8 +18,7 @@ import { cn } from '@/lib/utils';
 import { formatDuration } from '@/utils/format-duration';
 
 import { FileItem } from './file-item';
-import { getProcessingSteps } from './processing-steps-config';
-import { ProcessingStepsList } from './processing-steps-list';
+import { ProcessingSteps } from './processing-steps';
 import type { FileUploaderProps } from './types';
 import { useFileProcessing } from './use-file-processing';
 
@@ -62,9 +61,6 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
     },
     disabled: isProcessing,
   });
-
-  // Get the processing steps
-  const processingSteps = getProcessingSteps(isProcessing, activeStep, processingDurations);
 
   return (
     <div className="h-full">
@@ -145,9 +141,10 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
           <CardFooter className="mt-auto flex flex-col items-start gap-5">
             {showDuration && (
               <div className="text-muted-foreground mt-2 text-xs">
-                <ProcessingStepsList
-                  steps={processingSteps}
+                <ProcessingSteps
+                  isProcessing={isProcessing}
                   activeStep={activeStep}
+                  processingDurations={processingDurations}
                   activeStepElapsedTime={activeStepElapsedTime}
                 />
               </div>
