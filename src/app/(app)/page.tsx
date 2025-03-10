@@ -23,7 +23,30 @@ export default function OverviewPage() {
     .filter(t => t.type === 'EXPENSE')
     .reduce((sum, t) => sum + t.amount, 0);
 
-  const balance = totalIncome - totalExpenses;
+  const totalTransfers = transactions
+    .filter(t => t.type === 'TRANSFER')
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  // Use Math.abs on totalTransfers to ensure it's always subtracted as a positive value
+  const balance = totalIncome - totalExpenses - Math.abs(totalTransfers);
+
+  console.log('transactions', transactions);
+  console.log(
+    'income transactions',
+    transactions.filter(t => t.type === 'INCOME')
+  );
+  console.log(
+    'expense transactions',
+    transactions.filter(t => t.type === 'EXPENSE')
+  );
+  console.log(
+    'transfer transactions',
+    transactions.filter(t => t.type === 'TRANSFER')
+  );
+  console.log('totalIncome', totalIncome);
+  console.log('totalExpenses', totalExpenses);
+  console.log('totalTransfers', totalTransfers);
+  console.log('balance', balance);
 
   // Calculate top expense categories
   const expensesByCategory = transactions
@@ -402,6 +425,23 @@ export default function OverviewPage() {
                     className="h-2.5 bg-red-400"
                     style={{
                       width: `${Math.min(100, (totalExpenses / Math.max(totalIncome, 1)) * 100)}%`,
+                    }}
+                  ></div>
+                </div>
+              </div>
+
+              <div>
+                <div className="mb-1 flex items-center justify-between">
+                  <span className="text-sm">Transfers</span>
+
+                  <span className="text-sm text-blue-500">{formatCurrency(totalTransfers)}</span>
+                </div>
+
+                <div className="h-2.5 w-full bg-blue-100">
+                  <div
+                    className="h-2.5 bg-blue-400"
+                    style={{
+                      width: `${Math.min(100, (totalTransfers / Math.max(totalIncome, 1)) * 100)}%`,
                     }}
                   ></div>
                 </div>
