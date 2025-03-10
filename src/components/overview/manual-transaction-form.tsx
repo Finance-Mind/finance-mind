@@ -28,7 +28,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { TransactionCategory, TransactionType } from '@/types/transaction/enums/enums';
+import { TransactionCategory } from '@/types/transaction/enums/transaction-category';
+import { TransactionType } from '@/types/transaction/enums/transaction-type';
 
 // Transaction form schema with required fields
 const transactionFormSchema = z.object({

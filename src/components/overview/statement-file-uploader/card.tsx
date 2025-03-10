@@ -20,9 +20,9 @@ import { formatDuration } from '@/utils/format-duration';
 
 import { FileItem } from './file-item';
 import { ProcessingSteps } from './processing-steps';
-import { useFileProcessing } from './use-file-processing';
+import { useStatementFileProcessing } from './use-statement-file-processing';
 
-interface FileUploaderProps {
+interface StatementFileUploaderProps {
   onTransactionsProcessed: (
     transactions: Transaction[],
     errors?: string[],
@@ -32,7 +32,7 @@ interface FileUploaderProps {
 /**
  * Component for handling file upload and processing of bank statements
  */
-export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
+export function StatementFileUploader({ onTransactionsProcessed }: StatementFileUploaderProps) {
   // Use the file processing hook
   const {
     files,
@@ -49,7 +49,7 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
     addFiles,
     removeFile,
     handleProcessFiles,
-  } = useFileProcessing({ onTransactionsProcessed });
+  } = useStatementFileProcessing({ onTransactionsProcessed });
 
   // Handle file drop
   const onDrop = useCallback(

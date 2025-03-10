@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 
-import { FileUploader } from '@/components/file-uploader/card';
-import { ManualTransactionForm } from '@/components/manual-transaction-form';
+import { ManualTransactionForm } from '@/components/overview/manual-transaction-form';
+import { StatementFileUploader } from '@/components/overview/statement-file-uploader/card';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Transaction } from '@/schemas/transaction';
@@ -57,7 +57,7 @@ export default function OverviewPage() {
     <div className="container mx-auto px-8 py-16">
       <div className="mb-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
         {/* Upload Bank Statements */}
-        <FileUploader onTransactionsProcessed={handleTransactionsProcessed} />
+        <StatementFileUploader onTransactionsProcessed={handleTransactionsProcessed} />
 
         {/* Add Manual Transaction */}
         <ManualTransactionForm />

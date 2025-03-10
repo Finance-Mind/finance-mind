@@ -86,9 +86,9 @@ const handleStreamingResponse = async (
 };
 
 /**
- * Hook for managing file processing state and logic
+ * Hook for managing bank statement file processing state and logic
  */
-export function useFileProcessing({
+export function useStatementFileProcessing({
   onTransactionsProcessed,
 }: {
   onTransactionsProcessed: (
