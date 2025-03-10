@@ -24,12 +24,13 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
+import type { TransactionExtraction } from '@/schemas/ai/transaction-extraction';
 import {
   transactionExtractorFormSchema,
   type TransactionExtractorFormValues,
 } from '@/schemas/form-schemas';
-import type { TransactionExtraction } from '@/schemas/transaction-schemas';
-import type { TransactionCategory, TransactionType } from '@/types/transaction/enums/enums';
+import type { TransactionCategory } from '@/types/transaction/enums/transaction-category';
+import type { TransactionType } from '@/types/transaction/enums/transaction-type';
 
 export const TransactionExtractor = () => {
   const [result, setResult] = useState<TransactionExtraction | null>(null);
