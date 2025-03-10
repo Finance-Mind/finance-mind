@@ -42,6 +42,7 @@ Extract all relevant transaction information from ${isBatch ? 'each transaction 
 - "hoje" in Portuguese → "original: hoje|english: today"
 - "明天" in Chinese → "original: 明天|english: tomorrow"
 - "last Friday" in English → "original: last Friday|english: last Friday"
+- If the date is not present, consider it as today's date → "original: |english: today"
 
 // LANGUAGE HANDLING
 - Detect the language and maintain it for descriptions and merchant names
