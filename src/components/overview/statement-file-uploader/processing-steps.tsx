@@ -40,7 +40,7 @@ function ProcessingStepsList({
   activeStepElapsedTime,
 }: ProcessingStepsListProps) {
   return (
-    <div className="mt-2 flex flex-col space-y-1">
+    <div className="flex flex-col space-y-1">
       {steps.map(step => {
         // Determine what time to display
         const displayTime =

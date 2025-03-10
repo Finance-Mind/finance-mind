@@ -145,9 +145,9 @@ export function StatementFileUploader({ onTransactionsProcessed }: StatementFile
             )}
           </CardContent>
 
-          <CardFooter className="mt-auto flex flex-col items-start gap-5">
+          <CardFooter className="mt-auto flex flex-col items-start gap-6">
             {showDuration && (
-              <div className="text-muted-foreground mt-2 text-xs">
+              <div className="text-muted-foreground text-xs">
                 <ProcessingSteps
                   isProcessing={isProcessing}
                   activeStep={activeStep}
