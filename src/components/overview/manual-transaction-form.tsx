@@ -81,7 +81,7 @@ export function ManualTransactionForm({
       description: '',
       amount: 0,
       category: TransactionCategory.UNCATEGORIZED,
-      type: TransactionType.OUTCOME,
+      type: TransactionType.EXPENSE,
       date: new Date(),
       merchant: '',
       currency: 'BRL',

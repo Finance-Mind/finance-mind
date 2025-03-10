@@ -35,7 +35,7 @@ Extract all relevant transaction information from ${isBatch ? 'each transaction 
 - Date: Format as "original: [original expression]|english: [english equivalent]"
 - Merchant: If present in the input
 - Category: Based on transaction description
-- Transaction type: INCOME, OUTCOME, or TRANSFER
+- Transaction type: INCOME, EXPENSE, or TRANSFER
 - Installment information: If applicable
 - Currency: Default to BRL if not specified
 
@@ -63,9 +63,9 @@ Extract all relevant transaction information from ${isBatch ? 'each transaction 
 
 // EXAMPLES BY LANGUAGE, TYPE AND CATEGORY
 // Regular Transactions
-- Portuguese: "150 corrida uber ontem" → "Corrida de Uber", type: OUTCOME, category: TRANSPORTATION
-- English: "150 uber" → "Uber ride", type: OUTCOME, category: TRANSPORTATION
-- Spanish: "50 comida ayer" → "Comida", type: OUTCOME, category: DINING
+- Portuguese: "150 corrida uber ontem" → "Corrida de Uber", type: EXPENSE, category: TRANSPORTATION
+- English: "150 uber" → "Uber ride", type: EXPENSE, category: TRANSPORTATION
+- Spanish: "50 comida ayer" → "Comida", type: EXPENSE, category: DINING
 
 // P2P Transfers
 - Simple: "caio 150" → "Transferência para Caio", type: TRANSFER
@@ -269,7 +269,7 @@ EXPECTED OUTPUT FORMAT:
           description: `Failed to process: ${prompt.substring(0, 50)}...`,
           amount: 0,
           date: new Date().toISOString(),
-          type: TransactionType.OUTCOME,
+          type: TransactionType.EXPENSE,
           category: TransactionCategory.UNCATEGORIZED,
           merchant: undefined,
           isInstallment: false,

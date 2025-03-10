@@ -14,12 +14,47 @@ export default function OverviewPage() {
   const [errors, setErrors] = useState<string[]>([]);
   const [warnings, setWarnings] = useState<string[]>([]);
 
+  // Calculate derived metrics from transactions
+  const totalIncome = transactions
+    .filter(t => t.type === 'INCOME')
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  const totalExpenses = transactions
+    .filter(t => t.type === 'EXPENSE')
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  const balance = totalIncome - totalExpenses;
+
+  // Calculate top expense categories
+  const expensesByCategory = transactions
+    .filter(t => t.type === 'EXPENSE' || t.type === 'TRANSFER')
+    .reduce(
+      (acc, transaction) => {
+        const category = transaction.category;
+
+        if (!acc[category]) {
+          acc[category] = 0;
+        }
+
+        acc[category] += transaction.amount;
+
+        return acc;
+      },
+      {} as Record<string, number>
+    );
+
+  const topCategories = Object.entries(expensesByCategory)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5);
+
   // Handler for processed transactions
   const handleTransactionsProcessed = (
     newTransactions: Transaction[],
     newErrors?: string[],
     newWarnings?: string[]
   ) => {
+    console.log('Processing new transactions:', newTransactions.length);
+
     // Update the transaction list
     setTransactions(prev => {
       // Combine existing and new transactions
@@ -219,7 +254,7 @@ export default function OverviewPage() {
                                     ? 'border-purple-200 bg-purple-50 text-purple-700'
                                     : transaction.type === 'INCOME'
                                       ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
-                                      : transaction.type === 'OUTCOME'
+                                      : transaction.type === 'EXPENSE'
                                         ? 'border-red-200 bg-red-50 text-red-700'
                                         : 'border-blue-200 bg-blue-50 text-blue-700'
                               }`}
@@ -255,10 +290,10 @@ export default function OverviewPage() {
                               )}
                           </td>
 
-                          <td className="p-4 align-middle">
+                          <td className="p-4 align-middle whitespace-nowrap">
                             <span
                               className={
-                                transaction.type === 'INCOME' ? 'text-emerald-600' : 'text-red-600'
+                                transaction.amount < 0 ? 'text-red-600' : 'text-emerald-600'
                               }
                             >
                               {formatCurrency(transaction.amount, transaction.currency)}
@@ -328,6 +363,183 @@ export default function OverviewPage() {
           </div>
         </CardContent>
       </Card>
+
+      <div className="mb-8 grid grid-cols-1 gap-8 lg:grid-cols-3">
+        {/* Month Overview Card */}
+        <Card className="border">
+          <CardHeader>
+            <CardTitle>Month Overview</CardTitle>
+          </CardHeader>
+
+          <CardContent>
+            <div className="space-y-4">
+              <div>
+                <div className="mb-1 flex items-center justify-between">
+                  <span className="text-sm">Income</span>
+
+                  <span className="text-sm text-emerald-600">{formatCurrency(totalIncome)}</span>
+                </div>
+
+                <div className="h-2.5 w-full bg-emerald-100">
+                  <div
+                    className="h-2.5 bg-emerald-500"
+                    style={{
+                      width: '100%',
+                    }}
+                  ></div>
+                </div>
+              </div>
+
+              <div>
+                <div className="mb-1 flex items-center justify-between">
+                  <span className="text-sm">Expenses</span>
+
+                  <span className="text-sm text-red-500">{formatCurrency(totalExpenses)}</span>
+                </div>
+
+                <div className="h-2.5 w-full bg-red-100">
+                  <div
+                    className="h-2.5 bg-red-400"
+                    style={{
+                      width: `${Math.min(100, (totalExpenses / Math.max(totalIncome, 1)) * 100)}%`,
+                    }}
+                  ></div>
+                </div>
+              </div>
+
+              <div className="mt-8">
+                <div className="flex items-center justify-between">
+                  <span>Balance</span>
+
+                  <span className={`${balance >= 0 ? 'text-emerald-600' : 'text-red-500'}`}>
+                    {formatCurrency(balance)}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Top Categories Card */}
+        <Card className="border">
+          <CardHeader>
+            <CardTitle>Top Categories</CardTitle>
+          </CardHeader>
+
+          <CardContent>
+            <div className="space-y-4">
+              {topCategories.map(([category, amount], index) => {
+                const categoryColors: Record<string, { bg: string; text: string }> = {
+                  GROCERIES: { bg: 'bg-emerald-500', text: 'text-emerald-600' },
+                  DINING: { bg: 'bg-amber-500', text: 'text-amber-600' },
+                  ENTERTAINMENT: { bg: 'bg-purple-500', text: 'text-purple-600' },
+                  TRANSPORTATION: { bg: 'bg-orange-500', text: 'text-orange-600' },
+                  UTILITIES: { bg: 'bg-violet-500', text: 'text-violet-600' },
+                  HOUSING: { bg: 'bg-cyan-500', text: 'text-cyan-600' },
+                  HEALTH: { bg: 'bg-rose-500', text: 'text-rose-600' },
+                  EDUCATION: { bg: 'bg-blue-500', text: 'text-blue-600' },
+                  SHOPPING: { bg: 'bg-fuchsia-500', text: 'text-fuchsia-600' },
+                  TRAVEL: { bg: 'bg-indigo-500', text: 'text-indigo-600' },
+                  PERSONAL_CARE: { bg: 'bg-pink-500', text: 'text-pink-600' },
+                  SUBSCRIPTIONS: { bg: 'bg-lime-500', text: 'text-lime-600' },
+                  UNCATEGORIZED: { bg: 'bg-gray-500', text: 'text-gray-600' },
+                };
+
+                const defaultColor = { bg: 'bg-gray-500', text: 'text-gray-600' };
+                const color = categoryColors[category] || defaultColor;
+
+                return (
+                  <div key={index}>
+                    <div className="mb-1 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className={`h-3 w-3 rounded-sm ${color.bg}`}></div>
+
+                        <span className="text-sm">{category}</span>
+                      </div>
+
+                      <span className={`${color.text}`}>{formatCurrency(amount)}</span>
+                    </div>
+                  </div>
+                );
+              })}
+
+              {topCategories.length === 0 && (
+                <div className="text-muted-foreground p-4 text-center">
+                  No expense data available
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Upcoming Payments Card */}
+        <Card className="border">
+          <CardHeader>
+            <CardTitle>
+              Upcoming Payments <span className="text-muted-foreground font-normal">(soon)</span>
+            </CardTitle>
+          </CardHeader>
+
+          <CardContent>
+            <div className="space-y-4">
+              {/* For demo purposes, we'll show simulated upcoming payments */}
+              <div className="border-b pb-3">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-1">
+                    <h4>Credit Card Payment</h4>
+
+                    <p className="text-muted-foreground text-xs">Due in 5 days</p>
+                  </div>
+
+                  <span className="mt-0.5 text-sm text-red-600">{formatCurrency(1250)}</span>
+                </div>
+              </div>
+
+              <div className="border-b pb-3">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-1">
+                    <h4>Internet Bill</h4>
+
+                    <p className="text-muted-foreground text-xs">Due in 8 days</p>
+                  </div>
+
+                  <span className="mt-0.5 text-sm text-red-600">{formatCurrency(120)}</span>
+                </div>
+              </div>
+
+              <div className="border-b pb-3">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-1">
+                    <h4>Smartphone Installment</h4>
+
+                    <p className="text-muted-foreground text-xs">Due in 12 days</p>
+                  </div>
+
+                  <span className="mt-0.5 text-sm text-red-600">{formatCurrency(210)}</span>
+                </div>
+              </div>
+
+              <div className="pb-3">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-1">
+                    <h4>Rent</h4>
+
+                    <p className="text-muted-foreground text-xs">Due in 15 days</p>
+                  </div>
+
+                  <span className="mt-0.5 text-sm text-red-600">{formatCurrency(900)}</span>
+                </div>
+              </div>
+
+              <div className="pt-2 text-center">
+                <Button variant="outline" className="w-full">
+                  View All Upcoming Payments
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

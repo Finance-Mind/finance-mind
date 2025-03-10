@@ -53,7 +53,7 @@ const transactionSchema = z.object({
     .transform(value => new Date(value)),
   merchant: z.string().nullable().describe("Merchant name if present, null otherwise"),
   category: z.string().describe("Predefined transaction category"),
-  type: z.enum(["INCOME", "OUTCOME", "TRANSFER"]).describe("Transaction type"),
+  type: z.enum(["INCOME", "EXPENSE", "TRANSFER"]).describe("Transaction type"),
   isInstallment: z.boolean().describe("Whether this is an installment payment"),
   installmentNumber: z.number().nullable().describe("Current installment number if applicable"),
   totalInstallments: z.number().nullable().describe("Total number of installments if applicable"),
@@ -87,7 +87,7 @@ Output: {
   "date": "2023-09-15T00:00:00.000Z", // assuming yesterday was this date
   "merchant": "Uber",
   "category": "TRANSPORTATION",
-  "type": "OUTCOME",
+  "type": "EXPENSE",
   "isInstallment": false,
   "installmentNumber": null,
   "totalInstallments": null,
@@ -121,7 +121,7 @@ import { z } from 'zod';
 // Define the categorization schema
 const categorizationSchema = z.object({
   category: z.string().describe("Predefined transaction category"),
-  type: z.enum(["INCOME", "OUTCOME", "TRANSFER"]).describe("Transaction type"),
+  type: z.enum(["INCOME", "EXPENSE", "TRANSFER"]).describe("Transaction type"),
   confidence: z.number().min(0).max(1).describe("Confidence level from 0.0 to 1.0"),
   merchant: z.string().nullable().describe("Formatted merchant name if available"),
   isInstallment: z.boolean().describe("Whether this is an installment payment"),

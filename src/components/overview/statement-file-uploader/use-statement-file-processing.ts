@@ -283,6 +283,8 @@ export function useStatementFileProcessing({
         throw new Error('Response body is null');
       }
 
+      setShowDuration(true);
+
       // Handle the streaming response
       const result = await handleStreamingResponse(
         response,
@@ -292,7 +294,6 @@ export function useStatementFileProcessing({
             ...prev,
             ...timingMetrics,
           }));
-          setShowDuration(true);
         }
       );
 

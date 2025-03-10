@@ -1115,7 +1115,7 @@ vitest.config.ts
 53 |     .transform(value => new Date(value)),
 54 |   merchant: z.string().nullable().describe("Merchant name if present, null otherwise"),
 55 |   category: z.string().describe("Predefined transaction category"),
-56 |   type: z.enum(["INCOME", "OUTCOME", "TRANSFER"]).describe("Transaction type"),
+56 |   type: z.enum(["INCOME", "EXPENSE", "TRANSFER"]).describe("Transaction type"),
 57 |   isInstallment: z.boolean().describe("Whether this is an installment payment"),
 58 |   installmentNumber: z.number().nullable().describe("Current installment number if applicable"),
 59 |   totalInstallments: z.number().nullable().describe("Total number of installments if applicable"),
@@ -1149,7 +1149,7 @@ vitest.config.ts
 87 |   "date": "2023-09-15T00:00:00.000Z", // assuming yesterday was this date
 88 |   "merchant": "Uber",
 89 |   "category": "TRANSPORTATION",
-90 |   "type": "OUTCOME",
+90 |   "type": "EXPENSE",
 91 |   "isInstallment": false,
 92 |   "installmentNumber": null,
 93 |   "totalInstallments": null,
@@ -1183,7 +1183,7 @@ vitest.config.ts
 121 | // Define the categorization schema
 122 | const categorizationSchema = z.object({
 123 |   category: z.string().describe("Predefined transaction category"),
-124 |   type: z.enum(["INCOME", "OUTCOME", "TRANSFER"]).describe("Transaction type"),
+124 |   type: z.enum(["INCOME", "EXPENSE", "TRANSFER"]).describe("Transaction type"),
 125 |   confidence: z.number().min(0).max(1).describe("Confidence level from 0.0 to 1.0"),
 126 |   merchant: z.string().nullable().describe("Formatted merchant name if available"),
 127 |   isInstallment: z.boolean().describe("Whether this is an installment payment"),
@@ -2853,7 +2853,7 @@ src/components/manual-transaction-form.tsx
 61 |       description: '',
 62 |       amount: 0,
 63 |       category: TransactionCategory.UNCATEGORIZED,
-64 |       type: TransactionType.OUTCOME,
+64 |       type: TransactionType.EXPENSE,
 65 |       date: new Date(),
 66 |       merchant: '',
 67 |       currency: 'BRL',
@@ -3491,7 +3491,7 @@ src/schemas/transaction-schemas.ts
 19 |   category: z
 20 |     .nativeEnum(TransactionCategory)
 21 |     .describe('Predefined transaction category from TransactionCategory enum'),
-22 |   type: z.nativeEnum(TransactionType).describe('Transaction type: INCOME, OUTCOME, or TRANSFER'),
+22 |   type: z.nativeEnum(TransactionType).describe('Transaction type: INCOME, EXPENSE, or TRANSFER'),
 23 |   merchant: z
 24 |     .string()
 25 |     .optional()
@@ -3525,7 +3525,7 @@ src/schemas/transaction-schemas.ts
 53 |   category: z
 54 |     .nativeEnum(TransactionCategory)
 55 |     .describe('The transaction category from predefined list'),
-56 |   type: z.nativeEnum(TransactionType).describe('The transaction type (INCOME, OUTCOME, TRANSFER)'),
+56 |   type: z.nativeEnum(TransactionType).describe('The transaction type (INCOME, EXPENSE, TRANSFER)'),
 57 |   isInstallment: z.boolean().describe('Whether this is an installment payment'),
 58 |   installmentInfo: z
 59 |     .object({
@@ -3601,7 +3601,7 @@ src/actions/ai/categorize-transaction.ts
 38 |
 39 | // TRANSACTION TYPES
 40 | - INCOME: For money coming in (positive amounts)
-41 | - OUTCOME: For money going out (negative amounts)
+41 | - EXPENSE: For money going out (negative amounts)
 42 | - TRANSFER: For money movement between accounts (PIX, bank transfers, credit card payments)
 43 |
 44 | // RULES
@@ -3656,7 +3656,7 @@ src/actions/ai/categorize-transaction.ts
 93 |       type:
 94 |         amount && typeof amount === 'number' && amount >= 0
 95 |           ? TransactionType.INCOME
-96 |           : TransactionType.OUTCOME,
+96 |           : TransactionType.EXPENSE,
 97 |       confidence: 0.1,
 98 |     };
 99 |   }
@@ -4230,7 +4230,7 @@ src/actions/ai/extract-transaction-fields.ts
 30 | - Date: Format as "original: [original expression]|english: [english equivalent]"
 31 | - Merchant: If present in the input
 32 | - Category: Based on transaction description
-33 | - Transaction type: INCOME, OUTCOME, or TRANSFER
+33 | - Transaction type: INCOME, EXPENSE, or TRANSFER
 34 | - Installment information: If applicable
 35 | - Currency: Default to BRL if not specified
 36 |
@@ -4243,7 +4243,7 @@ src/actions/ai/extract-transaction-fields.ts
 43 |
 44 | // TRANSACTION TYPE RULES
 45 | - Positive amounts: Treat as INCOME
-46 | - Negative amounts: Treat as OUTCOME
+46 | - Negative amounts: Treat as EXPENSE
 47 | - Transfer keywords: "transfer", "sent to", "received from" → TRANSFER
 48 | - PIX, TED, DOC keywords → TRANSFER type
 49 |
@@ -4272,9 +4272,9 @@ src/actions/ai/extract-transaction-fields.ts
 72 | - Format merchant names without translating them
 73 |
 74 | // FORMATTING EXAMPLES
-75 | - Portuguese: "150 corrida uber ontem" → "Corrida de Uber", type: OUTCOME, category: TRANSPORTATION
-76 | - English: "150 uber" → "Uber ride", type: OUTCOME, category: TRANSPORTATION
-77 | - Spanish: "50 comida ayer" → "Comida", type: OUTCOME, category: DINING
+75 | - Portuguese: "150 corrida uber ontem" → "Corrida de Uber", type: EXPENSE, category: TRANSPORTATION
+76 | - English: "150 uber" → "Uber ride", type: EXPENSE, category: TRANSPORTATION
+77 | - Spanish: "50 comida ayer" → "Comida", type: EXPENSE, category: DINING
 78 | - P2P: "caio 150" → "Transferência para Caio", type: TRANSFER
 79 | - P2P with context: "caio 150 churrasco" → "Transferência para Caio (Churrasco)", type: TRANSFER, category: DINING
 80 | `.trim();
@@ -4701,7 +4701,7 @@ src/app/(app)/page.tsx
 203 |                                   ? 'bg-purple-50 text-purple-700 border-purple-200'
 204 |                                   : transaction.type === 'INCOME'
 205 |                                     ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-206 |                                     : transaction.type === 'OUTCOME'
+206 |                                     : transaction.type === 'EXPENSE'
 207 |                                       ? 'bg-red-50 text-red-700 border-red-200'
 208 |                                       : 'bg-blue-50 text-blue-700 border-blue-200'
 209 |                             }`}
@@ -6223,7 +6223,7 @@ src/lib/ai/types.ts
 1 | // Define transaction types
 2 | export enum TransactionType {
 3 |   INCOME = 'INCOME',
-4 |   OUTCOME = 'OUTCOME',
+4 |   EXPENSE = 'EXPENSE',
 5 |   TRANSFER = 'TRANSFER',
 6 | }
 7 |

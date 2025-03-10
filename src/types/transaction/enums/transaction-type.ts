@@ -1,6 +1,6 @@
 // Define transaction types
 export enum TransactionType {
   INCOME = 'INCOME',
-  OUTCOME = 'OUTCOME',
+  EXPENSE = 'EXPENSE',
   TRANSFER = 'TRANSFER',
 }

@@ -18,7 +18,7 @@ export const transactionExtractionSchema = z.object({
   category: z
     .nativeEnum(TransactionCategory)
     .describe('The transaction category from predefined list'),
-  type: z.nativeEnum(TransactionType).describe('The transaction type (INCOME, OUTCOME, TRANSFER)'),
+  type: z.nativeEnum(TransactionType).describe('The transaction type (INCOME, EXPENSE, TRANSFER)'),
   isInstallment: z.boolean().describe('Whether this is an installment payment'),
   installmentInfo: z
     .object({

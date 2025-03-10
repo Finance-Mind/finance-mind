@@ -16,9 +16,9 @@ Finance Mind helps you take control of your financial life by intelligently anal
 - **Internal Transfer Detection**: Intelligently identifies transfers between a user's own accounts across multiple banks or cards, preventing these movements from being counted as expenses or income in financial calculations.
 - **Comprehensive Transaction Tracking**: Each transaction is tracked with detailed information:
   - Card name (tracking both debit and credit cards)
-  - Transaction type (income, outcome, or transfer):
+  - Transaction type (income, expense, or transfer):
     - **Income**: Money received into an account
-    - **Outcome**: Money spent from an account
+    - **Expense**: Money spent from an account
     - **Transfer**: Movement of money between accounts or to another person, with different implications:
       - **Internal Transfer**: Movements between your own accounts (excluded from spending/income calculations)
       - **External Transfer**: Payments to other individuals or entities (treated as expenses)

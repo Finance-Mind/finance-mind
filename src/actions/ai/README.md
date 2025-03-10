@@ -56,7 +56,7 @@ const result = await extractTransactionFields('150 para corrida de uber ontem');
 //   date: "2023-09-15T00:00:00.000Z", (yesterday's date)
 //   merchant: "Uber",
 //   category: "TRANSPORTATION",
-//   type: "OUTCOME",
+//   type: "EXPENSE",
 //   isInstallment: false,
 //   ...
 // }
@@ -82,7 +82,7 @@ Analyzes transaction details to determine the appropriate category, type, and ot
 **Output**: `TransactionCategorizeResponse` object containing:
 
 - Category (from predefined list)
-- Transaction type (INCOME, OUTCOME, TRANSFER)
+- Transaction type (INCOME, EXPENSE, TRANSFER)
 - Confidence level (0.0 to 1.0)
 - Formatted merchant name (if available)
 - Installment information (if applicable)
