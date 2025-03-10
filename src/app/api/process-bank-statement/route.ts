@@ -16,6 +16,8 @@ import {
   type TransferDetectionResult,
 } from './schemas';
 
+export const runtime = 'edge';
+
 // API route handlers
 export async function POST(request: Request): Promise<Response> {
   try {

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { FileUploader } from '@/components/file-uploader';
+import { FileUploader } from '@/components/file-uploader/card';
 import { ManualTransactionForm } from '@/components/manual-transaction-form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';

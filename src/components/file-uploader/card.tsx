@@ -61,7 +61,6 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
       'application/pdf': ['.pdf'],
     },
     disabled: isProcessing,
-    noClick: isMobile,
   });
 
   // Get the processing steps
@@ -85,7 +84,7 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
 
             <CardDescription>
               {isMobile
-                ? 'Tap the button below to select your bank or credit card statements'
+                ? 'Tap here to select your bank or credit card statements'
                 : 'Drag and drop your bank or credit card statements in CSV or PDF format'}
             </CardDescription>
           </CardHeader>
@@ -117,19 +116,6 @@ export function FileUploader({ onTransactionsProcessed }: FileUploaderProps) {
                       ? 'Tap to select files'
                       : 'Click or drag and drop to upload files'}
                 </p>
-
-                {isMobile && (
-                  <Button
-                    variant="outline"
-                    onClick={e => {
-                      e.stopPropagation();
-                      open();
-                    }}
-                    className="mt-4"
-                  >
-                    Select files
-                  </Button>
-                )}
               </div>
             )}
 
