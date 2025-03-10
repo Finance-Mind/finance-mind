@@ -2,12 +2,12 @@
 
 import { generateObject } from 'ai';
 
-import { TransactionCategory, TransactionType } from '@/interfaces/enums';
 import { defaultModel, openai } from '@/lib/ai';
 import {
   transactionCategorizeResponseSchema,
   type TransactionCategorizeResponse,
 } from '@/schemas/transaction-schemas';
+import { TransactionCategory, TransactionType } from '@/types/transaction/enums/enums';
 
 /**
  * Categorizes a financial transaction using AI

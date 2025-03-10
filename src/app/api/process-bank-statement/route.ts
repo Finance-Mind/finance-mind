@@ -1,10 +1,10 @@
 import { detectP2PTransfer } from '@/actions/ai/detect-person-to-person-transfer';
 import { extractCardFromFilename as aiExtractCardFromFilename } from '@/actions/ai/extract-card-info';
 import { extractTransactionFields } from '@/actions/ai/extract-transaction-fields';
-import { TransactionType } from '@/interfaces/enums';
-import type { Transaction } from '@/interfaces/transaction';
 import { parseCSV } from '@/lib/parsers/csv-parser';
 import { parsePDF } from '@/lib/parsers/pdf-parser';
+import type { Transaction } from '@/schemas/transaction';
+import { TransactionType } from '@/types/transaction/enums/transaction-type';
 
 import {
   ProcessBankStatementRequestSchema,

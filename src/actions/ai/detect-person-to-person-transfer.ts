@@ -5,9 +5,9 @@ import { generateObject } from 'ai';
 import { z } from 'zod';
 
 import { userConfig } from '@/config/user';
-import { TransactionType } from '@/interfaces/enums';
-import type { Transaction } from '@/interfaces/transaction';
 import { defaultModel } from '@/lib/ai';
+import type { Transaction } from '@/schemas/transaction';
+import { TransactionType } from '@/types/transaction/enums/enums';
 import { calculateStringSimilarity } from '@/utils/calculate-string-similarity';
 
 // Schema for person-to-person transfer detection response

@@ -15,13 +15,20 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import type { Transaction } from '@/schemas/transaction';
 import { formatDuration } from '@/utils/format-duration';
 
 import { FileItem } from './file-item';
 import { ProcessingSteps } from './processing-steps';
-import type { FileUploaderProps } from './types';
 import { useFileProcessing } from './use-file-processing';
 
+interface FileUploaderProps {
+  onTransactionsProcessed: (
+    transactions: Transaction[],
+    errors?: string[],
+    warnings?: string[]
+  ) => void;
+}
 /**
  * Component for handling file upload and processing of bank statements
  */

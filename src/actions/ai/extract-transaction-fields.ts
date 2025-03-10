@@ -5,13 +5,14 @@ import { generateObject } from 'ai';
 import * as chrono from 'chrono-node';
 import type { JsonObject } from 'type-fest';
 
-import { TransactionCategory, TransactionType } from '@/interfaces/enums';
 import { defaultModel } from '@/lib/ai';
 import {
   transactionBatchSchema,
   transactionExtractionSchema,
   type TransactionExtraction,
 } from '@/schemas/transaction-schemas';
+import { TransactionCategory } from '@/types/transaction/enums/transaction-category';
+import { TransactionType } from '@/types/transaction/enums/transaction-type';
 
 // Maximum number of transactions to process in a single batch
 const MAX_BATCH_SIZE = 7;

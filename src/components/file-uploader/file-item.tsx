@@ -4,7 +4,11 @@ import { FileIcon, XIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
-import type { FileItemProps } from './types';
+export interface FileItemProps {
+  file: File;
+  onRemove: () => void;
+  isProcessing: boolean;
+}
 
 /**
  * Component for displaying individual file items

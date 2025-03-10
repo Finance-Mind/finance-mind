@@ -24,12 +24,12 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import type { TransactionCategory, TransactionType } from '@/interfaces/enums';
 import {
   transactionCategorizerFormSchema,
   type TransactionCategorizerFormValues,
 } from '@/schemas/form-schemas';
 import type { TransactionCategorizeResponse } from '@/schemas/transaction-schemas';
+import type { TransactionCategory, TransactionType } from '@/types/transaction/enums/enums';
 
 export const TransactionCategorizer = () => {
   const [result, setResult] = useState<TransactionCategorizeResponse | null>(null);

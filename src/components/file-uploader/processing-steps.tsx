@@ -4,14 +4,10 @@ import { useMemo } from 'react';
 
 import { ActivityIcon, DatabaseIcon, ServerIcon } from 'lucide-react';
 
+import type { ProcessingDurations } from '@/types/file-uploader/processing-durations';
+import type { ProcessingStep } from '@/types/file-uploader/processing-step';
+import type { ProcessingStepId } from '@/types/file-uploader/processing-step-id';
 import { formatDuration } from '@/utils/format-duration';
-
-import type {
-  ProcessingDurations,
-  ProcessingStep,
-  ProcessingStepId,
-  ProcessingStepsListProps,
-} from './types';
 
 /**
  * Checks if a duration value is completed (defined and greater than 0)
@@ -27,6 +23,12 @@ interface ProcessingStepsProps {
   isProcessing: boolean;
   activeStep: ProcessingStepId | null;
   processingDurations: ProcessingDurations;
+  activeStepElapsedTime: number;
+}
+
+export interface ProcessingStepsListProps {
+  steps: ProcessingStep[];
+  activeStep: ProcessingStepId | null;
   activeStepElapsedTime: number;
 }
 
@@ -111,7 +113,7 @@ export function ProcessingSteps({
       },
       {
         id: 'detection',
-        name: 'Transfer detection',
+        name: 'Detection',
         icon: <ActivityIcon className="mr-1 h-3 w-3" />,
         isActive: isProcessing && activeStep === 'detection',
         isComplete: detectionCompleted,

@@ -2,18 +2,14 @@
 
 import { useEffect, useState } from 'react';
 
+import type { ProcessedStatement, TimingMetrics } from '@/app/api/process-bank-statement/schemas';
+import type { Transaction } from '@/schemas/transaction';
+import type { ProcessingDurations } from '@/types/file-uploader/processing-durations';
+import type { ProcessingStepId } from '@/types/file-uploader/processing-step-id';
 import { detectMobileDevice } from '@/utils/detect-mobile-device';
 import { arrayBufferToBase64 } from '@/utils/file-reading/array-buffer-to-base64';
 import { readFileAsArrayBuffer } from '@/utils/file-reading/read-file-as-array-buffer';
 import { readFileAsText } from '@/utils/file-reading/read-file-as-text';
-
-import type {
-  ProcessedStatement,
-  ProcessingDurations,
-  ProcessingStepId,
-  TimingMetrics,
-  Transaction,
-} from './types';
 
 /**
  * Handles the streaming response from the API

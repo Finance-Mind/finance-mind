@@ -6,8 +6,8 @@ import { FileUploader } from '@/components/file-uploader/card';
 import { ManualTransactionForm } from '@/components/manual-transaction-form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { TransactionCategory } from '@/interfaces/enums';
-import type { Transaction } from '@/interfaces/transaction';
+import type { Transaction } from '@/schemas/transaction';
+import { TransactionCategory } from '@/types/transaction/enums/transaction-category';
 
 export default function OverviewPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
