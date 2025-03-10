@@ -15,7 +15,7 @@ export interface FileItemProps {
  */
 export function FileItem({ file, onRemove, isProcessing }: FileItemProps) {
   return (
-    <li className="bg-muted/50 flex items-center justify-between p-2 text-sm">
+    <li className="bg-muted/50 dark:bg-muted/30 flex items-center justify-between p-2 text-sm">
       <div className="flex flex-1 items-center gap-2">
         <FileIcon className="text-muted-foreground h-4 w-4" />
 

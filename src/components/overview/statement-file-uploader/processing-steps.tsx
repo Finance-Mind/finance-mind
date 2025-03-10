@@ -51,7 +51,7 @@ function ProcessingStepsList({
         let className = 'flex items-center';
 
         if (step.isComplete) {
-          className += ' text-emerald-600';
+          className += ' text-emerald-600 dark:text-emerald-400';
         } else if (step.isActive) {
           statusIndicator = <span className="text-primary ml-2 animate-pulse">⋯</span>;
           className += ' text-primary';

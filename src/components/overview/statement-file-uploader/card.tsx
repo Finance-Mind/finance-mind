@@ -123,13 +123,13 @@ export function StatementFileUploader({ onTransactionsProcessed }: StatementFile
             )}
 
             {error && (
-              <div className="bg-destructive/10 text-destructive mt-4 rounded-md p-3 text-sm">
+              <div className="bg-destructive/10 dark:bg-destructive/20 text-destructive dark:text-destructive-foreground mt-4 rounded-md p-3 text-sm">
                 {error}
               </div>
             )}
 
             {skippedDuplicates > 0 && (
-              <div className="bg-muted text-muted-foreground mt-4 rounded-md p-3 text-sm">
+              <div className="bg-muted dark:bg-muted/50 text-muted-foreground mt-4 rounded-md p-3 text-sm">
                 {`${skippedDuplicates} duplicated transaction${
                   skippedDuplicates !== 1 ? 's' : ''
                 } skipped`}
@@ -137,7 +137,7 @@ export function StatementFileUploader({ onTransactionsProcessed }: StatementFile
             )}
 
             {isProcessing && startTime && (
-              <div className="bg-muted text-muted-foreground mt-4 flex items-center rounded-md p-3 text-sm">
+              <div className="bg-muted dark:bg-muted/50 text-muted-foreground mt-4 flex items-center rounded-md p-3 text-sm">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
 
                 <span>Processing for {formatDuration(elapsedTime)}...</span>

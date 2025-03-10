@@ -146,10 +146,12 @@ export default function OverviewPage() {
             )}
 
             {warnings.length > 0 && (
-              <div>
-                <h3 className="mb-2 text-sm font-medium text-amber-600">Warnings:</h3>
+              <div className="mb-4">
+                <h3 className="mb-2 text-sm font-medium text-amber-600 dark:text-amber-400">
+                  Warnings:
+                </h3>
 
-                <ul className="list-disc space-y-1 pl-5 text-sm text-amber-600/80">
+                <ul className="list-disc space-y-1 pl-5 text-sm text-amber-600/80 dark:text-amber-400/90">
                   {warnings.map((warning, index) => (
                     <li key={index}>{warning}</li>
                   ))}
@@ -272,14 +274,14 @@ export default function OverviewPage() {
                             <span
                               className={`inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold ${
                                 transaction.isInternalTransfer
-                                  ? 'border-blue-200 bg-blue-50 text-blue-700'
+                                  ? 'border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-300'
                                   : transaction.isP2PTransfer
-                                    ? 'border-purple-200 bg-purple-50 text-purple-700'
+                                    ? 'border-purple-200 bg-purple-50 text-purple-700 dark:border-purple-800 dark:bg-purple-950 dark:text-purple-300'
                                     : transaction.type === 'INCOME'
-                                      ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
+                                      ? 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
                                       : transaction.type === 'EXPENSE'
-                                        ? 'border-red-200 bg-red-50 text-red-700'
-                                        : 'border-blue-200 bg-blue-50 text-blue-700'
+                                        ? 'border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-950 dark:text-red-300'
+                                        : 'border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-300'
                               }`}
                             >
                               {transaction.isInternalTransfer
@@ -297,7 +299,7 @@ export default function OverviewPage() {
 
                             {(transaction.isInternalTransfer || transaction.isP2PTransfer) &&
                               transaction.transfer && (
-                                <div className="mt-1 text-xs text-blue-600">
+                                <div className="mt-1 text-xs text-blue-600 dark:text-blue-400">
                                   {transaction.transfer.fromPerson &&
                                   transaction.transfer.toPerson ? (
                                     <>
@@ -316,7 +318,9 @@ export default function OverviewPage() {
                           <td className="p-4 align-middle whitespace-nowrap">
                             <span
                               className={
-                                transaction.amount < 0 ? 'text-red-600' : 'text-emerald-600'
+                                transaction.amount < 0
+                                  ? 'text-red-600 dark:text-red-400'
+                                  : 'text-emerald-600 dark:text-emerald-400'
                               }
                             >
                               {formatCurrency(transaction.amount, transaction.currency)}
@@ -400,12 +404,14 @@ export default function OverviewPage() {
                 <div className="mb-1 flex items-center justify-between">
                   <span className="text-sm">Income</span>
 
-                  <span className="text-sm text-emerald-600">{formatCurrency(totalIncome)}</span>
+                  <span className="text-sm text-emerald-600 dark:text-emerald-400">
+                    {formatCurrency(totalIncome)}
+                  </span>
                 </div>
 
-                <div className="h-2.5 w-full bg-emerald-100">
+                <div className="h-2.5 w-full bg-emerald-100 dark:bg-emerald-900">
                   <div
-                    className="h-2.5 bg-emerald-500"
+                    className="h-2.5 bg-emerald-500 dark:bg-emerald-600"
                     style={{
                       width: '100%',
                     }}
@@ -417,12 +423,14 @@ export default function OverviewPage() {
                 <div className="mb-1 flex items-center justify-between">
                   <span className="text-sm">Expenses</span>
 
-                  <span className="text-sm text-red-500">{formatCurrency(totalExpenses)}</span>
+                  <span className="text-sm text-red-500 dark:text-red-400">
+                    {formatCurrency(totalExpenses)}
+                  </span>
                 </div>
 
-                <div className="h-2.5 w-full bg-red-100">
+                <div className="h-2.5 w-full bg-red-100 dark:bg-red-900">
                   <div
-                    className="h-2.5 bg-red-400"
+                    className="h-2.5 bg-red-400 dark:bg-red-600"
                     style={{
                       width: `${Math.min(100, (totalExpenses / Math.max(totalIncome, 1)) * 100)}%`,
                     }}
@@ -434,14 +442,16 @@ export default function OverviewPage() {
                 <div className="mb-1 flex items-center justify-between">
                   <span className="text-sm">Transfers</span>
 
-                  <span className="text-sm text-blue-500">{formatCurrency(totalTransfers)}</span>
+                  <span className="text-sm text-blue-500 dark:text-blue-400">
+                    {formatCurrency(totalTransfers)}
+                  </span>
                 </div>
 
-                <div className="h-2.5 w-full bg-blue-100">
+                <div className="h-2.5 w-full bg-blue-100 dark:bg-blue-900">
                   <div
-                    className="h-2.5 bg-blue-400"
+                    className="h-2.5 bg-blue-400 dark:bg-blue-600"
                     style={{
-                      width: `${Math.min(100, (totalTransfers / Math.max(totalIncome, 1)) * 100)}%`,
+                      width: `${Math.min(100, (Math.abs(totalTransfers) / Math.max(totalIncome, 1)) * 100)}%`,
                     }}
                   ></div>
                 </div>
@@ -451,7 +461,9 @@ export default function OverviewPage() {
                 <div className="flex items-center justify-between">
                   <span>Balance</span>
 
-                  <span className={`${balance >= 0 ? 'text-emerald-600' : 'text-red-500'}`}>
+                  <span
+                    className={`${balance >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-500 dark:text-red-400'}`}
+                  >
                     {formatCurrency(balance)}
                   </span>
                 </div>
@@ -470,22 +482,64 @@ export default function OverviewPage() {
             <div className="space-y-4">
               {topCategories.map(([category, amount], index) => {
                 const categoryColors: Record<string, { bg: string; text: string }> = {
-                  GROCERIES: { bg: 'bg-emerald-500', text: 'text-emerald-600' },
-                  DINING: { bg: 'bg-amber-500', text: 'text-amber-600' },
-                  ENTERTAINMENT: { bg: 'bg-purple-500', text: 'text-purple-600' },
-                  TRANSPORTATION: { bg: 'bg-orange-500', text: 'text-orange-600' },
-                  UTILITIES: { bg: 'bg-violet-500', text: 'text-violet-600' },
-                  HOUSING: { bg: 'bg-cyan-500', text: 'text-cyan-600' },
-                  HEALTH: { bg: 'bg-rose-500', text: 'text-rose-600' },
-                  EDUCATION: { bg: 'bg-blue-500', text: 'text-blue-600' },
-                  SHOPPING: { bg: 'bg-fuchsia-500', text: 'text-fuchsia-600' },
-                  TRAVEL: { bg: 'bg-indigo-500', text: 'text-indigo-600' },
-                  PERSONAL_CARE: { bg: 'bg-pink-500', text: 'text-pink-600' },
-                  SUBSCRIPTIONS: { bg: 'bg-lime-500', text: 'text-lime-600' },
-                  UNCATEGORIZED: { bg: 'bg-gray-500', text: 'text-gray-600' },
+                  GROCERIES: {
+                    bg: 'bg-emerald-500 dark:bg-emerald-600',
+                    text: 'text-emerald-600 dark:text-emerald-400',
+                  },
+                  DINING: {
+                    bg: 'bg-amber-500 dark:bg-amber-600',
+                    text: 'text-amber-600 dark:text-amber-400',
+                  },
+                  ENTERTAINMENT: {
+                    bg: 'bg-purple-500 dark:bg-purple-600',
+                    text: 'text-purple-600 dark:text-purple-400',
+                  },
+                  TRANSPORTATION: {
+                    bg: 'bg-orange-500 dark:bg-orange-600',
+                    text: 'text-orange-600 dark:text-orange-400',
+                  },
+                  UTILITIES: {
+                    bg: 'bg-violet-500 dark:bg-violet-600',
+                    text: 'text-violet-600 dark:text-violet-400',
+                  },
+                  HOUSING: {
+                    bg: 'bg-cyan-500 dark:bg-cyan-600',
+                    text: 'text-cyan-600 dark:text-cyan-400',
+                  },
+                  HEALTH: {
+                    bg: 'bg-rose-500 dark:bg-rose-600',
+                    text: 'text-rose-600 dark:text-rose-400',
+                  },
+                  EDUCATION: {
+                    bg: 'bg-blue-500 dark:bg-blue-600',
+                    text: 'text-blue-600 dark:text-blue-400',
+                  },
+                  SHOPPING: {
+                    bg: 'bg-fuchsia-500 dark:bg-fuchsia-600',
+                    text: 'text-fuchsia-600 dark:text-fuchsia-400',
+                  },
+                  TRAVEL: {
+                    bg: 'bg-indigo-500 dark:bg-indigo-600',
+                    text: 'text-indigo-600 dark:text-indigo-400',
+                  },
+                  PERSONAL_CARE: {
+                    bg: 'bg-pink-500 dark:bg-pink-600',
+                    text: 'text-pink-600 dark:text-pink-400',
+                  },
+                  SUBSCRIPTIONS: {
+                    bg: 'bg-lime-500 dark:bg-lime-600',
+                    text: 'text-lime-600 dark:text-lime-400',
+                  },
+                  UNCATEGORIZED: {
+                    bg: 'bg-gray-500 dark:bg-gray-600',
+                    text: 'text-gray-600 dark:text-gray-400',
+                  },
                 };
 
-                const defaultColor = { bg: 'bg-gray-500', text: 'text-gray-600' };
+                const defaultColor = {
+                  bg: 'bg-gray-500 dark:bg-gray-600',
+                  text: 'text-gray-600 dark:text-gray-400',
+                };
                 const color = categoryColors[category] || defaultColor;
 
                 return (
@@ -531,7 +585,9 @@ export default function OverviewPage() {
                     <p className="text-muted-foreground text-xs">Due in 5 days</p>
                   </div>
 
-                  <span className="mt-0.5 text-sm text-red-600">{formatCurrency(1250)}</span>
+                  <span className="mt-0.5 text-sm text-red-600 dark:text-red-400">
+                    {formatCurrency(1250)}
+                  </span>
                 </div>
               </div>
 
@@ -543,7 +599,9 @@ export default function OverviewPage() {
                     <p className="text-muted-foreground text-xs">Due in 8 days</p>
                   </div>
 
-                  <span className="mt-0.5 text-sm text-red-600">{formatCurrency(120)}</span>
+                  <span className="mt-0.5 text-sm text-red-600 dark:text-red-400">
+                    {formatCurrency(120)}
+                  </span>
                 </div>
               </div>
 
@@ -555,7 +613,9 @@ export default function OverviewPage() {
                     <p className="text-muted-foreground text-xs">Due in 12 days</p>
                   </div>
 
-                  <span className="mt-0.5 text-sm text-red-600">{formatCurrency(210)}</span>
+                  <span className="mt-0.5 text-sm text-red-600 dark:text-red-400">
+                    {formatCurrency(210)}
+                  </span>
                 </div>
               </div>
 
@@ -567,7 +627,9 @@ export default function OverviewPage() {
                     <p className="text-muted-foreground text-xs">Due in 15 days</p>
                   </div>
 
-                  <span className="mt-0.5 text-sm text-red-600">{formatCurrency(900)}</span>
+                  <span className="mt-0.5 text-sm text-red-600 dark:text-red-400">
+                    {formatCurrency(900)}
+                  </span>
                 </div>
               </div>
 
