@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 
-import { TransactionCategorizer } from '@/components/ai-playground/transaction-categorizer';
 import { TransactionExtractor } from '@/components/ai-playground/transaction-extractor';
 
 export const metadata: Metadata = {
@@ -20,9 +19,6 @@ export default function AIPlaygroundPage() {
       <div className="flex flex-wrap gap-8">
         {/* Transaction Extractor Section */}
         <TransactionExtractor />
-
-        {/* Transaction Categorizer Section */}
-        <TransactionCategorizer />
       </div>
     </div>
   );
