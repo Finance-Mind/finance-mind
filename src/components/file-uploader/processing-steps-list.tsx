@@ -1,7 +1,8 @@
 'use client';
 
+import { formatDuration } from '@/utils/format-duration';
+
 import type { ProcessingStepsListProps } from './types';
-import { formatDuration } from './utils';
 
 /**
  * Component for displaying processing steps and their status

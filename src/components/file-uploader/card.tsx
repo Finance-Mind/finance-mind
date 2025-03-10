@@ -15,13 +15,13 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import { formatDuration } from '@/utils/format-duration';
 
 import { FileItem } from './file-item';
 import { getProcessingSteps } from './processing-steps-config';
 import { ProcessingStepsList } from './processing-steps-list';
 import type { FileUploaderProps } from './types';
 import { useFileProcessing } from './use-file-processing';
-import { formatDuration } from './utils';
 
 /**
  * Component for handling file upload and processing of bank statements
