@@ -6,6 +6,34 @@ A personal AI-driven finance tracking tool that processes bank statements, categ
 
 Finance Mind is an AI-powered personal finance platform that goes beyond traditional finance tracking by combining advanced artificial intelligence with comprehensive cryptocurrency portfolio management. While most finance apps focus solely on basic expense tracking, Finance Mind leverages AI to provide intelligent insights, automated categorization, and smart pattern detection across both traditional and crypto finances. The platform eliminates manual work through AI-driven analysis of your financial data, while offering deep integration with the crypto ecosystem - from DeFi protocols to NFTs.
 
+## Development Roadmap Status
+
+Current development phase: **Phase 1 - Core Infrastructure and Basic Transaction Management** (Q1 2025)
+
+### Completed Features ✓
+
+- Project initialization with Next.js 15+, TypeScript, and Tailwind CSS
+- Authentication system implementation
+- Basic API structure and endpoints
+- Core UI components library
+
+### In Progress 🚧
+
+- Database schema design and implementation
+- Bank statement upload functionality
+- Manual transaction entry system
+- Basic transaction categorization
+- Simple duplicate detection
+- Basic reporting functionality
+
+### Upcoming Phases
+
+1. **Q2 2025**: Enhanced Transaction Processing and AI Integration
+2. **Q3 2025**: Investment and Crypto Integration
+3. **Q4 2025**: Platform Completion and Integration
+
+All core features will be completed by Q4 2025, with future enhancements and expansions planned for 2026 and beyond. View the complete [ROADMAP.md](ROADMAP.md) for detailed development plans and timelines.
+
 ## Key Differentiators
 
 - **AI-First Approach**: Unlike traditional finance apps that use simple rule-based systems, Finance Mind leverages advanced AI for:
