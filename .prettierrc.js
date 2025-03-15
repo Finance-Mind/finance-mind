@@ -30,4 +30,5 @@ module.exports = {
 
   // Tailwind CSS class sorting configuration
   tailwindFunctions: ['cn', 'clsx', 'cva', 'tw'],
+  tailwindAttributes: ['tw'],
 };

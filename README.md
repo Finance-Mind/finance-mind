@@ -4,7 +4,104 @@ A personal AI-driven finance tracking tool that processes bank statements, categ
 
 ## Overview
 
-Finance Mind helps you take control of your financial life by intelligently analyzing your bank statements, organizing transactions, and tracking investments in a structured way. It eliminates the manual work of categorizing expenses, tracking your spending patterns across both debit and credit card transactions, and monitoring your investment portfolio. Initially focused on Brazilian banks and financial patterns, the system is designed with internationalization in mind.
+Finance Mind is an AI-powered personal finance platform that goes beyond traditional finance tracking by combining advanced artificial intelligence with comprehensive cryptocurrency portfolio management. While most finance apps focus solely on basic expense tracking, Finance Mind leverages AI to provide intelligent insights, automated categorization, and smart pattern detection across both traditional and crypto finances. The platform eliminates manual work through AI-driven analysis of your financial data, while offering deep integration with the crypto ecosystem - from DeFi protocols to NFTs.
+
+## Key Differentiators
+
+- **AI-First Approach**: Unlike traditional finance apps that use simple rule-based systems, Finance Mind leverages advanced AI for:
+
+  - Intelligent transaction categorization that learns from your patterns
+  - Smart duplicate detection across multiple statements and accounts
+  - AI-generated consistent transaction identifiers for reliable tracking
+  - Predictive analytics for spending patterns and investment opportunities
+  - Natural language processing for detailed merchant recognition
+  - Automated anomaly detection for suspicious transactions
+  - Smart internal transfer detection across accounts and currencies
+
+- **Comprehensive Crypto Integration**: While other finance apps treat crypto as an afterthought, Finance Mind offers deep crypto ecosystem support:
+
+  - Complete DeFi portfolio tracking (yields, staking, liquidity pools)
+  - NFT collection management and valuation
+  - Cross-chain transaction monitoring
+  - Integration with major crypto exchanges and wallets
+  - Crypto tax implications tracking
+  - Real-time DeFi protocol monitoring
+  - Smart contract interaction tracking
+  - Gas fee analytics and optimization suggestions
+
+- **Unified Financial Intelligence**: Uniquely combines traditional finance tracking with crypto portfolio management:
+  - Single dashboard for both traditional and crypto assets
+  - Cross-portfolio analytics and insights
+  - AI-driven investment suggestions across all asset classes
+  - Unified risk assessment across traditional and crypto investments
+  - Smart correlation analysis between different asset types
+  - Comprehensive tax reporting for all financial activities
+
+## Possible Product New Names With Domains
+
+Modern, memorable names that subtly convey intelligence, wealth management, and digital assets:
+
+- **Cerebro** (.ai, .app)
+
+  - Spanish/Portuguese word for "brain"
+  - Suggests intelligence/AI capabilities
+  - Familiar word in target market
+  - Clean, single word with strong meaning
+
+- **Quantum** (.ai, .app)
+
+  - Suggests advanced technology and precision
+  - Premium, scientific positioning
+  - References quantum computing/AI potential
+  - Modern and sophisticated
+
+- **AIfin** (.ai, .app)
+
+  - Short and memorable
+  - Modern tech feel
+  - Subtle financial reference
+  - Easy to pronounce globally
+
+- **Nexum** (.ai, .app)
+
+  - Latin word for "connection/binding"
+  - Represents connecting traditional and digital assets
+  - Premium, established feel
+  - Short and memorable
+
+- **Auris** (.ai, .app)
+
+  - Latin root for "gold"
+  - Elegant and premium sound
+  - Easy to pronounce globally
+  - Subtle connection to wealth/value
+
+- **Cortex** (.ai, .app)
+
+  - References intelligence/brain power
+  - Suggests advanced processing capabilities
+  - Strong, memorable single word
+  - Technical yet approachable
+
+- **Lumina** (.ai, .app)
+
+  - Suggests illumination/insights
+  - Feminine, softer alternative to tech-heavy names
+  - Easy to pronounce in multiple languages
+  - Warm and approachable
+
+- **Synapse** (.ai, .app)
+  - Neural network reference
+  - Suggests intelligent connections
+  - Scientific yet familiar
+  - Strong AI/intelligence association
+
+### Real World Examples:
+
+- [Midday](https://midday.ai/)
+- [despezzas](https://despezzas.com.br/)
+- [Organizze](https://www.organizze.com.br/)
+- [Minhas Finanças](https://minhasfinancas.app.br/)
 
 ## Features
 
@@ -19,19 +116,27 @@ Finance Mind helps you take control of your financial life by intelligently anal
   - Transaction type (income, expense, or transfer):
     - **Income**: Money received into an account
     - **Expense**: Money spent from an account
+    - **Fee**: Service charges applied by financial institutions, including account maintenance fees, ATM fees, wire transfer fees, and Brazilian-specific fees like IOF (Imposto sobre Operações Financeiras)
     - **Transfer**: Movement of money between accounts or to another person, with different implications:
       - **Internal Transfer**: Movements between your own accounts (excluded from spending/income calculations)
       - **External Transfer**: Payments to other individuals or entities (treated as expenses)
       - **Transfer Methods**: Supports various transfer types like PIX, wire transfers, ACH, Venmo, etc.
       - **Transfer Tracking**: Intelligently matches incoming and outgoing sides of transfers to prevent double-counting
-  - Currency
-  - Category (groceries, entertainment, utilities, etc.)
+    - **Crypto Transaction**: Specialized tracking for cryptocurrency transactions:
+      - **Buy/Sell**: Purchases or sales of cryptocurrencies
+      - **Swap**: Exchange between different cryptocurrencies
+      - **Staking**: Staking rewards and withdrawals
+      - **Mining**: Mining rewards
+      - **Yield**: DeFi yields and rewards
+      - **NFT**: NFT purchases and sales
+  - Currency (including cryptocurrency denominations)
+  - Category (groceries, entertainment, utilities, crypto trading, etc.)
   - Date and time
   - Title/Description
   - Installment tracking (total number and current installment)
   - Amount
-  - Fee (including Brazilian-specific fees like IOF - Imposto sobre Operações Financeiras)
-  - Merchant information
+  - Fee (including Brazilian-specific fees like IOF - Imposto sobre Operações Financeiras, and crypto network fees)
+  - Merchant information (including crypto exchanges and DeFi protocols)
   - AI-generated identifier (consistent across multiple processing attempts)
 - **Brazilian Financial System Support**: Specialized handling for Brazilian-specific financial concepts like "boletos", installment purchases ("compras parceladas"), and PIX transactions.
 - **Credit Card Management**: Track credit card purchases, payment due dates, and current balance.
@@ -51,6 +156,17 @@ Finance Mind helps you take control of your financial life by intelligently anal
   - Import investment statements from brokerages and financial institutions
   - Support for Brazilian-specific investment types like Tesouro Direto, CDBs, LCIs, LCAs, etc.
   - Multi-currency investment tracking with exchange rate conversion
+  - **Cryptocurrency Portfolio Management**:
+    - Manual tracking of cryptocurrency transactions across multiple wallets and exchanges
+    - Support for all major cryptocurrencies and tokens
+    - Import transaction history from popular exchanges via CSV
+    - Track crypto-to-crypto and crypto-to-fiat transactions
+    - Monitor staking rewards, mining income, and DeFi yields
+    - Calculate crypto portfolio performance and tax implications
+    - Track NFT collections and transactions
+    - Real-time price tracking and portfolio valuation
+    - Historical price data for tax and performance analysis
+    - Support for multiple cost basis methods
 
 ## Technology Stack
 
