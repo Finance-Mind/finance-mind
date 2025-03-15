@@ -16,13 +16,13 @@ This roadmap outlines the development phases and milestones for Finance Mind, an
 
 ### Basic Transaction Management
 
-- [ ] Bank statement upload functionality
-  - [ ] CSV file processing
-  - [ ] PDF statement parsing
-  - [ ] Basic transaction extraction
-- [ ] Manual transaction entry system
-- [ ] Basic transaction categorization
-- [ ] Simple duplicate detection
+- [-] Bank statement upload functionality
+  - [-] CSV file processing
+  - [-] PDF statement parsing
+  - [-] Basic transaction extraction
+- [-] Manual transaction entry system
+- [-] Basic transaction categorization
+- [-] Simple duplicate detection
 - [ ] Basic reporting functionality
 
 ## Phase 2: Enhanced Transaction Processing and AI Integration
