@@ -1,0 +1,6 @@
+{
+  "ruleFiles": [],
+  "agents": ["naming", "code-style", "clean-code", "architecture", "security", "i18n"],
+  "customAgents": [],
+  "patternDiscovery": true
+}
